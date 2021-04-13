@@ -1,0 +1,19 @@
+{
+  "name": "wegroove",
+  "version": "1.0.0",
+  "description": "WeGroove is fictional social network created for my master thesis",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/squaloIT/WeGroove.git"
+  },
+  "author": "Nikola Mihajlovic",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/squaloIT/WeGroove/issues"
+  },
+  "homepage": "https://github.com/squaloIT/WeGroove#readme"
+}
