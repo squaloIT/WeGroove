@@ -1,0 +1,24 @@
+<html>
+
+{{>head_partial}}
+
+<body>
+  <div className="header-wrapper">
+    <div class="header-container">
+      <h1>{{title}}</h1>
+    </div>
+  </div>
+
+  <div class="page-wrapper">
+    <form method="post">
+      <input type="text" placeholder="John Doe" name="tbUsername" id="tbUsername" /><br />
+      <input type="password" name="tbPassword" id="tbPassword" />
+
+      <button type="submit">Login</button>
+    </form>
+
+    <a href="/register">Need and account? Register here.</a>
+  </div>
+</body>
+
+</html>

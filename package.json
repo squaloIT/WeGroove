@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node index.js"
+    "start-prod": "node src/index.js",
+    "start-dev": "nodemon src/index.js -e js,hbs"
   },
   "repository": {
     "type": "git",
@@ -16,5 +17,12 @@
   "bugs": {
     "url": "https://github.com/squaloIT/WeGroove/issues"
   },
-  "homepage": "https://github.com/squaloIT/WeGroove#readme"
+  "homepage": "https://github.com/squaloIT/WeGroove#readme",
+  "dependencies": {
+    "express": "^4.17.1",
+    "hbs": "^4.1.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.7"
+  }
 }
