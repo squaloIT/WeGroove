@@ -3,22 +3,45 @@
 {{>head_partial}}
 
 <body class="bg-gray-100">
-  <div className="header-wrapper">
-    <div class="header-container">
-      <h1 class="text-4xl text-bold text-center">{{title}}</h1>
+  <div class='flex flex-col justify-center items-center mt-20 md:mt-16 sm:mt-10 xs:mt-6 xs:px-4 w-full'>
+
+    <div class="mt-4 mb-6 w-1/3 lg:w-1/2 md:w-1/2 sm:w-1/2 xs:w-2/3 text-center">
+      <img class="w-7/12 mb-10 inline text-center md:w-9/12 sm:w-9/12 xs:w-full"
+        src="./images/we_groove_logo_background_gray.png" alt="WeGroove Logo" />
+      <h1
+        class="text-5xl text-bold text-center text-brand-purple font-roboto space-x-6 md:text-4xl sm:text-4xl xs:text-3xl">
+        {{title}}
+      </h1>
+      <p class='text-center text-base mt-6 md:text-base sm:text-base xs:text-base'>Need and account? <a
+          class="text-brand-blue" href="/registration">Register
+          here.</a>
+      </p>
+    </div>
+
+    <div
+      class='w-1/3 h-3/5 flex-col bg-brand-light-gray bg-opacity-20 shadow-md border-2 border-brand-purple border-solid lg:w-1/3 md:w-4/6 sm:w-2/3 xs:w-11/12 xs:px-4'>
+      <div class="mt-8 px-20 xl:px-16 xs:px-6 sm:px-6 md:px-16 lg:px-20">
+        <form method="post" action="/login">
+          <label for='tbEmail' class="block text-base font-roboto mb-1 ml-1">Email: </label>
+          <input
+            class="w-full border border-gray-300 px-3 py-2 rounded-lg shadow-sm focus:outline-none focus:border-brand-purple focus:ring-1 focus:ring-brand-purple"
+            type="email" placeholder="joe@gmail.com" name="tbEmail" id="tbEmail" required /><br />
+
+          <label for='tbPassword' class="block text-base font-roboto mt-4 mb-1 ml-1">Password: </label>
+          <input
+            class="w-full border border-gray-300 px-3 py-2 rounded-lg shadow-sm focus:outline-none focus:border-brand-purple focus:ring-1 focus:ring-brand-purple "
+            type="password" name="tbPassword" id="tbPassword" required />
+
+          <button
+            class='w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-brand-purple hover:bg-brand-purple-hover focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand-purple mt-8 md:text-lg sm:text-lg xs:text-lg'
+            type="submit">Login</button>
+        </form>
+      </div>
+
     </div>
   </div>
 
-  <div class="page-wrapper">
-    <form method="post">
-      <input type="text" placeholder="John Doe" name="tbUsername" id="tbUsername" /><br />
-      <input type="password" name="tbPassword" id="tbPassword" />
 
-      <button type="submit">Login</button>
-    </form>
-
-    <a href="/register">Need and account? Register here.</a>
-  </div>
 </body>
 
 </html>
