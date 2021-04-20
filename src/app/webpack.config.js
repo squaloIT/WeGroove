@@ -1,10 +1,14 @@
 const path = require('path');
+
 module.exports = {
   mode: 'production',
-  entry: './src/js/index.js',
+  entry: {
+    index: './src/js/index.js',
+    registration: './src/js/registration.js'
+  },
   output: {
-    path: path.resolve(__dirname, 'dist/js'),
-    filename: 'bundle.js',
+    path: path.resolve(__dirname, 'dist'),
+    filename: '[name].bundle.js',
   },
   module: {
     rules: [
@@ -22,11 +26,11 @@ module.exports = {
         test: /\.css$/i,
         include: path.resolve(__dirname, 'src'),
         use: ['style-loader', 'css-loader', 'postcss-loader'],
-      },
+      }
     ],
   },
-  devServer: {
-    contentBase: path.resolve(__dirname, 'dist'),
-    watchContentBase: true,
-  },
+  // devServer: {
+  //   contentBase: path.resolve(__dirname, 'dist'),
+  //   watchContentBase: true,
+  // },
 };

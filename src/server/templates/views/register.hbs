@@ -7,7 +7,7 @@
 
     <div class="mt-4 mb-6 w-1/3 lg:w-1/2 md:w-1/2 sm:w-1/2 xs:w-2/3 text-center">
       <img class="w-7/12 mb-10 inline text-center md:w-9/12 sm:w-9/12 xs:w-full"
-        src="./images/we_groove_logo_background_gray.png" alt="WeGroove Logo" />
+        src="images/we_groove_logo_background_gray.png" alt="WeGroove Logo" />
       <h1
         class="text-5xl text-bold text-center text-brand-purple font-roboto space-x-6 md:text-4xl sm:text-4xl xs:text-3xl">
         {{title}}
@@ -20,7 +20,7 @@
     <div
       class='w-1/3 h-3/5 flex-col bg-brand-light-gray bg-opacity-20 shadow-md border-2 border-brand-purple border-solid lg:w-2/5 md:w-4/6 sm:w-2/3 xs:w-11/12 xs:px-4'>
       <div class="mt-8 px-20 xl:px-16 xs:px-6 sm:px-6 md:px-16 lg:px-20">
-        <form method="post" action="/registration">
+        <form method="post" action="/registration" id='registration-form'>
           <label for='first-name' class="block text-base font-roboto mb-1 ml-1">First Name: </label>
           <input
             class="w-full border border-gray-300 px-3 py-2 rounded-lg shadow-sm focus:outline-none focus:border-brand-purple focus:ring-1 focus:ring-brand-purple mb-2"
@@ -60,7 +60,7 @@
     </div>
   </div>
 
-
+  <script src="/registration.bundle.js"></script>
 </body>
 
 </html>
