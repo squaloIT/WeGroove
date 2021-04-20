@@ -1,9 +1,15 @@
-const validateRegistrationForm = (formObject) => {
+const validateForm = (formObject) => {
   const returnObj = {}
   Object.keys(formObject)
     .forEach(key => {
-      if (false == validateInput(formObject[key].val, formObject[key]?.regex)) {
-        returnObj[key] = 'invalid'
+      if (formObject[key].fn) {
+        returnObj[key] = formObject[key].fn() ? 'valid' : 'invalid'
+      } else {
+        if (false == validateInput(formObject[key].val, formObject[key]?.regex)) {
+          returnObj[key] = 'invalid'
+        } else {
+          returnObj[key] = 'valid'
+        }
       }
     })
 
@@ -18,5 +24,5 @@ const validateInput = (val, regex = null) => {
 }
 
 export {
-  validateRegistrationForm
+  validateForm
 }
