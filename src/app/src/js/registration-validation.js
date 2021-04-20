@@ -68,8 +68,21 @@ function getValuesFromForm() {
   }
 }
 
+function getDataFromValidationObject(validationObject) {
+  const newObj = {};
+
+  for (let key in validationObject) {
+    newObj[key] = validationObject[key].val
+  }
+  console.log("🚀 ~ file: registration-validation.js ~ line 80 ~ getDataFromValidationObject ~ newObj", newObj)
+  return newObj
+}
+
 function validateRegistrationForm() {
   return validateForm(generateFormObjectWithRegex(getValuesFromForm()))
 }
 
-export default validateRegistrationForm
+export {
+  validateRegistrationForm,
+  getDataFromValidationObject
+}

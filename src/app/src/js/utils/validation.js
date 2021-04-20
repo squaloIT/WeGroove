@@ -2,13 +2,23 @@ const validateForm = (formObject) => {
   const returnObj = {}
   Object.keys(formObject)
     .forEach(key => {
+      console.log("🚀 ~ file: validation.js ~ line 7 ~ validateForm ~ formObject[key]", formObject[key])
       if (formObject[key].fn) {
-        returnObj[key] = formObject[key].fn() ? 'valid' : 'invalid'
+        returnObj[key] = {
+          ...formObject[key],
+          is_valid: formObject[key].fn()
+        }
       } else {
         if (false == validateInput(formObject[key].val, formObject[key]?.regex)) {
-          returnObj[key] = 'invalid'
+          returnObj[key] = {
+            ...formObject[key],
+            is_valid: false
+          }
         } else {
-          returnObj[key] = 'valid'
+          returnObj[key] = {
+            ...formObject[key],
+            is_valid: true
+          }
         }
       }
     })
