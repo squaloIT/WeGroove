@@ -14,11 +14,9 @@ document.querySelector('form#registration-form')
     e.preventDefault();
 
     const formValidationObject = validateRegistrationForm()
-    console.log("🚀 ~ file: registration.js ~ line 8 ~ formValidationObject", formValidationObject)
 
     const isErrorWhileValidating = Object.keys(formValidationObject)
       .filter(key => {
-        console.log(formValidationObject[key])
         const el = document.querySelector('#' + key)
         removeErrBorder(el)
 
@@ -26,7 +24,6 @@ document.querySelector('form#registration-form')
       }).length > 0;
 
     if (isErrorWhileValidating) {
-      console.log("THERE IS AN ERROR")
       Object.keys(formValidationObject)
         .forEach(errFieldKey => {
           if (formValidationObject[errFieldKey] == 'invalid') {
