@@ -69,11 +69,15 @@ function getValuesFromForm() {
 }
 
 function getDataFromValidationObject(validationObject) {
-  const newObj = {};
+  console.log("🚀 ~ file: registration-validation.js ~ line 72 ~ getDataFromValidationObject ~ validationObject", validationObject)
+  const newObj = {
+    firstName: validationObject['first-name'].val,
+    lastName: validationObject['last-name'].val,
+    email: validationObject['email'].val,
+    username: validationObject['username'].val,
+    password: validationObject['password'].val,
+  };
 
-  for (let key in validationObject) {
-    newObj[key] = validationObject[key].val
-  }
   console.log("🚀 ~ file: registration-validation.js ~ line 80 ~ getDataFromValidationObject ~ newObj", newObj)
   return newObj
 }

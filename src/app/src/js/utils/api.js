@@ -2,7 +2,7 @@ const SERVER_URL_DEV = 'http://localhost:3000';
 
 export function registerUser(data) {
   console.log("🚀 ~ file: api.js ~ line 4 ~ registerUser ~ data", JSON.stringify({ ...data }))
-  fetch(`${SERVER_URL_DEV}/register`, {
+  fetch(`${SERVER_URL_DEV}/registration`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'

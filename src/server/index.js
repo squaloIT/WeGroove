@@ -19,6 +19,8 @@ app.set('views', viewsPath)
 handlebars.registerPartials(partialsPath);
 
 app.use(bodyParser.urlencoded({ extended: false }))
+app.use(bodyParser.json())
+
 app.use(express.static(path.join(__dirname, './../app/dist/')))
 
 app.use('/login', loginRoute);
