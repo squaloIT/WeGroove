@@ -2,6 +2,7 @@ const path = require('path');
 
 module.exports = {
   mode: 'production',
+  devtool: 'inline-source-map', //This gives me nice dev tools experience
   entry: {
     index: './src/js/index.js',
     registration: './src/js/registration.js'
