@@ -1,3 +1,4 @@
+require('dotenv').config()
 const express = require('express')
 const handlebars = require('hbs')
 const path = require('path')
@@ -31,3 +32,5 @@ app.get("/", checkIsLoggedIn, (req, res, next) => {
     title: "Home"
   });
 })
+
+const db = require('./db/index')
