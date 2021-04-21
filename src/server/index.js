@@ -5,6 +5,7 @@ const path = require('path')
 const app = express()
 const port = process.env.PORT || 3000;
 const bodyParser = require('body-parser');
+const db = require('./db/index')
 
 const loginRoute = require('./routes/loginRouter')
 const registrationRouter = require('./routes/registrationRouter')
@@ -33,4 +34,3 @@ app.get("/", checkIsLoggedIn, (req, res, next) => {
   });
 })
 
-const db = require('./db/index')
