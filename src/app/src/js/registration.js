@@ -51,10 +51,14 @@ document.querySelector('form#registration-form')
     } else {
       registerUser(getDataFromValidationObject(formValidationObject))
         .then(res => res.json())
-        .then(({ msg }) => {
-          alert(msg)
+        .then((res) => {
+          if (res.invalidField) {
+            addErrBorder(document.querySelector('#' + res.invalidField))
+          }
+          alert(res.msg)
         })
         .catch(err => {
+          alert("Ooops, Something went wrong, please try again later")
           console.log("🚀 ~ file: registration.js ~ line 47 ~ err", err)
         })
     }
