@@ -9,6 +9,20 @@ function addErrBorder(el) {
   el.classList.add('ring-1')
   el.classList.add('ring-red-500')
 }
+function displayErrorLabel(el) {
+  el.nextElementSibling.classList.remove('hidden')
+  el.nextElementSibling.classList.add('block')
+}
+function hideErrorLabel(el) {
+  el.nextElementSibling.classList.remove('block')
+  el.nextElementSibling.classList.add('hidden')
+}
+Array.from(document.querySelectorAll('.form-control'))
+  .forEach(el => {
+    el.addEventListener('focus', () => {
+      removeErrBorder(el)
+    })
+  });
 
 document.querySelector('form#registration-form')
   .addEventListener('submit', e => {
@@ -21,7 +35,7 @@ document.querySelector('form#registration-form')
       .filter(key => {
         const el = document.querySelector('#' + key)
         removeErrBorder(el)
-
+        hideErrorLabel(el)
         return formValidationObject[key].is_valid === false
       }).length > 0;
 
@@ -31,10 +45,18 @@ document.querySelector('form#registration-form')
           if (formValidationObject[errFieldKey].is_valid === false) {
             const el = document.querySelector('#' + errFieldKey)
             addErrBorder(el)
+            displayErrorLabel(el)
           }
         })
     } else {
       registerUser(getDataFromValidationObject(formValidationObject))
+        .then(res => res.json())
+        .then(({ msg }) => {
+          alert(msg)
+        })
+        .catch(err => {
+          console.log("🚀 ~ file: registration.js ~ line 47 ~ err", err)
+        })
     }
 
   });
