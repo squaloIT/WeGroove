@@ -1,14 +1,37 @@
 const mongoose = require('mongoose');
-const { Schema } = mongoose;
+const bcrypt = require('bcrypt');
 
-const UserSchema = new Schema({
+const UserSchema = new mongoose.Schema({
   firstName: { type: String, required: true, trim: true },
   lastName: { type: String, required: true, trim: true },
   username: { type: String, required: true, trim: true, unique: true },
   email: { type: String, required: true, trim: true, unique: true },
   password: { type: String, required: true },
   profilePic: { type: String, default: '/images/profilePic.png' }
-}, { timestamps: true })
-const UserModel = mongoose.model("User", UserSchema)
+}, { timestamps: true });
 
+
+UserSchema.statics.findByCredentials = async (email, password) => {
+  const user = await UserModel.findOne({ email });
+
+  if (!user) {
+    throw new Error("Unable to login");
+  }
+
+  const isMatch = await bcrypt.compare(password, user.password);
+
+  if (!isMatch) {
+    throw new Error("Unable to login");
+  }
+
+  return user;
+};
+
+UserSchema.statics.isAlreadyCreated = (username, email) => {
+  return UserModel.findOne({
+    $or: [{ username }, { email }]
+  })
+}
+
+const UserModel = mongoose.model("User", UserSchema)
 module.exports = UserModel

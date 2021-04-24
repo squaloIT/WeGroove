@@ -1,5 +1,4 @@
-import { validateRegistrationForm, getDataFromValidationObject } from './registration-validation';
-import { registerUser } from './utils/api';
+import { validateRegistrationForm } from './registration-validation';
 
 function removeErrBorder(el) {
   el.classList.remove('ring-1')
@@ -29,8 +28,6 @@ document.querySelector('form#registration-form')
     e.preventDefault();
 
     const formValidationObject = validateRegistrationForm()
-    console.log("🚀 ~ file: registration.js ~ line 18 ~ formValidationObject", formValidationObject)
-
     const isErrorWhileValidating = Object.keys(formValidationObject)
       .filter(key => {
         const el = document.querySelector('#' + key)
@@ -49,18 +46,7 @@ document.querySelector('form#registration-form')
           }
         })
     } else {
-      registerUser(getDataFromValidationObject(formValidationObject))
-        .then(res => res.json())
-        .then((res) => {
-          if (res.invalidField) {
-            addErrBorder(document.querySelector('#' + res.invalidField))
-          }
-          alert(res.msg)
-        })
-        .catch(err => {
-          alert("Ooops, Something went wrong, please try again later")
-          console.log("🚀 ~ file: registration.js ~ line 47 ~ err", err)
-        })
+      document.querySelector('form#registration-form').submit();
     }
 
   });

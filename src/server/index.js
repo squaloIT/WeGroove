@@ -10,6 +10,7 @@ const db = require('./db/index')
 const loginRoute = require('./routes/loginRouter')
 const registrationRouter = require('./routes/registrationRouter')
 const { checkIsLoggedIn } = require('./middleware')
+const session = require('express-session')
 
 const server = app.listen(port, () => console.log("Server listening on port " + port))
 
@@ -22,6 +23,11 @@ handlebars.registerPartials(partialsPath);
 
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
+app.use(session({
+  secret: process.env.SECRET_KEY,
+  resave: true,
+  saveUninitialized: false
+}));
 
 app.use(express.static(path.join(__dirname, './../app/dist/')))
 

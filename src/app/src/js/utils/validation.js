@@ -2,7 +2,6 @@ const validateForm = (formObject) => {
   const returnObj = {}
   Object.keys(formObject)
     .forEach(key => {
-      console.log("🚀 ~ file: validation.js ~ line 7 ~ validateForm ~ formObject[key]", formObject[key])
       if (formObject[key].fn) {
         returnObj[key] = {
           ...formObject[key],

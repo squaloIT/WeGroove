@@ -24,11 +24,11 @@ function generateFormObjectWithRegex({
   // username is 3-20 characters long
 
   return {
-    'first-name': {
+    'firstName': {
       val: first_name,
       regex: firstNameRegex
     },
-    'last-name': {
+    'lastName': {
       val: last_name,
       regex: lastNameRegex
     },
@@ -43,7 +43,7 @@ function generateFormObjectWithRegex({
       val: password,
       regex: passwordRegex
     },
-    "confirm-password": {
+    "confirmPassword": {
       val: confirm_password,
       fn: () => password.trim() == confirm_password.trim()
     }
@@ -51,12 +51,12 @@ function generateFormObjectWithRegex({
 }
 
 function getValuesFromForm() {
-  const first_name = document.querySelector('#first-name').value
-  const last_name = document.querySelector('#last-name').value
+  const first_name = document.querySelector('#firstName').value
+  const last_name = document.querySelector('#lastName').value
   const username = document.querySelector('#username').value
   const email = document.querySelector('#email').value
   const password = document.querySelector('#password').value
-  const confirm_password = document.querySelector('#confirm-password').value
+  const confirm_password = document.querySelector('#confirmPassword').value
 
   return {
     first_name,
@@ -68,25 +68,10 @@ function getValuesFromForm() {
   }
 }
 
-function getDataFromValidationObject(validationObject) {
-  console.log("🚀 ~ file: registration-validation.js ~ line 72 ~ getDataFromValidationObject ~ validationObject", validationObject)
-  const newObj = {
-    firstName: validationObject['first-name'].val,
-    lastName: validationObject['last-name'].val,
-    email: validationObject['email'].val,
-    username: validationObject['username'].val,
-    password: validationObject['password'].val,
-  };
-
-  console.log("🚀 ~ file: registration-validation.js ~ line 80 ~ getDataFromValidationObject ~ newObj", newObj)
-  return newObj
-}
-
 function validateRegistrationForm() {
   return validateForm(generateFormObjectWithRegex(getValuesFromForm()))
 }
 
 export {
-  validateRegistrationForm,
-  getDataFromValidationObject
+  validateRegistrationForm
 }
