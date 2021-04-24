@@ -32,9 +32,9 @@ router.post('/', async (req, res, next) => {
     })
   }
 
-  // const user = foundUser.getDataForSession()
-  req.session.user = foundUser.getDataForSession();
-  return res.status(200).redirect('/')
+  const user = foundUser.getDataForSession()
+  req.session.user = user;
+  return res.status(200).render('home', { user })
 })
 
 module.exports = router;

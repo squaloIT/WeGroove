@@ -39,6 +39,7 @@ UserSchema.methods.getDataForSession = function () {
   var payload = {
     username: user.username,
     email: user.email,
+    profile_picture: user.profilePic,
     _id: user._id
   }
 

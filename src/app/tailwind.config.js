@@ -13,7 +13,8 @@ module.exports = {
       },
       fontFamily: {
         roboto: ['Roboto', 'sans-serif'],
-        ubuntu: ['Ubuntu Mono', 'monospace']
+        ubuntu: ['Ubuntu', 'monospace'],
+        lobster: ['Lobster', 'cursive'],
       },
     },
     screens: {

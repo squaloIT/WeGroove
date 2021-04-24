@@ -8,6 +8,7 @@ const bodyParser = require('body-parser');
 const db = require('./db/index')
 
 const loginRoute = require('./routes/loginRouter')
+const logoutRoute = require('./routes/logoutRoute')
 const registrationRouter = require('./routes/registrationRouter')
 const { checkIsLoggedIn } = require('./middleware')
 const session = require('express-session')
@@ -32,6 +33,7 @@ app.use(session({
 app.use(express.static(path.join(__dirname, './../app/dist/')))
 
 app.use('/login', loginRoute);
+app.use('/logout', logoutRoute);
 app.use('/registration', registrationRouter);
 
 app.get("/", checkIsLoggedIn, (req, res, next) => {

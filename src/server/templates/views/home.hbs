@@ -3,10 +3,24 @@
 {{>head_partial}}
 
 <body class="bg-gray-100">
-  <div>
-    <h1>{{title}}</h1>
-    <h1>{{user.username}}</h1>
+
+  <div class='px-10 mx-auto h-screen'>
+    <div class='grid grid-rows-3 grid-flow-col gap-2 h-full'>
+      <div class='row-span-full col-span-1 gap-y-8 pt-4 flex flex-col items-center'>
+        {{>navigation}}
+      </div>
+
+      <div class='col-span-10 row-span-full border-l-2 border-r-2 border-brand-light-gray'>
+        {{>main_layout}}
+      </div>
+
+      <div class='bg-blue-300 col-span-3 row-span-full'>
+        {{>right_column}}
+      </div>
+    </div>
   </div>
+
 </body>
+
 
 </html>
