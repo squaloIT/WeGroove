@@ -35,8 +35,11 @@ app.use('/login', loginRoute);
 app.use('/registration', registrationRouter);
 
 app.get("/", checkIsLoggedIn, (req, res, next) => {
+  const user = req.session.user;
+
   res.status(200).render('home', {
-    title: "Home"
+    title: "Home",
+    user
   });
 })
 

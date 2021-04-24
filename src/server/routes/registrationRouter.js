@@ -41,16 +41,10 @@ router.post('/', async (req, res, next) => {
         firstName: req.body.firstName,
         lastName: req.body.lastName
       })
-      await createdUser.save();
+      var crtUser = await createdUser.save();
 
-      if (createdUser) {
-        const user = {
-          username: createdUser.username,
-          email: createdUser.email,
-          _id: createdUser._id
-        }
-        req.session.user = user
-
+      if (crtUser) {
+        req.session.user = crtUser.getDataForSession()
         return res.redirect('/');
       }
     } catch (err) {

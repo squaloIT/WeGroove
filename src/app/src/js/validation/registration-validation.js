@@ -1,4 +1,4 @@
-import { validateForm } from './utils/validation';
+import { validateForm } from './../utils/validation';
 
 function generateFormObjectWithRegex({
   first_name,

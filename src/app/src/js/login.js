@@ -1,18 +1,11 @@
-import { validateRegistrationForm } from './validation/registration-validation.js';
-import { addErrBorder, removeErrBorder, displayErrorLabel, hideErrorLabel } from './utils/validation.js';
+import { addErrBorder, removeErrBorder, displayErrorLabel, hideErrorLabel } from './utils/validation';
+import { validateLoginForm } from './validation/login-validation';
 
-Array.from(document.querySelectorAll('.form-control'))
-  .forEach(el => {
-    el.addEventListener('focus', () => {
-      removeErrBorder(el)
-    })
-  });
-
-document.querySelector('form#registration-form')
+document.querySelector('form#login-form')
   .addEventListener('submit', e => {
     e.preventDefault();
 
-    const formValidationObject = validateRegistrationForm()
+    const formValidationObject = validateLoginForm()
     const isErrorWhileValidating = Object.keys(formValidationObject)
       .filter(key => {
         const el = document.querySelector('#' + key)
@@ -31,6 +24,6 @@ document.querySelector('form#registration-form')
           }
         })
     } else {
-      document.querySelector('form#registration-form').submit();
+      document.querySelector('form#login-form').submit();
     }
   });

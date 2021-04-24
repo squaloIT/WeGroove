@@ -25,6 +25,26 @@ const validateForm = (formObject) => {
   return returnObj
 }
 
+function removeErrBorder(el) {
+  el.classList.remove('ring-1')
+  el.classList.remove('ring-red-500');
+}
+
+function addErrBorder(el) {
+  el.classList.add('ring-1')
+  el.classList.add('ring-red-500')
+}
+
+function displayErrorLabel(el) {
+  el.nextElementSibling.classList.remove('hidden')
+  el.nextElementSibling.classList.add('block')
+}
+
+function hideErrorLabel(el) {
+  el.nextElementSibling.classList.remove('block')
+  el.nextElementSibling.classList.add('hidden')
+}
+
 const validateInput = (val, regex = null) => {
   if (!regex) {
     return !!val;
@@ -33,5 +53,9 @@ const validateInput = (val, regex = null) => {
 }
 
 export {
-  validateForm
+  validateForm,
+  removeErrBorder,
+  addErrBorder,
+  displayErrorLabel,
+  hideErrorLabel
 }

@@ -33,5 +33,17 @@ UserSchema.statics.isAlreadyCreated = (username, email) => {
   })
 }
 
+UserSchema.methods.getDataForSession = function () {
+  var user = this;
+
+  var payload = {
+    username: user.username,
+    email: user.email,
+    _id: user._id
+  }
+
+  return payload
+}
+
 const UserModel = mongoose.model("User", UserSchema)
 module.exports = UserModel
