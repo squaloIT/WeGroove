@@ -40,6 +40,8 @@ UserSchema.methods.getDataForSession = function () {
     username: user.username,
     email: user.email,
     profile_picture: user.profilePic,
+    firstName: user.firstName,
+    lastName: user.lastName,
     _id: user._id
   }
 
