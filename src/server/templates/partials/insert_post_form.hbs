@@ -1,2 +1,16 @@
-TESTIRAM POST FORMU
-<img src="{{user.profile_picture}}" alt="{{user.username}}" />
+<div class='post-form-container w-full flex flex-shrink px-5 border-b-8 py-2 border-brand-light-gray'>
+  <div class="image-container w-14 h-14">
+    <img class='w-full h-full rounded-full bg-white' src="{{user.profile_picture}}" alt="{{user.username}}" />
+  </div>
+
+  <div class='textarea-container flex flex-1'>
+    <form action="/insert-post" method="post" class='px-5 w-full'>
+      <textarea name="post" id="post" class='border-none focus:outline-none resize-none w-full text-lg'
+        placeholder="What's happening?"></textarea>
+      {{!-- cols="30" rows="4" --}}
+      <button id="submitPostButton"
+        class='flex justify-center py-2 px-4 border border-transparent bg-opacity-50 rounded-3xl shadow-sm text-sm font-medium text-white  bg-brand-purple focus:outline-none cursor-auto focus:ring-2 focus:ring-offset-2 focus:ring-brand-purple mt-8 md:text-lg sm:text-lg xs:text-lg'
+        disabled>Post</button>
+    </form>
+  </div>
+</div>
