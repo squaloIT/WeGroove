@@ -1,3 +1,5 @@
+import { disableButton, enableButton } from './utils/dom-manipulation';
+
 document.querySelector('textarea#post')
   .addEventListener('keyup', function (e) {
     const postValue = e.target.value;
@@ -12,16 +14,29 @@ document.querySelector('textarea#post')
     postBtn.disabled = postValue.trim().length == 0
   })
 
-function enableButton(postBtn) {
-  postBtn.classList.add('hover:bg-brand-purple-hover');
-  postBtn.classList.add('cursor-pointer');
-  postBtn.classList.remove('cursor-auto');
-  postBtn.classList.remove('bg-opacity-50');
-}
+document.querySelector('button#submitPostButton')
+  .addEventListener('click', e => {
+    const postContentTextbox = document.querySelector('textarea#post')
+    const postContentValue = postContentTextbox.value.trim();
 
-function disableButton(postBtn) {
-  postBtn.classList.add('bg-opacity-50');
-  postBtn.classList.add('cursor-auto');
-  postBtn.classList.remove('hover:bg-brand-purple-hover');
-  postBtn.classList.remove('cursor-pointer');
-}
+    if (postContentValue.length > 0) {
+      fetch(`${process.env.SERVER_URL_DEV}/api/posts`, {
+        method: "POST",
+        headers: {
+          'Content-Type': 'application/json'
+          // 'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: JSON.stringify({
+          content: postContentValue
+        })
+      })
+        .then(res => res.json())
+        .then(json => {
+          postContentTextbox.value = '';
+        })
+        .catch(err => {
+          console.err(err)
+          alert("Ooops, there was an error trying to save your post...")
+        })
+    }
+  })
