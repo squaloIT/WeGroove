@@ -8,7 +8,7 @@ router.get('/', (req, res, next) => {
 });
 
 //! Need to send session with request! checkIsLoggedIn
-router.post('/', async (req, res, next) => {
+router.post('/', checkIsLoggedIn, async (req, res, next) => {
   if (!req.body.content || !req.session.user) {
     return res.sendStatus(400);
   }
@@ -20,9 +20,9 @@ router.post('/', async (req, res, next) => {
   });
   const isSaved = await createdPost.save();
 
-  return res.status(isSaved ? 200 : 400).json({
+  return res.status(isSaved ? 201 : 400).json({
     msg: isSaved ? "Post successfully saved" : "There was an error while saving post",
-    status: isSaved ? 200 : 400,
+    status: isSaved ? 201 : 400,
     createdPost
   });
 });
