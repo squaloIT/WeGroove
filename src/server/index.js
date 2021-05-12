@@ -6,6 +6,7 @@ const bodyParser = require('body-parser');
 const session = require('express-session')
 
 const loginRouter = require('./routes/loginRouter')
+const homeRouter = require('./routes/homeRouter')
 const logoutRouter = require('./routes/logoutRouter')
 const registrationRouter = require('./routes/registrationRouter')
 const postAPI = require('./routes/api/posts')
@@ -36,15 +37,6 @@ app.use(express.static(path.join(__dirname, './../app/dist/')))
 app.use('/login', loginRouter);
 app.use('/logout', logoutRouter);
 app.use('/registration', registrationRouter);
+app.use('/', checkIsLoggedIn, homeRouter);
 
 app.use('/api/posts', postAPI);
-
-app.get("/", checkIsLoggedIn, (req, res, next) => {
-  const user = req.session.user;
-
-  res.status(200).render('home', {
-    title: "Home",
-    user
-  });
-})
-
