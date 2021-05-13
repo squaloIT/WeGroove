@@ -1,0 +1,16 @@
+ <label for='{{inputName}}' class="block text-base font-roboto mb-1 ml-1">{{labelText}}</label>
+  <input
+    class="form-control w-full border border-gray-300 px-3 py-2 rounded-lg shadow-sm focus:outline-none focus:border-brand-purple focus:ring-1 focus:ring-brand-purple mb-2"
+    type="{{type}}" 
+    placeholder="{{placeholder}}" 
+    name="{{inputName}}" 
+    id="{{inputId}}" 
+    {% if required == true %}
+      required
+    {% endif %}
+  />
+  {% if hasErrorLabel == true %}
+    <label for='{{inputName}}' class="text-sm font-roboto text-red-500 mb-1 ml-1 hidden">
+      {{errorLabelText}}
+    </label>
+  {% endif %}

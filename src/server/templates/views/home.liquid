@@ -12,7 +12,7 @@
 
       <div class='col-span-10 row-span-full border-l-2 border-r-2 border-brand-light-gray'>
         {% comment %} {{>main_layout}} {% endcomment %}
-        {% render 'main_layout' user: user %}
+        {% layout 'main_layout', user: user %}
       </div>
 
       <div class='bg-blue-300 col-span-3 row-span-full'>
