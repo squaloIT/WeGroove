@@ -14,7 +14,7 @@
         <form method="post" action="/login" id='login-form'>
           {% render 'login_form_input', type: 'text', inputName: 'email', inputId: 'email', labelText: 'Email: ', required: true, placeholder: 'john_doe@email.com', errorLabelText: 'Email must be a valid email', hasErrorLabel: true, email: email %}
           
-          {% render 'login_form_input', additionalLabelClasses:'mt-4', type: 'text', inputName: 'password', inputId: 'password', labelText: 'Password: ', required: true, password: password %}
+          {% render 'login_form_input', additionalLabelClasses:'mt-4', type: 'password', inputName: 'password', inputId: 'password', labelText: 'Password: ', required: true, password: password %}
 
           {% render 'login_register_submit_button', text: 'Login'%}
         </form>
