@@ -2,12 +2,11 @@
   <div class="image-container w-14 h-14">
     <img class='w-full h-full rounded-full bg-white' src="{{user.profile_picture}}" alt="{{user.username}}" />
   </div>
-
   <div class='textarea-container flex flex-1'>
     <div class='px-5 w-full'>
       <textarea name="post" id="post" class='border-none focus:outline-none resize-none w-full text-lg'
         placeholder="What's happening?"></textarea>
-      {{!-- cols="30" rows="4" --}}
+      {% comment %} {{!-- cols="30" rows="4" --}} {% endcomment %}
       <button id="submitPostButton" type='button'
         class='flex justify-center py-2 px-4 border border-transparent bg-opacity-50 rounded-3xl shadow-sm text-sm font-medium text-white  bg-brand-purple focus:outline-none cursor-auto focus:ring-2 focus:ring-offset-2 focus:ring-brand-purple mt-8 md:text-lg sm:text-lg xs:text-lg'
         disabled>Post</button>

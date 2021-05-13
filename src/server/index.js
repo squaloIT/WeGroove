@@ -1,6 +1,6 @@
 require('dotenv').config()
 const express = require('express')
-const handlebars = require('hbs')
+var { Liquid } = require('liquidjs');
 const path = require('path')
 const bodyParser = require('body-parser');
 const session = require('express-session')
@@ -20,9 +20,16 @@ const server = app.listen(port, () => console.log("Server listening on port " + 
 const viewsPath = path.join(__dirname, "./templates/views")
 const partialsPath = path.join(__dirname, "./templates/partials")
 
-app.set('view engine', 'hbs')
+console.log(`Is in production ${process.env.NODE_ENV === 'production'}`)
+var engine = new Liquid({
+  cache: process.env.NODE_ENV === 'production',
+  extname: '.liquid',
+  // root: [viewsPath, partialsPath]
+});
+app.engine('liquid', engine.express());
+
+app.set('view engine', 'liquid');
 app.set('views', viewsPath)
-handlebars.registerPartials(partialsPath);
 
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
