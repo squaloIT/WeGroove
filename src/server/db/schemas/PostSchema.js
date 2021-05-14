@@ -12,7 +12,8 @@ PostSchema.statics.getAllPosts = async () => {
     sort: {
       createdAt: -1
     }
-  });
+  }).lean(); //.lean gives me JS object instead of mongoose model which was the case without .lean
+
   allPosts = await UserModel.populate(allPosts, { path: 'postedBy' })
   return allPosts
 }
