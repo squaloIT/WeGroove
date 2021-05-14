@@ -1,3 +1,11 @@
 @tailwind base; 
 @tailwind components; 
 @tailwind utilities;
+
+.post-button--hidden {
+  display:none;
+}
+
+.post-button--visible {
+  display:inline-block;
+}
