@@ -1,4 +1,4 @@
-import { disableButton, enableButton } from './utils/dom-manipulation';
+import { disableButton, enableButton, addNewPost } from './utils/dom-manipulation';
 
 document.querySelector('textarea#post')
   .addEventListener('keyup', function (e) {
@@ -31,11 +31,12 @@ document.querySelector('button#submitPostButton')
         })
       })
         .then(res => res.json())
-        .then(json => {
+        .then(res => {
           postContentTextbox.value = '';
+          addNewPost(res.createdPost._id, res.createdPost.content, res.createdPost.postedBy, res.createdPost.createdAt);
         })
         .catch(err => {
-          console.err(err)
+          console.error(err)
           alert("Ooops, there was an error trying to save your post...")
         })
     }

@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const UserModel = require('./UserSchema');
 
 const PostSchema = new mongoose.Schema({
   content: { type: String, required: true, trim: true },
@@ -7,7 +8,8 @@ const PostSchema = new mongoose.Schema({
 }, { timestamps: true });
 
 PostSchema.statics.getAllPosts = async () => {
-  var allPosts = await PostModel.find({})
+  var allPosts = await PostModel.find({});
+  allPosts = await UserModel.populate(allPosts, { path: 'postedBy' })
   return allPosts
 }
 
