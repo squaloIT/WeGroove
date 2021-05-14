@@ -8,7 +8,11 @@ const PostSchema = new mongoose.Schema({
 }, { timestamps: true });
 
 PostSchema.statics.getAllPosts = async () => {
-  var allPosts = await PostModel.find({});
+  var allPosts = await PostModel.find({}, null, {
+    sort: {
+      createdAt: -1
+    }
+  });
   allPosts = await UserModel.populate(allPosts, { path: 'postedBy' })
   return allPosts
 }
