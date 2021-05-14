@@ -14,9 +14,11 @@ function disableButton(postBtn) {
 
 function addNewPost(postId, content, user, createdAt) {
   const postsDiv = document.querySelector('#posts');
-  const contentAlreadyExists = postsDiv.innerHTML;
-  let futureContent = `${createPostHTML(postId, content, user, createdAt)} ${contentAlreadyExists}`;
-  postsDiv.innerHTML = futureContent;
+  const postElement = document.createElement('div')
+
+  postElement.className = `post-wrapper w-full border-b-2 border-brand-light-gray flex flex-row space-x-5 py-3 px-8 justify-between`;
+  postElement.innerHTML = createPostHTML(postId, content, user, createdAt)
+  postsDiv.prepend(postElement)
 }
 
 function createPostHTML(postId, content, user, createdAt) {
@@ -28,8 +30,7 @@ function createPostHTML(postId, content, user, createdAt) {
     lastName
   } = user;
 
-  return `<div class='post-wrapper w-full border-b-2 border-brand-light-gray flex flex-row space-x-5 py-3 px-8 justify-between'>
-    <div class="post__image-container w-14 h-14">
+  return `<div class="post__image-container w-14 h-14">
       <img 
         class="rounded-full bg-white" 
         src="${profilePic}" 
@@ -69,8 +70,7 @@ function createPostHTML(postId, content, user, createdAt) {
           </button>
         </div>
       </div>
-    </div>
-  </div>`
+    </div>`
 }
 
 export {
