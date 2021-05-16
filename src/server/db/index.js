@@ -4,7 +4,7 @@ mongoose.set('useUnifiedTopology', true);
 
 class Database {
   constructor() {
-    mongoose.connect(`mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@wegroove-master-project.3omjc.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`)
+    mongoose.connect(`mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@wegroove-master-project.3omjc.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`, { useFindAndModify: false })
       .then(res => {
         console.log("CONNECTED TO DB")
       })
