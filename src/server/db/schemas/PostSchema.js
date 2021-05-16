@@ -8,14 +8,18 @@ const PostSchema = new mongoose.Schema({
 }, { timestamps: true });
 
 PostSchema.statics.getAllPosts = async () => {
-  var allPosts = await PostModel.find({}, null, {
-    sort: {
-      createdAt: -1
-    }
-  }).lean(); //.lean gives me JS object instead of mongoose model which was the case without .lean
+  var allPosts = await PostModel
+    .find({}, null, {
+      sort: {
+        createdAt: -1
+      }
+    })
+    .populate('postedBy') //* This is enough. No need for the line beneath 
+    .lean(); //.lean gives me JS object instead of mongoose model which was the case without .lean
 
-  allPosts = await UserModel.populate(allPosts, { path: 'postedBy' })
-  return allPosts
+  //* No need for this.
+  // allPosts = await UserModel.populate(allPosts, { path: 'postedBy' })
+  return allPosts;
 }
 
 const PostModel = mongoose.model("Post", PostSchema)
