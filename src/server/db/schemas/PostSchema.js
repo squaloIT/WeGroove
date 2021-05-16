@@ -9,12 +9,9 @@ const PostSchema = new mongoose.Schema({
 
 PostSchema.statics.getAllPosts = async () => {
   var allPosts = await PostModel
-    .find({}, null, {
-      sort: {
-        createdAt: -1
-      }
-    })
+    .find()
     .populate('postedBy') //* This is enough. No need for the line beneath 
+    .sort({ "createdAt": "-1" })
     .lean(); //.lean gives me JS object instead of mongoose model which was the case without .lean
 
   //* No need for this.
