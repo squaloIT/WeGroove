@@ -12,9 +12,10 @@
         <p class='text-base w-full text-center font-roboto text-red-500 mb-1 ml-1'>{{msg}}</p>
 
         <form method="post" action="/login" id='login-form'>
-          {% render 'login_form_input', type: 'text', inputName: 'email', inputId: 'email', labelText: 'Email: ', required: true, placeholder: 'john_doe@email.com', errorLabelText: 'Email must be a valid email', hasErrorLabel: true, email: email %}
-          
-          {% render 'login_form_input', additionalLabelClasses:'mt-4', type: 'password', inputName: 'password', inputId: 'password', labelText: 'Password: ', required: true, password: password %}
+          {% comment %} {% render 'login_form_input', type: 'text', inputName: 'email', inputId: 'email', labelText: 'Email: ', required: true, placeholder: 'john_doe@email.com', errorLabelText: 'Email must be a valid email', hasErrorLabel: true, value: email %} {% endcomment %}
+          {% comment %} {% render 'login_form_input', additionalLabelClasses:'mt-4', type: 'password', inputName: 'password', inputId: 'password', labelText: 'Password: ', required: true, value: password %} {% endcomment %}
+          {% render 'login_form_input', type: 'text', inputName: 'email', inputId: 'email', labelText: 'Email: ', required: true, placeholder: 'john_doe@email.com', errorLabelText: 'Email must be a valid email', hasErrorLabel: true, value: 'shark@gmail.com' %}
+          {% render 'login_form_input', additionalLabelClasses:'mt-4', type: 'password', inputName: 'password', inputId: 'password', labelText: 'Password: ', required: true, value: "aleksa007" %}
 
           {% render 'login_register_submit_button', text: 'Login'%}
         </form>
