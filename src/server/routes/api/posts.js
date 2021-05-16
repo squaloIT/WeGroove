@@ -36,4 +36,40 @@ router.post('/', checkIsLoggedIn, async (req, res, next) => {
   }
 });
 
+router.put('/like', checkIsLoggedIn, async (req, res) => {
+  const postId = req.body._id;
+
+  if (!postId) {
+    res.status(400).json({
+      msg: "There was an error trying to like the post, please try again later thank you",
+      status: 400
+    });
+  }
+
+  const userId = req.session.user._id;
+  const isLiked = req.session.user.likes && req.session.user.likes.includes(postId)
+  const option = isLiked ? "$pull" : "$addToSet";
+
+  const newUserWithLikes = await UserModel.findByIdAndUpdate(userId, {
+    [option]: {
+      likes: postId
+    }
+  }, { new: true })
+
+  req.session.user = newUserWithLikes;
+
+  const newPostWithLikes = await PostModel.findByIdAndUpdate(postId, {
+    [option]: {
+      likes: userId
+    }
+  }, { new: true })
+
+  res.status(201).json({
+    status: 201,
+    msg: isLiked ? "Post unliked" : "Post liked",
+    isLiked: option == "$addToSet",
+    post: newPostWithLikes
+  })
+})
+
 module.exports = router;
