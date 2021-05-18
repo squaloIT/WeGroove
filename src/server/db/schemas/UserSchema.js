@@ -8,7 +8,8 @@ const UserSchema = new mongoose.Schema({
   email: { type: String, required: true, trim: true, unique: true },
   password: { type: String, required: true },
   profilePic: { type: String, default: '/images/profilePic.jpg' },
-  likes: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Post' }]
+  likes: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Post' }],
+  retweets: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Post' }],
 }, { timestamps: true });
 
 

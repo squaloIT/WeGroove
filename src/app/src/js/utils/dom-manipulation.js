@@ -87,14 +87,14 @@ function createPostHTML(content, user, createdAt) {
       </div>
 
       <div class='w-full flex flex-row justify-end mt-2'> 
-        <div class="post-content__buttons flex flex-row space-x-3">
-          <button>
-            <i class="fas fa-retweet text-brand-purple text-xl cursor-pointer hover:text-brand-purple hover:text-opacity-75 hover:-translate-y-0.5 transform"></i>
-          </button>
-          <button>
+        <div class="post-content__buttons flex flex-row">
+          <button class='ml-3'>
             <i class="far fa-comment text-brand-purple text-xl cursor-pointer hover:text-brand-purple hover:text-opacity-75 hover:-translate-y-0.5 transform"></i>
           </button>
-          <button class='post-like' onClick="onClickLikePost">
+          <button class='retweet-post ml-3'>
+            <i class="fas fa-retweet text-brand-purple text-xl cursor-pointer hover:text-brand-purple hover:text-opacity-75 hover:-translate-y-0.5 transform"></i>
+          </button>
+          <button class='post-like ml-3' onClick="onClickLikePost">
             <i class="far fa-heart text-brand-purple text-xl cursor-pointer hover:text-brand-purple hover:text-opacity-75 hover:-translate-y-0.5 transform"></i>
           </button>
         </div>
@@ -104,14 +104,16 @@ function createPostHTML(content, user, createdAt) {
 /**
  * 
  * @param {HTMLElement} icon 
+ * @param {String} firstClassToRemove 
+ * @param {String} firstClassToAdd 
  */
-function changeLikeIcon(icon) {
-  if (icon.classList.contains('far')) {
-    icon.classList.remove('far')
-    icon.classList.add('fas')
+function changeIconAfterAction(icon, firstClassToRemove, firstClassToAdd) {
+  if (icon.classList.contains(firstClassToRemove)) {
+    icon.classList.remove(firstClassToRemove)
+    icon.classList.add(firstClassToAdd)
   } else {
-    icon.classList.add('far')
-    icon.classList.remove('fas')
+    icon.classList.add(firstClassToRemove)
+    icon.classList.remove(firstClassToAdd)
   }
 }
 /**
@@ -165,6 +167,6 @@ export {
   addNewPost,
   hideSpinner,
   showSpinner,
-  changeLikeIcon,
+  changeIconAfterAction,
   findPostId
 }

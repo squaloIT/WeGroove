@@ -72,4 +72,60 @@ router.put('/like', checkIsLoggedIn, async (req, res) => {
   })
 })
 
+
+router.post('/retweet', checkIsLoggedIn, async (req, res) => {
+  const postId = req.body._id;
+  const userId = req.session.user._id;
+
+  if (!postId) {
+    res.status(400).json({
+      msg: "There was an error trying to retweet the post, please try again later thank you",
+      status: 400
+    });
+  }
+
+  //* There can't be two retweeted post from the same user for the same post
+  const deletedPost = await PostModel.findOneAndDelete({ postedBy: userId, retweetData: postId })
+    .catch(err => {
+      console.error(err);
+      res.status(400).json({
+        msg: "There was an error trying to retweet the post, please try again later thank you",
+        status: 400
+      });
+    })
+
+  const option = deletedPost ? "$pull" : "$addToSet";
+  var repost = deletedPost;
+
+  //*If there is no deletedPost it means that there was no already retweeted posts so I need to created it 
+  if (repost == null) {
+    repost = await PostModel.create({ postedBy: userId, retweetData: postId })
+  }
+
+  req.session.user = await UserModel.findByIdAndUpdate(userId, { [option]: { retweets: repost._id } }, { new: true })
+    .catch(err => {
+      console.error(err);
+      res.status(400).json({
+        msg: "There was an error trying to retweet the post, please try again later thank you",
+        status: 400
+      });
+    });
+
+  const post = await PostModel.findByIdAndUpdate(postId, { [option]: { retweetUsers: userId } }, { new: true })
+    .catch(err => {
+      console.error(err);
+      res.status(400).json({
+        msg: "There was an error trying to retweet the post, please try again later thank you",
+        status: 400
+      });
+    });
+
+  res.status(201).json({
+    status: 201,
+    msg: deletedPost ? "Post unretweeted" : "Post retweeted",
+    isRetweeted: option == "$addToSet",
+    post
+  })
+})
+
 module.exports = router;

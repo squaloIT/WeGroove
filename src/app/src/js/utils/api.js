@@ -27,8 +27,23 @@ function likePost(_id) {
     body: JSON.stringify({ _id })
   })
 }
+/**
+ * 
+ * @param { String } _id 
+ * @returns Promise
+ */
+function retweetPost(_id) {
+  return fetch(`${process.env.SERVER_URL_DEV}/api/posts/retweet`, {
+    method: 'POST',
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({ _id })
+  })
+}
 
 export {
   createPost,
-  likePost
+  likePost,
+  retweetPost
 }
