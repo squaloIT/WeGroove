@@ -1,21 +1,20 @@
 <a href="/" rel="noopener noreferrer">
-  <i
-    class="fab fa-glide text-brand-purple text-5xl cursor-pointer hover:text-brand-purple hover:text-opacity-75 hover:-translate-y-0.5 transform"></i>
+{% comment %} -g {% endcomment %}
+  {% render 'left_column_icon', icon: 'fab fa-glide', iconSize: 'text-4xl' %}
+
 </a>
 <a href="/" rel="noopener noreferrer">
-  <i
-    class="fas fa-igloo text-brand-purple text-4xl cursor-pointer hover:text-brand-purple hover:text-opacity-75 hover:-translate-y-0.5 transform"></i>
+  
+  {% render 'left_column_icon', icon: 'fas fa-igloo', iconSize: 'text-3xl' %}
 </a>
-<i
-  class="fab fa-searchengin text-brand-purple text-4xl cursor-pointer hover:text-brand-purple hover:text-opacity-75 hover:-translate-y-0.5 transform"></i>
-<i
-  class="fas fa-bell text-brand-purple text-4xl cursor-pointer hover:text-brand-purple hover:text-opacity-75 hover:-translate-y-0.5 transform"></i>
-<i
-  class="fas fa-envelope text-brand-purple text-4xl cursor-pointer hover:text-brand-purple hover:text-opacity-75 hover:-translate-y-0.5 transform"></i>
-<i
-  class="fas fa-user text-brand-purple text-4xl cursor-pointer hover:text-brand-purple hover:text-opacity-75 hover:-translate-y-0.5 transform"></i>
+{% render 'left_column_icon', icon: 'fab fa-searchengin', iconSize: 'text-3xl' %}
+
+{% render 'left_column_icon', icon: 'far fa-bell', iconSize: 'text-3xl' %}
+
+{% render 'left_column_icon', icon: 'far fa-envelope', iconSize: 'text-3xl' %}
+
+{% render 'left_column_icon', icon: 'far fa-user', iconSize: 'text-3xl' %}
 
 <a href="/logout">
-  <i
-    class="fas fa-sign-out-alt text-brand-purple text-4xl cursor-pointer hover:text-brand-purple hover:text-opacity-75 hover:-translate-y-0.5 transform"></i>
+  {% render 'left_column_icon', icon: 'fas fa-sign-out-alt', iconSize: 'text-3xl' %}
 </a>
