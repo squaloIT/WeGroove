@@ -101,21 +101,7 @@ function createPostHTML(content, user, createdAt) {
       </div>
     </div>`
 }
-/**
- * 
- * @param {HTMLElement} icon 
- * @param {String} firstClassToRemove 
- * @param {String} firstClassToAdd 
- */
-function changeIconAfterAction(icon, firstClassToRemove, firstClassToAdd) {
-  if (icon.classList.contains(firstClassToRemove)) {
-    icon.classList.remove(firstClassToRemove)
-    icon.classList.add(firstClassToAdd)
-  } else {
-    icon.classList.add(firstClassToRemove)
-    icon.classList.remove(firstClassToAdd)
-  }
-}
+
 /**
  * Recursively finds data-pid prop
  * @param { HTMLElement } element 
@@ -161,12 +147,80 @@ function showSpinner(postButtonLabel, postButtonSpinner) {
   disableButton(postButtonSpinner.parentElement);
 }
 
+const toggleClassesForPaths = paths => {
+  Array.from(paths).forEach(path => {
+    if (path.classList.contains('hidden')) {
+      path.classList.remove('hidden')
+      path.classList.add('inline-block')
+    } else {
+      path.classList.add('hidden')
+      path.classList.remove('inline-block')
+    }
+  })
+}
+/**
+ * 
+ * @param {HTMLElement} likeButton 
+ * @param {String} numOfRetweets 
+ */
+function animateButtonAfterClickOnLike(likeButton, numOfLikes) {
+  const svgHeartIcon = likeButton.querySelector('svg.heart-icon');
+  const span = likeButton.parentElement.querySelector('span.likes-num')
+  const paths = svgHeartIcon.querySelectorAll('path');
+
+  if (svgHeartIcon.classList.contains('filled')) {
+    svgHeartIcon.classList.remove('filled')
+    svgHeartIcon.classList.remove('text-like-button-red')
+    span.classList.remove('text-like-button-red')
+    toggleClassesForPaths(paths)
+  } else {
+    svgHeartIcon.classList.add('filled')
+    svgHeartIcon.classList.add('animate__heartBeat')
+    toggleClassesForPaths(paths)
+    svgHeartIcon.classList.add('text-like-button-red')
+    span.classList.add('text-like-button-red')
+
+    setTimeout(() => {
+      svgHeartIcon.classList.remove('animate__heartBeat')
+    }, 2000)
+  }
+
+  span.innerHTML = numOfLikes || '&nbsp;&nbsp;';
+}
+/**
+ * 
+ * @param {HTMLElement} button 
+ * @param {String} numOfRetweets 
+ */
+function animateButtonAfterClickOnRetweet(button, numOfRetweets) {
+  const retweetIcon = button.querySelector('svg.retweet-icon');
+  const span = button.parentElement.querySelector('span.retweet-num')
+
+  if (retweetIcon.classList.contains('filled')) {
+    retweetIcon.classList.remove('filled')
+    retweetIcon.classList.remove('text-retweet-button-green')
+    span.classList.remove('text-retweet-button-green')
+  } else {
+    retweetIcon.classList.add('filled')
+    retweetIcon.classList.add('animate__swing')
+    retweetIcon.classList.add('text-retweet-button-green')
+    span.classList.add('text-retweet-button-green')
+
+    setTimeout(() => {
+      retweetIcon.classList.remove('animate__swing')
+    }, 2000)
+  }
+
+  span.innerHTML = numOfRetweets || '&nbsp;&nbsp;';
+}
+
 export {
   enableButton,
   disableButton,
   addNewPost,
   hideSpinner,
   showSpinner,
-  changeIconAfterAction,
-  findPostId
+  findPostId,
+  animateButtonAfterClickOnLike,
+  animateButtonAfterClickOnRetweet
 }

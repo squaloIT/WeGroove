@@ -1,6 +1,4 @@
 <div class='post-wrapper w-full border-b-2 border-brand-light-gray flex flex-row space-x-5 py-3 px-8 justify-between' data-pid="{{post._id}}">
-  
-  
   <div class="post__image-container w-14 h-14">
     <img 
       class="rounded-full bg-white" 
@@ -28,54 +26,7 @@
       <p>{{post.content}}</p>
     </div>
 
-    <div class='w-full flex flex-row justify-end mt-2'> 
-      <div class="post-content__buttons flex flex-row">
-        <button class='ml-3'>
-          <i class="far fa-comment text-brand-purple text-xl cursor-pointer hover:text-brand-purple hover:text-opacity-75 hover:-translate-y-0.5 transform pointer-events-none"></i>
-        </button>
-
-        <button class='retweet-post ml-3'>
-          {% comment %} <i class="fas fa-retweet text-brand-purple text-xl cursor-pointer hover:text-brand-purple hover:text-opacity-75 hover:-translate-y-0.5 transform pointer-events-none"></i> {% endcomment %}
-          {% assign retweets = post.retweetUsers | join: "," %}
-          
-          <i class="fas fa-retweet
-           {% if retweets contains user._id %}
-              text-brand-blue
-            {% else %}
-              text-brand-purple
-            {% endif %}
-            text-xl cursor-pointer hover:text-brand-purple hover:text-opacity-75 hover:-translate-y-0.5 transform pointer-events-none"></i>
-        </button>
-        <span class="retweet-num font-normal text-gray-700 ml-1">
-          {% if post.retweetUsers.size > 0 %}
-            {{post.retweetUsers.size}}
-          {% else %}
-            &nbsp;&nbsp;
-          {% endif %}
-        </span>
-
-        <button class='post-like ml-3'>
-          {% assign likes = post.likes | join: "," %}
-
-          <i class="
-            {% if likes contains user._id %}
-              fas
-            {% else %}
-              far
-            {% endif %}
-          fa-heart text-brand-purple text-xl cursor-pointer hover:text-brand-purple hover:text-opacity-75 hover:-translate-y-0.5 transform pointer-events-none"></i>
-        </button>
-
-        <span class="likes-num font-normal text-gray-700 ml-1">
-          {% if post.likes.size > 0 %}
-            {{post.likes.size}}
-          {% else %}
-            &nbsp;&nbsp;
-          {% endif %}
-        </span>
-      </div>
-    </div>
-  </div>
-    
+    {% render 'post_buttons_wrapper', post: post, user: user %}
   
+  </div>
 </div>

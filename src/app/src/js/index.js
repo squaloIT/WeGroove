@@ -1,5 +1,5 @@
 import { createPost, likePost, retweetPost } from './utils/api';
-import { disableButton, enableButton, addNewPost, showSpinner, hideSpinner, findPostId, changeIconAfterAction } from './utils/dom-manipulation';
+import { disableButton, enableButton, addNewPost, showSpinner, hideSpinner, findPostId, animateButtonAfterClickOnLike, animateButtonAfterClickOnRetweet } from './utils/dom-manipulation';
 
 document.querySelector('textarea#post')
   .addEventListener('keyup', checkInsertPostTextArea)
@@ -42,14 +42,15 @@ function onClickLikePost(e) {
   const likeButton = e.target;
   const pid = findPostId(likeButton);
 
+  const otherPostLikeButtonsOnThePageWithSamePostID = document.querySelectorAll(`div.post-wrapper[data-pid="${pid}"] button.post-like`)
+
   likePost(pid)
     .then(res => res.json())
     .then(res => {
-      const icon = likeButton.querySelector('i.fa-heart');
-      changeIconAfterAction(icon, 'far', 'fas')
-
-      const span = likeButton.parentElement.querySelector('span.likes-num')
-      span.innerHTML = res.post.likes.length || '&nbsp;&nbsp;';
+      Array.from(otherPostLikeButtonsOnThePageWithSamePostID)
+        .forEach(button => {
+          animateButtonAfterClickOnLike(button, res.post.likes.length)
+        })
     })
     .catch(err => console.error(err));
 }
@@ -61,11 +62,7 @@ function onClickRetweetPost(e) {
   retweetPost(pid)
     .then(res => res.json())
     .then(res => {
-      const icon = button.querySelector('i.fa-retweet');
-      changeIconAfterAction(icon, 'text-brand-purple', 'text-brand-blue')
-
-      const span = button.parentElement.querySelector('span.retweet-num')
-      span.innerHTML = res.post.retweetUsers.length || '&nbsp;&nbsp;';
+      animateButtonAfterClickOnRetweet(button, res.post.retweetUsers.length)
     })
     .catch(err => console.error(err));
 }

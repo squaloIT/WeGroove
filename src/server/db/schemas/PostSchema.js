@@ -16,7 +16,6 @@ PostSchema.statics.getAllPosts = async () => {
     .find()
     .populate('postedBy') //* This is enough. No need for the line beneath 
     .populate('retweetData')
-    // .populate('retweetData.postedBy')
     .sort({ "createdAt": "-1" })
     .lean()
   //.lean gives me JS object instead of mongoose model which was the case without .lean
