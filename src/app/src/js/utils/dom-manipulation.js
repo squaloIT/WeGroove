@@ -1,3 +1,5 @@
+import './../../../typedefs';
+
 /**
  * Enables button for creating new post
  * @param { HTMLElement } postBtn 
@@ -22,11 +24,7 @@ function disableButton(postBtn) {
  * Adds newly created post to the div#posts
  * @param { String } postId 
  * @param { String } content 
- * @param { Object } user 
- * @param { String } user.username 
- * @param { String } user.profilePic
- * @param { String } user.firstName 
- * @param { String } user.lastName 
+ * @param { user } user 
  * @param { Timestamp } createdAt 
  */
 function addNewPost(postId, content, user, createdAt) {
@@ -42,11 +40,7 @@ function addNewPost(postId, content, user, createdAt) {
 /**
  * Creates html string for post.  
  * @param { String } content 
- * @param { Object } user 
- * @param { String } user.username 
- * @param { String } user.profilePic
- * @param { String } user.firstName 
- * @param { String } user.lastName 
+ * @param { user } user  
  * @param { Timestamp } createdAt 
  * @returns String
  */
