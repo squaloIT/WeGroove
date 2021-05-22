@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const UserModel = require('./UserSchema');
-
+require('./../../typedefs')
 
 const PostSchema = new mongoose.Schema({
   content: { type: String, trim: true },
@@ -11,7 +11,9 @@ const PostSchema = new mongoose.Schema({
   retweetData: { type: mongoose.Schema.Types.ObjectId, ref: 'Post' },
 }, { timestamps: true });
 
+/** @returns post[] */
 PostSchema.statics.getAllPosts = async () => {
+  /** @type { post[] } allPosts */
   var allPosts = await PostModel
     .find()
     .populate('postedBy') //* This is enough. No need for the line beneath 
@@ -20,9 +22,11 @@ PostSchema.statics.getAllPosts = async () => {
     .lean()
   //.lean gives me JS object instead of mongoose model which was the case without .lean
 
+  /** @type { post[] } allPosts */
   const postsWithPostedByPopulated = await UserModel.populate(allPosts, { path: 'retweetData.postedBy' });
   //* No need for this.
   // allPosts = await UserModel.populate(allPosts, { path: 'postedBy' })
+
   return postsWithPostedByPopulated;
 }
 

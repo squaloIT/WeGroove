@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
+require('./../../typedefs')
 
 const UserSchema = new mongoose.Schema({
   firstName: { type: String, required: true, trim: true },
@@ -14,6 +15,7 @@ const UserSchema = new mongoose.Schema({
 
 
 UserSchema.statics.findByCredentials = async (email, password) => {
+  /** @type { user } user */
   const user = await UserModel.findOne({ email });
 
   if (!user) {
@@ -36,6 +38,7 @@ UserSchema.statics.isAlreadyCreated = (username, email) => {
 }
 
 UserSchema.methods.getDataForSession = function () {
+  /** @type { user } user */
   var user = this;
 
   var payload = {

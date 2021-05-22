@@ -1,5 +1,6 @@
-import { createPost, likePost, retweetPost } from './utils/api';
-import { disableButton, enableButton, addNewPost, showSpinner, hideSpinner, findPostId, animateButtonAfterClickOnLike, animateButtonAfterClickOnRetweet } from './utils/dom-manipulation';
+import { createPost } from './utils/api';
+import { disableButton, enableButton, addNewPost, showSpinner, hideSpinner } from './utils/dom-manipulation';
+import { onClickLikePost, onClickRetweetPost } from './utils/listeners';
 
 document.querySelector('textarea#post')
   .addEventListener('keyup', checkInsertPostTextArea)
@@ -18,7 +19,7 @@ document.querySelector('button#submitPostButton')
         .then(res => res.json())
         .then(res => {
           postContentTextbox.value = '';
-          addNewPost(res.createdPost._id, res.createdPost.content, res.createdPost.postedBy, "moments ago");
+          addNewPost(res.data.createdPost._id, res.data.createdPost.content, res.data.createdPost.postedBy, "moments ago");
           hideSpinner(postButtonLabel, postButtonSpinner)
         })
         .catch(err => {
@@ -38,34 +39,7 @@ Array.from(document.querySelectorAll('.retweet-post')).forEach(el => {
   el.addEventListener('click', onClickRetweetPost)
 })
 
-function onClickLikePost(e) {
-  const likeButton = e.target;
-  const pid = findPostId(likeButton);
 
-  const otherPostLikeButtonsOnThePageWithSamePostID = document.querySelectorAll(`div.post-wrapper[data-pid="${pid}"] button.post-like`)
-
-  likePost(pid)
-    .then(res => res.json())
-    .then(res => {
-      Array.from(otherPostLikeButtonsOnThePageWithSamePostID)
-        .forEach(button => {
-          animateButtonAfterClickOnLike(button, res.post.likes.length)
-        })
-    })
-    .catch(err => console.error(err));
-}
-
-function onClickRetweetPost(e) {
-  const button = e.target;
-  const pid = findPostId(button);
-
-  retweetPost(pid)
-    .then(res => res.json())
-    .then(res => {
-      animateButtonAfterClickOnRetweet(button, res.post.retweetUsers.length)
-    })
-    .catch(err => console.error(err));
-}
 
 function checkInsertPostTextArea(e) {
   const postValue = e.target.value;

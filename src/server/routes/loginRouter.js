@@ -2,6 +2,7 @@ const express = require('express')
 const router = express.Router();
 const userModel = require('../db/schemas/UserSchema')
 const bcrypt = require('bcrypt');
+require('./../typedefs');
 
 router.get('/', (req, res, next) => {
   res.status(200).render('login', {
@@ -12,6 +13,7 @@ router.get('/', (req, res, next) => {
 router.post('/', async (req, res, next) => {
   const { email, password } = req.body;
 
+  /** @type { user } user */
   const foundUser = await userModel.findOne({ email });
   if (!foundUser) {
     return res.status(400).render('login', {
@@ -32,6 +34,7 @@ router.post('/', async (req, res, next) => {
     })
   }
 
+  /** @type { user } user */
   const user = foundUser.getDataForSession()
   req.session.user = user;
   return res.redirect('/')

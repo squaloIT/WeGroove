@@ -2,7 +2,7 @@ const express = require('express')
 const router = express.Router();
 const userModel = require('../db/schemas/UserSchema')
 const bcrypt = require('bcrypt');
-const session = require('express-session');
+require('./../typedefs');
 
 router.get('/', (req, res, next) => {
   res.status(200).render('register', {
@@ -11,35 +11,38 @@ router.get('/', (req, res, next) => {
 })
 
 router.post('/', async (req, res, next) => {
-  if (req.body.username && req.body.password && req.body.firstName && req.body.lastName && req.body.email) {
+  /** @type { userFromRegistration } user */
+  const user = req.body;
+
+  if (user.username && user.password && user.firstName && user.lastName && user.email) {
 
     try {
-      var userWhichAlreadyExists = await userModel.isAlreadyCreated(req.body.username, req.body.email)
+      var userWhichAlreadyExists = await userModel.isAlreadyCreated(user.username, user.email)
     } catch (err) {
       res.status(500).render('register', { msg: "Something went wrong while trying to find existing user.", status: 500 });
       return;
     }
 
     if (userWhichAlreadyExists) {
-      if (userWhichAlreadyExists.username == req.body.username) {
+      if (userWhichAlreadyExists.username == user.username) {
         res.status(400).render('register', { msg: "User with that username already exists.", status: 400 });
         return;
       }
-      if (userWhichAlreadyExists.email == req.body.email) {
+      if (userWhichAlreadyExists.email == user.email) {
         res.status(400).render('register', { msg: "User with that email already exists.", status: 400 });
         return;
       }
     }
 
     try {
-      const hash = await bcrypt.hash(req.body.password, 8)
+      const hash = await bcrypt.hash(user.password, 8)
 
       var createdUser = new userModel({
-        username: req.body.username,
+        username: user.username,
         password: hash,
-        email: req.body.email,
-        firstName: req.body.firstName,
-        lastName: req.body.lastName
+        email: user.email,
+        firstName: user.firstName,
+        lastName: user.lastName
       })
       var crtUser = await createdUser.save();
 

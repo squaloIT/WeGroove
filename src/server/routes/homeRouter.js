@@ -2,9 +2,13 @@ const express = require('express')
 const router = express.Router();
 const PostModel = require('../db/schemas/PostSchema')
 var moment = require('moment')
+require('./../typedefs');
 
 router.get("/", async (req, res, next) => {
+  /** @type { user } user */
   const user = req.session.user;
+
+  /** @type { post[] } allPosts */
   let allPosts = await PostModel.getAllPosts();
 
   const allPostsWithFromNow = allPosts.map(post => {

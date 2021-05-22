@@ -3,10 +3,7 @@ const router = express.Router();
 const PostModel = require('./../../db/schemas/PostSchema')
 const UserModel = require('./../../db/schemas/UserSchema')
 const { checkIsLoggedIn } = require('./../../middleware')
-
-router.get('/', (req, res, next) => {
-
-});
+require('./../../typedefs');
 
 //! Need to send session with request! checkIsLoggedIn
 router.post('/', checkIsLoggedIn, async (req, res, next) => {
@@ -14,6 +11,7 @@ router.post('/', checkIsLoggedIn, async (req, res, next) => {
     return res.sendStatus(400);
   }
   try {
+    /** @type { post } createdPost */
     var createdPost = new PostModel({
       content: req.body.content,
       pinned: false,
@@ -22,21 +20,24 @@ router.post('/', checkIsLoggedIn, async (req, res, next) => {
 
     //* Populate will populate any ObjectID field with data from model specified before populate keyword.
     createdPost = await UserModel.populate(createdPost, { path: 'postedBy' });
+
+    /** @type { Boolean } isSaved */
     const isSaved = await createdPost.save();
 
     return res.status(isSaved ? 201 : 400).json({
       msg: isSaved ? "Post successfully saved" : "There was an error while saving post",
       status: isSaved ? 201 : 400,
-      createdPost
+      data: { createdPost }
     });
 
   } catch (err) {
     console.log(err)
-    return res.status(500).json({ msg: "Error while trying to add new post!" })
+    return res.status(500).json({ msg: "Error while trying to add new post!", status: 500 })
   }
 });
 
 router.put('/like', checkIsLoggedIn, async (req, res) => {
+  /** @type { String } postId */
   const postId = req.body._id;
 
   if (!postId) {
@@ -46,10 +47,16 @@ router.put('/like', checkIsLoggedIn, async (req, res) => {
     });
   }
 
+  /** @type { String } userId */
   const userId = req.session.user._id;
+
+  /** @type { Boolean } isLiked */
   const isLiked = req.session.user.likes && req.session.user.likes.includes(postId)
+
+  /** @type { String } option */
   const option = isLiked ? "$pull" : "$addToSet";
 
+  /** @type { user } newUserWithLikes */
   const newUserWithLikes = await UserModel.findByIdAndUpdate(userId, {
     [option]: {
       likes: postId
@@ -58,6 +65,7 @@ router.put('/like', checkIsLoggedIn, async (req, res) => {
 
   req.session.user = newUserWithLikes;
 
+  /** @type { post } newPostWithLikes */
   const newPostWithLikes = await PostModel.findByIdAndUpdate(postId, {
     [option]: {
       likes: userId
@@ -67,14 +75,18 @@ router.put('/like', checkIsLoggedIn, async (req, res) => {
   res.status(201).json({
     status: 201,
     msg: isLiked ? "Post unliked" : "Post liked",
-    isLiked: option == "$addToSet",
-    post: newPostWithLikes
+    data: {
+      isLiked: option == "$addToSet",
+      post: newPostWithLikes
+    }
   })
 })
 
 
 router.post('/retweet', checkIsLoggedIn, async (req, res) => {
+  /** @type { String } postId */
   const postId = req.body._id;
+  /** @type { String } userId */
   const userId = req.session.user._id;
 
   if (!postId) {
@@ -85,6 +97,7 @@ router.post('/retweet', checkIsLoggedIn, async (req, res) => {
   }
 
   //* There can't be two retweeted post from the same user for the same post
+  /** @type { post } deletedPost */
   const deletedPost = await PostModel.findOneAndDelete({ postedBy: userId, retweetData: postId })
     .catch(err => {
       console.error(err);
@@ -94,7 +107,9 @@ router.post('/retweet', checkIsLoggedIn, async (req, res) => {
       });
     })
 
+  /** @type { String } option */
   const option = deletedPost ? "$pull" : "$addToSet";
+  /** @type { post } repost */
   var repost = deletedPost;
 
   //*If there is no deletedPost it means that there was no already retweeted posts so I need to created it 
@@ -111,6 +126,7 @@ router.post('/retweet', checkIsLoggedIn, async (req, res) => {
       });
     });
 
+  /** @type { post } post */
   const post = await PostModel.findByIdAndUpdate(postId, { [option]: { retweetUsers: userId } }, { new: true })
     .catch(err => {
       console.error(err);
@@ -123,8 +139,10 @@ router.post('/retweet', checkIsLoggedIn, async (req, res) => {
   res.status(201).json({
     status: 201,
     msg: deletedPost ? "Post unretweeted" : "Post retweeted",
-    isRetweeted: option == "$addToSet",
-    post
+    data: {
+      isRetweeted: option == "$addToSet",
+      post
+    }
   })
 })
 
