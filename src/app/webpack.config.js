@@ -35,8 +35,4 @@ module.exports = {
   plugins: [
     new Dotenv()
   ],
-  // devServer: {
-  //   contentBase: path.resolve(__dirname, 'dist'),
-  //   watchContentBase: true,
-  // },
 };

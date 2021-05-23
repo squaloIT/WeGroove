@@ -1,6 +1,7 @@
 import { createPost } from './utils/api';
 import { disableButton, enableButton, addNewPost, showSpinner, hideSpinner } from './utils/dom-manipulation';
 import { onClickLikePost, onClickRetweetPost } from './utils/listeners';
+import './../styles/tailwind.css';
 
 document.querySelector('textarea#post')
   .addEventListener('keyup', checkInsertPostTextArea)

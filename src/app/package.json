@@ -6,8 +6,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "npm run build-webpack && npm run tailwind:css",
     "build-webpack": "webpack",
-    "webpack-watch": "webpack --watch",
-    "tailwind:css": "postcss src/styles/tailwind.css -o dist/styles/style.css"
+    "webpack-watch": "webpack --watch"
   },
   "author": "",
   "license": "ISC",
@@ -28,5 +27,7 @@
     "webpack-cli": "^4.6.0",
     "webpack-dev-server": "^3.11.2"
   },
-  "dependencies": {}
+  "dependencies": {
+    "@tailwindcss/jit": "^0.1.18"
+  }
 }

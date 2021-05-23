@@ -1,5 +1,6 @@
 import { validateRegistrationForm } from './validation/registration-validation.js';
 import { addErrBorder, removeErrBorder, displayErrorLabel, hideErrorLabel } from './utils/validation.js';
+import './../styles/tailwind.css';
 
 Array.from(document.querySelectorAll('.form-control'))
   .forEach(el => {

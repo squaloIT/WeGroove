@@ -1,5 +1,6 @@
 import { addErrBorder, removeErrBorder, displayErrorLabel, hideErrorLabel } from './utils/validation';
 import { validateLoginForm } from './validation/login-validation';
+import './../styles/tailwind.css';
 
 document.querySelector('form#login-form')
   .addEventListener('submit', e => {
