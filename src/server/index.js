@@ -4,13 +4,13 @@ var { Liquid } = require('liquidjs');
 const path = require('path')
 const bodyParser = require('body-parser');
 const session = require('express-session')
-
+const cookieParser = require('cookie-parser');
 const loginRouter = require('./routes/loginRouter')
 const homeRouter = require('./routes/homeRouter')
 const logoutRouter = require('./routes/logoutRouter')
 const registrationRouter = require('./routes/registrationRouter')
 const postAPI = require('./routes/api/posts')
-const { checkIsLoggedIn } = require('./middleware')
+const { checkIsLoggedIn, isRememberedCookiePresent } = require('./middleware')
 
 const app = express()
 const port = process.env.PORT || 3000;
@@ -31,6 +31,7 @@ app.engine('liquid', engine.express());
 app.set('view engine', 'liquid');
 app.set('views', viewsPath)
 
+app.use(cookieParser(process.env.SECRET_KEY));
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 app.use(session({
@@ -41,7 +42,7 @@ app.use(session({
 
 app.use(express.static(path.join(__dirname, './../app/dist/')))
 
-app.use('/login', loginRouter);
+app.use('/login', isRememberedCookiePresent, loginRouter);
 app.use('/logout', logoutRouter);
 app.use('/registration', registrationRouter);
 app.use('/', checkIsLoggedIn, homeRouter);

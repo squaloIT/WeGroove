@@ -14,8 +14,18 @@
         <form method="post" action="/login" id='login-form'>
           {% comment %} {% render 'login_form_input', type: 'text', inputName: 'email', inputId: 'email', labelText: 'Email: ', required: true, placeholder: 'john_doe@email.com', errorLabelText: 'Email must be a valid email', hasErrorLabel: true, value: email %} {% endcomment %}
           {% comment %} {% render 'login_form_input', additionalLabelClasses:'mt-4', type: 'password', inputName: 'password', inputId: 'password', labelText: 'Password: ', required: true, value: password %} {% endcomment %}
-          {% render 'login_form_input', type: 'text', inputName: 'email', inputId: 'email', labelText: 'Email: ', required: true, placeholder: 'john_doe@email.com', errorLabelText: 'Email must be a valid email', hasErrorLabel: true, value: 'shark@gmail.com' %}
-          {% render 'login_form_input', additionalLabelClasses:'mt-4', type: 'password', inputName: 'password', inputId: 'password', labelText: 'Password: ', required: true, value: "aleksa007" %}
+          {% render 'login_form_input', type: 'text', inputName: 'email', inputId: 'email', labelText: 'Email: ', required: true, placeholder: 'john_doe@email.com', errorLabelText: 'Email must be a valid email', hasErrorLabel: true %}
+          {% render 'login_form_input', additionalLabelClasses:'mt-4', type: 'password', inputName: 'password', inputId: 'password', labelText: 'Password: ', required: true %}
+          
+          <label class="block items-center text-base font-roboto mt-2 cursor-pointer ">
+            <input 
+              type="checkbox" 
+              name='rememberMe'
+              class="w-4 h-4 rounded border-gray-300 text-brand-purple shadow-sm focus:border-brand-purple focus:ring focus:ring-offset-0 focus:ring-indigo-200 focus:ring-opacity-50" 
+              checked
+              value='rememberMe' />
+            <span class="ml-2">Remember me</span>
+          </label>
 
           {% render 'login_register_submit_button', text: 'Login'%}
         </form>

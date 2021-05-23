@@ -2,6 +2,9 @@ const express = require('express')
 const router = express.Router();
 const userModel = require('../db/schemas/UserSchema')
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
+const moment = require('moment');
+
 require('./../typedefs');
 
 router.get('/', (req, res, next) => {
@@ -11,7 +14,7 @@ router.get('/', (req, res, next) => {
 })
 
 router.post('/', async (req, res, next) => {
-  const { email, password } = req.body;
+  const { email, password, rememberMe } = req.body;
 
   /** @type { user } user */
   const foundUser = await userModel.findOne({ email });
@@ -37,7 +40,24 @@ router.post('/', async (req, res, next) => {
   /** @type { user } user */
   const user = foundUser.getDataForSession()
   req.session.user = user;
-  return res.redirect('/')
+
+  if (rememberMe !== undefined) {
+    let options = {
+      // maxAge: 1000 * 60 * 10080, // would expire after 7 days
+      httpOnly: true, // The cookie only accessible by the web server
+      signed: true // Indicates if the cookie should be signed
+    }
+
+    const userParams = { email, password };
+    const rememberMeTokenData = jwt.sign(userParams, process.env.SECRET_KEY, { expiresIn: "7d" });
+
+    res.cookie('rememberMe', rememberMeTokenData, {
+      ...options,
+      expires: moment().add(7, 'days').toDate()
+    })
+  }
+
+  return res.redirect('/');
 })
 
 module.exports = router;

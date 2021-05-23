@@ -7,6 +7,7 @@ router.get('/', (req, res, next) => {
       if (err) {
         console.log(err)
       } else {
+        res.clearCookie('rememberMe');
         res.redirect('/login');
       }
     })
