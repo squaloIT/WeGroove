@@ -1,38 +1,13 @@
-const path = require('path');
-const Dotenv = require('dotenv-webpack');
+const TARGET = process.env.npm_lifecycle_event;
 
-module.exports = {
-  mode: 'production',
-  devtool: 'inline-source-map', //This gives me nice dev tools experience
-  entry: {
-    index: './src/js/index.js',
-    registration: './src/js/registration.js',
-    login: './src/js/login.js'
-  },
-  output: {
-    path: path.resolve(__dirname, 'dist'),
-    filename: '[name].bundle.js',
-  },
-  module: {
-    rules: [
-      {
-        test: /\.js$/i,
-        include: path.resolve(__dirname, 'src'),
-        use: {
-          loader: 'babel-loader',
-          options: {
-            presets: ['@babel/preset-env'],
-          },
-        },
-      },
-      {
-        test: /\.css$/i,
-        include: path.resolve(__dirname, 'src'),
-        use: ['style-loader', 'css-loader', 'postcss-loader'],
-      }
-    ],
-  },
-  plugins: [
-    new Dotenv()
-  ],
-};
+if (TARGET === 'build:dev' || TARGET === 'dev' || !TARGET) {
+  module.exports = require('./config/webpack.config.dev');
+  console.info('--> ./config/webpack.config.dev.js');
+}
+else if (TARGET === 'build' || TARGET === 'default:prod') {
+  console.info('--> ./config/webpack.config.prod.js');
+  module.exports = require('./config/webpack.config.prod');
+}
+else if (TARGET === 'stats') {
+  module.exports = require('./config/webpack.config.stats');
+}

@@ -1,7 +1,8 @@
 module.exports = {
   mode: 'jit',
   purge: [
-    './../server/templates/views/*.liquid'
+    './../server/templates/views/*.liquid',
+    "./dist/*.js"
   ],
   darkMode: false, // or 'media' or 'class'
   theme: {
