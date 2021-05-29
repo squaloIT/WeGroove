@@ -2,6 +2,7 @@ const path = require('path');
 const webpack = require('webpack')
 const Dotenv = require('dotenv-webpack');
 const CopyPlugin = require('copy-webpack-plugin');
+const WatchExternalFilesPlugin = require('webpack-watch-files-plugin').default;
 
 module.exports = {
   mode: 'development',
@@ -53,6 +54,11 @@ module.exports = {
           from: path.resolve(__dirname, './../src/assets'),
           to: path.resolve(__dirname, './../dist/assets'),
         }
+      ]
+    }),
+    new WatchExternalFilesPlugin({
+      files: [
+        path.resolve(__dirname, './../../server/templates/views/*'),
       ]
     })
   ],
