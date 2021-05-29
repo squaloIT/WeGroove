@@ -1,0 +1,95 @@
+{% comment %} <div id="comment-modal" class="comment-modal fixed top-0 left-0 w-screen h-screen flex items-center justify-center bg-blue-500 bg-opacity-50 transform scale-0 transition-transform duration-300">
+    <!-- Modal content -->
+    <div class="bg-white w-1/2 h-1/2 p-12"> 
+        <!--Close modal button-->
+        <button id="close-modal-button" type="button" class="focus:outline-none">
+            <!-- Hero icon - close button -->
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+        </button>
+        <!-- Test content -->
+        <p>
+            Lorem, ipsum dolor sit amet consectetur adipisicing elit. 
+            Minus placeat maiores repudiandae, error perferendis inventore 
+            aspernatur voluptatum omnis sint debitis!
+        </p>
+    </div>
+</div> {% endcomment %}
+
+
+
+
+<div id="comment-modal" class="fixed top-0 left-0 w-screen h-screen flex justify-center bg-blue-500 bg-opacity-50 transform transition-transform duration-300 hidden">
+    <div class="bg-white max-w-[80vw] w-[50vw] h-[fit-content] max-h-[85vh] rounded-2xl overflow-hidden mt-12 "> 
+        <!-- Modal Header -->
+        <div class='comment-modal__header h-12 px-4 border-b border-gray-200 rounded-tl-2xl rounded-tr-2xl pt-1'>
+            <div class='comment-modal-header__close-wrapper font-bold text-base text-brand-blue'>
+                <button type="button" class="cursor-pointer close-modal-button focus:outline-none hover:bg-comment-button-blue-background hover:text-comment-button-blue p-2 rounded-full text-comment-button-blue">
+                    <svg viewBox="0 0 24 24" aria-hidden="true" class="fill-current pointer-events-none text-comment-button-blue w-6 h-6">
+                        <g><path class='' d="M13.414 12l5.793-5.793c.39-.39.39-1.023 0-1.414s-1.023-.39-1.414 0L12 10.586 6.207 4.793c-.39-.39-1.023-.39-1.414 0s-.39 1.023 0 1.414L10.586 12l-5.793 5.793c-.39.39-.39 1.023 0 1.414.195.195.45.293.707.293s.512-.098.707-.293L12 13.414l5.793 5.793c.195.195.45.293.707.293s.512-.098.707-.293c.39-.39.39-1.023 0-1.414L13.414 12z"></path></g>
+                    </svg>
+                </button>
+            </div>
+        </div>
+
+        <!-- Modal content -->
+        <div class='comment-modal__content p-3 flex justify-between'>
+        {% comment %} h-[90%] {% endcomment %}
+            <div class='modal-content__left-column flex flex-col w-20  items-center'>
+                <div class='left-column__profile-pic flex items-center'>
+                    <img class='post-creator-profile-picture w-16 h-16 rounded-full' src="{{user.profilePic}}" alt='{{user.username}}' />
+                </div>
+                 {% comment %} h-44 {% endcomment %}
+                <div class='left-column__line-separator border bg-[#c4cfd6] border-[#c4cfd6]'></div>
+
+                <div class='left-column__profile-pic flex items-center'>
+                    <img class='user-profile-picture w-16 h-16 rounded-full' src="{{user.profilePic}}" alt="{{user.username}}" />
+                </div>
+            </div>
+    {% comment %} h-[90%] {% endcomment %}
+            <div class='modal-content__right-column flex flex-col w-[85%] h-[90%]'>
+                <div class='right-column__header items-baseline flex flex-row w-full space-x-2'>
+                    <span class='postedBy-name font-bold whitespace-nowrap text-base break-words'></span>
+                    <span class='postedBy-username font-normal text-[#858d94]'></span>
+                    <span class='postedBy-month-and-date text-sm font-normal text-[#858d94]'></span>
+                </div>
+
+                <div class='post-content h-auto flex flex-col my-1 justify-between'>
+                    <p class='break-words whitespace-pre-line my-1 text-[15px] text-[#1c1d1d] min-h-[20px]'>
+                    </p>
+                    <p class='font-normal text-[#858d94]'>Replying to <a href="#" class='text-comment-button-blue postedBy-username-link'></a></p>
+                </div>
+                
+                <div class='reply-aria w-full mt-4'>
+                    <textarea class='resize-none w-full rounded-md focus:outline-none overflow-hidden text-lg text-[#1c1d1d] max-h-[150px]' placeholder='Your reply'></textarea>
+
+                    <div class='reply-icons-wrapper flex justify-between'>
+                        <div class='reply-icons w-52 flex items-end'>
+                            <button type="button" 
+                            class="cursor-pointer close-modal-button focus:outline-none hover:bg-comment-button-blue-background hover:text-comment-button-blue p-2 rounded-full">
+                                <svg viewBox="0 0 24 24" aria-hidden="true" class="pointer-events-none fill-current text-comment-button-blue  w-6 h-6"><g><path d="M19.75 2H4.25C3.01 2 2 3.01 2 4.25v15.5C2 20.99 3.01 22 4.25 22h15.5c1.24 0 2.25-1.01 2.25-2.25V4.25C22 3.01 20.99 2 19.75 2zM4.25 3.5h15.5c.413 0 .75.337.75.75v9.676l-3.858-3.858c-.14-.14-.33-.22-.53-.22h-.003c-.2 0-.393.08-.532.224l-4.317 4.384-1.813-1.806c-.14-.14-.33-.22-.53-.22-.193-.03-.395.08-.535.227L3.5 17.642V4.25c0-.413.337-.75.75-.75zm-.744 16.28l5.418-5.534 6.282 6.254H4.25c-.402 0-.727-.322-.744-.72zm16.244.72h-2.42l-5.007-4.987 3.792-3.85 4.385 4.384v3.703c0 .413-.337.75-.75.75z"></path><circle cx="8.868" cy="8.309" r="1.542"></circle></g></svg>
+                            <button/>
+                            <button type="button" 
+                            class="cursor-pointer close-modal-button focus:outline-none hover:bg-comment-button-blue-background hover:text-comment-button-blue p-2 rounded-full">
+                               <svg viewBox="0 0 24 24" aria-hidden="true" class="pointer-events-none hover:text-comment-button-blue fill-current text-comment-button-blue w-6 h-6"><g><path d="M19 10.5V8.8h-4.4v6.4h1.7v-2h2v-1.7h-2v-1H19zm-7.3-1.7h1.7v6.4h-1.7V8.8zm-3.6 1.6c.4 0 .9.2 1.2.5l1.2-1C9.9 9.2 9 8.8 8.1 8.8c-1.8 0-3.2 1.4-3.2 3.2s1.4 3.2 3.2 3.2c1 0 1.8-.4 2.4-1.1v-2.5H7.7v1.2h1.2v.6c-.2.1-.5.2-.8.2-.9 0-1.6-.7-1.6-1.6 0-.8.7-1.6 1.6-1.6z"></path><path d="M20.5 2.02h-17c-1.24 0-2.25 1.007-2.25 2.247v15.507c0 1.238 1.01 2.246 2.25 2.246h17c1.24 0 2.25-1.008 2.25-2.246V4.267c0-1.24-1.01-2.247-2.25-2.247zm.75 17.754c0 .41-.336.746-.75.746h-17c-.414 0-.75-.336-.75-.746V4.267c0-.412.336-.747.75-.747h17c.414 0 .75.335.75.747v15.507z"></path></g></svg>
+                            </button>
+                            <button type="button" 
+                            class="cursor-pointer close-modal-button focus:outline-none hover:bg-comment-button-blue-background hover:text-comment-button-blue p-2 rounded-full">
+                               <svg viewBox="0 0 24 24" aria-hidden="true" class="pointer-events-none fill-current text-comment-button-blue  w-6 h-6"><g><path d="M12 22.75C6.072 22.75 1.25 17.928 1.25 12S6.072 1.25 12 1.25 22.75 6.072 22.75 12 17.928 22.75 12 22.75zm0-20C6.9 2.75 2.75 6.9 2.75 12S6.9 21.25 12 21.25s9.25-4.15 9.25-9.25S17.1 2.75 12 2.75z"></path><path d="M12 17.115c-1.892 0-3.633-.95-4.656-2.544-.224-.348-.123-.81.226-1.035.348-.226.812-.124 1.036.226.747 1.162 2.016 1.855 3.395 1.855s2.648-.693 3.396-1.854c.224-.35.688-.45 1.036-.225.35.224.45.688.226 1.036-1.025 1.594-2.766 2.545-4.658 2.545z"></path><circle cx="14.738" cy="9.458" r="1.478"></circle><circle cx="9.262" cy="9.458" r="1.478"></circle></g></svg>
+                            </button>
+                        </div>
+
+                        <div class='reply-button-wrapper mt-4 mr-2'>
+                        {% comment %} #1da1f2 {% endcomment %}
+                            <button class='text-lg font-semibold rounded-xl bg-comment-button-blue text-white outline-none px-3 py-2'>Reply</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

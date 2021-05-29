@@ -41,9 +41,23 @@ function retweetPost(_id) {
     body: JSON.stringify({ _id })
   })
 }
+/**
+ * 
+ * @param { String } _id 
+ * @returns Promise
+ */
+function getPostData(_id) {
+  return fetch(`${process.env.SERVER_URL_DEV}/api/posts/${_id}`, {
+    method: 'GET',
+    headers: {
+      "Content-Type": "application/json"
+    }
+  })
+}
 
 export {
   createPost,
   likePost,
-  retweetPost
+  retweetPost,
+  getPostData
 }

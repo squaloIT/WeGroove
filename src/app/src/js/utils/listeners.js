@@ -1,5 +1,5 @@
-import { likePost, retweetPost } from "./api";
-import { animateButtonAfterClickOnLike, animateButtonAfterClickOnRetweet, findPostId } from "./dom-manipulation";
+import { likePost, retweetPost, getPostData } from "./api";
+import { animateButtonAfterClickOnLike, animateButtonAfterClickOnRetweet, findPostId, openModal } from "./dom-manipulation";
 
 function onClickLikePost(e) {
   const likeButton = e.target;
@@ -34,10 +34,39 @@ function onClickCommentPost(e) {
   const button = e.target;
   const pid = findPostId(button);
   //TODO - Do the rest
+
+  getPostData(pid)
+    .then(res => res.json())
+    .then(({ msg, status, data }) => {
+      if (status == 200) {
+        openModal(data)
+      }
+    })
+}
+
+function onKeyUpCommentTA(e) {
+  e.target.style.height = 'auto';
+
+  if (e.target.scrollHeight > 150) {
+    e.target.style.overflowY = 'scroll'
+  } else {
+    e.target.style.overflowY = 'hidden'
+  }
+  e.target.style.height = `${e.target.scrollHeight}`;
+}
+
+const createFunctionToCloseModal = (modal, taReply) => (e) => {
+  modal.classList.add('hidden')
+  taReply.value = '';
+  taReply.style.height = '50px';
+  taReply.style.overflowY = 'hidden'
+  modal.querySelector('div.left-column__line-separator').style.height = '0px'
 }
 
 export {
   onClickLikePost,
   onClickCommentPost,
+  onKeyUpCommentTA,
+  createFunctionToCloseModal,
   onClickRetweetPost
 }

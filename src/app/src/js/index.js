@@ -1,10 +1,22 @@
 import { createPost } from './utils/api';
 import { disableButton, enableButton, addNewPost, showSpinner, hideSpinner } from './utils/dom-manipulation';
-import { onClickLikePost, onClickRetweetPost } from './utils/listeners';
+import { onClickLikePost, onClickRetweetPost, onClickCommentPost } from './utils/listeners';
 import './../styles/tailwind.css';
 
 document.querySelector('textarea#post')
-  .addEventListener('keyup', checkInsertPostTextArea)
+  .addEventListener('keyup', checkInsertPostTextArea);
+
+const taReply = document.querySelector("div.reply-aria textarea")
+taReply.addEventListener('keyup', function (e) {
+  console.log('e.target.scrollHeight', e.target.scrollHeight)
+  if (e.target.scrollHeight > 110) {
+    e.target.style.overflowY = 'scroll'
+  } else {
+    e.target.style.overflowY = 'hidden'
+    e.target.style.height = `${e.target.scrollHeight}`;
+  }
+
+});
 
 document.querySelector('button#submitPostButton')
   .addEventListener('click', () => {
@@ -31,6 +43,10 @@ document.querySelector('button#submitPostButton')
       hideSpinner(postButtonLabel, postButtonSpinner)
     }
   })
+
+Array.from(document.querySelectorAll('.comment-button')).forEach(el => {
+  el.addEventListener('click', onClickCommentPost)
+})
 
 Array.from(document.querySelectorAll('.post-like')).forEach(el => {
   el.addEventListener('click', onClickLikePost)

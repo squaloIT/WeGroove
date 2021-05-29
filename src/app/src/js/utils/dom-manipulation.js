@@ -1,6 +1,42 @@
 import './../../../typedefs';
-import { onClickLikePost, onClickRetweetPost, onClickCommentPost } from './listeners';
+import { onClickLikePost, onClickRetweetPost, onClickCommentPost, onKeyUpCommentTA, createFunctionToCloseModal } from './listeners';
 
+/**
+ * @param {post} post 
+ */
+function openModal(post) {
+  const modal = document.getElementById('comment-modal')
+  modal.classList.remove('hidden')
+
+  fillModalWithPostValues(modal, post)
+  adjustHeightOfSeparator(modal);
+
+  const taReply = modal.querySelector("div.reply-aria textarea")
+  taReply.addEventListener('keyup', onKeyUpCommentTA)
+
+  const closebutton = modal.querySelector('.close-modal-button')
+  closebutton.addEventListener('click', createFunctionToCloseModal(modal, taReply))
+}
+
+function adjustHeightOfSeparator(modal) {
+  const rightColumnHeaderHeight = modal.querySelector('div.modal-content__right-column div.right-column__header').offsetHeight
+  const rightColumnPostContentHeight = modal.querySelector('div.modal-content__right-column div.post-content').offsetHeight
+  const rightColumnReplyAreaHeight = modal.querySelector('div.modal-content__right-column div.reply-aria').offsetHeight
+  const val = rightColumnHeaderHeight + rightColumnPostContentHeight + rightColumnReplyAreaHeight;
+  console.log("🚀 ~ file: dom-manipulation.js ~ line 26 ~ adjustHeightOfSeparator ~ val", val)
+
+  modal.querySelector('div.left-column__line-separator').style.height = (val / 3)
+}
+/**
+ * @param {post} post 
+ */
+function fillModalWithPostValues(modal, post) {
+  modal.querySelector('div.comment-modal__content div.post-content > p').innerHTML = post.content;
+  modal.querySelector('div.comment-modal__content span.postedBy-name').innerHTML = post.postedBy.firstName + " " + post.postedBy.lastName;
+  modal.querySelector('div.comment-modal__content span.postedBy-username').innerHTML = `@${post.postedBy.username}`;
+  modal.querySelector('div.comment-modal__content span.postedBy-month-and-date').innerHTML = post.fromNow;
+  modal.querySelector('div.comment-modal__content a.postedBy-username-link').innerHTML = `@${post.postedBy.username}`;
+}
 /**
  * Enables button for creating new post
  * @param { HTMLElement } postBtn 
@@ -298,5 +334,6 @@ export {
   showSpinner,
   findPostId,
   animateButtonAfterClickOnLike,
-  animateButtonAfterClickOnRetweet
+  animateButtonAfterClickOnRetweet,
+  openModal
 }

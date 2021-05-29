@@ -11,7 +11,18 @@
  * @property { String } user.createdAt
  * @property { String } user.updatedAt
 */
-
+/**
+ * @typedef { Object } post
+ * @property { String } post.content
+ * @property { user | String } post.postedBy
+ * @property { Boolean } post.pinned
+ * @property { Array.<user> | Array.<String> } post.likes
+ * @property { Array.<user> | Array.<String> } post.retweetUsers
+ * @property { post | String } user.retweetData
+ * @property { String } user.createdAt
+ * @property { String } user.updatedAt
+ *
+ */
 /**
  * @typedef { Object } apiResponse
  * @property { String } apiResponse.status

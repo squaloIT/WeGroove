@@ -3,9 +3,9 @@ const router = express.Router();
 const PostModel = require('./../../db/schemas/PostSchema')
 const UserModel = require('./../../db/schemas/UserSchema')
 const { checkIsLoggedIn } = require('./../../middleware')
+const moment = require('moment');
 require('./../../typedefs');
 
-//! Need to send session with request! checkIsLoggedIn
 router.post('/', checkIsLoggedIn, async (req, res, next) => {
   if (!req.body.content || !req.session.user) {
     return res.sendStatus(400);
@@ -82,7 +82,6 @@ router.put('/like', checkIsLoggedIn, async (req, res) => {
   })
 })
 
-
 router.post('/retweet', checkIsLoggedIn, async (req, res) => {
   /** @type { String } postId */
   const postId = req.body._id;
@@ -143,6 +142,29 @@ router.post('/retweet', checkIsLoggedIn, async (req, res) => {
       isRetweeted: option == "$addToSet",
       post
     }
+  })
+})
+
+router.get('/:id', checkIsLoggedIn, async (req, res) => {
+  /** @type { post } */
+  const post = await PostModel.findById(req.params.id)
+    .populate('postedBy')
+    .populate('likes')
+    .populate('retweetUsers')
+    .lean()
+    .catch(err => {
+      console.error(err);
+      return res.status(400).json({
+        msg: "There was an error while trying to get post!",
+        status: 400
+      })
+    })
+
+  post.fromNow = moment(post.createdAt).fromNow()
+  return res.status(200).json({
+    msg: "Successfully founded post",
+    status: 200,
+    data: post
   })
 })
 
