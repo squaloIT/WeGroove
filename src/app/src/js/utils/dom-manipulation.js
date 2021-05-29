@@ -17,13 +17,14 @@ function openModal(post) {
   const closebutton = modal.querySelector('.close-modal-button')
   closebutton.addEventListener('click', createFunctionToCloseModal(modal, taReply))
 }
-
+/**
+ * @param {HTMLElement} modal 
+ */
 function adjustHeightOfSeparator(modal) {
   const rightColumnHeaderHeight = modal.querySelector('div.modal-content__right-column div.right-column__header').offsetHeight
   const rightColumnPostContentHeight = modal.querySelector('div.modal-content__right-column div.post-content').offsetHeight
   const rightColumnReplyAreaHeight = modal.querySelector('div.modal-content__right-column div.reply-aria').offsetHeight
   const val = rightColumnHeaderHeight + rightColumnPostContentHeight + rightColumnReplyAreaHeight;
-  console.log("🚀 ~ file: dom-manipulation.js ~ line 26 ~ adjustHeightOfSeparator ~ val", val)
 
   modal.querySelector('div.left-column__line-separator').style.height = (val / 3)
 }
@@ -40,9 +41,10 @@ function fillModalWithPostValues(modal, post) {
 /**
  * Enables button for creating new post
  * @param { HTMLElement } postBtn 
+ * @param { String } hoverClass 
  */
-function enableButton(postBtn) {
-  postBtn.classList.add('hover:bg-brand-purple-hover');
+function enableButton(postBtn, hoverClass) {
+  postBtn.classList.add(hoverClass);
   postBtn.classList.add('cursor-pointer');
   postBtn.classList.remove('cursor-auto');
   postBtn.classList.remove('bg-opacity-50');
@@ -50,11 +52,12 @@ function enableButton(postBtn) {
 /**
  * Disables button for creating new post
  * @param { HTMLElement } postBtn 
+ * @param { String } hoverClass 
  */
-function disableButton(postBtn) {
+function disableButton(postBtn, hoverClass) {
   postBtn.classList.add('bg-opacity-50');
   postBtn.classList.add('cursor-auto');
-  postBtn.classList.remove('hover:bg-brand-purple-hover');
+  postBtn.classList.remove(hoverClass);
   postBtn.classList.remove('cursor-pointer');
 }
 /**
@@ -300,7 +303,6 @@ function animateButtonAfterClickOnLike(likeButton, numOfLikes) {
   span.innerHTML = numOfLikes || '&nbsp;&nbsp;';
 }
 /**
- * 
  * @param {HTMLElement} button 
  * @param {String} numOfRetweets 
  */
@@ -326,6 +328,33 @@ function animateButtonAfterClickOnRetweet(button, numOfRetweets) {
   span.innerHTML = numOfRetweets || '&nbsp;&nbsp;';
 }
 
+/**
+ * @param {String} postValue 
+ * @param {HTMLElement} postBtn 
+ */
+function toggleButtonAvailability(postValue, postBtn) {
+  if (postValue.trim().length == 0) {
+    disableButton(postBtn, 'hover:bg-comment-button-blue')
+  } else {
+    enableButton(postBtn, 'hover:bg-comment-button-blue')
+  }
+}
+/**
+ * @param {Event} e 
+ * @param {HTMLElement} postBtn 
+ */
+function toggleScrollForTextarea(e, postBtn) {
+  e.target.style.height = 'auto';
+  postBtn.disabled = postValue.trim().length == 0;
+
+  if (e.target.scrollHeight > 150) {
+    e.target.style.overflowY = 'scroll'
+  } else {
+    e.target.style.overflowY = 'hidden'
+  }
+  e.target.style.height = `${e.target.scrollHeight}`;
+}
+
 export {
   enableButton,
   disableButton,
@@ -335,5 +364,7 @@ export {
   findPostId,
   animateButtonAfterClickOnLike,
   animateButtonAfterClickOnRetweet,
+  toggleButtonAvailability,
+  toggleScrollForTextarea,
   openModal
 }

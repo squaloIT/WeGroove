@@ -56,16 +56,17 @@ Array.from(document.querySelectorAll('.retweet-post')).forEach(el => {
   el.addEventListener('click', onClickRetweetPost)
 })
 
-
-
+/**
+ * @param {Event} e 
+ */
 function checkInsertPostTextArea(e) {
   const postValue = e.target.value;
   const postBtn = document.querySelector('button#submitPostButton')
 
   if (postValue.trim().length == 0) {
-    disableButton(postBtn)
+    disableButton(postBtn, 'hover:bg-brand-purple-hover')
   } else {
-    enableButton(postBtn)
+    enableButton(postBtn, 'hover:bg-brand-purple-hover')
   }
 
   postBtn.disabled = postValue.trim().length == 0;

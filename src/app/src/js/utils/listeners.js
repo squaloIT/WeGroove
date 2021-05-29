@@ -1,5 +1,5 @@
 import { likePost, retweetPost, getPostData } from "./api";
-import { animateButtonAfterClickOnLike, animateButtonAfterClickOnRetweet, findPostId, openModal } from "./dom-manipulation";
+import { animateButtonAfterClickOnLike, animateButtonAfterClickOnRetweet, findPostId, openModal, toggleButtonAvailability, toggleScrollForTextarea } from "./dom-manipulation";
 
 function onClickLikePost(e) {
   const likeButton = e.target;
@@ -45,14 +45,9 @@ function onClickCommentPost(e) {
 }
 
 function onKeyUpCommentTA(e) {
-  e.target.style.height = 'auto';
-
-  if (e.target.scrollHeight > 150) {
-    e.target.style.overflowY = 'scroll'
-  } else {
-    e.target.style.overflowY = 'hidden'
-  }
-  e.target.style.height = `${e.target.scrollHeight}`;
+  const postBtn = document.querySelector('div.reply-button-wrapper button.reply-comment-button')
+  toggleButtonAvailability(e.target.value, postBtn)
+  toggleScrollForTextarea(e, postBtn)
 }
 
 const createFunctionToCloseModal = (modal, taReply) => (e) => {
