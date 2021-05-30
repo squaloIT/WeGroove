@@ -1,7 +1,11 @@
 import { likePost, retweetPost, getPostData, replyToPost } from "./api";
 import { animateButtonAfterClickOnLike, animateButtonAfterClickOnRetweet, showSpinner, hideSpinner, findPostId, openModal, toggleButtonAvailability, toggleScrollForTextarea } from "./dom-manipulation";
 
+/**
+ * @param {Event} e 
+ */
 function onClickCommentButton(e) {
+  e.stopPropagation();
   const pid = e.target.dataset.pid;
   const content = document.querySelector("div#comment-modal div.reply-aria textarea").value;
 
@@ -23,8 +27,11 @@ function onClickCommentButton(e) {
       console.error(err)
     });
 }
-
+/**
+ * @param {Event} e 
+ */
 function onClickLikePost(e) {
+  e.stopPropagation();
   const likeButton = e.target;
   const pid = findPostId(likeButton);
 
@@ -40,8 +47,11 @@ function onClickLikePost(e) {
     })
     .catch(err => console.error(err));
 }
-
+/**
+ * @param {Event} e 
+ */
 function onClickRetweetPost(e) {
+  e.stopPropagation()
   const button = e.target;
   const pid = findPostId(button);
 
@@ -52,8 +62,11 @@ function onClickRetweetPost(e) {
     })
     .catch(err => console.error(err));
 }
-
+/**
+ * @param {Event} e 
+ */
 function onClickCommentPost(e) {
+  e.stopPropagation()
   const button = e.target;
   const pid = findPostId(button);
   //TODO - Do the rest
@@ -66,26 +79,45 @@ function onClickCommentPost(e) {
       }
     })
 }
-
+/**
+ * @param {Event} e 
+ */
 function onKeyUpCommentTA(e) {
   const postBtn = document.querySelector('div.reply-button-wrapper button.reply-comment-button')
   toggleButtonAvailability(e.target.value, postBtn)
   toggleScrollForTextarea(e, postBtn)
 }
-
-const createFunctionToCloseModal = (modal, taReply) => (e) => {
+/**
+ * @param {HTMLElement} modal 
+ * @param {HTMLElement} taReply 
+ * @returns { Function }
+ */
+const createFunctionToCloseModal = (modal, taReply) => () => {
   modal.classList.add('hidden')
   taReply.value = '';
   taReply.style.height = '50px';
   taReply.style.overflowY = 'hidden'
   modal.querySelector('div.left-column__line-separator').style.height = '0px'
 }
+/**
+ * @param {Event} e 
+ */
+function onPostWrapperClick(e) {
+  const pid = findPostId(e.target);
 
+  if (pid) {
+    window.location.href = '/post/' + pid;
+    return;
+  }
+
+  return alert("Couldn't find post id")
+}
 export {
   onClickLikePost,
   onClickCommentPost,
   onKeyUpCommentTA,
   createFunctionToCloseModal,
   onClickRetweetPost,
-  onClickCommentButton
+  onClickCommentButton,
+  onPostWrapperClick
 }

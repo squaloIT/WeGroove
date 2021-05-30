@@ -9,6 +9,7 @@ const loginRouter = require('./routes/loginRouter')
 const homeRouter = require('./routes/homeRouter')
 const logoutRouter = require('./routes/logoutRouter')
 const registrationRouter = require('./routes/registrationRouter')
+const postsRouter = require('./routes/postsRouter')
 const postAPI = require('./routes/api/posts')
 const { checkIsLoggedIn, isRememberedCookiePresent } = require('./middleware')
 
@@ -45,6 +46,7 @@ app.use(express.static(path.join(__dirname, './../app/dist/')))
 app.use('/login', isRememberedCookiePresent, loginRouter);
 app.use('/logout', logoutRouter);
 app.use('/registration', registrationRouter);
+app.use('/post', checkIsLoggedIn, postsRouter);
 app.use('/', checkIsLoggedIn, homeRouter);
 
 app.use('/api/posts', postAPI);
