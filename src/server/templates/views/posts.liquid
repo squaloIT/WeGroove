@@ -2,6 +2,8 @@
   {% for post in posts %}
     {% if post.retweetData %}
       {% render 're_post', post: post, user: user %}
+    {% elsif post.replyTo %}
+      {% render 'replied_to_post', post: post, user: user %}
     {% else %}
       {% render 'post', post: post, user: user %}
     {% endif %}

@@ -1,5 +1,6 @@
 /**
- * @typedef { Object } user
+ * @typedef { Object }
+ * @property { String } user._id
  * @property { String } user.username
  * @property { String } user.email
  * @property { String } user.password
@@ -13,6 +14,7 @@
 */
 /**
  * @typedef { Object } post
+ * @property { String } post._id
  * @property { String } post.content
  * @property { user | String } post.postedBy
  * @property { Boolean } post.pinned

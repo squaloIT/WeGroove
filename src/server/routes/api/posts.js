@@ -36,6 +36,42 @@ router.post('/', checkIsLoggedIn, async (req, res, next) => {
   }
 });
 
+router.post('/replyTo/:id', checkIsLoggedIn, async (req, res, next) => {
+  console.log(req.body)
+  if (!req.body.content || !req.session.user) {
+    return res.sendStatus(400);
+  }
+  try {
+    const postId = req.body._id;
+    if (!postId) {
+      throw new Error("No postId sent")
+    }
+    /** @type { post } createdPost */
+    var createdPost = new PostModel({
+      content: req.body.content,
+      pinned: false,
+      postedBy: req.session.user,
+      replyTo: postId
+    });
+
+    //* Populate will populate any ObjectID field with data from model specified before populate keyword.
+    createdPost = await UserModel.populate(createdPost, { path: 'postedBy' });
+
+    /** @type { Boolean } isSaved */
+    const isSaved = await createdPost.save();
+
+    return res.status(isSaved ? 201 : 400).json({
+      msg: isSaved ? "Post successfully saved" : "There was an error while saving post",
+      status: isSaved ? 201 : 400,
+      data: { createdPost }
+    });
+
+  } catch (err) {
+    console.log(err)
+    return res.status(500).json({ msg: "Error while trying to add new post!", status: 500 })
+  }
+});
+
 router.put('/like', checkIsLoggedIn, async (req, res) => {
   /** @type { String } postId */
   const postId = req.body._id;

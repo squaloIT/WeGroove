@@ -1,5 +1,28 @@
-import { likePost, retweetPost, getPostData } from "./api";
-import { animateButtonAfterClickOnLike, animateButtonAfterClickOnRetweet, findPostId, openModal, toggleButtonAvailability, toggleScrollForTextarea } from "./dom-manipulation";
+import { likePost, retweetPost, getPostData, replyToPost } from "./api";
+import { animateButtonAfterClickOnLike, animateButtonAfterClickOnRetweet, showSpinner, hideSpinner, findPostId, openModal, toggleButtonAvailability, toggleScrollForTextarea } from "./dom-manipulation";
+
+function onClickCommentButton(e) {
+  const pid = e.target.dataset.pid;
+  const content = document.querySelector("div#comment-modal div.reply-aria textarea").value;
+
+  const commentButtonLabel = document.querySelector('div#comment-modal div.reply-button-wrapper span.comment-button__label')
+  const commentButtonSpinner = document.querySelector('div#comment-modal div.reply-button-wrapper .comment-button__spinner')
+  showSpinner(commentButtonLabel, commentButtonSpinner)
+
+  replyToPost(pid, content)
+    .then(res => res.json())
+    .then(({ status }) => {
+      if (status == 201) {
+        hideSpinner(commentButtonLabel, commentButtonSpinner);
+        location.reload()
+      }
+    })
+    .catch(err => {
+      hideSpinner(commentButtonLabel, commentButtonSpinner)
+      alert(err)
+      console.error(err)
+    });
+}
 
 function onClickLikePost(e) {
   const likeButton = e.target;
@@ -63,5 +86,6 @@ export {
   onClickCommentPost,
   onKeyUpCommentTA,
   createFunctionToCloseModal,
-  onClickRetweetPost
+  onClickRetweetPost,
+  onClickCommentButton
 }

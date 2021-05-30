@@ -43,11 +43,11 @@ module.exports = {
     new Dotenv(),
     new webpack.HotModuleReplacementPlugin(),
     // new webpack.NamedModulesPlugin(),
-    new webpack.DefinePlugin({
-      PRODUCTION: JSON.stringify(false),
-      VERSION: JSON.stringify('0.0.1'),
-      DEBUG: true
-    }),
+    // new webpack.DefinePlugin({
+    //   PRODUCTION: JSON.stringify(false),
+    //   VERSION: JSON.stringify('0.0.1'),
+    //   DEBUG: true
+    // }),
     new CopyPlugin({
       patterns: [
         {

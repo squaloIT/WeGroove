@@ -54,10 +54,25 @@ function getPostData(_id) {
     }
   })
 }
+/** 
+ * @param { String } _id 
+ * @param { String } content 
+ * @returns Promise
+ */
+function replyToPost(_id, content) {
+  return fetch(`${process.env.SERVER_URL_DEV}/api/posts/replyTo/${_id}`, {
+    method: 'POST',
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({ _id, content })
+  })
+}
 
 export {
   createPost,
   likePost,
   retweetPost,
-  getPostData
+  getPostData,
+  replyToPost
 }

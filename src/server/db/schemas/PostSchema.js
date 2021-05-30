@@ -9,6 +9,7 @@ const PostSchema = new mongoose.Schema({
   likes: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
   retweetUsers: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
   retweetData: { type: mongoose.Schema.Types.ObjectId, ref: 'Post' },
+  replyTo: { type: mongoose.Schema.Types.ObjectId, ref: 'Post' },
 }, { timestamps: true });
 
 /** @returns post[] */
@@ -18,14 +19,14 @@ PostSchema.statics.getAllPosts = async () => {
     .find()
     .populate('postedBy') //* This is enough. No need for the line beneath 
     .populate('retweetData')
+    .populate('replyTo')
     .sort({ "createdAt": "-1" })
     .lean()
   //.lean gives me JS object instead of mongoose model which was the case without .lean
 
   /** @type { post[] } allPosts */
-  const postsWithPostedByPopulated = await UserModel.populate(allPosts, { path: 'retweetData.postedBy' });
-  //* No need for this.
-  // allPosts = await UserModel.populate(allPosts, { path: 'postedBy' })
+  var postsWithPostedByPopulated = await UserModel.populate(allPosts, { path: 'retweetData.postedBy' });
+  postsWithPostedByPopulated = await UserModel.populate(postsWithPostedByPopulated, { path: 'replyTo.postedBy' });
 
   return postsWithPostedByPopulated;
 }

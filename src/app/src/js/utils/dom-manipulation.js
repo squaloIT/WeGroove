@@ -37,6 +37,7 @@ function fillModalWithPostValues(modal, post) {
   modal.querySelector('div.comment-modal__content span.postedBy-username').innerHTML = `@${post.postedBy.username}`;
   modal.querySelector('div.comment-modal__content span.postedBy-month-and-date').innerHTML = post.fromNow;
   modal.querySelector('div.comment-modal__content a.postedBy-username-link').innerHTML = `@${post.postedBy.username}`;
+  modal.querySelector('div.reply-button-wrapper button.reply-comment-button').dataset.pid = post._id;
 }
 /**
  * Enables button for creating new post
@@ -247,8 +248,8 @@ function findPostId(element) {
  */
 function hideSpinner(postButtonLabel, postButtonSpinner) {
   disableButton(postButtonSpinner.parentElement);
-  postButtonLabel.classList.remove('post-button--hidden')
-  postButtonSpinner.classList.add('post-button--hidden')
+  postButtonLabel.classList.remove('hidden')
+  postButtonSpinner.classList.add('hidden')
 }
 
 /**
@@ -257,8 +258,8 @@ function hideSpinner(postButtonLabel, postButtonSpinner) {
  * @param {HTMLElement} postButtonSpinner 
  */
 function showSpinner(postButtonLabel, postButtonSpinner) {
-  postButtonLabel.classList.add('post-button--hidden')
-  postButtonSpinner.classList.remove('post-button--hidden')
+  postButtonLabel.classList.add('hidden')
+  postButtonSpinner.classList.remove('hidden')
   disableButton(postButtonSpinner.parentElement);
 }
 
@@ -345,7 +346,7 @@ function toggleButtonAvailability(postValue, postBtn) {
  */
 function toggleScrollForTextarea(e, postBtn) {
   e.target.style.height = 'auto';
-  postBtn.disabled = postValue.trim().length == 0;
+  postBtn.disabled = e.target.value.trim().length == 0;
 
   if (e.target.scrollHeight > 150) {
     e.target.style.overflowY = 'scroll'

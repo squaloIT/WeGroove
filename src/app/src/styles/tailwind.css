@@ -2,19 +2,12 @@
 @tailwind components; 
 @tailwind utilities;
 
-.post-button--hidden {
-  display:none;
-}
-
-.post-button--visible {
-  display:inline-block;
-}
 :root {
 	--animate-duration: 1s;
 	--animate-delay: 1s;
 	--animate-repeat: 1
 }
-/* 
+/*
 .HeartAnimation {
   background-image: url('../images/web_heart_animation.png');
 	background-repeat: no-repeat;

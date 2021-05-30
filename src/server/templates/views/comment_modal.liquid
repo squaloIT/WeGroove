@@ -64,7 +64,9 @@
                 </div>
                 
                 <div class='reply-aria w-full mt-4'>
-                    <textarea class='resize-none w-full rounded-md focus:outline-none overflow-hidden text-lg text-[#1c1d1d] max-h-[150px]' placeholder='Your reply'></textarea>
+                    <textarea class='resize-none w-full rounded-md focus:outline-none overflow-hidden text-lg text-[#1c1d1d] max-h-[150px]' 
+                    placeholder='Your reply'
+                    value='' ></textarea>
 
                     <div class='reply-icons-wrapper flex justify-between'>
                         <div class='reply-icons w-52 flex items-end'>
@@ -84,7 +86,10 @@
 
                         <div class='reply-button-wrapper mt-4 mr-2'>
                         {% comment %} #1da1f2 {% endcomment %}
-                            <button class='bg-opacity-50 cursor-auto reply-comment-button text-lg font-semibold rounded-xl bg-comment-button-blue text-white outline-none px-3 py-2'>Reply</button>
+                            <button class='bg-opacity-50 cursor-auto reply-comment-button text-lg font-semibold rounded-xl bg-comment-button-blue text-white outline-none px-3 py-2' disabled>
+                                <span class='comment-button__label pointer-events-none'>Reply</span>
+                                <i class="comment-button__spinner hidden pointer-events-none fas fa-spinner fa-pulse"></i>
+                            </button>
                         </div>
                     </div>
                 </div>
