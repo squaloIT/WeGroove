@@ -32,7 +32,8 @@ router.get("/", async (req, res, next) => {
     }
   });
 
-  res.status(200).render('home', {
+  res.status(200).render('main', {
+    page: 'home',
     title: "Home",
     posts: allPostsWithFromNow,
     user

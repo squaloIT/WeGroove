@@ -1,0 +1,35 @@
+<html>
+
+{% render 'head_partial' %}
+
+<body>
+  <div class='px-10 mx-auto'>
+    <div class='flex justify-between'>
+      <div class='pt-2 flex flex-col items-end w-[10%] pl-8 pr-4'>
+        <div class='flex flex-col items-center gap-y-5'>
+          {% render 'left_column' %}
+        </div>
+      </div>
+
+      <div class='w-[65%] border-l-2 border-r-2 border-brand-light-gray min-h-screen'>
+        {% if page == 'home' %}
+          {% render 'home_page_layout', user: user, posts: posts, title: title %}
+
+        {% elsif page == 'post' %}
+          {% render 'post_page_layout', user: user, post: post, repliesForPost: repliesForPost, title: title %}
+
+        {% else %}
+          {% render 'post', post: post, user: user %}
+          
+        {% endif %}
+      </div>
+
+      <div class='w-[20%] bg-blue-300'>
+        {% render 'right_column' %}
+      </div>
+    </div>
+  </div>
+  {% render 'comment_modal', user: user %}
+</body>
+<script src="/index.bundle.js"></script>
+</html>
