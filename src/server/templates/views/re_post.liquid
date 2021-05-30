@@ -1,47 +1,48 @@
 {% assign user = post.retweetData.postedBy %}
 {% assign postID = post.retweetData._id %}
 
-<div class='w-full pt-3 px-20'>
-  <p class='text-gray-500 text-base font-semibold'>
-    <svg viewBox="0 0 24 24" aria-hidden="true" class="mr-1 pointer-events-none inline-block fill-current h-5 w-5 align-text-bottom font-bold">
-      <g>
-        <path d="M23.77 15.67c-.292-.293-.767-.293-1.06 0l-2.22 2.22V7.65c0-2.068-1.683-3.75-3.75-3.75h-5.85c-.414 0-.75.336-.75.75s.336.75.75.75h5.85c1.24 0 2.25 1.01 2.25 2.25v10.24l-2.22-2.22c-.293-.293-.768-.293-1.06 0s-.294.768 0 1.06l3.5 3.5c.145.147.337.22.53.22s.383-.072.53-.22l3.5-3.5c.294-.292.294-.767 0-1.06zm-10.66 3.28H7.26c-1.24 0-2.25-1.01-2.25-2.25V6.46l2.22 2.22c.148.147.34.22.532.22s.384-.073.53-.22c.293-.293.293-.768 0-1.06l-3.5-3.5c-.293-.294-.768-.294-1.06 0l-3.5 3.5c-.294.292-.294.767 0 1.06s.767.293 1.06 0l2.22-2.22V16.7c0 2.068 1.683 3.75 3.75 3.75h5.85c.414 0 .75-.336.75-.75s-.337-.75-.75-.75z"></path>
-      </g>
-    </svg>
-    Retweeted by <a class='ml-1' href="users/profile/{{user._id}}">@{{ user.username }}</a>
-  </p>
-</div>
-
-<div class='post-wrapper w-full border-b-2 border-brand-light-gray flex flex-row space-x-5 py-3 px-8 justify-between' data-pid="{{postID}}">
-  
-  <div class="post__image-container w-14 h-14">
-    <img 
-      class="rounded-full bg-white" 
-      src="{{post.retweetData.postedBy.profilePic}}" 
-      alt="{{post.retweetData.postedBy.username}} profile pic" 
-    />
+<div class='post-wrapper w-full border-b-2 border-brand-light-gray pb-3 pt-1 px-8 cursor-pointer' data-pid="{{postID}}">
+  <div class='w-full pb-3 px-4'>
+    <p class='text-gray-500 text-base font-semibold'>
+      <svg viewBox="0 0 24 24" aria-hidden="true" class="mr-1 pointer-events-none inline-block fill-current h-5 w-5 align-text-bottom font-bold">
+        <g>
+          <path d="M23.77 15.67c-.292-.293-.767-.293-1.06 0l-2.22 2.22V7.65c0-2.068-1.683-3.75-3.75-3.75h-5.85c-.414 0-.75.336-.75.75s.336.75.75.75h5.85c1.24 0 2.25 1.01 2.25 2.25v10.24l-2.22-2.22c-.293-.293-.768-.293-1.06 0s-.294.768 0 1.06l3.5 3.5c.145.147.337.22.53.22s.383-.072.53-.22l3.5-3.5c.294-.292.294-.767 0-1.06zm-10.66 3.28H7.26c-1.24 0-2.25-1.01-2.25-2.25V6.46l2.22 2.22c.148.147.34.22.532.22s.384-.073.53-.22c.293-.293.293-.768 0-1.06l-3.5-3.5c-.293-.294-.768-.294-1.06 0l-3.5 3.5c-.294.292-.294.767 0 1.06s.767.293 1.06 0l2.22-2.22V16.7c0 2.068 1.683 3.75 3.75 3.75h5.85c.414 0 .75-.336.75-.75s-.337-.75-.75-.75z"></path>
+        </g>
+      </svg>
+      Retweeted by <a class='ml-1' href="users/profile/{{user._id}}">@{{ user.username }}</a>
+    </p>
   </div>
 
-  <div class='post-content-container flex flex-col w-full'>
-    <div class='post-content__info flex flex-row items-center w-full'>
-      <div class="post-content-info__username-container">
-        <p class="name font-bold">{{post.retweetData.postedBy.firstName}} {{post.retweetData.postedBy.lastName}} -</p>
-      </div>
-      
-      <div class="post-content-info__email-container ml-1">
-        <p class="username text-brand-blue font-medium">@{{post.retweetData.postedBy.username}}</p>
-      </div>
-      
-      <div class="post-content-info__time-container ml-1">
-        <p class="time font-normal">- {{post.retweetData.fromNow}}</p>
-      </div>
+  <div class='flex flex-row space-x-5 justify-between pt-3 '>
+    <div class="post__image-container w-14 h-14">
+      <img 
+        class="rounded-full bg-white" 
+        src="{{post.retweetData.postedBy.profilePic}}" 
+        alt="{{post.retweetData.postedBy.username}} profile pic" 
+      />
     </div>
 
-    <div class="post-content__text w-full mt-1">
-      <p>{{post.retweetData.content}}</p>
-    </div>
+    <div class='post-content-container flex flex-col w-full'>
+      <div class='post-content__info flex flex-row items-center w-full'>
+        <div class="post-content-info__username-container">
+          <p class="name font-bold">{{post.retweetData.postedBy.firstName}} {{post.retweetData.postedBy.lastName}} -</p>
+        </div>
+        
+        <div class="post-content-info__email-container ml-1">
+          <p class="username text-brand-blue font-medium">@{{post.retweetData.postedBy.username}}</p>
+        </div>
+        
+        <div class="post-content-info__time-container ml-1">
+          <p class="time font-normal">- {{post.retweetData.fromNow}}</p>
+        </div>
+      </div>
 
-    {% render 'post_buttons_wrapper', post: post.retweetData, user: user %}
+      <div class="post-content__text w-full mt-1">
+        <p>{{post.retweetData.content}}</p>
+      </div>
+
+      {% render 'post_buttons_wrapper', post: post.retweetData, user: user %}
+    </div>
   </div>
     
   
