@@ -3,7 +3,6 @@ const router = express.Router();
 const PostModel = require('./../../db/schemas/PostSchema')
 const UserModel = require('./../../db/schemas/UserSchema')
 const { checkIsLoggedIn } = require('./../../middleware')
-const moment = require('moment');
 require('./../../typedefs');
 
 router.post('/', checkIsLoggedIn, async (req, res, next) => {
@@ -37,7 +36,6 @@ router.post('/', checkIsLoggedIn, async (req, res, next) => {
 });
 
 router.post('/replyTo/:id', checkIsLoggedIn, async (req, res, next) => {
-  console.log(req.body)
   if (!req.body.content || !req.session.user) {
     return res.sendStatus(400);
   }
@@ -183,20 +181,8 @@ router.post('/retweet', checkIsLoggedIn, async (req, res) => {
 
 router.get('/:id', checkIsLoggedIn, async (req, res) => {
   /** @type { post } */
-  const post = await PostModel.findById(req.params.id)
-    .populate('postedBy')
-    .populate('likes')
-    .populate('retweetUsers')
-    .lean()
-    .catch(err => {
-      console.error(err);
-      return res.status(400).json({
-        msg: "There was an error while trying to get post!",
-        status: 400
-      })
-    })
+  const post = await PostModel.getPostWithID(req.params.id)
 
-  post.fromNow = moment(post.createdAt).fromNow()
   return res.status(200).json({
     msg: "Successfully founded post",
     status: 200,

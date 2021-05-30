@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const UserModel = require('./UserSchema');
+const moment = require('moment');
 require('./../../typedefs')
 
 const PostSchema = new mongoose.Schema({
@@ -29,6 +30,39 @@ PostSchema.statics.getAllPosts = async () => {
   postsWithPostedByPopulated = await UserModel.populate(postsWithPostedByPopulated, { path: 'replyTo.postedBy' });
 
   return postsWithPostedByPopulated;
+}
+
+/** @returns post */
+PostSchema.statics.getPostWithID = async (_id) => {
+  /** @type { post } */
+  const post = await PostModel.findById(_id)
+    .populate('postedBy')
+    .populate('likes')
+    .populate('retweetUsers')
+    .lean()
+    .catch(err => {
+      console.error(err);
+    })
+  post.fromNow = moment(post.createdAt).fromNow()
+
+  return post;
+}
+
+/** @returns post */
+PostSchema.statics.getRepliesForPost = async (_id) => {
+  /** @type { Array.<post> } */
+  const replies = await PostModel.find({ replyTo: _id })
+    .populate('postedBy')
+    .populate('likes')
+    .populate('retweetUsers')
+    .lean()
+    .catch(err => {
+      console.error(err);
+    });
+
+  const repliesWithFromNow = replies.map(p => ({ ...p, fromNow: moment(p.createdAt).fromNow() }))
+
+  return repliesWithFromNow;
 }
 
 const PostModel = mongoose.model("Post", PostSchema)
