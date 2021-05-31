@@ -1,0 +1,8 @@
+<div class="w-full">
+  <h1
+    class="text-brand-purple font-bold tracking-wider px-3 text-3xl mt-2 font-lobster  border-b-2 border-brand-light-gray pb-4">
+    {{title}}</h1>
+
+  {% render 'main_post', post: post, repliesNum: repliesForPost.size, user: user %}
+  {% render 'post_replies', replies: repliesForPost, user: user %}
+</div>
