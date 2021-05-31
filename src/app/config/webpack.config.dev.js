@@ -6,11 +6,13 @@ const WatchExternalFilesPlugin = require('webpack-watch-files-plugin').default;
 
 module.exports = {
   mode: 'development',
+  devtool: 'eval-nosources-cheap-source-map', //This gives me nice dev tools experience
   // devtool: 'inline-source-map', //This gives me nice dev tools experience
   entry: {
     index: path.resolve(__dirname, './../src/js/index.js'),
     registration: path.resolve(__dirname, './../src/js/registration.js'),
-    login: path.resolve(__dirname, './../src/js/login.js')
+    login: path.resolve(__dirname, './../src/js/login.js'),
+    post: path.resolve(__dirname, './../src/js/post.js'),
   },
   output: {
     path: path.resolve(__dirname, './../dist'),

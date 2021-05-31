@@ -9,7 +9,8 @@ module.exports = {
   entry: {
     index: path.resolve(__dirname, './../src/js/index.js'),
     registration: path.resolve(__dirname, './../src/js/registration.js'),
-    login: path.resolve(__dirname, './../src/js/login.js')
+    login: path.resolve(__dirname, './../src/js/login.js'),
+    post: path.resolve(__dirname, './../src/js/post.js'),
   },
   optimization: {
     minimizer: [new UglifyJsPlugin()],
