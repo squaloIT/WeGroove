@@ -37,7 +37,7 @@ PostSchema.statics.getPostWithID = async (_id) => {
   /** @type { post } */
   const post = await PostModel.findById(_id)
     .populate('postedBy')
-    .populate('likes')
+    // .populate('likes')
     .populate('retweetUsers')
     .lean()
     .catch(err => {
