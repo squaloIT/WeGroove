@@ -1,7 +1,7 @@
 <div  class="flex justify-end button-like-wrapper">
   <button class='post-like hover:bg-like-button-red-background hover:text-like-button-red p-2 rounded-full'>
     {% assign likes = post.likes | join: "," %}
-  
+    
     <svg viewBox="0 0 24 24" aria-hidden="true" class="animate__animated heart-icon pointer-events-none inline-block fill-current h-5 w-5 align-text-bottom 
       {% if likes contains user._id %}text-like-button-red filled {% endif %}
     ">
@@ -28,13 +28,16 @@
     </svg>
   </button>
   {% comment %} -ml-3.5 {% endcomment %}
-  <span class="likes-num 
-    {% if likes contains user._id %}text-like-button-red filled {% endif %}
-   flex items-center font-normal text-gray-700">
-    {% if post.likes.size > 0 %}
-      {{post.likes.size}}
-    {% else %}
-      &nbsp;&nbsp;
-    {% endif %}
-  </span>
+
+  {% if showNumbers %}
+    <span class="likes-num 
+      {% if likes contains user._id %}text-like-button-red filled {% endif %}
+    flex items-center font-normal text-gray-700">
+      {% if post.likes.size > 0 %}
+        {{post.likes.size}}
+      {% else %}
+        &nbsp;&nbsp;
+      {% endif %}
+    </span>
+  {% endif %}
 </div>

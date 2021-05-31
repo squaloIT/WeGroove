@@ -72,7 +72,7 @@ function addNewPost(postId, content, user, createdAt) {
   const postsDiv = document.querySelector('#posts');
   const postElement = document.createElement('div')
 
-  postElement.className = `post-wrapper w-full border-b-2 border-brand-light-gray flex flex-row space-x-5 py-3 px-8 justify-between`;
+  postElement.className = `post-wrapper w-full border-b-2 border-brand-light-gray flex flex-row space-x-5 py-3 px-8 justify-between cursor-pointer`;
   postElement.dataset.pid = postId;
   postElement.innerHTML = createPostHTML(content, user, createdAt)
   postsDiv.prepend(postElement);
@@ -287,14 +287,19 @@ function animateButtonAfterClickOnLike(likeButton, numOfLikes) {
   if (svgHeartIcon.classList.contains('filled')) {
     svgHeartIcon.classList.remove('filled')
     svgHeartIcon.classList.remove('text-like-button-red')
-    span.classList.remove('text-like-button-red')
+    if (span) {
+      span.classList.remove('text-like-button-red')
+    }
     toggleClassesForPaths(paths)
   } else {
     svgHeartIcon.classList.add('filled')
     svgHeartIcon.classList.add('animate__heartBeat')
     toggleClassesForPaths(paths)
     svgHeartIcon.classList.add('text-like-button-red')
-    span.classList.add('text-like-button-red')
+
+    if (span) {
+      span.classList.add('text-like-button-red')
+    }
 
     setTimeout(() => {
       svgHeartIcon.classList.remove('animate__heartBeat')
@@ -314,13 +319,18 @@ function animateButtonAfterClickOnRetweet(button, numOfRetweets) {
   if (retweetIcon.classList.contains('filled')) {
     retweetIcon.classList.remove('filled')
     retweetIcon.classList.remove('text-retweet-button-green')
-    span.classList.remove('text-retweet-button-green')
+
+    if (span) {
+      span.classList.remove('text-retweet-button-green')
+    }
   } else {
     retweetIcon.classList.add('filled')
     retweetIcon.classList.add('animate__swing')
     retweetIcon.classList.add('text-retweet-button-green')
-    span.classList.add('text-retweet-button-green')
 
+    if (span) {
+      span.classList.add('text-retweet-button-green')
+    }
     setTimeout(() => {
       retweetIcon.classList.remove('animate__swing')
     }, 2000)
