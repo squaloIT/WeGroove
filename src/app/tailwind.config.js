@@ -20,6 +20,9 @@ module.exports = {
         'comment-button-blue-background': 'rgba(29, 161, 242, 0.1)',
         'retweet-button-green': 'rgb(23, 191, 99)',
         'retweet-button-green-background': 'rgba(23, 191, 99, 0.1)',
+        'light-gray-for-text': '#858d94',
+        'mid-gray-for-text': '#5b7083',
+        'dark-gray-for-text': '#1c1d1d',
       },
       fontFamily: {
         roboto: ['Roboto', 'sans-serif'],
