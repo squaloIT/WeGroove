@@ -43,7 +43,8 @@ PostSchema.statics.getPostWithID = async (_id) => {
     .catch(err => {
       console.error(err);
     })
-  post.fromNow = moment(post.createdAt).fromNow()
+  post.time = moment(post.createdAt).format("H:m A")
+  post.date = moment(post.createdAt).format("MMM D, YYYY")
 
   return post;
 }
