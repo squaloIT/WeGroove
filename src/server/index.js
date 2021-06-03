@@ -5,12 +5,7 @@ const path = require('path')
 const bodyParser = require('body-parser');
 const session = require('express-session')
 const cookieParser = require('cookie-parser');
-const loginRouter = require('./routes/loginRouter')
-const homeRouter = require('./routes/homeRouter')
-const logoutRouter = require('./routes/logoutRouter')
-const registrationRouter = require('./routes/registrationRouter')
-const postsRouter = require('./routes/postsRouter')
-const postAPI = require('./routes/api/posts')
+const { homeRouter, loginRouter, logoutRouter, postAPI, postsRouter, registrationRouter, profileRouter } = require('./routes/index')
 const { checkIsLoggedIn, isRememberedCookiePresent } = require('./middleware')
 
 const app = express()
@@ -47,6 +42,7 @@ app.use('/login', isRememberedCookiePresent, loginRouter);
 app.use('/logout', logoutRouter);
 app.use('/registration', registrationRouter);
 app.use('/post', checkIsLoggedIn, postsRouter);
+app.use('/profile', checkIsLoggedIn, profileRouter);
 app.use('/', checkIsLoggedIn, homeRouter);
 
 app.use('/api/posts', postAPI);

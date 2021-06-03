@@ -37,6 +37,16 @@ UserSchema.statics.isAlreadyCreated = (username, email) => {
   })
 }
 
+UserSchema.statics.findByUsernameOrID = async (username) => {
+  let user = await UserModel.findOne({ username })
+
+  if (!user) {
+    user = await UserModel.findById(username)
+  }
+
+  return user;
+}
+
 UserSchema.methods.getDataForSession = function () {
   /** @type { user } user */
   var user = this;

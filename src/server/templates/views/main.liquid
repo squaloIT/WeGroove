@@ -17,6 +17,9 @@
 
         {% elsif page == 'post' %}
           {% render 'post_page_layout', user: user, post: post, repliesForPost: repliesForPost, title: title %}
+        
+        {% elsif page == 'profile' %}
+          {% render 'profile_page_layout', user: user %}
 
         {% else %}
           {% render 'post', post: post, user: user %}
@@ -31,11 +34,7 @@
   </div>
   {% render 'comment_modal', user: user %}
 </body>
-{% if page == 'home' %}
-  <script src="/index.bundle.js"></script>
-{% else %}
-  <script src="/post.bundle.js"></script>
-{% endif %}
 
+<script src="/script.bundle.js"></script>
 
 </html>
