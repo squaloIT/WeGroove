@@ -1,5 +1,5 @@
 import './../styles/tailwind.css';
-import { onClickLikePost, onClickRetweetPost, onClickCommentPost, onClickCommentButton } from './utils/listeners';
+import { onClickLikePost, onClickRetweetPost, onClickCommentPost, onClickCommentButton, onClickDeletePost } from './utils/listeners';
 
 document.querySelector('div.reply-button-wrapper button.reply-comment-button')
   .addEventListener('click', onClickCommentButton)
@@ -14,4 +14,8 @@ Array.from(document.querySelectorAll('.post-like')).forEach(el => {
 
 Array.from(document.querySelectorAll('.retweet-post')).forEach(el => {
   el.addEventListener('click', onClickRetweetPost)
+})
+
+Array.from(document.querySelectorAll('div.post-wrapper div.delete-post-button-wrapper button.delete-post-button')).forEach(el => {
+  el.addEventListener('click', onClickDeletePost)
 })

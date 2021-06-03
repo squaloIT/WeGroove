@@ -1,4 +1,4 @@
-import { likePost, retweetPost, getPostData, replyToPost } from "./api";
+import { likePost, retweetPost, getPostData, replyToPost, deletePostByID } from "./api";
 import { animateButtonAfterClickOnLike, animateButtonAfterClickOnRetweet, showSpinner, hideSpinner, findPostId, openModal, toggleButtonAvailability, toggleScrollForTextarea } from "./dom-manipulation";
 
 /**
@@ -112,6 +112,21 @@ function onPostWrapperClick(e) {
 
   return alert("Couldn't find post id")
 }
+
+/**
+ * @param {Event} e 
+ */
+function onClickDeletePost(e) {
+  e.stopPropagation();
+  const pid = findPostId(e.target);
+
+  deletePostByID(pid)
+    .then(res => res.json())
+    .then(data => {
+      console.log(data);
+    })
+}
+
 export {
   onClickLikePost,
   onClickCommentPost,
@@ -119,5 +134,6 @@ export {
   createFunctionToCloseModal,
   onClickRetweetPost,
   onClickCommentButton,
+  onClickDeletePost,
   onPostWrapperClick
 }

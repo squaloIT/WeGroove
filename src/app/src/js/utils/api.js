@@ -69,10 +69,25 @@ function replyToPost(_id, content) {
   })
 }
 
+/**
+ * 
+ * @param {String} id 
+ * @returns Promise
+ */
+function deletePostByID(id) {
+  return fetch(`${process.env.SERVER_URL_DEV}/api/posts/delete/${id}`, {
+    method: 'DELETE',
+    headers: {
+      "Content-Type": "application/json"
+    }
+  })
+}
+
 export {
   createPost,
   likePost,
   retweetPost,
   getPostData,
-  replyToPost
+  replyToPost,
+  deletePostByID
 }
