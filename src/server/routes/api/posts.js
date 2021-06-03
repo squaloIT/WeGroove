@@ -190,4 +190,22 @@ router.get('/:id', checkIsLoggedIn, async (req, res) => {
   })
 })
 
+router.delete('/delete/:id', checkIsLoggedIn, async (req, res) => {
+  /** @type { post } */
+  const post = await PostModel.findByIdAndDelete(req.params.id)
+    .catch(err => {
+      console.log(err);
+      res.status(400).json({
+        msg: "There was an error while trying to delete post",
+        status: 400,
+      })
+    })
+
+  return res.status(204).json({
+    msg: "Successfully deleted post",
+    status: 204,
+    data: post
+  })
+})
+
 module.exports = router;
