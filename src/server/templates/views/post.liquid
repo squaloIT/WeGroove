@@ -1,24 +1,27 @@
-<div class='post-wrapper w-full border-b border-super-light-gray-border flex flex-row space-x-5 py-3 px-8 justify-between cursor-pointer animate__animated' data-pid="{{post._id}}">
-  <div class="post__image-container w-14 h-14  pt-2">
-    <img 
-      class="rounded-full bg-white" 
-      src="{{post.postedBy.profilePic}}" 
-      alt="{{post.postedBy.username}} profile pic" 
-    />
-  </div>
-
+<div class='post-wrapper w-full border-b border-super-light-gray-border flex flex-row space-x-5 py-3 px-8 justify-between animate__animated' data-pid="{{post._id}}">
+  <a href="/profile/{{post.postedBy.username}}" class='cursor-pointer'>
+    <div class="post__image-container w-14 h-14  pt-2">
+      <img 
+        class="rounded-full bg-white" 
+        src="{{post.postedBy.profilePic}}" 
+        alt="{{post.postedBy.username}} profile pic" 
+      />
+    </div>
+  </a>
   <div class='post-content-container flex flex-col w-full'>
     <div class='post-content__info flex flex-row items-center w-full'>
-      <div class='w-8/12 flex flex-row items-center '>
-        <div class="post-content-info__username-container">
-          <p class="name font-bold">{{post.postedBy.firstName}} {{post.postedBy.lastName}} -</p>
+      <div class='w-8/12 flex flex-row items-center'>
+        <div class="post-content-info__username-container cursor-pointer ">
+          <p class="name font-bold">
+            <a href="/profile/{{post.postedBy.username}}">{{post.postedBy.firstName}} {{post.postedBy.lastName}} - </a>
+          </p>
         </div>
         
-        <div class="post-content-info__email-container ml-1">
-          <a class="username text-brand-blue font-medium">@{{post.postedBy.username}}</a>
+        <div class="post-content-info__email-container ml-1 cursor-pointer ">
+          <a class="username text-brand-blue font-medium" href="/profile/{{post.postedBy.username}}">@{{post.postedBy.username}}</a>
         </div>
         
-        <div class="post-content-info__time-container ml-1">
+        <div class="post-content-info__time-container ml-1 cursor-default pointer-events-none">
           <p class="time font-normal">- {{post.fromNow}}</p>
         </div>
       </div>
@@ -37,7 +40,7 @@
 
     </div>
 
-    <div class="post-content__text w-11/12 mt-1">
+    <div class="post-content__text w-11/12 mt-1 cursor-pointer">
       <p>{{post.content}}</p>
     </div>
 
