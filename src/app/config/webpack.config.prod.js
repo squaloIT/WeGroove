@@ -7,10 +7,7 @@ const CopyPlugin = require('copy-webpack-plugin');
 module.exports = {
   mode: 'production',
   entry: {
-    index: path.resolve(__dirname, './../src/js/index.js'),
-    registration: path.resolve(__dirname, './../src/js/registration.js'),
-    login: path.resolve(__dirname, './../src/js/login.js'),
-    post: path.resolve(__dirname, './../src/js/post.js'),
+    script: path.resolve(__dirname, './../src/js/script.js'),
   },
   optimization: {
     minimizer: [new UglifyJsPlugin()],
