@@ -201,11 +201,26 @@ router.delete('/delete/:id', checkIsLoggedIn, async (req, res) => {
       })
     })
 
-  console.log(JSON.stringify(post))
+  if (post) {
+    await PostModel.deleteMany({ retweetData: post._id })
+      .catch(err => {
+        console.log(err);
+        res.status(400).json({
+          msg: "There was an error while trying to delete post",
+          status: 400,
+        })
+      })
+
+    return res.status(200).json({
+      msg: "Successfully deleted post",
+      status: 204,
+      data: post
+    })
+  }
 
   return res.status(200).json({
-    msg: "Successfully deleted post",
-    status: 204,
+    msg: "There was no post to be deleted",
+    status: 200,
     data: post
   })
 })

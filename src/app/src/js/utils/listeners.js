@@ -157,11 +157,24 @@ function onClickDeletePost(e) {
   deletePostByID(pid)
     .then(res => res.json())
     .then(data => {
-      console.log("🚀 ~ file: listeners.js ~ line 126 ~ onClickDeletePost ~ data", data)
-      postWrapper.classList.add('animate__bounceOutRight')
-      setTimeout(() => {
-        postWrapper.remove()
-      }, 420)
+      if (data.status === 204) {
+        postWrapper.classList.add('animate__bounceOutRight')
+        const postsToBeRemovedFromDOM = document.querySelectorAll(`div.post-wrapper[data-pid="${pid}"]`)
+
+        Array.from(postsToBeRemovedFromDOM).forEach(el => {
+          el.classList.add('animate__bounceOutRight')
+        })
+
+        setTimeout(() => {
+          Array.from(postsToBeRemovedFromDOM).forEach(el => {
+            el.remove()
+          })
+        }, 420)
+      }
+
+      if (data.status === 200) {
+        alert("there was no post to be deleted")
+      }
     })
 }
 
