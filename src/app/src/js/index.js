@@ -1,6 +1,6 @@
 import { createPost } from './utils/api';
 import { disableButton, enableButton, addNewPost, showSpinner, hideSpinner } from './utils/dom-manipulation';
-import { onClickLikePost, onClickRetweetPost, onClickCommentPost, onClickCommentButton, onPostWrapperClick } from './utils/listeners';
+import { onClickLikePost, onClickRetweetPost, onClickCommentPost, onClickCommentButton, onPostWrapperClick, onClickDeletePost } from './utils/listeners';
 import './../styles/tailwind.css';
 
 document.querySelector('textarea#post')
@@ -60,6 +60,12 @@ Array.from(document.querySelectorAll('.retweet-post')).forEach(el => {
 
 Array.from(document.querySelectorAll('.post-wrapper')).forEach(el => {
   el.addEventListener('click', onPostWrapperClick)
+})
+
+Array.from(
+  document.querySelectorAll('div.post-wrapper div.delete-post-button-wrapper button.delete-post-button')
+).forEach(el => {
+  el.addEventListener('click', onClickDeletePost)
 })
 
 /**

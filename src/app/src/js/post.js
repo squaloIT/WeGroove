@@ -16,6 +16,8 @@ Array.from(document.querySelectorAll('.retweet-post')).forEach(el => {
   el.addEventListener('click', onClickRetweetPost)
 })
 
-Array.from(document.querySelectorAll('div.post-wrapper div.delete-post-button-wrapper button.delete-post-button')).forEach(el => {
+Array.from(
+  document.querySelectorAll('div.post-wrapper div.delete-post-button-wrapper button.delete-post-button')
+).forEach(el => {
   el.addEventListener('click', onClickDeletePost)
 })
