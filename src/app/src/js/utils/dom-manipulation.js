@@ -72,7 +72,7 @@ function addNewPost(postId, content, user, createdAt) {
   const postsDiv = document.querySelector('#posts');
   const postElement = document.createElement('div')
 
-  postElement.className = `post-wrapper w-full border-b-2 border-brand-light-gray flex flex-row space-x-5 py-3 px-8 justify-between cursor-pointer animate__animated`;
+  postElement.className = `post-wrapper w-full border-b border-super-light-gray-border flex flex-row space-x-5 py-3 px-8 justify-between cursor-pointer animate__animated`;
   postElement.dataset.pid = postId;
   postElement.innerHTML = createPostHTML(content, user, createdAt)
   postsDiv.prepend(postElement);

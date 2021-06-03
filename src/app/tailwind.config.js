@@ -23,6 +23,7 @@ module.exports = {
         'light-gray-for-text': '#858d94',
         'mid-gray-for-text': '#5b7083',
         'dark-gray-for-text': '#1c1d1d',
+        'super-light-gray-border': 'rgb(235, 238, 240)'
       },
       fontFamily: {
         roboto: ['Roboto', 'sans-serif'],
