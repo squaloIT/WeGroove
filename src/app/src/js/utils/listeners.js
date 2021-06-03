@@ -1,5 +1,5 @@
 import { likePost, retweetPost, getPostData, replyToPost, deletePostByID } from "./api";
-import { animateButtonAfterClickOnLike, animateButtonAfterClickOnRetweet, showSpinner, hideSpinner, findPostId, openModal, toggleButtonAvailability, toggleScrollForTextarea } from "./dom-manipulation";
+import { animateButtonAfterClickOnLike, animateButtonAfterClickOnRetweet, showSpinner, hideSpinner, findPostWrapperElement, openModal, toggleButtonAvailability, toggleScrollForTextarea } from "./dom-manipulation";
 
 /**
  * @param {Event} e 
@@ -33,7 +33,7 @@ function onClickCommentButton(e) {
 function onClickLikePost(e) {
   e.stopPropagation();
   const likeButton = e.target;
-  const postWrapper = findPostId(likeButton);
+  const postWrapper = findPostWrapperElement(likeButton);
 
   if (!postWrapper) {
     alert("Couldnt find post id")
@@ -60,7 +60,7 @@ function onClickLikePost(e) {
 function onClickRetweetPost(e) {
   e.stopPropagation()
   const button = e.target;
-  const postWrapper = findPostId(likeButton);
+  const postWrapper = findPostWrapperElement(button);
 
   if (!postWrapper) {
     alert("Couldnt find post id")
@@ -82,7 +82,7 @@ function onClickRetweetPost(e) {
 function onClickCommentPost(e) {
   e.stopPropagation()
   const button = e.target;
-  const postWrapper = findPostId(button);
+  const postWrapper = findPostWrapperElement(button);
 
   if (!postWrapper) {
     alert("Couldnt find post id")
@@ -123,7 +123,7 @@ const createFunctionToCloseModal = (modal, taReply) => () => {
  * @param {Event} e 
  */
 function onPostWrapperClick(e) {
-  const postWrapper = findPostId(e.target);
+  const postWrapper = findPostWrapperElement(e.target);
 
   if (!postWrapper) {
     alert("Couldnt find post id!")
@@ -145,7 +145,7 @@ function onPostWrapperClick(e) {
  */
 function onClickDeletePost(e) {
   e.stopPropagation();
-  const postWrapper = findPostId(e.target);
+  const postWrapper = findPostWrapperElement(e.target);
 
   if (!postWrapper) {
     alert("Couldn't find post with that id")

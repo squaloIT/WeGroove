@@ -249,7 +249,7 @@ function createPostHTML(content, user, createdAt) {
  * @param { HTMLElement } element 
  * @returns { boolean | HTMLElement }
  */
-function findPostId(element) {
+function findPostWrapperElement(element) {
   if (['body', 'head', 'html'].includes(element.tagName.toLowerCase())) {
     return false;
   }
@@ -264,7 +264,7 @@ function findPostId(element) {
     return element;
   }
 
-  return findPostId(element.parentElement);
+  return findPostWrapperElement(element.parentElement);
 }
 
 /**
@@ -398,7 +398,7 @@ export {
   addNewPost,
   hideSpinner,
   showSpinner,
-  findPostId,
+  findPostWrapperElement,
   animateButtonAfterClickOnLike,
   animateButtonAfterClickOnRetweet,
   toggleButtonAvailability,
