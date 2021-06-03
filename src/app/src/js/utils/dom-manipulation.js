@@ -1,5 +1,5 @@
 import './../../../typedefs';
-import { onClickLikePost, onClickRetweetPost, onClickCommentPost, onKeyUpCommentTA, createFunctionToCloseModal } from './listeners';
+import { onClickLikePost, onClickRetweetPost, onClickCommentPost, onKeyUpCommentTA, createFunctionToCloseModal, onClickDeletePost } from './listeners';
 
 /**
  * @param {post} post 
@@ -72,7 +72,7 @@ function addNewPost(postId, content, user, createdAt) {
   const postsDiv = document.querySelector('#posts');
   const postElement = document.createElement('div')
 
-  postElement.className = `post-wrapper w-full border-b-2 border-brand-light-gray flex flex-row space-x-5 py-3 px-8 justify-between cursor-pointer`;
+  postElement.className = `post-wrapper w-full border-b-2 border-brand-light-gray flex flex-row space-x-5 py-3 px-8 justify-between cursor-pointer animate__animated`;
   postElement.dataset.pid = postId;
   postElement.innerHTML = createPostHTML(content, user, createdAt)
   postsDiv.prepend(postElement);
@@ -80,6 +80,7 @@ function addNewPost(postId, content, user, createdAt) {
   createElementForButtonWrapper(postElement, '.button-comment-wrapper', createCommentButtonElements)
   createElementForButtonWrapper(postElement, '.button-retweet-wrapper', createRetweetButtonElements)
   createElementForButtonWrapper(postElement, '.button-like-wrapper', createLikeButtonElements)
+  createElementForButtonWrapper(postElement, '.delete-post-button-wrapper', createDeleteButtonElements)
 }
 /**
  * @param { HTMLElement } postElement 
@@ -87,11 +88,13 @@ function addNewPost(postId, content, user, createdAt) {
  * @param { Function } fnToCreateElements 
  */
 function createElementForButtonWrapper(postElement, wrapperClass, fnToCreateElements) {
+  debugger;
   const wrapper = postElement.querySelector(wrapperClass)
   const { span, button } = fnToCreateElements()
-
   wrapper.appendChild(button)
-  wrapper.appendChild(span)
+  if (span) {
+    wrapper.appendChild(span)
+  }
 }
 
 /** @returns { buttonWrapperElements } */
@@ -136,6 +139,21 @@ function createLikeButtonElements() {
   return { span, button }
 }
 
+/** @returns { buttonWrapperElements } */
+function createDeleteButtonElements() {
+  const button = document.createElement('button')
+  button.className = 'cursor-pointer delete-post-button focus:outline-none p-2 rounded-full'
+  button.addEventListener('click', onClickDeletePost);
+  button.innerHTML = getDeleteButtonContent()
+
+  return { span: null, button }
+}
+
+/** @returns String */
+const getDeleteButtonContent = () => `<svg viewBox="0 0 24 24" aria-hidden="true" class="fill-current pointer-events-none text-mid-gray-for-text w-5 h-5">
+    <g><path class='' d="M13.414 12l5.793-5.793c.39-.39.39-1.023 0-1.414s-1.023-.39-1.414 0L12 10.586 6.207 4.793c-.39-.39-1.023-.39-1.414 0s-.39 1.023 0 1.414L10.586 12l-5.793 5.793c-.39.39-.39 1.023 0 1.414.195.195.45.293.707.293s.512-.098.707-.293L12 13.414l5.793 5.793c.195.195.45.293.707.293s.512-.098.707-.293c.39-.39.39-1.023 0-1.414L13.414 12z"></path></g>
+</svg>`;
+
 /** @returns String */
 const getCommentButtonContent = () => `<svg viewBox="0 0 24 24" aria-hidden="true" class="inline-block fill-current h-5 w-5 align-text-bottom"><g><path d="M14.046 2.242l-4.148-.01h-.002c-4.374 0-7.8 3.427-7.8 7.802 0 4.098 3.186 7.206 7.465 7.37v3.828c0 .108.044.286.12.403.142.225.384.347.632.347.138 0 .277-.038.402-.118.264-.168 6.473-4.14 8.088-5.506 1.902-1.61 3.04-3.97 3.043-6.312v-.017c-.006-4.367-3.43-7.787-7.8-7.788zm3.787 12.972c-1.134.96-4.862 3.405-6.772 4.643V16.67c0-.414-.335-.75-.75-.75h-.396c-3.66 0-6.318-2.476-6.318-5.886 0-3.534 2.768-6.302 6.3-6.302l4.147.01h.002c3.532 0 6.3 2.766 6.302 6.296-.003 1.91-.942 3.844-2.514 5.176z"></path></g></svg>`;
 
@@ -174,54 +192,62 @@ function createPostHTML(content, user, createdAt) {
   } = user;
 
   return `<div class="post__image-container w-14 h-14">
-      <img 
-        class="rounded-full bg-white" 
-        src="${profilePic}" 
-        alt="${username} profile pic" 
-      />
+  <img
+    class="rounded-full bg-white"
+    src="${profilePic}"
+    alt="${username} profile pic"
+  />
     </div>
 
-    <div class='post-content-container flex flex-col w-full'>
-      <div class='post-content__info flex flex-row items-center w-full'>
+  <div class='post-content-container flex flex-col w-full'>
+    <div class='post-content__info flex flex-row items-center w-full'>
+      <div class='w-8/12 flex flex-row items-center'>
         <div class="post-content-info__username-container">
           <p class="name font-bold">${firstName} ${lastName} -</p>
         </div>
-        
+
         <div class="post-content-info__email-container ml-1">
           <p class="username text-brand-blue font-medium"> @${username} </p>
         </div>
-        
+
         <div class="post-content-info__time-container ml-1">
           <p class="time font-normal">- ${createdAt}</p>
         </div>
       </div>
 
-      <div class="post-content__text w-full mt-1">
-        <p>${content}</p>
-      </div>
+      <div class='w-4/12'>
+        <div class="delete-post-button-wrapper flex items-start justify-end pr-2">
 
-      <div class='w-full flex flex-row justify-end mt-2'> 
-        <div class="w-full post-content__buttons justify-between flex flex-row">
-          <div class="flex justify-start button-comment-wrapper">
-           
-          </div>
-
-          <div  class="flex justify-end button-retweet-wrapper">
-
-          </div>
-
-          <div class="flex justify-end button-like-wrapper">
-            
-          </div>
         </div>
       </div>
-    </div>`
+    </div>
+
+    <div class="post-content__text w-full mt-1">
+      <p>${content}</p>
+    </div>
+
+    <div class='w-full flex flex-row justify-end mt-2'>
+      <div class="w-full post-content__buttons justify-between flex flex-row">
+        <div class="flex justify-start button-comment-wrapper">
+
+        </div>
+
+        <div class="flex justify-end button-retweet-wrapper">
+
+        </div>
+
+        <div class="flex justify-end button-like-wrapper">
+
+        </div>
+      </div>
+    </div>
+  </div>`
 }
 
 /**
  * Recursively finds data-pid prop
  * @param { HTMLElement } element 
- * @returns boolean | string
+ * @returns { boolean | HTMLElement }
  */
 function findPostId(element) {
   if (['body', 'head', 'html'].includes(element.tagName.toLowerCase())) {
@@ -235,7 +261,7 @@ function findPostId(element) {
       return false;
     }
 
-    return pid;
+    return element;
   }
 
   return findPostId(element.parentElement);
@@ -363,7 +389,7 @@ function toggleScrollForTextarea(e, postBtn) {
   } else {
     e.target.style.overflowY = 'hidden'
   }
-  e.target.style.height = `${e.target.scrollHeight}`;
+  e.target.style.height = `${e.target.scrollHeight} `;
 }
 
 export {

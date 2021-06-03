@@ -201,7 +201,9 @@ router.delete('/delete/:id', checkIsLoggedIn, async (req, res) => {
       })
     })
 
-  return res.status(204).json({
+  console.log(JSON.stringify(post))
+
+  return res.status(200).json({
     msg: "Successfully deleted post",
     status: 204,
     data: post

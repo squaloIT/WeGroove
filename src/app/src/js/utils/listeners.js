@@ -33,7 +33,14 @@ function onClickCommentButton(e) {
 function onClickLikePost(e) {
   e.stopPropagation();
   const likeButton = e.target;
-  const pid = findPostId(likeButton);
+  const postWrapper = findPostId(likeButton);
+
+  if (!postWrapper) {
+    alert("Couldnt find post id")
+    return;
+  }
+
+  const pid = postWrapper.dataset.pid
 
   const otherPostLikeButtonsOnThePageWithSamePostID = document.querySelectorAll(`div.post-wrapper[data-pid="${pid}"] button.post-like`)
 
@@ -53,7 +60,14 @@ function onClickLikePost(e) {
 function onClickRetweetPost(e) {
   e.stopPropagation()
   const button = e.target;
-  const pid = findPostId(button);
+  const postWrapper = findPostId(likeButton);
+
+  if (!postWrapper) {
+    alert("Couldnt find post id")
+    return;
+  }
+
+  const pid = postWrapper.dataset.pid
 
   retweetPost(pid)
     .then(res => res.json())
@@ -68,8 +82,14 @@ function onClickRetweetPost(e) {
 function onClickCommentPost(e) {
   e.stopPropagation()
   const button = e.target;
-  const pid = findPostId(button);
-  //TODO - Do the rest
+  const postWrapper = findPostId(button);
+
+  if (!postWrapper) {
+    alert("Couldnt find post id")
+    return;
+  }
+
+  const pid = postWrapper.dataset.pid
 
   getPostData(pid)
     .then(res => res.json())
@@ -103,7 +123,14 @@ const createFunctionToCloseModal = (modal, taReply) => () => {
  * @param {Event} e 
  */
 function onPostWrapperClick(e) {
-  const pid = findPostId(e.target);
+  const postWrapper = findPostId(e.target);
+
+  if (!postWrapper) {
+    alert("Couldnt find post id!")
+    return;
+  }
+
+  const pid = postWrapper.dataset.pid;
 
   if (pid) {
     window.location.href = '/post/' + pid;
@@ -118,12 +145,23 @@ function onPostWrapperClick(e) {
  */
 function onClickDeletePost(e) {
   e.stopPropagation();
-  const pid = findPostId(e.target);
+  const postWrapper = findPostId(e.target);
+
+  if (!postWrapper) {
+    alert("Couldn't find post with that id")
+    return;
+  }
+
+  const pid = postWrapper.dataset.pid;
 
   deletePostByID(pid)
     .then(res => res.json())
     .then(data => {
-      console.log(data);
+      console.log("🚀 ~ file: listeners.js ~ line 126 ~ onClickDeletePost ~ data", data)
+      postWrapper.classList.add('animate__bounceOutRight')
+      setTimeout(() => {
+        postWrapper.remove()
+      }, 420)
     })
 }
 
