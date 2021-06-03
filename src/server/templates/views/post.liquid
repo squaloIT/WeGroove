@@ -1,5 +1,5 @@
 <div class='post-wrapper w-full border-b-2 border-brand-light-gray flex flex-row space-x-5 py-3 px-8 justify-between cursor-pointer' data-pid="{{post._id}}">
-  <div class="post__image-container w-14 h-14">
+  <div class="post__image-container w-14 h-14  pt-2">
     <img 
       class="rounded-full bg-white" 
       src="{{post.postedBy.profilePic}}" 
@@ -25,7 +25,7 @@
 
 {% if user._id == post.postedBy._id%}
       <div class='w-4/12'>
-        <div class="delete-post-button-wrapper flex items-start justify-end">
+        <div class="delete-post-button-wrapper flex items-start justify-end pr-2">
           <button type="button" class="cursor-pointer delete-post-button focus:outline-none p-2 rounded-full">
               <svg viewBox="0 0 24 24" aria-hidden="true" class="fill-current pointer-events-none text-mid-gray-for-text w-5 h-5">
                   <g><path class='' d="M13.414 12l5.793-5.793c.39-.39.39-1.023 0-1.414s-1.023-.39-1.414 0L12 10.586 6.207 4.793c-.39-.39-1.023-.39-1.414 0s-.39 1.023 0 1.414L10.586 12l-5.793 5.793c-.39.39-.39 1.023 0 1.414.195.195.45.293.707.293s.512-.098.707-.293L12 13.414l5.793 5.793c.195.195.45.293.707.293s.512-.098.707-.293c.39-.39.39-1.023 0-1.414L13.414 12z"></path></g>
