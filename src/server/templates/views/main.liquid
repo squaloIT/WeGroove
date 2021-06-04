@@ -3,10 +3,10 @@
 {% render 'head_partial' %}
 
 <body>
-  <div class='px-10 mx-auto'>
+  <div class='px-10 mx-auto  font-roboto'>
     <div class='flex justify-between'>
       <div class='pt-2 flex flex-col items-end w-[10%] pl-8 pr-4'>
-        <div class='flex flex-col items-center gap-y-5'>
+        <div class='flex flex-col items-center gap-y-5 fixed'>
           {% render 'left_column', user: user %}
         </div>
       </div>
@@ -19,7 +19,7 @@
           {% render 'post_page_layout', user: user, post: post, repliesForPost: repliesForPost, title: title %}
         
         {% elsif page == 'profile' %}
-          {% render 'profile_page_layout', user: user %}
+          {% render 'profile_page_layout', user: user, posts: posts %}
 
         {% else %}
           {% render 'post', post: post, user: user %}

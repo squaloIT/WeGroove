@@ -32,6 +32,23 @@ PostSchema.statics.getAllPosts = async () => {
   return postsWithPostedByPopulated;
 }
 
+/** @returns post[] */
+PostSchema.statics.findAllUserPosts = async (userId, replies = false) => {
+  /** @type { post[] } allPosts */
+  var allPosts = await PostModel
+    .find({ "postedBy": userId, replyTo: { $exists: replies } })
+    .populate('postedBy') //* This is enough. No need for the line beneath 
+    .populate('retweetData')
+    .populate('replyTo')
+    .sort({ "createdAt": "-1" })
+    .lean()
+
+  /** @type { post[] } allPosts */
+  var postsWithPostedByPopulated = await UserModel.populate(allPosts, { path: 'retweetData.postedBy' });
+
+  return postsWithPostedByPopulated;
+}
+
 /** @returns post */
 PostSchema.statics.getPostWithID = async (_id) => {
   /** @type { post } */

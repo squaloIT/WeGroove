@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const moment = require('moment');
 const bcrypt = require('bcrypt');
 require('./../../typedefs')
 
@@ -39,11 +40,13 @@ UserSchema.statics.isAlreadyCreated = (username, email) => {
 }
 
 UserSchema.statics.findByUsernameOrID = async (username) => {
+  /** @type { user } */
   let user = await UserModel.findOne({ username })
 
   if (!user) {
     user = await UserModel.findById(username)
   }
+  user.joined = moment(user.createdAt).format("MMM, YYYY")
 
   return user;
 }

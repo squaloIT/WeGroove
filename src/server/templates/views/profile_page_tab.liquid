@@ -1,0 +1,19 @@
+{% if active == false %}
+  
+  <div class='tab-container w-1/3 hover:bg-comment-button-blue hover:bg-opacity-20 hover:text-brand-blue hover:cursor-pointer border-b-2 border-transparent
+  hover:border-brand-blue'>
+    <div class='tab flex justify-center items-center h-16 '>
+      <span class='text-dark-gray-for-text font-bold'>{{text}}</span>
+    </div>
+  </div>
+
+{% else %}
+
+  <div class='tab-container w-1/3 active bg-comment-button-blue bg-opacity-20 hover:bg-comment-button-blue hover:bg-opacity-20 hover:cursor-pointer border-b-2 border-brand-blue
+  hover:border-brand-blue'>
+    <div class='tab flex justify-center items-center h-16'>
+      <span class='text-brand-blue font-bold'>{{text}}</span>
+    </div>
+  </div>
+
+{% endif %}
