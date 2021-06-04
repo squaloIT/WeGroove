@@ -11,7 +11,7 @@ router.get('/:username', async (req, res, next) => {
       return res.redirect('/')
     })
 
-  const allUserPosts = await PostModel.findAllUserPosts(user._id, false)
+  const allUserPosts = await PostModel.findAllUserPosts(user._id)
     .catch(err => {
       console.log(err);
       return res.redirect('/')

@@ -225,4 +225,23 @@ router.delete('/delete/:id', checkIsLoggedIn, async (req, res) => {
   })
 })
 
+router.get('/profile/:tab', checkIsLoggedIn, async (req, res) => {
+  /** @type { post } */
+  const allUserPosts = await PostModel.findAllUserPosts(req.session.user._id, req.params.tab)
+    .catch(err => {
+      console.log(err);
+      return res.status(400).json({
+        msg: "There was problem with getting posts",
+        status: 400
+      })
+    })
+
+  return res.status(200).json({
+    msg: "Successfully founded posts",
+    status: 200,
+    data: allUserPosts
+  })
+})
+
+
 module.exports = router;

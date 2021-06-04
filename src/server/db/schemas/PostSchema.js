@@ -33,10 +33,39 @@ PostSchema.statics.getAllPosts = async () => {
 }
 
 /** @returns post[] */
-PostSchema.statics.findAllUserPosts = async (userId, replies = false) => {
+PostSchema.statics.findAllUserPosts = async (userId, filterTab = false) => {
   /** @type { post[] } allPosts */
+  const filterObj = {};
+
+  if (!filterTab) {
+    filterObj.postedBy = userId;
+    filterObj.replyTo = {
+      $exists: false
+    }
+  } else {
+    if (filterTab == 'posts') {
+      filterObj.postedBy = userId;
+      filterObj.replyTo = {
+        $exists: false
+      }
+    }
+
+    if (filterTab == 'likes') {
+      filterObj.likes = userId;
+    }
+
+    if (filterTab == 'replies') {
+      filterObj.postedBy = userId;
+      filterObj.replyTo = {
+        $exists: true
+      }
+    }
+  }
+
+  console.log(JSON.stringify(filterObj))
+
   var allPosts = await PostModel
-    .find({ "postedBy": userId, replyTo: { $exists: replies } })
+    .find({ ...filterObj })
     .populate('postedBy') //* This is enough. No need for the line beneath 
     .populate('retweetData')
     .populate('replyTo')
