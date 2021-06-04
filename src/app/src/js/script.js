@@ -6,7 +6,7 @@ if (window.location.pathname.indexOf('/post') == 0) {
   })
 }
 
-if (window.location.pathname == '/') {
+if (window.location.pathname == '/' || window.location.pathname.indexOf('/profile') == 0) {
   import('./index').then(({ default: index }) => {
     index();
   })

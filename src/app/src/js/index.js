@@ -3,8 +3,11 @@ import { disableButton, enableButton, addNewPost, showSpinner, hideSpinner } fro
 import { onClickLikePost, onClickRetweetPost, onClickCommentPost, onClickCommentButton, onPostWrapperClick, onClickDeletePost } from './utils/listeners';
 
 export default function index() {
-  document.querySelector('textarea#post')
-    .addEventListener('keyup', checkInsertPostTextArea);
+  const taPost = document.querySelector('textarea#post');
+
+  if (taPost) {
+    taPost.addEventListener('keyup', checkInsertPostTextArea);
+  }
 
   const taReply = document.querySelector("div.reply-aria textarea")
   taReply.addEventListener('keyup', function (e) {
@@ -17,8 +20,9 @@ export default function index() {
 
   });
 
-  document.querySelector('button#submitPostButton')
-    .addEventListener('click', () => {
+  const submitPostButton = document.querySelector('button#submitPostButton')
+  if (submitPostButton) {
+    submitPostButton.addEventListener('click', () => {
       const postContentTextbox = document.querySelector('textarea#post')
       const postContentValue = postContentTextbox.value.trim();
 
@@ -42,6 +46,7 @@ export default function index() {
         hideSpinner(postButtonLabel, postButtonSpinner)
       }
     })
+  }
 
   document.querySelector('div.reply-button-wrapper button.reply-comment-button')
     .addEventListener('click', onClickCommentButton)
