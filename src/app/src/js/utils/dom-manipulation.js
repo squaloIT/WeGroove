@@ -88,7 +88,6 @@ function addNewPost(postId, content, user, createdAt) {
  * @param { Function } fnToCreateElements 
  */
 function createElementForButtonWrapper(postElement, wrapperClass, fnToCreateElements) {
-  debugger;
   const wrapper = postElement.querySelector(wrapperClass)
   const { span, button } = fnToCreateElements()
   wrapper.appendChild(button)
