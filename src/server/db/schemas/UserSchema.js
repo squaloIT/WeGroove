@@ -9,7 +9,7 @@ const UserSchema = new mongoose.Schema({
   email: { type: String, required: true, trim: true, unique: true },
   password: { type: String, required: true },
   profilePic: { type: String, default: '/assets/profilePic.jpg' },
-  coverPic: { type: String, default: '/assets/coverPic.jpg' },
+  coverPic: { type: String, default: '/assets/coverPic.png' },
   likes: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Post' }],
   retweets: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Post' }],
 }, { timestamps: true });
