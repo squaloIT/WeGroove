@@ -178,6 +178,16 @@ function onClickDeletePost(e) {
     })
 }
 
+/**
+ * @param {Event} e 
+ */
+function onTabChange(e) {
+  Array.from(document.querySelectorAll('div.tabs-wrapper div.tab-container'))
+    .forEach(el => el.classList.remove('active'));
+
+
+  e.target.classList.add('active')
+}
 export {
   onClickLikePost,
   onClickCommentPost,
@@ -186,5 +196,6 @@ export {
   onClickRetweetPost,
   onClickCommentButton,
   onClickDeletePost,
-  onPostWrapperClick
+  onPostWrapperClick,
+  onTabChange
 }
