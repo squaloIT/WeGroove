@@ -6,9 +6,15 @@ if (window.location.pathname.indexOf('/post') == 0) {
   })
 }
 
-if (window.location.pathname == '/' || window.location.pathname.indexOf('/profile') == 0) {
+if (window.location.pathname == '/') {
   import('./index').then(({ default: index }) => {
     index();
+  })
+}
+
+if (window.location.pathname.indexOf('/profile') == 0) {
+  import('./profile').then(({ default: profile }) => {
+    profile();
   })
 }
 

@@ -1,5 +1,5 @@
 /**
- * @typedef { Object }
+ * @typedef { Object } user
  * @property { String } user._id
  * @property { String } user.username
  * @property { String } user.email
