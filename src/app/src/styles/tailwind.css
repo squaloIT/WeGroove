@@ -308,14 +308,17 @@
   animation-name: bounceOutRight;
 }
 
-
 div.tab-container.active {
 	background-color: rgba(29,161,242,0.2);
 	border-color: rgba(50,106,218,1);
+	border-bottom-width: 2px;
+	pointer-events: none;
 }
+
 div.tab-container span {
 	color: rgba(28,29,29,1);
 }
+
 div.tab-container.active span {
 	color: rgba(50,106,218,1);
 }

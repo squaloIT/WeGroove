@@ -83,11 +83,21 @@ function deletePostByID(id) {
   })
 }
 
+function getAllPostsForUserAndSelectedTab(tabId) {
+  return fetch(`${process.env.SERVER_URL_DEV}/api/posts/profile/${tabId}`, {
+    method: 'GET',
+    headers: {
+      "Content-Type": "application/json"
+    }
+  })
+}
+
 export {
   createPost,
   likePost,
   retweetPost,
   getPostData,
   replyToPost,
-  deletePostByID
+  deletePostByID,
+  getAllPostsForUserAndSelectedTab
 }

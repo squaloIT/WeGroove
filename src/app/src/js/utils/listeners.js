@@ -1,4 +1,4 @@
-import { likePost, retweetPost, getPostData, replyToPost, deletePostByID } from "./api";
+import { likePost, retweetPost, getPostData, replyToPost, deletePostByID, getAllPostsForUserAndSelectedTab } from "./api";
 import { animateButtonAfterClickOnLike, animateButtonAfterClickOnRetweet, showSpinner, hideSpinner, findPostWrapperElement, openModal, toggleButtonAvailability, toggleScrollForTextarea } from "./dom-manipulation";
 
 /**
@@ -185,9 +185,22 @@ function onTabChange(e) {
   Array.from(document.querySelectorAll('div.tabs-wrapper div.tab-container'))
     .forEach(el => el.classList.remove('active'));
 
+  const tabId = e.target.dataset.tabId?.toLowerCase();
+  console.log("🚀 ~ file: listeners.js ~ line 189 ~ onTabChange ~ tabId", tabId)
 
-  e.target.classList.add('active')
+  if (tabId) {
+    getAllPostsForUserAndSelectedTab(tabId)
+      .then(data => {
+        e.target.classList.add('active')
+
+      })
+      .catch(err => {
+        console.error(err);
+        alert("There was problem when trying to fetch " + tabId)
+      })
+  }
 }
+
 export {
   onClickLikePost,
   onClickCommentPost,
