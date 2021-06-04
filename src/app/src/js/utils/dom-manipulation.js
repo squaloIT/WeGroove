@@ -69,10 +69,11 @@ function disableButton(postBtn, hoverClass) {
  * @param { Timestamp } createdAt 
  */
 function addNewPost(postId, content, user, createdAt) {
+  console.log("🚀 ~ file: dom-manipulation.js ~ line 72 ~ addNewPost ~ postId", postId)
   const postsDiv = document.querySelector('#posts');
   const postElement = document.createElement('div')
 
-  postElement.className = `post-wrapper w-full border-b border-super-light-gray-border flex flex-row space-x-5 py-3 px-8 justify-between cursor-pointer animate__animated`;
+  postElement.className = `post-wrapper w-full border-b border-super-light-gray-border flex flex-row space-x-5 py-3 px-8 justify-between animate__animated`;
   postElement.dataset.pid = postId;
   postElement.innerHTML = createPostHTML(content, user, createdAt)
   postsDiv.prepend(postElement);
@@ -191,22 +192,27 @@ function createPostHTML(content, user, createdAt) {
   } = user;
 
   return `<div class="post__image-container w-14 h-14">
-  <img
-    class="rounded-full bg-white"
-    src="${profilePic}"
-    alt="${username} profile pic"
-  />
-    </div>
+    <a href="/profile/${user.username}" class='cursor-pointer'>
+      <img
+        class="rounded-full bg-white"
+        src="${profilePic}"
+        alt="${username} profile pic"
+      />
+    </a>
+  </div>
 
   <div class='post-content-container flex flex-col w-full'>
     <div class='post-content__info flex flex-row items-center w-full'>
       <div class='w-8/12 flex flex-row items-center'>
-        <div class="post-content-info__username-container">
-          <p class="name font-bold">${firstName} ${lastName} -</p>
+        <div class="post-content-info__username-container cursor-pointer">
+          <p class="name font-bold">
+            <a href="/profile/${user.username}">${firstName} ${lastName} -
+            </a>
+          </p>
         </div>
 
-        <div class="post-content-info__email-container ml-1">
-          <p class="username text-brand-blue font-medium"> @${username} </p>
+        <div class="post-content-info__email-container ml-1 cursor-pointer">
+          <a class="username text-brand-blue font-medium" href="/profile/${user.username}">@${username} </a>
         </div>
 
         <div class="post-content-info__time-container ml-1">
@@ -221,7 +227,7 @@ function createPostHTML(content, user, createdAt) {
       </div>
     </div>
 
-    <div class="post-content__text w-full mt-1">
+    <div class="post-content__text w-full mt-1 cursor-pointer">
       <p>${content}</p>
     </div>
 
