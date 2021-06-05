@@ -178,29 +178,6 @@ function onClickDeletePost(e) {
     })
 }
 
-/**
- * @param {Event} e 
- */
-function onTabChange(e) {
-  Array.from(document.querySelectorAll('div.tabs-wrapper div.tab-container'))
-    .forEach(el => el.classList.remove('active'));
-
-  const tabId = e.target.dataset.tabId?.toLowerCase();
-  console.log("🚀 ~ file: listeners.js ~ line 189 ~ onTabChange ~ tabId", tabId)
-
-  if (tabId) {
-    getAllPostsForUserAndSelectedTab(tabId)
-      .then(({ data, status, msg }) => {
-        const divPosts = document.querySelector('div#profile-posts div#posts');
-        createPostsForData(divPosts, tabId, data)
-      })
-      .catch(err => {
-        console.error(err);
-        alert("There was problem when trying to fetch " + tabId)
-      })
-  }
-}
-
 export {
   onClickLikePost,
   onClickCommentPost,
@@ -209,6 +186,5 @@ export {
   onClickRetweetPost,
   onClickCommentButton,
   onClickDeletePost,
-  onPostWrapperClick,
-  onTabChange
+  onPostWrapperClick
 }

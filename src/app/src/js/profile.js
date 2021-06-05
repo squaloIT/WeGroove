@@ -1,4 +1,4 @@
-import { onClickCommentButton, onClickCommentPost, onClickDeletePost, onClickLikePost, onClickRetweetPost, onPostWrapperClick, onTabChange } from "./utils/listeners"
+import { onClickCommentButton, onClickCommentPost, onClickDeletePost, onClickLikePost, onClickRetweetPost, onPostWrapperClick } from "./utils/listeners"
 
 export default function profile() {
   document.querySelector('div.reply-button-wrapper button.reply-comment-button')
@@ -26,9 +26,4 @@ export default function profile() {
     el.addEventListener('click', onClickDeletePost)
   })
 
-  Array.from(
-    document.querySelectorAll('div.tabs-wrapper div.tab-container')
-  ).forEach(el => {
-    el.addEventListener('click', onTabChange)
-  })
 }
