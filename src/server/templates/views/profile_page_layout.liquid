@@ -68,10 +68,9 @@
   </div>
 
   <div class='tabs-wrapper flex justify-between h-16 border-b border-t border-super-light-gray-border'>
-    
-    {% render 'profile_page_tab', active: true, text: 'Posts' %}
-    {% render 'profile_page_tab', active: false, text: 'Replies' %}
-    {% render 'profile_page_tab', active: false, text: 'Likes' %}
+    {% render 'profile_page_tab', active: active, text: 'Posts' %}
+    {% render 'profile_page_tab', active: active, text: 'Replies' %}
+    {% render 'profile_page_tab', active: active, text: 'Likes' %}
   </div>
 
   <div class='content-wrapper' id='profile-posts'>

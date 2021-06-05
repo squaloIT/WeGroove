@@ -314,7 +314,13 @@ div.tab-container.active {
 	border-bottom-width: 2px;
 	pointer-events: none;
 }
-
+div.tab-container:hover {
+	border-color: rgba(50,106,218,1);
+	border-bottom-width: 2px;
+}
+div.tab-container:hover span {
+	color: rgba(50,106,218,1);
+}
 div.tab-container span {
 	color: rgba(28,29,29,1);
 }
