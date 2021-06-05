@@ -90,6 +90,7 @@ function getAllPostsForUserAndSelectedTab(tabId) {
       "Content-Type": "application/json"
     }
   })
+    .then(res => res.json())
 }
 
 export {

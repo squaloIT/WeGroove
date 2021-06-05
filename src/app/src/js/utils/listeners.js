@@ -1,5 +1,5 @@
 import { likePost, retweetPost, getPostData, replyToPost, deletePostByID, getAllPostsForUserAndSelectedTab } from "./api";
-import { animateButtonAfterClickOnLike, animateButtonAfterClickOnRetweet, showSpinner, hideSpinner, findPostWrapperElement, openModal, toggleButtonAvailability, toggleScrollForTextarea } from "./dom-manipulation";
+import { animateButtonAfterClickOnLike, animateButtonAfterClickOnRetweet, showSpinner, hideSpinner, findPostWrapperElement, openModal, createPostsForData, toggleButtonAvailability, toggleScrollForTextarea } from "./dom-manipulation";
 
 /**
  * @param {Event} e 
@@ -190,9 +190,9 @@ function onTabChange(e) {
 
   if (tabId) {
     getAllPostsForUserAndSelectedTab(tabId)
-      .then(data => {
-        e.target.classList.add('active')
-
+      .then(({ data, status, msg }) => {
+        const divPosts = document.querySelector('div#profile-posts div#posts');
+        createPostsForData(divPosts, tabId, data)
       })
       .catch(err => {
         console.error(err);

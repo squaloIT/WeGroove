@@ -62,26 +62,37 @@ function disableButton(postBtn, hoverClass) {
   postBtn.classList.remove('cursor-pointer');
 }
 /**
- * Adds newly created post to the div#posts
+ * Adds newly created post to the targetElement
+ * @param { HTMLElement } targetElement 
  * @param { String } postId 
  * @param { String } content 
  * @param { user } user 
  * @param { Timestamp } createdAt 
+ * @param { string } method 
  */
-function addNewPost(postId, content, user, createdAt) {
-  console.log("🚀 ~ file: dom-manipulation.js ~ line 72 ~ addNewPost ~ postId", postId)
-  const postsDiv = document.querySelector('#posts');
-  const postElement = document.createElement('div')
-
-  postElement.className = `post-wrapper w-full border-b border-super-light-gray-border flex flex-row space-x-5 py-3 px-8 justify-between animate__animated`;
-  postElement.dataset.pid = postId;
-  postElement.innerHTML = createPostHTML(content, user, createdAt)
-  postsDiv.prepend(postElement);
+function addNewPost(targetElement, postId, content, user, createdAt, method = 'prepend') {
+  const postElement = createPostElement(postId, content, user, createdAt);
+  targetElement[method](postElement);
 
   createElementForButtonWrapper(postElement, '.button-comment-wrapper', createCommentButtonElements)
   createElementForButtonWrapper(postElement, '.button-retweet-wrapper', createRetweetButtonElements)
   createElementForButtonWrapper(postElement, '.button-like-wrapper', createLikeButtonElements)
   createElementForButtonWrapper(postElement, '.delete-post-button-wrapper', createDeleteButtonElements)
+}
+/**
+ * @param { String } postId 
+ * @param { String } content 
+ * @param { user } user 
+ * @param { Timestamp } createdAt 
+ * @returns { HTMLElement }
+ */
+function createPostElement(postId, content, user, createdAt) {
+  const postElement = document.createElement('div')
+
+  postElement.className = `post-wrapper w-full border-b border-super-light-gray-border flex flex-row space-x-5 py-3 px-8 justify-between animate__animated`;
+  postElement.dataset.pid = postId;
+  postElement.innerHTML = createPostHTML(content, user, createdAt)
+  return postElement;
 }
 /**
  * @param { HTMLElement } postElement 
@@ -397,11 +408,35 @@ function toggleScrollForTextarea(e, postBtn) {
   e.target.style.height = `${e.target.scrollHeight} `;
 }
 
+/**
+ * @param { HTMLElement } targetElement
+ * @param { String } tabId 
+ * @param { Array.<post> } data 
+ */
+function createPostsForData(targetElement, tabId, data) {
+  targetElement.innerHTML = '';
+
+  if (tabId == 'posts') {
+    data.forEach(post => {
+      addNewPost(targetElement, post._id, post.content, post.postedBy, post.fromNow, 'append')
+    });
+  }
+
+  if (tabId == 'replies') {
+
+  }
+
+  if (tabId == 'likes') {
+
+  }
+}
+
 export {
   enableButton,
   disableButton,
   addNewPost,
   hideSpinner,
+  createPostsForData,
   showSpinner,
   findPostWrapperElement,
   animateButtonAfterClickOnLike,

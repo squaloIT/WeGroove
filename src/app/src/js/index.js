@@ -35,7 +35,8 @@ export default function index() {
           .then(res => res.json())
           .then(res => {
             postContentTextbox.value = '';
-            addNewPost(res.data.createdPost._id, res.data.createdPost.content, res.data.createdPost.postedBy, "moments ago");
+            const targetElement = document.querySelector('#posts');
+            addNewPost(targetElement, res.data.createdPost._id, res.data.createdPost.content, res.data.createdPost.postedBy, "moments ago");
             hideSpinner(postButtonLabel, postButtonSpinner)
           })
           .catch(err => {

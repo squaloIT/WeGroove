@@ -75,7 +75,24 @@ PostSchema.statics.findAllUserPosts = async (userId, filterTab = false) => {
   /** @type { post[] } allPosts */
   var postsWithPostedByPopulated = await UserModel.populate(allPosts, { path: 'retweetData.postedBy' });
 
-  return postsWithPostedByPopulated;
+  const allPostsWithFromNow = postsWithPostedByPopulated.map(post => {
+    if (post.retweetData) {
+      return {
+        ...post,
+        fromNow: moment(post.createdAt).fromNow(),
+        retweetData: {
+          ...post.retweetData,
+          fromNow: moment(post.retweetData.createdAt).fromNow()
+        }
+      }
+    } else {
+      return {
+        ...post,
+        fromNow: moment(post.createdAt).fromNow()
+      }
+    }
+  });
+  return allPostsWithFromNow;
 }
 
 /** @returns post */
