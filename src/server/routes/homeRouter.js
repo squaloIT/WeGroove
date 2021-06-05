@@ -5,9 +5,6 @@ var moment = require('moment')
 require('./../typedefs');
 
 router.get("/", async (req, res, next) => {
-  // console.log('Cookies: ', JSON.stringify(req.cookies))
-  // console.log('Cookies signed: ', JSON.stringify(req.signedCookies))
-
   /** @type { user } user */
   const user = req.session.user;
 

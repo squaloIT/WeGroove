@@ -25,6 +25,11 @@ PostSchema.statics.getAllPosts = async () => {
     .lean()
   //.lean gives me JS object instead of mongoose model which was the case without .lean
 
+  allPosts = allPosts.map(post => ({
+    ...post,
+    numOfComments: allPosts.filter(p => post._id.toString() == p.replyTo?._id.toString()).length
+  }))
+
   /** @type { post[] } allPosts */
   var postsWithPostedByPopulated = await UserModel.populate(allPosts, { path: 'retweetData.postedBy' });
   postsWithPostedByPopulated = await UserModel.populate(postsWithPostedByPopulated, { path: 'replyTo.postedBy' });
@@ -34,8 +39,16 @@ PostSchema.statics.getAllPosts = async () => {
 
 /** @returns post[] */
 PostSchema.statics.findAllUserPosts = async (userId, filterTab = false) => {
-  /** @type { post[] } allPosts */
   const filterObj = {};
+
+  /** @type { post[] } allPosts */
+  const allPosts = await PostModel
+    .find()
+    .populate('postedBy') //* This is enough. No need for the line beneath 
+    .populate('retweetData')
+    .populate('replyTo')
+    .sort({ "createdAt": "-1" })
+    .lean();
 
   if (!filterTab) {
     filterObj.postedBy = userId;
@@ -62,9 +75,7 @@ PostSchema.statics.findAllUserPosts = async (userId, filterTab = false) => {
     }
   }
 
-  console.log(JSON.stringify(filterObj))
-
-  var allPosts = await PostModel
+  var allPostsForFilters = await PostModel
     .find({ ...filterObj })
     .populate('postedBy') //* This is enough. No need for the line beneath 
     .populate('retweetData')
@@ -73,7 +84,7 @@ PostSchema.statics.findAllUserPosts = async (userId, filterTab = false) => {
     .lean()
 
   /** @type { post[] } allPosts */
-  var postsWithPostedByPopulated = await UserModel.populate(allPosts, { path: 'retweetData.postedBy' });
+  var postsWithPostedByPopulated = await UserModel.populate(allPostsForFilters, { path: 'retweetData.postedBy' });
 
   const allPostsWithFromNow = postsWithPostedByPopulated.map(post => {
     if (post.retweetData) {
@@ -83,12 +94,14 @@ PostSchema.statics.findAllUserPosts = async (userId, filterTab = false) => {
         retweetData: {
           ...post.retweetData,
           fromNow: moment(post.retweetData.createdAt).fromNow()
-        }
+        },
+        numOfComments: allPosts.filter(p => post._id.toString() == p.replyTo?._id.toString()).length
       }
     } else {
       return {
         ...post,
-        fromNow: moment(post.createdAt).fromNow()
+        fromNow: moment(post.createdAt).fromNow(),
+        numOfComments: allPosts.filter(p => post._id.toString() == p.replyTo?._id.toString()).length
       }
     }
   });
