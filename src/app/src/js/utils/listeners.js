@@ -60,6 +60,7 @@ function onClickLikePost(e) {
 function onClickRetweetPost(e) {
   e.stopPropagation()
   const button = e.target;
+  /** @type { HTMLElement } */
   const postWrapper = findPostWrapperElement(button);
 
   if (!postWrapper) {
@@ -67,12 +68,32 @@ function onClickRetweetPost(e) {
     return;
   }
 
-  const pid = postWrapper.dataset.pid
+  let pid = postWrapper.dataset.retweetId || postWrapper.dataset.pid;
 
   retweetPost(pid)
     .then(res => res.json())
     .then(res => {
-      animateButtonAfterClickOnRetweet(button, res.data.post.retweetUsers.length)
+      if (postWrapper.dataset.retweetId) {
+        postWrapper.classList.add('animate__bounceOutRight')
+        setTimeout(() => {
+          postWrapper.remove()
+          const retweetWrapper = document.querySelector(`div.post-wrapper[data-pid='${postWrapper.dataset.retweetId}'] div.button-retweet-wrapper`);
+
+          removeUIRetweetedIndication(retweetWrapper)
+        }, 420)
+      } else {
+        animateButtonAfterClickOnRetweet(button, res.data.post.retweetUsers.length)
+        const postsWhichRetweetedThis = document.querySelectorAll(`div.post-wrapper[data-retweet-id='${pid}'] `)
+
+        Array.from(postsWhichRetweetedThis).forEach(
+          post => {
+            post.classList.add('animate__bounceOutRight')
+            setTimeout(() => {
+              post.remove()
+            }, 420)
+          }
+        )
+      }
     })
     .catch(err => console.error(err));
 }
@@ -171,16 +192,7 @@ function onClickDeletePost(e) {
 
             if (data.retweetedPost) {
               const retweetWrapper = document.querySelector(`div.post-wrapper[data-pid='${data.retweetedPost}'] div.button-retweet-wrapper`);
-              const retweetSVG = retweetWrapper.querySelector('svg.retweet-icon');
-
-              retweetSVG.classList.remove('text-retweet-button-green');
-              retweetSVG.classList.remove('filled');
-
-              const span = retweetWrapper.querySelector('span.retweet-num')
-              const numOfRetweets = span.innerText;
-
-              span.innerHTML = (numOfRetweets - 1) == 0 ? '&nbsp;&nbsp;' : numOfRetweets - 1;
-              span.classList.remove('text-retweet-button-green')
+              removeUIRetweetedIndication(retweetWrapper)
             }
           })
         }, 420)
@@ -190,6 +202,21 @@ function onClickDeletePost(e) {
         alert("there was no post to be deleted")
       }
     })
+}
+/** 
+ * @param {HTMLElement} retweetWrapper 
+ */
+function removeUIRetweetedIndication(retweetWrapper) {
+  const retweetSVG = retweetWrapper.querySelector('svg.retweet-icon');
+
+  retweetSVG.classList.remove('text-retweet-button-green');
+  retweetSVG.classList.remove('filled');
+
+  const span = retweetWrapper.querySelector('span.retweet-num')
+  const numOfRetweets = span.innerText;
+
+  span.innerHTML = (numOfRetweets - 1) == 0 ? '&nbsp;&nbsp;' : numOfRetweets - 1;
+  span.classList.remove('text-retweet-button-green')
 }
 
 export {

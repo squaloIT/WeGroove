@@ -1,6 +1,10 @@
 <div  class="flex justify-end button-retweet-wrapper">
   <button class='retweet-post hover:bg-retweet-button-green-background hover:text-retweet-button-green p-2 rounded-full'>
-    {% assign retweets = post.retweetUsers | join: "," %}
+    {% if retweetData %}
+      {% assign retweets = retweetData.retweetUsers | join: "," %}
+    {% else %}
+      {% assign retweets = post.retweetUsers | join: "," %}
+    {% endif %}
     
     <svg viewBox="0 0 24 24" aria-hidden="true" class="retweet-icon animate__animated pointer-events-none inline-block fill-current h-5 w-5 align-text-bottom
       {% if retweets contains user._id %}
