@@ -1,7 +1,11 @@
 <div  class="flex justify-end button-like-wrapper">
   <button class='post-like hover:bg-like-button-red-background hover:text-like-button-red p-2 rounded-full'>
-    {% assign likes = post.likes | join: "," %}
-    
+    {% if retweetData %}
+      {% assign likes = retweetData.likes | join: "," %}
+    {% else %}
+      {% assign likes = post.likes | join: "," %}
+    {% endif %}
+
     <svg viewBox="0 0 24 24" aria-hidden="true" class="animate__animated heart-icon pointer-events-none inline-block fill-current h-5 w-5 align-text-bottom 
       {% if likes contains user._id %}text-like-button-red filled {% endif %}
     ">
@@ -33,10 +37,18 @@
     <span class="likes-num 
       {% if likes contains user._id %}text-like-button-red filled {% endif %}
     flex items-center font-normal text-gray-700">
-      {% if post.likes.size > 0 %}
-        {{post.likes.size}}
+      {% if retweetData %}
+          {% if retweetData.likes.size > 0 %}
+            {{retweetData.likes.size}}
+          {% else %}
+            &nbsp;&nbsp;
+          {% endif %}
       {% else %}
-        &nbsp;&nbsp;
+          {% if post.likes.size > 0 %}
+            {{post.likes.size}}
+          {% else %}
+            &nbsp;&nbsp;
+          {% endif %}
       {% endif %}
     </span>
   {% endif %}

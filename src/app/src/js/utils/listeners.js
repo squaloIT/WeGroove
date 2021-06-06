@@ -40,9 +40,8 @@ function onClickLikePost(e) {
     return;
   }
 
-  const pid = postWrapper.dataset.pid
-
-  const otherPostLikeButtonsOnThePageWithSamePostID = document.querySelectorAll(`div.post-wrapper[data-pid="${pid}"] button.post-like`)
+  const pid = postWrapper.dataset.retweetId || postWrapper.dataset.pid
+  const otherPostLikeButtonsOnThePageWithSamePostID = document.querySelectorAll(`div.post-wrapper[data-pid="${pid}"] button.post-like, div.post-wrapper[data-retweet-id="${pid}"] button.post-like`)
 
   likePost(pid)
     .then(res => res.json())

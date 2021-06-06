@@ -72,7 +72,7 @@ router.post('/replyTo/:id', checkIsLoggedIn, async (req, res, next) => {
 
 router.put('/like', checkIsLoggedIn, async (req, res) => {
   /** @type { String } postId */
-  const postId = req.body._id;
+  const postId = req.body._id; //! This is always value of real post, not retweet ( secured that on front )
 
   if (!postId) {
     res.status(400).json({
@@ -81,6 +81,17 @@ router.put('/like', checkIsLoggedIn, async (req, res) => {
     });
   }
 
+  const retweetsAndPosts = await PostModel.find({
+    $or: [
+      {
+        _id: postId
+      }, {
+        retweetData: postId
+      }
+    ]
+  }).lean();
+  const ids = retweetsAndPosts.map(p => p._id);
+
   /** @type { String } userId */
   const userId = req.session.user._id;
 
@@ -88,17 +99,18 @@ router.put('/like', checkIsLoggedIn, async (req, res) => {
   const isLiked = req.session.user.likes && req.session.user.likes.includes(postId)
 
   /** @type { String } option */
-  const option = isLiked ? "$pull" : "$addToSet";
+  let option = isLiked ? "$pullAll" : "$addToSet";
 
   /** @type { user } newUserWithLikes */
   const newUserWithLikes = await UserModel.findByIdAndUpdate(userId, {
     [option]: {
-      likes: postId
+      likes: ids
     }
   }, { new: true })
 
   req.session.user = newUserWithLikes;
 
+  option = isLiked ? "$pull" : "$addToSet";
   /** @type { post } newPostWithLikes */
   const newPostWithLikes = await PostModel.findByIdAndUpdate(postId, {
     [option]: {
