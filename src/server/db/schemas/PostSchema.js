@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const UserModel = require('./UserSchema');
 const moment = require('moment');
+const { createFiltersForSelectedTab, getNumberOfCommentsForPost } = require('../../utils');
 require('./../../typedefs')
 
 const PostSchema = new mongoose.Schema({
@@ -13,21 +14,25 @@ const PostSchema = new mongoose.Schema({
   replyTo: { type: mongoose.Schema.Types.ObjectId, ref: 'Post' },
 }, { timestamps: true });
 
+PostSchema.pre('find', function (next) {
+  this.populate('postedBy')
+  this.populate('retweetData')
+  this.populate('replyTo');
+  next()
+})
+
 /** @returns post[] */
 PostSchema.statics.getAllPosts = async () => {
   /** @type { post[] } allPosts */
   var allPosts = await PostModel
     .find()
-    .populate('postedBy') //* This is enough. No need for the line beneath 
-    .populate('retweetData')
-    .populate('replyTo')
     .sort({ "createdAt": "-1" })
     .lean()
   //.lean gives me JS object instead of mongoose model which was the case without .lean
 
   allPosts = allPosts.map(post => ({
     ...post,
-    numOfComments: allPosts.filter(p => post._id.toString() == p.replyTo?._id.toString()).length
+    numOfComments: getNumberOfCommentsForPost(allPosts, post)
   }))
 
   /** @type { post[] } allPosts */
@@ -39,47 +44,17 @@ PostSchema.statics.getAllPosts = async () => {
 
 /** @returns post[] */
 PostSchema.statics.findAllUserPosts = async (userId, filterTab = false) => {
-  const filterObj = {};
 
   /** @type { post[] } allPosts */
   const allPosts = await PostModel
     .find()
-    .populate('postedBy') //* This is enough. No need for the line beneath 
-    .populate('retweetData')
-    .populate('replyTo')
     .sort({ "createdAt": "-1" })
     .lean();
 
-  if (!filterTab) {
-    filterObj.postedBy = userId;
-    filterObj.replyTo = {
-      $exists: false
-    }
-  } else {
-    if (filterTab == 'posts') {
-      filterObj.postedBy = userId;
-      filterObj.replyTo = {
-        $exists: false
-      }
-    }
-
-    if (filterTab == 'likes') {
-      filterObj.likes = userId;
-    }
-
-    if (filterTab == 'replies') {
-      filterObj.postedBy = userId;
-      filterObj.replyTo = {
-        $exists: true
-      }
-    }
-  }
+  const filterObj = createFiltersForSelectedTab(userId, filterTab);
 
   var allPostsForFilters = await PostModel
     .find({ ...filterObj })
-    .populate('postedBy') //* This is enough. No need for the line beneath 
-    .populate('retweetData')
-    .populate('replyTo')
     .sort({ "createdAt": "-1" })
     .lean()
 
@@ -95,13 +70,13 @@ PostSchema.statics.findAllUserPosts = async (userId, filterTab = false) => {
           ...post.retweetData,
           fromNow: moment(post.retweetData.createdAt).fromNow()
         },
-        numOfComments: allPosts.filter(p => post._id.toString() == p.replyTo?._id.toString()).length
+        numOfComments: getNumberOfCommentsForPost(allPosts, post)
       }
     } else {
       return {
         ...post,
         fromNow: moment(post.createdAt).fromNow(),
-        numOfComments: allPosts.filter(p => post._id.toString() == p.replyTo?._id.toString()).length
+        numOfComments: getNumberOfCommentsForPost(allPosts, post)
       }
     }
   });
@@ -113,12 +88,12 @@ PostSchema.statics.getPostWithID = async (_id) => {
   /** @type { post } */
   const post = await PostModel.findById(_id)
     .populate('postedBy')
-    // .populate('likes')
     .populate('retweetUsers')
     .lean()
     .catch(err => {
       console.error(err);
     })
+
   post.time = moment(post.createdAt).format("H:m A")
   post.date = moment(post.createdAt).format("MMM D, YYYY")
 
@@ -129,7 +104,6 @@ PostSchema.statics.getPostWithID = async (_id) => {
 PostSchema.statics.getRepliesForPost = async (_id) => {
   /** @type { Array.<post> } */
   const replies = await PostModel.find({ replyTo: _id })
-    .populate('postedBy')
     .populate('likes')
     .populate('retweetUsers')
     .lean()
