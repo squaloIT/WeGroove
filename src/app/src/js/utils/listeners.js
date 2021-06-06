@@ -1,5 +1,5 @@
-import { likePost, retweetPost, getPostData, replyToPost, deletePostByID, getAllPostsForUserAndSelectedTab } from "./api";
-import { animateButtonAfterClickOnLike, animateButtonAfterClickOnRetweet, showSpinner, hideSpinner, findPostWrapperElement, openModal, createPostsForData, toggleButtonAvailability, toggleScrollForTextarea } from "./dom-manipulation";
+import { likePost, retweetPost, getPostData, replyToPost, deletePostByID } from "./api";
+import { animateButtonAfterClickOnLike, animateButtonAfterClickOnRetweet, showSpinner, hideSpinner, findPostWrapperElement, openModal, toggleButtonAvailability, toggleScrollForTextarea } from "./dom-manipulation";
 
 /**
  * @param {Event} e 
@@ -40,7 +40,7 @@ function onClickLikePost(e) {
     return;
   }
 
-  const pid = postWrapper.dataset.retweetId || postWrapper.dataset.pid
+  const pid = getPostIdForWrapper(postWrapper)
   const otherPostLikeButtonsOnThePageWithSamePostID = document.querySelectorAll(`div.post-wrapper[data-pid="${pid}"] button.post-like, div.post-wrapper[data-retweet-id="${pid}"] button.post-like`)
 
   likePost(pid)
@@ -67,7 +67,7 @@ function onClickRetweetPost(e) {
     return;
   }
 
-  let pid = postWrapper.dataset.retweetId || postWrapper.dataset.pid;
+  let pid = getPostIdForWrapper(postWrapper);
 
   retweetPost(pid)
     .then(res => res.json())
@@ -150,7 +150,7 @@ function onPostWrapperClick(e) {
     return;
   }
 
-  const pid = postWrapper.dataset.pid;
+  const pid = getPostIdForWrapper(postWrapper);
 
   if (pid) {
     window.location.href = '/post/' + pid;
@@ -216,6 +216,13 @@ function removeUIRetweetedIndication(retweetWrapper) {
 
   span.innerHTML = (numOfRetweets - 1) == 0 ? '&nbsp;&nbsp;' : numOfRetweets - 1;
   span.classList.remove('text-retweet-button-green')
+}
+/**
+ * @param {HTMLElement} postWrapper 
+ * @returns { string }
+ */
+function getPostIdForWrapper(postWrapper) {
+  return postWrapper.dataset.retweetId || postWrapper.dataset.pid
 }
 
 export {
