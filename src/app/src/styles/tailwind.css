@@ -324,6 +324,9 @@ div.tab-container:hover {
 div.tab-container:hover span {
 	color: rgba(50,106,218,1);
 }
+div.button-comment-wrapper button.comment-button:hover + span {
+	color: rgb(29, 161, 242)
+}
 div.tab-container span {
 	color: rgba(28,29,29,1);
 }
