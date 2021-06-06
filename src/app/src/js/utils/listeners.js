@@ -159,7 +159,7 @@ function onClickDeletePost(e) {
     .then(data => {
       if (data.status === 204) {
         postWrapper.classList.add('animate__bounceOutRight')
-        const postsToBeRemovedFromDOM = document.querySelectorAll(`div.post-wrapper[data-pid="${pid}"]`)
+        const postsToBeRemovedFromDOM = document.querySelectorAll(`div.post-wrapper[data-pid="${pid}"], div.post-wrapper[data-retweet-id="${pid}"]`)
 
         Array.from(postsToBeRemovedFromDOM).forEach(el => {
           el.classList.add('animate__bounceOutRight')
@@ -168,6 +168,20 @@ function onClickDeletePost(e) {
         setTimeout(() => {
           Array.from(postsToBeRemovedFromDOM).forEach(el => {
             el.remove()
+
+            if (data.retweetedPost) {
+              const retweetWrapper = document.querySelector(`div.post-wrapper[data-pid='${data.retweetedPost}'] div.button-retweet-wrapper`);
+              const retweetSVG = retweetWrapper.querySelector('svg.retweet-icon');
+
+              retweetSVG.classList.remove('text-retweet-button-green');
+              retweetSVG.classList.remove('filled');
+
+              const span = retweetWrapper.querySelector('span.retweet-num')
+              const numOfRetweets = span.innerText;
+
+              span.innerHTML = (numOfRetweets - 1) == 0 ? '&nbsp;&nbsp;' : numOfRetweets - 1;
+              span.classList.remove('text-retweet-button-green')
+            }
           })
         }, 420)
       }

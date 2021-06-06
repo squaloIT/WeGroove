@@ -1,7 +1,8 @@
 {% assign user = post.retweetData.postedBy %}
-{% assign postID = post.retweetData._id %}
+{% assign postID = post._id %}
+{% assign retweetID = post.retweetData._id %}
 
-<div class='post-wrapper animate__animated w-full border-b border-super-light-gray-border pb-3 pt-2 px-8' data-pid="{{postID}}">
+<div class='post-wrapper animate__animated w-full border-b border-super-light-gray-border pb-3 pt-2 px-8' data-pid="{{postID}}" data-retweet-id="{{retweetID}}">
   <div class='w-full pb-1 px-2 flex items-center'>
     <div class='w-8/12 pl-2 cursor-default'>
       <p class='text-gray-500 text-base font-semibold'>

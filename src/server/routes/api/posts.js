@@ -191,6 +191,9 @@ router.get('/:id', checkIsLoggedIn, async (req, res) => {
 })
 
 router.delete('/delete/:id', checkIsLoggedIn, async (req, res) => {
+  /** @type { String } userId */
+  const userId = req.session.user._id;
+
   /** @type { post } */
   const post = await PostModel.findByIdAndDelete(req.params.id)
     .catch(err => {
@@ -211,17 +214,30 @@ router.delete('/delete/:id', checkIsLoggedIn, async (req, res) => {
         })
       })
 
+    if (post.retweetData) {
+      await PostModel.findByIdAndUpdate(post.retweetData, {
+        $pull: { retweetUsers: userId }
+      })
+    }
+
+    await UserModel.updateMany({}, { $pull: { likes: post._id } })
+    await UserModel.updateMany({}, { $pull: { retweets: post._id } })
+
+    req.session.user = await UserModel.findById(userId)
+
     return res.status(200).json({
       msg: "Successfully deleted post",
       status: 204,
-      data: post
+      data: post,
+      retweetedPost: post.retweetData ? post.retweetData : null
     })
   }
 
   return res.status(200).json({
     msg: "There was no post to be deleted",
     status: 200,
-    data: post
+    data: post,
+    retweetedPost: null
   })
 })
 
