@@ -84,15 +84,16 @@ function addNewPost(targetElement, postId, content, user, createdAt, method = 'p
 /**
  * Recursively finds data-pid prop
  * @param { HTMLElement } element 
+ * @param { string } className 
  * @param { boolean } withoutPID 
  * @returns { boolean | HTMLElement }
  */
-function findPostWrapperElement(element, withoutPID = false) {
+function findPostWrapperElement(element, className, withoutPID = false) {
   if (['body', 'head', 'html'].includes(element.tagName.toLowerCase())) {
     return false;
   }
 
-  if (element.tagName.toLowerCase() == 'div' && element.classList.contains('post-wrapper')) {
+  if (element.tagName.toLowerCase() == 'div' && element.classList.contains(className)) {
     if (withoutPID) {
       return element
     }
@@ -106,7 +107,7 @@ function findPostWrapperElement(element, withoutPID = false) {
     return element;
   }
 
-  return findPostWrapperElement(element.parentElement, withoutPID);
+  return findPostWrapperElement(element.parentElement, className, withoutPID);
 }
 
 /**
@@ -238,7 +239,7 @@ function setSeparatorHeightForAllReplies() {
   Array.from(
     document.querySelectorAll("div.posts-comment-wrapper")
   ).forEach(el => {
-    const postWrapper = findPostWrapperElement(el, true)
+    const postWrapper = findPostWrapperElement(el, 'post-wrapper', true)
     const lineSeparator = postWrapper.querySelector('div.images-wrapper div.left-column__line-separator')
     const postOriginal = postWrapper.querySelector('div.original-post')
     lineSeparator.style.height = (postOriginal.offsetHeight / 2)

@@ -33,7 +33,7 @@ function onClickCommentButton(e) {
 function onClickLikePost(e) {
   e.stopPropagation();
   const likeButton = e.target;
-  const postWrapper = findPostWrapperElement(likeButton);
+  const postWrapper = findPostWrapperElement(likeButton, 'post-wrapper');
 
   if (!postWrapper) {
     alert("Couldnt find post id")
@@ -60,7 +60,7 @@ function onClickRetweetPost(e) {
   e.stopPropagation()
   const button = e.target;
   /** @type { HTMLElement } */
-  const postWrapper = findPostWrapperElement(button);
+  const postWrapper = findPostWrapperElement(button, 'post-wrapper');
 
   if (!postWrapper) {
     alert("Couldnt find post id")
@@ -102,7 +102,7 @@ function onClickRetweetPost(e) {
 function onClickCommentPost(e) {
   e.stopPropagation()
   const button = e.target;
-  const postWrapper = findPostWrapperElement(button);
+  const postWrapper = findPostWrapperElement(button, 'post-wrapper');
 
   if (!postWrapper) {
     alert("Couldnt find post id")
@@ -143,7 +143,7 @@ const createFunctionToCloseModal = (modal, taReply) => () => {
  * @param {Event} e 
  */
 function onPostWrapperClick(e) {
-  const postWrapper = findPostWrapperElement(e.target);
+  const postWrapper = findPostWrapperElement(e.target, 'post-wrapper');
 
   if (!postWrapper) {
     alert("Couldnt find post id!")
@@ -165,7 +165,7 @@ function onPostWrapperClick(e) {
  */
 function onClickDeletePost(e) {
   e.stopPropagation();
-  const postWrapper = findPostWrapperElement(e.target);
+  const postWrapper = findPostWrapperElement(e.target, 'post-wrapper');
 
   if (!postWrapper) {
     alert("Couldn't find post with that id")
