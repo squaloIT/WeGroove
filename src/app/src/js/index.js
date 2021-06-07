@@ -1,5 +1,5 @@
 import { createPost } from './utils/api';
-import { disableButton, enableButton, addNewPost, showSpinner, hideSpinner } from './utils/dom-manipulation';
+import { disableButton, enableButton, addNewPost, showSpinner, hideSpinner, setSeparatorHeightForAllReplies } from './utils/dom-manipulation';
 import { onClickLikePost, onClickRetweetPost, onClickCommentPost, onClickCommentButton, onPostWrapperClick, onClickDeletePost } from './utils/listeners';
 
 export default function index() {
@@ -73,6 +73,8 @@ export default function index() {
   ).forEach(el => {
     el.addEventListener('click', onClickDeletePost)
   })
+
+  setSeparatorHeightForAllReplies()
 
   /**
   * @param {Event} e 

@@ -84,14 +84,19 @@ function addNewPost(targetElement, postId, content, user, createdAt, method = 'p
 /**
  * Recursively finds data-pid prop
  * @param { HTMLElement } element 
+ * @param { boolean } withoutPID 
  * @returns { boolean | HTMLElement }
  */
-function findPostWrapperElement(element) {
+function findPostWrapperElement(element, withoutPID = false) {
   if (['body', 'head', 'html'].includes(element.tagName.toLowerCase())) {
     return false;
   }
 
   if (element.tagName.toLowerCase() == 'div' && element.classList.contains('post-wrapper')) {
+    if (withoutPID) {
+      return element
+    }
+
     const pid = element.dataset.pid;
 
     if (!pid) {
@@ -101,7 +106,7 @@ function findPostWrapperElement(element) {
     return element;
   }
 
-  return findPostWrapperElement(element.parentElement);
+  return findPostWrapperElement(element.parentElement, withoutPID);
 }
 
 /**
@@ -229,6 +234,19 @@ function toggleScrollForTextarea(e, postBtn) {
   e.target.style.height = `${e.target.scrollHeight} `;
 }
 
+function setSeparatorHeightForAllReplies() {
+  Array.from(
+    document.querySelectorAll("div.posts-comment-wrapper")
+  ).forEach(el => {
+    const postWrapper = findPostWrapperElement(el, true)
+    const lineSeparator = postWrapper.querySelector('div.images-wrapper div.left-column__line-separator')
+    const postOriginal = postWrapper.querySelector('div.original-post')
+    lineSeparator.style.height = (postOriginal.offsetHeight / 2)
+  })
+}
+
+
+
 export {
   enableButton,
   disableButton,
@@ -240,5 +258,6 @@ export {
   animateButtonAfterClickOnRetweet,
   toggleButtonAvailability,
   toggleScrollForTextarea,
+  setSeparatorHeightForAllReplies,
   openModal
 }
