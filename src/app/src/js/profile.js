@@ -1,3 +1,4 @@
+import { setSeparatorHeightForAllReplies } from "./utils/dom-manipulation"
 import { onClickCommentButton, onClickCommentPost, onClickDeletePost, onClickLikePost, onClickRetweetPost, onPostWrapperClick } from "./utils/listeners"
 
 export default function profile() {
@@ -26,4 +27,5 @@ export default function profile() {
     el.addEventListener('click', onClickDeletePost)
   })
 
+  setSeparatorHeightForAllReplies()
 }
