@@ -1,0 +1,48 @@
+<div class="profile-pictures-wrapper">
+  <div class="profile-pictures-container">
+    <div class='profile-cover-picture w-full'>
+      <img src='{{userProfile.coverPic}}' alt='Cover' class='w-full' />
+    </div>
+    
+    <div class='profile-pictures flex justify-end items-end relative px-3'>
+      <div class="profile-picture-container rounded-full border-2 border-white w-40 h-40 absolute -top-20 left-4">
+        <img src="{{userProfile.profilePic}}" alt="User profile picture" class='w-full rounded-full border-2 hover:cursor-pointer hover:bg-opacity-90' />
+      </div>
+
+      <div class='profile-pictures-buttons'>
+        <div class='flex justify-items-end space-x-5 mt-5'>
+
+        {% if userProfile._id == user._id %}
+
+          <button data-user-id="{{userProfile._id}}" class='cursor-pointer bg-opacity-75 edit-profile-button text-base font-normal rounded-xl bg-[#1DA1F2] text-white outline-none px-3 py-2 hover:bg-[#1DA1F2] hover:bg-opacity-100 focus:outline-none focus:ring-2 focus:bg-[#1DA1F2] focus:ring-opacity-50'>
+            <span class='comment-button__label pointer-events-none'>Edit profile</span>
+          </button>
+
+        {% else %}
+
+          <button data-user-id="{{userProfile._id}}" class='cursor-pointer border-2 border-[#1DA1F2] white-text-onHover-button text-lg font-normal rounded-xl bg-white outline-none px-3 py-2 hover:bg-[#1DA1F2]'>
+            <span class='pointer-events-none text-[#1DA1F2]'>
+              <i class="fas fa-envelope"></i>
+            </span>
+          </button>
+
+          {% if user.following contains userProfile._id %}
+            
+            <button data-user-id="{{userProfile._id}}" class='blue-text-onHover-button cursor-pointer edit-profile-button text-base font-semibold border-2 border-[#1DA1F2] rounded-xl outline-none px-3 py-2 bg-[#1DA1F2] text-white hover:bg-white'>
+              <span class='comment-button__label pointer-events-none'>Following</span>
+            </button>
+
+          {% else %}
+ 
+            <button data-user-id="{{userProfile._id}}" class='white-text-onHover-button cursor-pointer edit-profile-button text-base rounded-xl outline-none px-3 py-2 bg-white text-[#1DA1F2] border-2 border-[#1DA1F2] font-semibold hover:bg-[#1DA1F2]'>
+              <span class='pointer-events-none'>Follow</span>
+            </button>
+
+          {% endif %}
+        {% endif %}
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>

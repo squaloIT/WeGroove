@@ -19,7 +19,7 @@
           {% render 'post_page_layout', user: user, post: post, repliesForPost: repliesForPost, title: title %}
         
         {% elsif page == 'profile' %}
-          {% render 'profile_page_layout', user: user, active: active, posts: posts %}
+          {% render 'profile_page_layout', user: user, userProfile: userProfile, active: active, posts: posts %}
 
         {% else %}
           {% render 'post', post: post, user: user %}

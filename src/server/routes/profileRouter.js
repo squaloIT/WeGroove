@@ -22,7 +22,8 @@ router.get('/:username', async (req, res, next) => {
     title: user.username,
     posts: allUserPosts,
     active: "Posts",
-    user
+    userProfile: user,
+    user: req.session.user
   })
 })
 
@@ -45,7 +46,8 @@ router.get('/:username/:tab', async (req, res, next) => {
     title: user.username,
     posts: allUserPosts,
     active: req.params.tab,
-    user
+    userProfile: user,
+    user: req.session.user
   })
 })
 
