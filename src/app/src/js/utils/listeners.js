@@ -1,5 +1,5 @@
 import { likePost, retweetPost, getPostData, replyToPost, deletePostByID } from "./api";
-import { animateButtonAfterClickOnLike, animateButtonAfterClickOnRetweet, showSpinner, hideSpinner, findPostWrapperElement, openModal, toggleButtonAvailability, toggleScrollForTextarea } from "./dom-manipulation";
+import { animateButtonAfterClickOnLike, animateButtonAfterClickOnRetweet, showSpinner, hideSpinner, findPostWrapperElement, openModal, toggleButtonAvailability, toggleScrollForTextarea, getPostIdForWrapper } from "./dom-manipulation";
 
 /**
  * @param {Event} e 
@@ -32,8 +32,8 @@ function onClickCommentButton(e) {
  */
 function onClickLikePost(e) {
   e.stopPropagation();
-  const likeButton = e.target;
-  const postWrapper = findPostWrapperElement(likeButton, 'post-wrapper');
+  const button = e.target;
+  const postWrapper = findPostWrapperElement(button, 'post-wrapper') || findPostWrapperElement(button, 'original-post') || findPostWrapperElement(button, 'comment-post');
 
   if (!postWrapper) {
     alert("Couldnt find post id")
@@ -41,7 +41,7 @@ function onClickLikePost(e) {
   }
 
   const pid = getPostIdForWrapper(postWrapper)
-  const otherPostLikeButtonsOnThePageWithSamePostID = document.querySelectorAll(`div.post-wrapper[data-pid="${pid}"] button.post-like, div.post-wrapper[data-retweet-id="${pid}"] button.post-like`)
+  const otherPostLikeButtonsOnThePageWithSamePostID = document.querySelectorAll(`div.post-wrapper[data-pid="${pid}"] button.post-like, div.post-wrapper[data-retweet-id="${pid}"] button.post-like, div.original-post[data-pid="${pid}"] button.post-like, div.comment-post[data-pid="${pid}"] button.post-like`)
 
   likePost(pid)
     .then(res => res.json())
@@ -60,7 +60,7 @@ function onClickRetweetPost(e) {
   e.stopPropagation()
   const button = e.target;
   /** @type { HTMLElement } */
-  const postWrapper = findPostWrapperElement(button, 'post-wrapper');
+  const postWrapper = findPostWrapperElement(button, 'post-wrapper') || findPostWrapperElement(button, 'original-post') || findPostWrapperElement(button, 'comment-post');
 
   if (!postWrapper) {
     alert("Couldnt find post id")
@@ -102,7 +102,7 @@ function onClickRetweetPost(e) {
 function onClickCommentPost(e) {
   e.stopPropagation()
   const button = e.target;
-  const postWrapper = findPostWrapperElement(button, 'post-wrapper');
+  const postWrapper = findPostWrapperElement(button, 'post-wrapper') || findPostWrapperElement(button, 'original-post') || findPostWrapperElement(button, 'comment-post');
 
   if (!postWrapper) {
     alert("Couldnt find post id")
@@ -143,7 +143,8 @@ const createFunctionToCloseModal = (modal, taReply) => () => {
  * @param {Event} e 
  */
 function onPostWrapperClick(e) {
-  const postWrapper = findPostWrapperElement(e.target, 'post-wrapper');
+  const postWrapper = findPostWrapperElement(e.target, 'post-wrapper') || findPostWrapperElement(e.target, 'original-post') || findPostWrapperElement(e.target, 'comment-post');
+
 
   if (!postWrapper) {
     alert("Couldnt find post id!")
@@ -165,7 +166,7 @@ function onPostWrapperClick(e) {
  */
 function onClickDeletePost(e) {
   e.stopPropagation();
-  const postWrapper = findPostWrapperElement(e.target, 'post-wrapper');
+  const postWrapper = findPostWrapperElement(e.target, 'post-wrapper') || findPostWrapperElement(e.target, 'original-post') || findPostWrapperElement(e.target, 'comment-post');
 
   if (!postWrapper) {
     alert("Couldn't find post with that id")
@@ -216,13 +217,6 @@ function removeUIRetweetedIndication(retweetWrapper) {
 
   span.innerHTML = (numOfRetweets - 1) == 0 ? '&nbsp;&nbsp;' : numOfRetweets - 1;
   span.classList.remove('text-retweet-button-green')
-}
-/**
- * @param {HTMLElement} postWrapper 
- * @returns { string }
- */
-function getPostIdForWrapper(postWrapper) {
-  return postWrapper.dataset.retweetId || postWrapper.dataset.pid
 }
 
 export {

@@ -93,7 +93,12 @@ function findPostWrapperElement(element, className, withoutPID = false) {
     return false;
   }
 
-  if (element.tagName.toLowerCase() == 'div' && element.classList.contains(className)) {
+  if (
+    element.tagName.toLowerCase() == 'div' &&
+    element.classList.contains(className) && (
+      withoutPID ||
+      getPostIdForWrapper(element)
+    )) {
     if (withoutPID) {
       return element
     }
@@ -109,7 +114,13 @@ function findPostWrapperElement(element, className, withoutPID = false) {
 
   return findPostWrapperElement(element.parentElement, className, withoutPID);
 }
-
+/**
+ * @param {HTMLElement} postWrapper 
+ * @returns { string }
+ */
+function getPostIdForWrapper(postWrapper) {
+  return postWrapper.dataset.retweetId || postWrapper.dataset.pid
+}
 /**
  * Hides spinner inside of button for posting new post
  * @param {HTMLElement} postButtonLabel 
@@ -260,5 +271,6 @@ export {
   toggleButtonAvailability,
   toggleScrollForTextarea,
   setSeparatorHeightForAllReplies,
+  getPostIdForWrapper,
   openModal
 }
