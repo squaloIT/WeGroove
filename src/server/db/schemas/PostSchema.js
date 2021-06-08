@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const UserModel = require('./UserSchema');
 const moment = require('moment');
-const { createFiltersForSelectedTab, getNumberOfCommentsForPost } = require('../../utils');
+const { createFiltersForSelectedTab, getNumberOfCommentsForPost, fillPostAdditionalFields } = require('../../utils');
 require('./../../typedefs')
 
 const PostSchema = new mongoose.Schema({
@@ -38,6 +38,7 @@ PostSchema.statics.getAllPosts = async () => {
   /** @type { post[] } allPosts */
   var postsWithPostedByPopulated = await UserModel.populate(allPosts, { path: 'retweetData.postedBy' });
   postsWithPostedByPopulated = await UserModel.populate(postsWithPostedByPopulated, { path: 'replyTo.postedBy' });
+  postsWithPostedByPopulated = postsWithPostedByPopulated.map(post => fillPostAdditionalFields(post, allPosts));
 
   return postsWithPostedByPopulated;
 }
@@ -61,25 +62,7 @@ PostSchema.statics.findAllUserPosts = async (userId, filterTab = false) => {
   /** @type { post[] } allPosts */
   var postsWithPostedByPopulated = await UserModel.populate(allPostsForFilters, { path: 'retweetData.postedBy' });
 
-  const allPostsWithFromNow = postsWithPostedByPopulated.map(post => {
-    if (post.retweetData) {
-      return {
-        ...post,
-        fromNow: moment(post.createdAt).fromNow(),
-        retweetData: {
-          ...post.retweetData,
-          fromNow: moment(post.retweetData.createdAt).fromNow()
-        },
-        numOfComments: getNumberOfCommentsForPost(allPosts, post)
-      }
-    } else {
-      return {
-        ...post,
-        fromNow: moment(post.createdAt).fromNow(),
-        numOfComments: getNumberOfCommentsForPost(allPosts, post)
-      }
-    }
-  });
+  const allPostsWithFromNow = postsWithPostedByPopulated.map(post => fillPostAdditionalFields(post, allPosts));
   return allPostsWithFromNow;
 }
 
