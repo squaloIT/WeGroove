@@ -5,6 +5,7 @@
  * @property { String } user.email
  * @property { String } user.password
  * @property { String } user.profilePic
+ * @property { String } user.description
  * @property { String } user.firstName
  * @property { String } user.lastName
  * @property { Array.<post> | Array.<String> } user.likes

@@ -3,7 +3,7 @@
     <h1
       class="text-brand-purple font-bold tracking-wider text-3xl font-lobster ">
       {{user.username}}</h1>
-    <p class='text-base text-gray-500 '>22 Posts</p>
+    <p class='text-base text-gray-500 '>{{posts.size}} Posts</p>
   </div>
 
   <div class="profile-pictures-wrapper">
@@ -36,7 +36,7 @@
     </div>
 
     <div class='profile-info-description mb-2'>
-      <p class='text-dark-gray-for-text text-base'>Juventus fan ⬛⬜ Compiled by JavaScripts V8 engine </p>
+      <p class='text-dark-gray-for-text text-base'>{{user.description}}</p>
     </div>
     <div class='profile-info-joined mb-3'>
       <p class='text-mid-gray-for-text flex items-center'>
@@ -50,6 +50,7 @@
         </span>
       </p>
     </div>
+
     <div class='following-info-wrapper flex justify-start mb-5'>
        <div class='profile-info-following'>
         <p class='text-base '>

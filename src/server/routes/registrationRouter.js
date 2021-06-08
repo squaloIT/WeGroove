@@ -41,6 +41,7 @@ router.post('/', async (req, res, next) => {
         username: user.username,
         password: hash,
         email: user.email,
+        description: user.description,
         firstName: user.firstName,
         lastName: user.lastName
       })
