@@ -28,7 +28,7 @@ router.get("/", async (req, res, next) => {
       }
     }
   });
-
+  console.log(JSON.stringify(user))
   res.status(200).render('main', {
     page: 'home',
     title: "Home",

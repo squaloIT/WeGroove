@@ -93,6 +93,16 @@ function getAllPostsForUserAndSelectedTab(tabId) {
     .then(res => res.json())
 }
 
+function followOrUnfollowUser(profileId, action) {
+  return fetch(`${process.env.SERVER_URL_DEV}/profile/${action}/${profileId}`, {
+    method: 'POST',
+    headers: {
+      "Content-Type": "application/json"
+    }
+  })
+    .then(res => res.json())
+}
+
 export {
   createPost,
   likePost,
@@ -100,5 +110,6 @@ export {
   getPostData,
   replyToPost,
   deletePostByID,
+  followOrUnfollowUser,
   getAllPostsForUserAndSelectedTab
 }

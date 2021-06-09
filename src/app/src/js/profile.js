@@ -1,5 +1,5 @@
 import { setSeparatorHeightForAllReplies } from "./utils/dom-manipulation"
-import { onClickCommentButton, onClickCommentPost, onClickDeletePost, onClickLikePost, onClickRetweetPost, onPostWrapperClick } from "./utils/listeners"
+import { onClickCommentButton, onClickCommentPost, onClickDeletePost, onClickLikePost, onClickRetweetPost, onFollowOrUnfollowClick, onPostWrapperClick } from "./utils/listeners"
 
 export default function profile() {
   document.querySelector('div.reply-button-wrapper button.reply-comment-button')
@@ -26,6 +26,13 @@ export default function profile() {
   ).forEach(el => {
     el.addEventListener('click', onClickDeletePost)
   })
+
+  Array.from(
+    document.querySelectorAll('div#profile div.profile-pictures-container button.following-unfollowing')
+  ).forEach(el => {
+    el.addEventListener('click', e => onFollowOrUnfollowClick(e, e.target.classList.contains('follow-button') ? 'follow' : 'unfollow'))
+  })
+
 
   setSeparatorHeightForAllReplies()
 }

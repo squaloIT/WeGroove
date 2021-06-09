@@ -314,6 +314,30 @@ div.tab-container.active span {
 div.profile-pictures-buttons button.white-text-onHover-button:hover span {
 	color:#fff;
 }
-div.profile-pictures-buttons button.blue-text-onHover-button:hover span {
+div.profile-pictures-buttons button.unfollow-button:hover span {
 	color:#1DA1F2;
+}
+div.profile-pictures-buttons button.unfollow-button:hover {
+	background-color:#fff
+}
+div.profile-pictures-buttons button.unfollow-button {
+	color:#fff;
+	border-width: 2px;
+	border-color: rgba(29, 161, 242, 1);
+	background-color:rgba(29, 161, 242, 1);
+}
+
+div.profile-pictures-buttons button.follow-button:hover span, div.profile-pictures-buttons button.edit-profile-button:hover span {
+	color:#fff;
+}
+
+div.profile-pictures-buttons button.follow-button:hover, div.profile-pictures-buttons button.edit-profile-button:hover {
+	background-color:rgba(29, 161, 242, 1);
+}
+
+div.profile-pictures-buttons button.follow-button, div.profile-pictures-buttons button.edit-profile-button {
+	border-width: 2px;
+	border-color: rgba(29, 161, 242, 1);
+	background-color:#fff;
+	color:rgb(29, 160, 242);
 }

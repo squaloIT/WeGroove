@@ -10,6 +10,8 @@
  * @property { String } user.lastName
  * @property { Array.<post> | Array.<String> } user.likes
  * @property { Array.<post> | Array.<String> } user.retweets
+ * @property { Array.<user> | Array.<String> } user.following
+ * @property { Array.<user> | Array.<String> } user.followers
  * @property { String } user.createdAt
  * @property { String } user.updatedAt
 */

@@ -62,6 +62,8 @@ UserSchema.methods.getDataForSession = function () {
     username: user.username,
     email: user.email,
     profilePic: user.profilePic,
+    following: user.following,
+    followers: user.followers,
     firstName: user.firstName,
     lastName: user.lastName,
     _id: user._id

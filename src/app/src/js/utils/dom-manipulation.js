@@ -123,24 +123,24 @@ function getPostIdForWrapper(postWrapper) {
 }
 /**
  * Hides spinner inside of button for posting new post
- * @param {HTMLElement} postButtonLabel 
- * @param {HTMLElement} postButtonSpinner 
+ * @param {HTMLElement} label 
+ * @param {HTMLElement} spinner 
  */
-function hideSpinner(postButtonLabel, postButtonSpinner) {
-  disableButton(postButtonSpinner.parentElement);
-  postButtonLabel.classList.remove('hidden')
-  postButtonSpinner.classList.add('hidden')
+function hideSpinner(label, spinner) {
+  enableButton(spinner.parentElement);
+  label.classList.remove('hidden')
+  spinner.classList.add('hidden')
 }
 
 /**
  * Shows spinner inside of button for posting new post
- * @param {HTMLElement} postButtonLabel 
- * @param {HTMLElement} postButtonSpinner 
+ * @param {HTMLElement} label 
+ * @param {HTMLElement} spinner 
  */
-function showSpinner(postButtonLabel, postButtonSpinner) {
-  postButtonLabel.classList.add('hidden')
-  postButtonSpinner.classList.remove('hidden')
-  disableButton(postButtonSpinner.parentElement);
+function showSpinner(label, spinner) {
+  label.classList.add('hidden')
+  spinner.classList.remove('hidden')
+  disableButton(spinner.parentElement);
 }
 
 const toggleClassesForPaths = paths => {
@@ -256,14 +256,26 @@ function setSeparatorHeightForAllReplies() {
     lineSeparator.style.height = (postOriginal.offsetHeight / 2)
   })
 }
+/**
+ * @param {Event} e 
+ * @returns {string}
+ */
+function getProfileIdFromFollowButton(e) {
+  const profileId = e.target.dataset.profileId
 
-
+  if (!profileId) {
+    alert("Profile id is not defined");
+    return
+  }
+  return profileId
+}
 
 export {
   enableButton,
   disableButton,
   addNewPost,
   hideSpinner,
+  getProfileIdFromFollowButton,
   showSpinner,
   findPostWrapperElement,
   animateButtonAfterClickOnLike,

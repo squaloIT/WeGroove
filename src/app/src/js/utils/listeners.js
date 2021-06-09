@@ -1,5 +1,5 @@
-import { likePost, retweetPost, getPostData, replyToPost, deletePostByID } from "./api";
-import { animateButtonAfterClickOnLike, animateButtonAfterClickOnRetweet, showSpinner, hideSpinner, findPostWrapperElement, openModal, toggleButtonAvailability, toggleScrollForTextarea, getPostIdForWrapper } from "./dom-manipulation";
+import { likePost, retweetPost, getPostData, replyToPost, deletePostByID, followOrUnfollowUser } from "./api";
+import { animateButtonAfterClickOnLike, animateButtonAfterClickOnRetweet, showSpinner, hideSpinner, findPostWrapperElement, openModal, toggleButtonAvailability, toggleScrollForTextarea, getPostIdForWrapper, getProfileIdFromFollowButton } from "./dom-manipulation";
 
 /**
  * @param {Event} e 
@@ -219,6 +219,38 @@ function removeUIRetweetedIndication(retweetWrapper) {
   span.classList.remove('text-retweet-button-green')
 }
 
+function onFollowOrUnfollowClick(e, action) {
+  const profileId = getProfileIdFromFollowButton(e);
+
+  const label = e.target.querySelector('span.follow-button__label')
+  const spinner = e.target.querySelector('i.follow-button__spinner')
+
+  showSpinner(label, spinner)
+  var spanToChange = document.querySelector('div.following-info-wrapper span.number-of-followers');
+
+  followOrUnfollowUser(profileId, action)
+    .then(data => {
+      console.log(data);
+      if (e.target.classList.contains('unfollow-button')) {
+        e.target.classList.remove('unfollow-button')
+        e.target.classList.add('follow-button')
+        label.innerText = "Follow";
+        spanToChange.innerText = Number(spanToChange.innerText) - 1;
+      } else {
+        e.target.classList.remove('follow-button')
+        e.target.classList.add('unfollow-button')
+        label.innerText = "Following"
+        spanToChange.innerText = Number(spanToChange.innerText) + 1;
+      }
+
+      hideSpinner(label, spinner)
+    })
+    .catch(err => {
+      console.err(err)
+      alert(`Problem with ${action}, please try again after later thank you.`)
+    })
+}
+
 export {
   onClickLikePost,
   onClickCommentPost,
@@ -227,5 +259,6 @@ export {
   onClickRetweetPost,
   onClickCommentButton,
   onClickDeletePost,
-  onPostWrapperClick
+  onPostWrapperClick,
+  onFollowOrUnfollowClick
 }
