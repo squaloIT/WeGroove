@@ -6,25 +6,29 @@
 <div class='post-wrapper animate__animated w-full border-b border-super-light-gray-border flex flex-row justify-between pb-3' >
   <div class='images-wrapper w-1/12 flex flex-col items-center px-14 pt-2 pb-2'>
       <a href="/profile/{{originalPostPostedByUser.username}}" class='cursor-pointer mb-3'>
-        <div class="post__image-container w-14 h-14 pt-2">
+        {% render 'small_profile_image_rounded', user: originalPostPostedByUser, additionalClasses: 'pt-2' %}
+
+        {% comment %} <div class="post__image-container w-14 h-14 pt-2">
           <img 
             class="rounded-full bg-white" 
             src="{{originalPostPostedByUser.profilePic}}" 
             alt="{{originalPostPostedByUser.username}} profile pic" 
           />
-        </div>
+        </div> {% endcomment %}
       </a>
 
       <div class="left-column__line-separator border bg-[#c4cfd6] border-[#c4cfd6]"></div>
 
       <a href="/profile/{{commentPostedByUser.username}}" class='cursor-pointer'>
+        {% render 'small_profile_image_rounded', user: commentPostedByUser, additionalClasses: 'pt-2' %}
+{% comment %} 
         <div class="post__image-container w-14 h-14 pt-2">
           <img 
             class="rounded-full bg-white" 
             src="{{commentPostedByUser.profilePic}}" 
             alt="{{commentPostedByUser.username}} profile pic" 
           />
-        </div>
+        </div> {% endcomment %}
       </a>
   </div>
   

@@ -23,15 +23,19 @@
     <div class='following-info-wrapper flex justify-start mb-5'>
        <div class='profile-info-following'>
         <p class='text-base '>
-          <span class='number-of-following font-bold'>{{userProfile.following.size}}</span> 
-          <span class='text-mid-gray-for-text'>Following</span>
+          <a class='block w-full' href="/profile/{{userProfile.username}}/following">
+            <span class='number-of-following font-bold'>{{userProfile.following.size}}</span> 
+            <span class='text-mid-gray-for-text'>Following</span>
+          </a>
         </p>
       </div>
 
       <div class='profile-info-followers ml-7'>
         <p class='text-base '>
-          <span class='number-of-followers font-bold'>{{userProfile.followers.size}}</span> 
-          <span class='text-mid-gray-for-text'>Followers</span>
+          <a class='block w-full' href="/profile/{{userProfile.username}}/followers">
+            <span class='number-of-followers font-bold'>{{userProfile.followers.size}}</span> 
+            <span class='text-mid-gray-for-text'>Followers</span>
+          </a>
         </p>
       </div>
     </div>

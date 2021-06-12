@@ -30,11 +30,11 @@ router.post('/:action/:profileId', async (req, res, next) => {
 
   if (req.params.action == 'follow') {
     user.following.push(req.params.profileId)
-    profile.followers.push(req.params.profileId)
+    profile.followers.push(user._id)
   }
   if (req.params.action == 'unfollow') {
     user.following.pull(req.params.profileId)
-    profile.followers.pull(req.params.profileId)
+    profile.followers.pull(user._id)
   }
   Promise.all([
     profile.save(),
@@ -55,6 +55,55 @@ router.post('/:action/:profileId', async (req, res, next) => {
         status: 400
       })
     })
+})
+
+
+router.get('/:username/:tab', async (req, res, next) => {
+  console.log(`req.params`)
+  console.log(req.params)
+  const tab = req.params.tab;
+  const user = await UserModel.findByUsernameOrID(req.params.username)
+    .catch(err => {
+      console.log(err);
+      return res.redirect('/')
+    })
+  console.log("🚀 ~ file: profileRouter.js ~ line 86 ~ router.get ~ user", user)
+
+  if (tab === 'following' || tab === 'followers') {
+    const followingOrFollowers = await UserModel.getAllFollowersOrFollowingForUser(user._id, tab)
+      .catch(err => {
+        console.log(err);
+        return res.redirect('/')
+      })
+
+    console.log("🚀 ~ file: profileRouter.js ~ line 92 ~ router.get ~ tab", tab)
+    console.log("🚀 ~ file: profileRouter.js ~ line 93 ~ router.get ~ followingOrFollowers[tab]", followingOrFollowers[tab])
+    res.render('main', {
+      page: 'followers_page',
+      title: user.username,
+      followingOrFollowers: followingOrFollowers[tab],
+      active: tab,
+      userProfile: user,
+      user: req.session.user
+    })
+  }
+  else {
+    /** @type { post } */
+    const allUserPosts = await PostModel.findAllUserPosts(user._id, tab.toLowerCase())
+      .catch(err => {
+        console.log(err);
+        return res.redirect('/')
+      })
+
+    res.render('main', {
+      page: 'profile',
+      title: user.username,
+      posts: allUserPosts,
+      active: tab,
+      userProfile: user,
+      user: req.session.user
+    })
+  }
 })
 
 router.get('/:username', async (req, res, next) => {
@@ -80,28 +129,5 @@ router.get('/:username', async (req, res, next) => {
   })
 })
 
-router.get('/:username/:tab', async (req, res, next) => {
-  const user = await UserModel.findByUsernameOrID(req.params.username)
-    .catch(err => {
-      console.log(err);
-      return res.redirect('/')
-    })
-
-  /** @type { post } */
-  const allUserPosts = await PostModel.findAllUserPosts(user._id, req.params.tab.toLowerCase())
-    .catch(err => {
-      console.log(err);
-      return res.redirect('/')
-    })
-
-  res.render('main', {
-    page: 'profile',
-    title: user.username,
-    posts: allUserPosts,
-    active: req.params.tab,
-    userProfile: user,
-    user: req.session.user
-  })
-})
 
 module.exports = router;

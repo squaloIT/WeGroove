@@ -72,5 +72,15 @@ UserSchema.methods.getDataForSession = function () {
   return payload
 }
 
+UserSchema.statics.getAllFollowersOrFollowingForUser = async (userId, select) => {
+  /** @type { user } */
+  let followersAndFollowing = await UserModel.findById(userId)
+    .populate(select)
+    .select(select)
+    .lean()
+
+  return followersAndFollowing;
+};
+
 const UserModel = mongoose.model("User", UserSchema)
 module.exports = UserModel

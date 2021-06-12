@@ -1,0 +1,9 @@
+{% render 'small_profile_image_rounded', user: follow %}
+
+<div class='info ml-6 font-roboto'>
+  <a href="/profile/{{follow.username}}">
+    <p class='full-name font-bold'>{{follow.firstName}} {{follow.lastName}}</p>
+    <p class='username text-brand-dark-gray'>@{{follow.username}}</p>
+    <p class='description'>{{follow.description}}</p>
+  </a>
+</div>

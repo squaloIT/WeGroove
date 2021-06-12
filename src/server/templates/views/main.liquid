@@ -20,6 +20,9 @@
         
         {% elsif page == 'profile' %}
           {% render 'profile_page_layout', user: user, userProfile: userProfile, active: active, posts: posts %}
+        
+        {% elsif page == 'followers_page' %}
+          {% render 'followers_page_layout', user: user, userProfile: userProfile, active: active, followingOrFollowers: followingOrFollowers %}
 
         {% else %}
           {% render 'post', post: post, user: user %}
