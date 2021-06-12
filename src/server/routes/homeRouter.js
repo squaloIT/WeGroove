@@ -9,7 +9,7 @@ router.get("/", async (req, res, next) => {
   const user = req.session.user;
 
   /** @type { post[] } allPosts */
-  let allPosts = await PostModel.getAllPosts();
+  let allPosts = await PostModel.getAllPosts(user);
 
   const allPostsWithFromNow = allPosts.map(post => {
     if (post.retweetData) {
@@ -28,7 +28,7 @@ router.get("/", async (req, res, next) => {
       }
     }
   });
-  console.log(JSON.stringify(user))
+
   res.status(200).render('main', {
     page: 'home',
     title: "Home",

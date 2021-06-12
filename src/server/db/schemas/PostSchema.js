@@ -21,11 +21,13 @@ PostSchema.pre('find', function (next) {
   next()
 })
 
-/** @returns post[] */
-PostSchema.statics.getAllPosts = async () => {
+/**
+ * @param { user }
+ * @returns post[] */
+PostSchema.statics.getAllPosts = async (user) => {
   /** @type { post[] } allPosts */
   var allPosts = await PostModel
-    .find()
+    .find({ postedBy: { "$in": [...user.following, user._id] } })
     .sort({ "createdAt": "-1" })
     .lean()
   //.lean gives me JS object instead of mongoose model which was the case without .lean

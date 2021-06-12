@@ -41,7 +41,6 @@ router.post('/:action/:profileId', async (req, res, next) => {
     user.save()
   ])
     .then(([newProfile, newUser]) => {
-      console.log(JSON.stringify(newUser, null, 3))
       req.session.user = newUser.getDataForSession()
       return res.status(201).json({
         msg: 'Operation successfull',
