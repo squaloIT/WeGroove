@@ -1,5 +1,5 @@
 import { likePost, retweetPost, getPostData, replyToPost, deletePostByID, followOrUnfollowUser } from "./api";
-import { animateButtonAfterClickOnLike, animateButtonAfterClickOnRetweet, showSpinner, hideSpinner, findPostWrapperElement, openModal, toggleButtonAvailability, toggleScrollForTextarea, getPostIdForWrapper, getProfileIdFromFollowButton } from "./dom-manipulation";
+import { animateButtonAfterClickOnLike, animateButtonAfterClickOnRetweet, showSpinner, hideSpinner, findPostWrapperElement, openModal, toggleButtonAvailability, toggleScrollForTextarea, getPostIdForWrapper, getProfileIdFromFollowButton, toggleFollowButtons } from "./dom-manipulation";
 
 /**
  * @param {Event} e 
@@ -231,22 +231,11 @@ function onFollowOrUnfollowClick(e, action) {
   followOrUnfollowUser(profileId, action)
     .then(data => {
       console.log(data);
-      if (e.target.classList.contains('unfollow-button')) {
-        e.target.classList.remove('unfollow-button')
-        e.target.classList.add('follow-button')
-        label.innerText = "Follow";
-        spanToChange.innerText = Number(spanToChange.innerText) - 1;
-      } else {
-        e.target.classList.remove('follow-button')
-        e.target.classList.add('unfollow-button')
-        label.innerText = "Following"
-        spanToChange.innerText = Number(spanToChange.innerText) + 1;
-      }
-
+      toggleFollowButtons(e, label, spanToChange);
       hideSpinner(label, spinner)
     })
     .catch(err => {
-      console.err(err)
+      console.error(err)
       alert(`Problem with ${action}, please try again after later thank you.`)
     })
 }

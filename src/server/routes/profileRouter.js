@@ -59,15 +59,12 @@ router.post('/:action/:profileId', async (req, res, next) => {
 
 
 router.get('/:username/:tab', async (req, res, next) => {
-  console.log(`req.params`)
-  console.log(req.params)
   const tab = req.params.tab;
   const user = await UserModel.findByUsernameOrID(req.params.username)
     .catch(err => {
       console.log(err);
       return res.redirect('/')
     })
-  console.log("🚀 ~ file: profileRouter.js ~ line 86 ~ router.get ~ user", user)
 
   if (tab === 'following' || tab === 'followers') {
     const followingOrFollowers = await UserModel.getAllFollowersOrFollowingForUser(user._id, tab)
@@ -76,8 +73,6 @@ router.get('/:username/:tab', async (req, res, next) => {
         return res.redirect('/')
       })
 
-    console.log("🚀 ~ file: profileRouter.js ~ line 92 ~ router.get ~ tab", tab)
-    console.log("🚀 ~ file: profileRouter.js ~ line 93 ~ router.get ~ followingOrFollowers[tab]", followingOrFollowers[tab])
     res.render('main', {
       page: 'followers_page',
       title: user.username,

@@ -11,7 +11,7 @@
         <img src="{{userProfile.profilePic}}" alt="User profile picture" class='w-full rounded-full border-2 hover:cursor-pointer hover:bg-opacity-90' />
       </div>
 
-      <div class='profile-pictures-buttons'>
+      <div class='profile-follow-buttons'>
         <div class='flex justify-items-end space-x-5 mt-5'>
 
         {% if userProfile._id == user._id %}
@@ -22,26 +22,29 @@
 
         {% else %}
 
-          <button data-profile-id="{{userProfile._id}}" class='message-user-button cursor-pointer border-2 border-[#1DA1F2] white-text-onHover-button text-lg font-normal rounded-xl bg-white outline-none px-3 py-2 hover:bg-[#1DA1F2]'>
-            <span class='pointer-events-none text-[#1DA1F2]'>
-              <i class="fas fa-envelope"></i>
-            </span>
-          </button>
-
           {% if userFollowing contains userProfile._id %}
-            
-            <button data-profile-id="{{userProfile._id}}" class='following-unfollowing unfollow-button cursor-pointer text-base font-semibold rounded-xl outline-none px-3 py-2 focus:outline-white focus:shadow-none focus:ring-0'>
-              <span class='follow-button__label pointer-events-none ring-0  '>Following</span>
-              <i class="follow-button__spinner hidden fas fa-spinner fa-pulse"></i>
-            </button>
+            {% comment %} <div class='following-buttons-wrapper'> {% endcomment %}
+              <button data-profile-id="{{userProfile._id}}" class='message-user-button cursor-pointer border-2 border-[#1DA1F2] white-text-onHover-button text-lg font-normal rounded-xl bg-white outline-none px-3 py-2 hover:bg-[#1DA1F2]'>
+                <span class='pointer-events-none text-[#1DA1F2]'>
+                  <i class="fas fa-envelope"></i>
+                </span>
+              </button>
+              
+              <button data-profile-id="{{userProfile._id}}" class='following-unfollowing unfollow-button cursor-pointer text-base font-semibold rounded-xl outline-none px-3 py-2 focus:outline-white focus:shadow-none focus:ring-0'>
+                <span class='follow-button__label pointer-events-none ring-0  '>Following</span>
+                <i class="follow-button__spinner hidden fas fa-spinner fa-pulse"></i>
+              </button>
+            {% comment %} </div> {% endcomment %}
 
           {% else %} 
+            {% comment %} <div class='following-buttons-wrapper'> {% endcomment %}
   
-            <button data-profile-id="{{userProfile._id}}" class='following-unfollowing follow-button cursor-pointer text-base rounded-xl outline-none px-3 py-2 font-semibold ring-0 focus:outline-white focus:shadow-none focus:ring-0 '>
-              <span class='follow-button__label pointer-events-none'>Follow</span>
-              <i class="follow-button__spinner hidden fas fa-spinner fa-pulse"></i>
-            </button>
-
+              <button data-profile-id="{{userProfile._id}}" class='following-unfollowing follow-button cursor-pointer text-base rounded-xl outline-none px-3 py-2 font-semibold ring-0 focus:outline-white focus:shadow-none focus:ring-0 '>
+                <span class='follow-button__label pointer-events-none'>Follow</span>
+                <i class="follow-button__spinner hidden fas fa-spinner fa-pulse"></i>
+              </button>
+            
+            {% comment %} </div> {% endcomment %}
           {% endif %}
         {% endif %}
         </div>

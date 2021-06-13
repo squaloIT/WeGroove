@@ -28,7 +28,7 @@ export default function profile() {
   })
 
   Array.from(
-    document.querySelectorAll('div#profile div.profile-pictures-container button.following-unfollowing')
+    document.querySelectorAll('div#profile div.profile-follow-buttons button.following-unfollowing')
   ).forEach(el => {
     el.addEventListener('click', e => onFollowOrUnfollowClick(e, e.target.classList.contains('follow-button') ? 'follow' : 'unfollow'))
   })

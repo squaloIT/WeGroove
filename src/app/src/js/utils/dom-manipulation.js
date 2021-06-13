@@ -269,6 +269,30 @@ function getProfileIdFromFollowButton(e) {
   }
   return profileId
 }
+/**
+ * 
+ * @param {Event} e 
+ * @param {HTMLElement} label 
+ * @param {HTMLElement} span 
+ */
+function toggleFollowButtons(e, label, span) {
+  if (e.target.classList.contains('unfollow-button')) {
+    e.target.classList.remove('unfollow-button')
+    e.target.classList.add('follow-button')
+    label.innerText = "Follow";
+    const messageButton = document.querySelector('button.message-user-button')
+    messageButton && messageButton.classList.add('hidden');
+    if (span) span.innerText = Number(span.innerText) - 1;
+
+  } else {
+    e.target.classList.remove('follow-button')
+    e.target.classList.add('unfollow-button')
+    const messageButton = document.querySelector('button.message-user-button')
+    messageButton && messageButton.classList.remove('hidden');
+    label.innerText = "Following"
+    if (span) span.innerText = Number(span.innerText) + 1;
+  }
+}
 
 export {
   enableButton,
@@ -282,6 +306,7 @@ export {
   animateButtonAfterClickOnRetweet,
   toggleButtonAvailability,
   toggleScrollForTextarea,
+  toggleFollowButtons,
   setSeparatorHeightForAllReplies,
   getPostIdForWrapper,
   openModal
