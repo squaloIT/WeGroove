@@ -1,0 +1,48 @@
+<div id="change-photo-modal" class="fixed top-0 left-0 w-screen h-screen flex justify-center bg-blue-500 bg-opacity-50 transform transition-transform duration-300 hidden">
+    <div class="bg-white w-[50vw] h-[fit-content] max-h-[85vh] rounded-2xl overflow-auto mt-12 "> 
+        <!-- Modal Header -->
+        <div class='photo-save-modal__header h-12 px-4 border-b border-gray-200 rounded-tl-2xl rounded-tr-2xl pt-1'>
+            <div class='photo-save-modal-header__close-wrapper font-bold text-base text-brand-blue'>
+                <button type="button" class="cursor-pointer close-modal-button focus:outline-none hover:bg-comment-button-blue-background hover:text-comment-button-blue p-2 rounded-full text-comment-button-blue">
+                    <svg viewBox="0 0 24 24" aria-hidden="true" class="fill-current pointer-events-none text-comment-button-blue w-6 h-6">
+                        <g><path class='' d="M13.414 12l5.793-5.793c.39-.39.39-1.023 0-1.414s-1.023-.39-1.414 0L12 10.586 6.207 4.793c-.39-.39-1.023-.39-1.414 0s-.39 1.023 0 1.414L10.586 12l-5.793 5.793c-.39.39-.39 1.023 0 1.414.195.195.45.293.707.293s.512-.098.707-.293L12 13.414l5.793 5.793c.195.195.45.293.707.293s.512-.098.707-.293c.39-.39.39-1.023 0-1.414L13.414 12z"></path></g>
+                    </svg>
+                </button>
+            </div>
+        </div>
+
+        <div class='items-baseline flex flex-row w-full space-x-2 my-4 px-8'>
+            <span class='postedBy-name font-bold whitespace-nowrap text-base break-words'>{{user.firstName}} {{user.lastName}}</span>
+            <span class='postedBy-username font-normal text-light-gray-for-text'>{{user.username}}</span>
+        </div>
+
+        <!-- Modal content -->
+        <div class='photo-save-modal__content p-3 flex justify-center w-full mx-auto mb-2'>
+          <div class='flex flex-col'>
+
+            <div class='flex justify-start my-4'>
+              <label class='label-for-file mr-4'>Upload photo</label>
+              <input type='file' name='photo' id='photo'/>
+            </div>
+
+            <div class='image-preview max-w-full w-full' id='image-preview'>
+              <img class='block max-w-full w-full' src="" />
+            </div>
+
+          </div>
+        </div>
+
+         <div class='photo-icons-wrapper flex justify-end w-full pr-8 pb-4 border-t border-super-light-gray-border'>
+            <div class='photo-button-wrapper mt-4 mr-2'>
+                <button class='bg-opacity-50 cursor-auto save-photo-button text-lg font-semibold rounded-xl bg-white text-comment-button-blue outline-none px-3 py-2 border-2 border-comment-button-blue'>
+                    <span class='photo-cancel__label pointer-events-none'>Cancel</span>
+                </button>
+                <button class='cursor-auto save-photo-button text-lg font-semibold rounded-xl bg-comment-button-blue text-white outline-none px-3 py-2 border-2 border-comment-button-blue'>
+                    <span class='photo-save__label pointer-events-none'>Save</span>
+                    <i class="photo-save__spinner hidden pointer-events-none fas fa-spinner fa-pulse"></i>
+                </button>
+            </div>
+        </div>
+  </div>
+</div>
+

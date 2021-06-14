@@ -239,6 +239,68 @@ function onFollowOrUnfollowClick(e, action) {
       alert(`Problem with ${action}, please try again after later thank you.`)
     })
 }
+/**
+ * 
+ * @param { Event } e 
+ * @param { String } type 
+ * @param { Object | null } cropper 
+ */
+function openPhotoEditModal(e, type, cropper) {
+  const modal = document.querySelector("#change-photo-modal");
+  modal.classList.remove('hidden')
+  const closebutton = modal.querySelector('.close-modal-button')
+  closebutton.addEventListener('click', e => modal.classList.add('hidden'))
+  const inputFile = modal.querySelector('input[type="file"]')
+
+  inputFile.addEventListener('change', function (e) {
+    const file = e.target.files[0];
+    if (e.target && e.target.files[0]) {
+      const reader = new FileReader();
+
+      reader.onload = (e) => {
+        const previewImage = document.querySelector('div#image-preview > img');
+        previewImage.src = e.target.result;
+        if (cropper) {
+          cropper.destroy();
+        }
+
+        cropper = new Cropper(previewImage, {
+          aspectRatio: 1 / 1,
+          background: false
+        })
+      }
+      reader.readAsDataURL(file)
+    }
+  });
+
+  inputFile.setAttribute('name', type);
+}
+
+function onClickUploadImageToServer(e, cropperInstance) {
+  var canvas = cropperInstance.getCroppedCanvas();
+  if (!canvas) {
+    alert("Couldn't upload image, make sure that it is an image file")
+    return;
+  }
+
+  canvas.toBlob((blob) => {
+    var formData = new FormData()
+    formData.append('croppedImage', blob)
+    const typeOfPhotoToUpload = document.querySelector('input#photo').getAttribute('name')
+    console.log("🚀 ~ file: listeners.js ~ line 290 ~ canvas.toBlob ~ typeOfPhotoToUpload", typeOfPhotoToUpload)
+
+    fetch(`/profile/upload/${typeOfPhotoToUpload}`, {
+      method: "POST",
+      headers: "Content-Type: multipart/form-data",
+      body: formData
+    })
+      .then(res => res.json())
+      .then(data => {
+        console.log(data);
+      })
+
+  });
+}
 
 export {
   onClickLikePost,
@@ -248,6 +310,8 @@ export {
   onClickRetweetPost,
   onClickCommentButton,
   onClickDeletePost,
+  openPhotoEditModal,
   onPostWrapperClick,
+  onClickUploadImageToServer,
   onFollowOrUnfollowClick
 }
