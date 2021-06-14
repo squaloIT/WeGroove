@@ -45,6 +45,7 @@ export default function profile() {
     coverPhotoIcon.addEventListener('click', e => openPhotoEditModal(e, 'cover', cropper))
 
     document.querySelector("button.save-photo-button").addEventListener('click', e => onClickUploadImageToServer(e, cropper))
+    document.querySelector("button.cancel-photo-button").addEventListener('click', e => document.querySelector("#change-photo-modal").classList.add('hidden'))
   }
 
   setSeparatorHeightForAllReplies()
