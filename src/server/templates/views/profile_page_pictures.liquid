@@ -2,13 +2,20 @@
 
 <div class="profile-pictures-wrapper">
   <div class="profile-pictures-container">
-    <div class='profile-cover-picture w-full'>
+    <div class='profile-cover-picture w-full flex justify-center items-center relative'>
       <img src='{{userProfile.coverPic}}' alt='Cover' class='w-full' />
+      {% if userProfile._id == user._id %}
+        <i class="fas fa-camera-retro text-4xl hidden text-opacity-40 text-black absolute z-10 hover:cursor-pointer"></i>
+      {% endif %}
     </div>
     
     <div class='profile-pictures flex justify-end items-end relative px-3'>
-      <div class="profile-picture-container rounded-full border-2 border-white w-40 h-40 absolute -top-20 left-4">
-        <img src="{{userProfile.profilePic}}" alt="User profile picture" class='w-full rounded-full border-2 hover:cursor-pointer hover:bg-opacity-90' />
+      <div class="profile-picture-container rounded-full border-2 border-white w-40 h-40 absolute -top-20 left-4 flex justify-center items-center">
+        <img src="{{userProfile.profilePic}}" alt="User profile picture" class='w-full rounded-full border-2 hover:bg-opacity-90' />
+        
+        {% if userProfile._id == user._id %}  
+          <i class="fas fa-camera-retro text-4xl hidden text-opacity-40 text-black absolute z-10 hover:cursor-pointer"></i>
+        {% endif %}     
       </div>
 
       <div class='profile-follow-buttons'>

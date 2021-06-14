@@ -341,3 +341,7 @@ div.tab-container.active span {
 	background-color:#fff;
 	color:rgb(29, 160, 242);
 }
+
+div.profile-picture-container:hover i.fa-camera-retro, div.profile-cover-picture:hover i.fa-camera-retro {
+	display: inline-block;
+}
