@@ -17,12 +17,12 @@
         </div>
 
         <!-- Modal content -->
-        <div class='photo-save-modal__content p-3 flex justify-center w-full mx-auto mb-2'>
-          <div class='flex flex-col'>
+        <div class='photo-save-modal__content p-3 flex justify-center w-full mx-auto mb-2 px-8'>
+          <div class='flex flex-col w-full'>
 
             <div class='flex justify-start my-4'>
               <label class='label-for-file mr-4'>Upload photo</label>
-              <input type='file' name='photo' id='photo'/>
+              <input type='file' name='profile-photo' id='photo' data-type="profile"/>
             </div>
 
             <div class='image-preview max-w-full w-full' id='image-preview'>
@@ -34,10 +34,10 @@
 
          <div class='photo-icons-wrapper flex justify-end w-full pr-8 pb-4 border-t border-super-light-gray-border'>
             <div class='photo-button-wrapper mt-4 mr-2'>
-                <button class='bg-opacity-50 cursor-auto save-photo-button text-lg font-semibold rounded-xl bg-white text-comment-button-blue outline-none px-3 py-2 border-2 border-comment-button-blue'>
+                <button class='bg-opacity-50 cursor-pointer cancel-photo-button text-lg font-semibold rounded-xl bg-white text-comment-button-blue outline-none px-3 py-2 border-2 border-comment-button-blue'>
                     <span class='photo-cancel__label pointer-events-none'>Cancel</span>
                 </button>
-                <button class='cursor-auto save-photo-button text-lg font-semibold rounded-xl bg-comment-button-blue text-white outline-none px-3 py-2 border-2 border-comment-button-blue'>
+                <button class='cursor-pointer save-photo-button text-lg font-semibold rounded-xl bg-comment-button-blue text-white outline-none px-3 py-2 border-2 border-comment-button-blue'>
                     <span class='photo-save__label pointer-events-none'>Save</span>
                     <i class="photo-save__spinner hidden pointer-events-none fas fa-spinner fa-pulse"></i>
                 </button>

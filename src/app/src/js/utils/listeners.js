@@ -250,6 +250,7 @@ function openPhotoEditModal(e, type, cropper) {
   modal.classList.remove('hidden')
   const closebutton = modal.querySelector('.close-modal-button')
   closebutton.addEventListener('click', e => modal.classList.add('hidden'))
+  /** @type {HTMLElement} */
   const inputFile = modal.querySelector('input[type="file"]')
 
   inputFile.addEventListener('change', function (e) {
@@ -260,11 +261,11 @@ function openPhotoEditModal(e, type, cropper) {
       reader.onload = (e) => {
         const previewImage = document.querySelector('div#image-preview > img');
         previewImage.src = e.target.result;
-        if (cropper) {
-          cropper.destroy();
+        if (cropper.instance) {
+          cropper.instance = null;
         }
 
-        cropper = new Cropper(previewImage, {
+        cropper.instance = new Cropper(previewImage, {
           aspectRatio: 1 / 1,
           background: false
         })
@@ -273,32 +274,41 @@ function openPhotoEditModal(e, type, cropper) {
     }
   });
 
-  inputFile.setAttribute('name', type);
+  inputFile.dataset.type = type;
 }
 
-function onClickUploadImageToServer(e, cropperInstance) {
-  var canvas = cropperInstance.getCroppedCanvas();
+function onClickUploadImageToServer(e, cropper) {
+  var canvas = cropper.instance.getCroppedCanvas();
   if (!canvas) {
     alert("Couldn't upload image, make sure that it is an image file")
     return;
   }
+  const photoSaveLabel = e.target.querySelector('span.photo-save__label')
+  console.log("🚀 ~ file: listeners.js ~ line 287 ~ onClickUploadImageToServer ~ photoSaveLabel", photoSaveLabel)
+  const photoSaveSpinner = e.target.querySelector('i.photo-save__spinner')
+  console.log("🚀 ~ file: listeners.js ~ line 289 ~ onClickUploadImageToServer ~ photoSaveSpinner", photoSaveSpinner)
+  showSpinner(photoSaveLabel, photoSaveSpinner)
 
   canvas.toBlob((blob) => {
     var formData = new FormData()
     formData.append('croppedImage', blob)
-    const typeOfPhotoToUpload = document.querySelector('input#photo').getAttribute('name')
+    const typeOfPhotoToUpload = document.querySelector('input#photo').dataset.type;
     console.log("🚀 ~ file: listeners.js ~ line 290 ~ canvas.toBlob ~ typeOfPhotoToUpload", typeOfPhotoToUpload)
 
     fetch(`/profile/upload/${typeOfPhotoToUpload}`, {
       method: "POST",
-      headers: "Content-Type: multipart/form-data",
       body: formData
     })
       .then(res => res.json())
-      .then(data => {
-        console.log(data);
+      .then(({ status }) => {
+        hideSpinner(photoSaveLabel, photoSaveSpinner)
+        if (status === 200) {
+          location.reload()
+        }
       })
-
+      .catch(err => {
+        console.error(err)
+      })
   });
 }
 

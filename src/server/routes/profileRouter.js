@@ -1,8 +1,58 @@
+const path = require('path');
+const fs = require('fs');
 const express = require('express')
 const router = express.Router();
 const UserModel = require('../db/schemas/UserSchema')
 const PostModel = require('../db/schemas/PostSchema')
+var multer = require('multer')
+var upload = multer({ dest: 'uploads/' })
 require('./../typedefs');
+
+router.post('/upload/:photoType', upload.single('croppedImage'), async (req, res, next) => {
+  if (!req.file) {
+    return res.status(400).json({
+      msg: "There was no image uploaded",
+      status: 400
+    })
+  }
+
+  const filePath = `uploads/images/${req.file.filename}.png`;
+  const tempPath = req.file.path;
+  const targetPath = path.join(__dirname, `./../${filePath}`)
+
+  fs.rename(tempPath, targetPath, async err => {
+    if (err) {
+      console.log(err)
+      return res.status(400).json({
+        msg: "There was problem with renaming image",
+        status: 400
+      })
+    }
+    const objForUpdate = {}
+
+    if (req.params.photoType == 'profile') {
+      objForUpdate.profilePic = filePath
+    }
+    else if (req.params.photoType == 'cover') {
+      objForUpdate.coverPic = filePath
+    }
+
+    req.session.user = await UserModel.findByIdAndUpdate(req.session.user._id, objForUpdate, { new: true })
+      .catch(err => {
+        console.log(err);
+        return res.status(400).json({
+          msg: 'There was an error trying to update the user!',
+          status: 400
+        })
+      });
+
+    res.status(200).json({
+      data: req.session.user.profilePic,
+      msg: 'Image successfully changed',
+      status: 200
+    })
+  })
+})
 
 router.post('/:action/:profileId', async (req, res, next) => {
   if (!req.session.user._id || !req.params.profileId) {
@@ -56,7 +106,6 @@ router.post('/:action/:profileId', async (req, res, next) => {
       })
     })
 })
-
 
 router.get('/:username/:tab', async (req, res, next) => {
   const tab = req.params.tab;

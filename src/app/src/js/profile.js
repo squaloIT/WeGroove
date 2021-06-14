@@ -1,8 +1,10 @@
 import { setSeparatorHeightForAllReplies } from "./utils/dom-manipulation"
-import { onClickCommentButton, onClickCommentPost, onClickDeletePost, onClickLikePost, onClickRetweetPost, onFollowOrUnfollowClick, onPostWrapperClick, openPhotoEditModal } from "./utils/listeners"
+import { onClickCommentButton, onClickCommentPost, onClickDeletePost, onClickLikePost, onClickRetweetPost, onClickUploadImageToServer, onFollowOrUnfollowClick, onPostWrapperClick, openPhotoEditModal } from "./utils/listeners"
 
 export default function profile() {
-  const cropperInstance = null;
+  const cropper = {
+    instance: null
+  };
 
   document.querySelector('div.reply-button-wrapper button.reply-comment-button')
     .addEventListener('click', onClickCommentButton)
@@ -39,10 +41,10 @@ export default function profile() {
   const coverPhotoIcon = document.querySelector('div.profile-cover-picture i.fa-camera-retro')
 
   if (profilePhotoIcon && coverPhotoIcon) {
-    profilePhotoIcon.addEventListener('click', e => openPhotoEditModal(e, 'profile', cropperInstance))
-    coverPhotoIcon.addEventListener('click', e => openPhotoEditModal(e, 'cover', cropperInstance))
+    profilePhotoIcon.addEventListener('click', e => openPhotoEditModal(e, 'profile', cropper))
+    coverPhotoIcon.addEventListener('click', e => openPhotoEditModal(e, 'cover', cropper))
 
-    document.querySelector("button.save-photo-button").addEventListener('click', e => onClickUploadImageToServer(e, cropperInstance))
+    document.querySelector("button.save-photo-button").addEventListener('click', e => onClickUploadImageToServer(e, cropper))
   }
 
   setSeparatorHeightForAllReplies()

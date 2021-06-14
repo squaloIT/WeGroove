@@ -37,6 +37,7 @@ app.use(session({
 }));
 
 app.use(express.static(path.join(__dirname, './../app/dist/')))
+app.use('*/uploads/images', express.static(path.join(__dirname, 'uploads/images')))
 
 app.use('/login', isRememberedCookiePresent, loginRouter);
 app.use('/logout', logoutRouter);
