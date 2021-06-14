@@ -1,5 +1,5 @@
 import { likePost, retweetPost, getPostData, replyToPost, deletePostByID, followOrUnfollowUser } from "./api";
-import { animateButtonAfterClickOnLike, animateButtonAfterClickOnRetweet, showSpinner, hideSpinner, findPostWrapperElement, openModal, toggleButtonAvailability, toggleScrollForTextarea, getPostIdForWrapper, getProfileIdFromFollowButton, toggleFollowButtons } from "./dom-manipulation";
+import { animateButtonAfterClickOnLike, animateButtonAfterClickOnRetweet, showSpinner, hideSpinner, findPostWrapperElement, openModal, toggleButtonAvailability, toggleScrollForTextarea, getPostIdForWrapper, getProfileIdFromFollowButton, toggleFollowButtons, emptyImagePreviewContainer, emptyFileContainer } from "./dom-manipulation";
 
 /**
  * @param {Event} e 
@@ -250,23 +250,31 @@ function openPhotoEditModal(e, type, cropper) {
   modal.classList.remove('hidden')
   const closebutton = modal.querySelector('.close-modal-button')
   closebutton.addEventListener('click', e => modal.classList.add('hidden'))
+
   /** @type {HTMLElement} */
   const inputFile = modal.querySelector('input[type="file"]')
+  // emptyImagePreviewContainer();
+  // emptyFileContainer();
 
   inputFile.addEventListener('change', function (e) {
     const file = e.target.files[0];
     if (e.target && e.target.files[0]) {
       const reader = new FileReader();
 
-      reader.onload = (e) => {
+      reader.onload = function (e) {
+        alert("TEST")
         const previewImage = document.querySelector('div#image-preview > img');
         previewImage.src = e.target.result;
+
+        console.log("🚀 ~ file: listeners.js ~ line 274 ~ cropper", cropper)
         if (cropper.instance) {
-          cropper.instance = null;
+          cropper.instance.destroy();
+          // emptyImagePreviewContainer();
+          // emptyFileContainer();
         }
 
         cropper.instance = new Cropper(previewImage, {
-          aspectRatio: 1 / 1,
+          aspectRatio: type == 'profile' ? 1 / 1 : 16 / 9,
           background: false
         })
       }
@@ -275,6 +283,19 @@ function openPhotoEditModal(e, type, cropper) {
   });
 
   inputFile.dataset.type = type;
+}
+/**
+ * 
+ * @param {Event} e 
+ * @param {Object} cropper 
+ */
+function onClosePhotoModal(e, cropper) {
+  document.querySelector("#change-photo-modal").classList.add('hidden')
+  if (cropper.instance) {
+    cropper.instance.destroy();
+  }
+  emptyImagePreviewContainer();
+  emptyFileContainer()
 }
 
 function onClickUploadImageToServer(e, cropper) {
@@ -320,6 +341,7 @@ export {
   onClickRetweetPost,
   onClickCommentButton,
   onClickDeletePost,
+  onClosePhotoModal,
   openPhotoEditModal,
   onPostWrapperClick,
   onClickUploadImageToServer,

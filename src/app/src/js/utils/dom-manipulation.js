@@ -18,6 +18,28 @@ function openModal(post) {
   const closebutton = modal.querySelector('.close-modal-button')
   closebutton.addEventListener('click', createFunctionToCloseModal(modal, taReply))
 }
+function emptyImagePreviewContainer() {
+  const imagePreviewContainer = document.querySelector("#image-preview");
+
+  /** @type {HTMLElement} */
+  const imageTag = document.createElement("img")
+  imageTag.setAttribute('src', '');
+  imageTag.setAttribute('class', 'block max-w-full w-full');
+
+  imagePreviewContainer.innerHTML = "";
+  imagePreviewContainer.appendChild(imageTag)
+}
+
+function emptyFileContainer() {
+  const fileContainer = document.querySelector('#file-preview-wrapper')
+  const input = document.createElement('input');
+  input.type = 'file'
+  input.name = 'profile-photo'
+  input.id = 'photo';
+  input.dataset.type = "profile"
+  fileContainer.innerHTML = '';
+  fileContainer.appendChild(input);
+}
 /**
  * @param {HTMLElement} modal 
  */
@@ -305,6 +327,8 @@ export {
   animateButtonAfterClickOnLike,
   animateButtonAfterClickOnRetweet,
   toggleButtonAvailability,
+  emptyImagePreviewContainer,
+  emptyFileContainer,
   toggleScrollForTextarea,
   toggleFollowButtons,
   setSeparatorHeightForAllReplies,

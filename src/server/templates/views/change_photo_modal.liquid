@@ -22,7 +22,9 @@
 
             <div class='flex justify-start my-4'>
               <label class='label-for-file mr-4'>Upload photo</label>
-              <input type='file' name='profile-photo' id='photo' data-type="profile"/>
+              <div class='profile-file-wrapper' id='file-preview-wrapper'>
+                <input type='file' name='profile-photo' id='photo' data-type="profile"/>
+              </div>
             </div>
 
             <div class='image-preview max-w-full w-full' id='image-preview'>

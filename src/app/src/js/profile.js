@@ -1,5 +1,5 @@
 import { setSeparatorHeightForAllReplies } from "./utils/dom-manipulation"
-import { onClickCommentButton, onClickCommentPost, onClickDeletePost, onClickLikePost, onClickRetweetPost, onClickUploadImageToServer, onFollowOrUnfollowClick, onPostWrapperClick, openPhotoEditModal } from "./utils/listeners"
+import { onClickCommentButton, onClickCommentPost, onClickDeletePost, onClickLikePost, onClickRetweetPost, onClickUploadImageToServer, onClosePhotoModal, onFollowOrUnfollowClick, onPostWrapperClick, openPhotoEditModal } from "./utils/listeners"
 
 export default function profile() {
   const cropper = {
@@ -45,7 +45,7 @@ export default function profile() {
     coverPhotoIcon.addEventListener('click', e => openPhotoEditModal(e, 'cover', cropper))
 
     document.querySelector("button.save-photo-button").addEventListener('click', e => onClickUploadImageToServer(e, cropper))
-    document.querySelector("button.cancel-photo-button").addEventListener('click', e => document.querySelector("#change-photo-modal").classList.add('hidden'))
+    document.querySelector("button.cancel-photo-button").addEventListener('click', e => onClosePhotoModal(e, cropper))
   }
 
   setSeparatorHeightForAllReplies()
