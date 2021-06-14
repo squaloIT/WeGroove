@@ -1,7 +1,7 @@
 <div class='post-wrapper w-full border-b border-super-light-gray-border flex flex-row space-x-5 py-3 px-8 justify-between animate__animated' data-pid="{{post._id}}">
   <a href="/profile/{{post.postedBy.username}}" class='cursor-pointer'>
     
-    {% render 'small_profile_image_rounded', user: user %}
+    {% render 'small_profile_image_rounded', user: post.postedBy %}
     
   </a>
   <div class='post-content-container flex flex-col w-full'>
