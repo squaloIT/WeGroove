@@ -333,6 +333,21 @@ function onClickUploadImageToServer(e, cropper) {
   });
 }
 
+function onClickTogglePinned(e) {
+  e.stopPropagation();
+  const postWrapper = findPostWrapperElement(e.target, 'post-wrapper') || findPostWrapperElement(e.target, 'original-post') || findPostWrapperElement(e.target, 'comment-post');
+
+  if (!postWrapper) {
+    alert("Couldnt find post id")
+    return;
+  }
+
+  const pid = getPostIdForWrapper(postWrapper)
+  console.log("🚀 ~ file: listeners.js ~ line 345 ~ onClickTogglePinned ~ pid", pid)
+
+
+}
+
 export {
   onClickLikePost,
   onClickCommentPost,
@@ -344,6 +359,7 @@ export {
   onClosePhotoModal,
   openPhotoEditModal,
   onPostWrapperClick,
+  onClickTogglePinned,
   onClickUploadImageToServer,
   onFollowOrUnfollowClick
 }

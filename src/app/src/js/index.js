@@ -1,6 +1,6 @@
 import { createPost } from './utils/api';
 import { disableButton, enableButton, addNewPost, showSpinner, hideSpinner, setSeparatorHeightForAllReplies } from './utils/dom-manipulation';
-import { onClickLikePost, onClickRetweetPost, onClickCommentPost, onClickCommentButton, onPostWrapperClick, onClickDeletePost } from './utils/listeners';
+import { onClickLikePost, onClickRetweetPost, onClickCommentPost, onClickCommentButton, onPostWrapperClick, onClickDeletePost, onClickTogglePinned } from './utils/listeners';
 
 export default function index() {
   const taPost = document.querySelector('textarea#post');
@@ -72,6 +72,12 @@ export default function index() {
     document.querySelectorAll('div.post-wrapper div.delete-post-button-wrapper button.delete-post-button')
   ).forEach(el => {
     el.addEventListener('click', onClickDeletePost)
+  })
+
+  Array.from(
+    document.querySelectorAll('#posts div.post-content__info.flex.flex-row.items-center.w-full div.pinned-button-wrapper.inline-block > button')
+  ).forEach(el => {
+    el.addEventListener('click', onClickTogglePinned)
   })
 
   setSeparatorHeightForAllReplies()
