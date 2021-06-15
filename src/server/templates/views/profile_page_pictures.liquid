@@ -2,7 +2,7 @@
 
 <div class="profile-pictures-wrapper">
   <div class="profile-pictures-container">
-    <div class='profile-cover-picture w-full flex justify-center items-center relative border-b border-super-light-gray-border h-80'>
+    <div class='profile-cover-picture w-full flex justify-center items-center relative border-b border-super-light-gray-border h-80 overflow-hidden'>
       <img src='{{userProfile.coverPic}}' alt='Cover' class='w-full' />
       {% if userProfile._id == user._id %}
         <i class="fas fa-camera-retro text-4xl hidden text-opacity-40 text-black absolute z-10 hover:cursor-pointer"></i>
