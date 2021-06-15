@@ -1,4 +1,4 @@
-import { likePost, retweetPost, getPostData, replyToPost, deletePostByID, followOrUnfollowUser } from "./api";
+import { likePost, retweetPost, getPostData, replyToPost, deletePostByID, followOrUnfollowUser, togglePinned } from "./api";
 import { animateButtonAfterClickOnLike, animateButtonAfterClickOnRetweet, showSpinner, hideSpinner, findPostWrapperElement, openModal, toggleButtonAvailability, toggleScrollForTextarea, getPostIdForWrapper, getProfileIdFromFollowButton, toggleFollowButtons, emptyImagePreviewContainer, emptyFileContainer } from "./dom-manipulation";
 
 /**
@@ -335,7 +335,9 @@ function onClickUploadImageToServer(e, cropper) {
 
 function onClickTogglePinned(e) {
   e.stopPropagation();
-  const postWrapper = findPostWrapperElement(e.target, 'post-wrapper') || findPostWrapperElement(e.target, 'original-post') || findPostWrapperElement(e.target, 'comment-post');
+  const button = e.target
+  const postWrapper = findPostWrapperElement(button, 'post-wrapper') || findPostWrapperElement(button, 'original-post') || findPostWrapperElement(button, 'comment-post');
+  const pinned = button.dataset.pinned;
 
   if (!postWrapper) {
     alert("Couldnt find post id")
@@ -344,7 +346,16 @@ function onClickTogglePinned(e) {
 
   const pid = getPostIdForWrapper(postWrapper)
   console.log("🚀 ~ file: listeners.js ~ line 345 ~ onClickTogglePinned ~ pid", pid)
+  togglePinned(pid, pinned)
+    .then(({ data, msg, status }) => {
+      if (status == 200) {
+        if (data.pinned) {
+          //TODO dodati pinned post tekst i dodati ga na vrh stranice
 
+        }
+        button.dataset.pinned = data.pinned;
+      }
+    })
 
 }
 

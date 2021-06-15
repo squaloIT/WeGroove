@@ -92,13 +92,34 @@ function getAllPostsForUserAndSelectedTab(tabId) {
   })
     .then(res => res.json())
 }
-
+/**
+ * 
+ * @param {string} profileId 
+ * @param {string } action 
+ * @returns { Promise }
+ */
 function followOrUnfollowUser(profileId, action) {
   return fetch(`${process.env.SERVER_URL_DEV}/profile/${action}/${profileId}`, {
     method: 'POST',
     headers: {
       "Content-Type": "application/json"
     }
+  })
+    .then(res => res.json())
+}
+/**
+ * Toggles pin boolean for 
+ * @param {string} postId 
+ * @param {boolean} pinned 
+ * @returns { Promise }
+ */
+function togglePinned(postId, pinned) {
+  return fetch(`${process.env.SERVER_URL_DEV}/api/posts/pin/${postId}`, {
+    method: 'PUT',
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: { pinned: !pinned }
   })
     .then(res => res.json())
 }
@@ -111,5 +132,6 @@ export {
   replyToPost,
   deletePostByID,
   followOrUnfollowUser,
+  togglePinned,
   getAllPostsForUserAndSelectedTab
 }

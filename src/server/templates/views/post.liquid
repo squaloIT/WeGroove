@@ -42,7 +42,7 @@
         <div class='flex items-start justify-end pr-2'>
 
           <div class='pinned-button-wrapper inline-block'>
-            <button type="button" class="cursor-pointer pin-post-button focus:outline-none p-2 rounded-full">
+            <button type="button" class="cursor-pointer pin-post-button focus:outline-none p-2 rounded-full" data-pinned='{{post.pinned}}'>
               {% if post.pinned %}
                 <i class="fas fa-map-pin fill-current pointer-events-none text-[#F5A962] w-5 h-5"></i>
               {% else %}
