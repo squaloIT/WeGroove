@@ -6,7 +6,22 @@
   </a>
   <div class='post-content-container flex flex-col w-full'>
     <div class='post-content__info flex flex-row items-center w-full'>
-      <div class='w-8/12 flex flex-row items-center'>
+      
+      <div class='w-8/12 flex flex-wrap flex-row items-center'>
+          <div class="w-full 
+          post-content-info__pinned-container 
+          {% if post.pinned == false %}
+            hidden
+          {% else %}
+          block
+          {% endif %}
+          cursor-pointer mb-1">
+            <p class="name font-bold ">
+              <i class="fas fa-map-pin fill-current pointer-events-none text-[#F5A962] w-5 h-5"></i>
+              Pinned post
+            </p>
+          </div>
+        
         <div class="post-content-info__username-container cursor-pointer ">
           <p class="name font-bold">
             <a href="/profile/{{post.postedBy.username}}">{{post.postedBy.firstName}} {{post.postedBy.lastName}} - </a>
@@ -22,14 +37,28 @@
         </div>
       </div>
 
-{% if user._id == post.postedBy._id%}
+{% if user._id == post.postedBy._id %}
       <div class='w-4/12'>
-        <div class="delete-post-button-wrapper flex items-start justify-end pr-2">
-          <button type="button" class="cursor-pointer delete-post-button focus:outline-none p-2 rounded-full">
-              <svg viewBox="0 0 24 24" aria-hidden="true" class="fill-current pointer-events-none text-mid-gray-for-text w-5 h-5">
-                  <g><path class='' d="M13.414 12l5.793-5.793c.39-.39.39-1.023 0-1.414s-1.023-.39-1.414 0L12 10.586 6.207 4.793c-.39-.39-1.023-.39-1.414 0s-.39 1.023 0 1.414L10.586 12l-5.793 5.793c-.39.39-.39 1.023 0 1.414.195.195.45.293.707.293s.512-.098.707-.293L12 13.414l5.793 5.793c.195.195.45.293.707.293s.512-.098.707-.293c.39-.39.39-1.023 0-1.414L13.414 12z"></path></g>
-              </svg>
-          </button>
+        <div class='flex items-start justify-end pr-2'>
+
+          <div class='pinned-button-wrapper inline-block'>
+            <button type="button" class="cursor-pointer pin-post-button focus:outline-none p-2 rounded-full">
+              {% if post.pinned %}
+                <i class="fas fa-map-pin fill-current pointer-events-none text-[#F5A962] w-5 h-5"></i>
+              {% else %}
+                <i class="fas fa-map-pin fill-current pointer-events-none text-mid-gray-for-text w-5 h-5"></i>
+              {% endif %}
+            </button>
+          </div>
+
+          <div class="delete-post-button-wrapper flex items-start justify-end">
+            <button type="button" class="cursor-pointer delete-post-button focus:outline-none p-2 rounded-full">
+                <svg viewBox="0 0 24 24" aria-hidden="true" class="fill-current pointer-events-none text-mid-gray-for-text w-5 h-5">
+                    <g><path class='' d="M13.414 12l5.793-5.793c.39-.39.39-1.023 0-1.414s-1.023-.39-1.414 0L12 10.586 6.207 4.793c-.39-.39-1.023-.39-1.414 0s-.39 1.023 0 1.414L10.586 12l-5.793 5.793c-.39.39-.39 1.023 0 1.414.195.195.45.293.707.293s.512-.098.707-.293L12 13.414l5.793 5.793c.195.195.45.293.707.293s.512-.098.707-.293c.39-.39.39-1.023 0-1.414L13.414 12z"></path></g>
+                </svg>
+            </button>
+          </div>
+
         </div>
       </div>
 {% endif %}
