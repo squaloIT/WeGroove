@@ -18,7 +18,13 @@
   </div>
 
   <div class='content-wrapper' id='profile-posts'>
-
+      <div class='pinned-post-wrapper'>
+        {% if pinnedPost %}
+          <div class='border-b-8 border-super-light-gray-border'>
+              {% render 'post', post: pinnedPost, user: user %}
+          </div>
+        {% endif %}
+      </div>
       {% render 'posts', posts: posts, user: user %}
   
   </div>

@@ -51,36 +51,40 @@ function getNumberOfCommentsForPost(allPosts, post) {
  * @returns {post}
  */
 function fillPostAdditionalFields(post, allPosts) {
-  if (post.retweetData) {
-    return {
-      ...post,
-      fromNow: moment(post.createdAt).fromNow(),
-      retweetData: {
-        ...post.retweetData,
-        fromNow: moment(post.retweetData.createdAt).fromNow(),
-        numOfComments: getNumberOfCommentsForPost(allPosts, post.retweetData)
-      },
-    }
-  } else {
-    if (post.replyTo) {
+  if (post && allPosts) {
+
+    if (post.retweetData) {
       return {
         ...post,
-        replyTo: {
-          ...post.replyTo,
-          fromNow: moment(post.replyTo.createdAt).fromNow(),
-          numOfComments: getNumberOfCommentsForPost(allPosts, post.replyTo)
+        fromNow: moment(post.createdAt).fromNow(),
+        retweetData: {
+          ...post.retweetData,
+          fromNow: moment(post.retweetData.createdAt).fromNow(),
+          numOfComments: getNumberOfCommentsForPost(allPosts, post.retweetData)
         },
-        fromNow: moment(post.createdAt).fromNow(),
-        numOfComments: getNumberOfCommentsForPost(allPosts, post)
+      }
+    } else {
+      if (post.replyTo) {
+        return {
+          ...post,
+          replyTo: {
+            ...post.replyTo,
+            fromNow: moment(post.replyTo.createdAt).fromNow(),
+            numOfComments: getNumberOfCommentsForPost(allPosts, post.replyTo)
+          },
+          fromNow: moment(post.createdAt).fromNow(),
+          numOfComments: getNumberOfCommentsForPost(allPosts, post)
+        }
+      }
+      else {
+        return {
+          ...post,
+          fromNow: moment(post.createdAt).fromNow(),
+          numOfComments: getNumberOfCommentsForPost(allPosts, post)
+        }
       }
     }
-    else {
-      return {
-        ...post,
-        fromNow: moment(post.createdAt).fromNow(),
-        numOfComments: getNumberOfCommentsForPost(allPosts, post)
-      }
-    }
+
   }
 }
 

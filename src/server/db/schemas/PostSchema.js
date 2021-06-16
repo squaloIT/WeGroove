@@ -101,5 +101,14 @@ PostSchema.statics.getRepliesForPost = async (_id) => {
   return repliesWithFromNow;
 }
 
+PostSchema.statics.getPinnedPostForUserID = async (userId, allPosts) => {
+  const post = await PostModel
+    .findOne({ postedBy: userId, pinned: true })
+    .populate('postedBy')
+    .lean()
+
+  return fillPostAdditionalFields(post, allPosts)
+}
+
 const PostModel = mongoose.model("Post", PostSchema)
 module.exports = PostModel

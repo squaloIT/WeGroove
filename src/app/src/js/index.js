@@ -1,5 +1,5 @@
 import { createPost } from './utils/api';
-import { disableButton, enableButton, addNewPost, showSpinner, hideSpinner, setSeparatorHeightForAllReplies } from './utils/dom-manipulation';
+import { disableButton, enableButton, addNewPost, showSpinner, hideSpinner, setSeparatorHeightForAllReplies, togglePinIndicator } from './utils/dom-manipulation';
 import { onClickLikePost, onClickRetweetPost, onClickCommentPost, onClickCommentButton, onPostWrapperClick, onClickDeletePost, onClickTogglePinned } from './utils/listeners';
 
 export default function index() {
@@ -36,7 +36,7 @@ export default function index() {
           .then(res => {
             postContentTextbox.value = '';
             const targetElement = document.querySelector('#posts');
-            addNewPost(targetElement, res.data.createdPost._id, res.data.createdPost.content, res.data.createdPost.postedBy, "moments ago");
+            addNewPost(targetElement, res.data.createdPost, "moments ago");
             hideSpinner(postButtonLabel, postButtonSpinner)
           })
           .catch(err => {

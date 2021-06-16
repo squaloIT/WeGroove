@@ -7,7 +7,9 @@ const PostModel = require('../db/schemas/PostSchema')
 var multer = require('multer')
 var upload = multer({ dest: 'uploads/' })
 require('./../typedefs');
-
+/**
+ * Cover and profile photo uploading
+ */
 router.post('/upload/:photoType', upload.single('croppedImage'), async (req, res, next) => {
   if (!req.file) {
     return res.status(400).json({
@@ -53,7 +55,9 @@ router.post('/upload/:photoType', upload.single('croppedImage'), async (req, res
     })
   })
 })
-
+/**
+ * Following and unfollowing route
+ */
 router.post('/:action/:profileId', async (req, res, next) => {
   if (!req.session.user._id || !req.params.profileId) {
     return res.status(400).json({
@@ -106,7 +110,9 @@ router.post('/:action/:profileId', async (req, res, next) => {
       })
     })
 })
-
+/**
+ * Get data for selected tab
+ */
 router.get('/:username/:tab', async (req, res, next) => {
   const tab = req.params.tab;
   const user = await UserModel.findByUsernameOrID(req.params.username)
@@ -139,13 +145,24 @@ router.get('/:username/:tab', async (req, res, next) => {
         return res.redirect('/')
       })
 
+    let pinnedPost = null;
+    if (tab == 'posts' || tab == 'replies') {
+      pinnedPost = await PostModel.getPinnedPostForUserID(req.session.user._id, allUserPosts)
+        .catch(err => {
+          console.log(err);
+          return res.redirect('/')
+        })
+    }
+    console.log("🚀 ~ file: profileRouter.js ~ line 155 ~ router.get ~ pinnedPost", pinnedPost)
+
     res.render('main', {
       page: 'profile',
       title: user.username,
       posts: allUserPosts,
       active: tab,
       userProfile: user,
-      user: req.session.user
+      user: req.session.user,
+      pinnedPost
     })
   }
 })
@@ -163,13 +180,22 @@ router.get('/:username', async (req, res, next) => {
       return res.redirect('/')
     })
 
+  let pinnedPost = await PostModel.getPinnedPostForUserID(req.session.user._id, allUserPosts)
+    .catch(err => {
+      console.log(err);
+      return res.redirect('/')
+    })
+
+  console.log("🚀 ~ file: profileRouter.js ~ line 184 ~ router.get ~ pinnedPost", JSON.stringify(pinnedPost, null, 2))
+
   res.render('main', {
     page: 'profile',
     title: user.username,
     posts: allUserPosts,
     active: "Posts",
     userProfile: user,
-    user: req.session.user
+    user: req.session.user,
+    pinnedPost
   })
 })
 

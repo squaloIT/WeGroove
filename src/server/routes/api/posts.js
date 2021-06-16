@@ -1,3 +1,4 @@
+const moment = require('moment');
 const express = require('express')
 const router = express.Router();
 const PostModel = require('./../../db/schemas/PostSchema')
@@ -125,6 +126,31 @@ router.put('/like', checkIsLoggedIn, async (req, res) => {
       isLiked: option == "$addToSet",
       post: newPostWithLikes
     }
+  })
+})
+
+router.put('/pin/:postId', checkIsLoggedIn, async (req, res) => {
+  const pinned = req.body.pinned;
+
+  try {
+    /** @type { post } */
+    var newPost = await PostModel.findByIdAndUpdate(req.params.postId, { pinned }, { new: true })
+    await PostModel.updateOne({ pinned: true, "postedBy._id": req.session.user._id }, { pinned: false })
+  }
+  catch (err) {
+    console.log(err)
+    res.status(400).json({
+      msg: "There was an error trying to pin the post, please try again later thank you",
+      status: 400
+    });
+  }
+
+  newPost.fromNow = moment(newPost.createdAt).fromNow()
+
+  res.status(200).json({
+    status: 200,
+    msg: newPost.pinned ? "Post pinned" : "Post unpinned",
+    data: newPost
   })
 })
 

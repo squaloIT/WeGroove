@@ -1,5 +1,5 @@
 import { setSeparatorHeightForAllReplies } from "./utils/dom-manipulation"
-import { onClickCommentButton, onClickCommentPost, onClickDeletePost, onClickLikePost, onClickRetweetPost, onClickUploadImageToServer, onClosePhotoModal, onFollowOrUnfollowClick, onPostWrapperClick, openPhotoEditModal } from "./utils/listeners"
+import { onClickCommentButton, onClickCommentPost, onClickDeletePost, onClickLikePost, onClickRetweetPost, onClickTogglePinned, onClickUploadImageToServer, onClosePhotoModal, onFollowOrUnfollowClick, onPostWrapperClick, openPhotoEditModal } from "./utils/listeners"
 
 export default function profile() {
   const cropper = {
@@ -35,6 +35,12 @@ export default function profile() {
     document.querySelectorAll('div#profile div.profile-follow-buttons button.following-unfollowing')
   ).forEach(el => {
     el.addEventListener('click', e => onFollowOrUnfollowClick(e, e.target.classList.contains('follow-button') ? 'follow' : 'unfollow'))
+  })
+
+  Array.from(
+    document.querySelectorAll('#profile-posts div.post-content__info.flex.flex-row.items-center.w-full div.pinned-button-wrapper.inline-block > button')
+  ).forEach(el => {
+    el.addEventListener('click', onClickTogglePinned)
   })
 
   const profilePhotoIcon = document.querySelector('div.profile-picture-container i.fa-camera-retro')

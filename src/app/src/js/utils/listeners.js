@@ -1,5 +1,5 @@
 import { likePost, retweetPost, getPostData, replyToPost, deletePostByID, followOrUnfollowUser, togglePinned } from "./api";
-import { animateButtonAfterClickOnLike, animateButtonAfterClickOnRetweet, showSpinner, hideSpinner, findPostWrapperElement, openModal, toggleButtonAvailability, toggleScrollForTextarea, getPostIdForWrapper, getProfileIdFromFollowButton, toggleFollowButtons, emptyImagePreviewContainer, emptyFileContainer } from "./dom-manipulation";
+import { animateButtonAfterClickOnLike, animateButtonAfterClickOnRetweet, showSpinner, hideSpinner, findPostWrapperElement, openModal, toggleButtonAvailability, toggleScrollForTextarea, getPostIdForWrapper, getProfileIdFromFollowButton, toggleFollowButtons, emptyImagePreviewContainer, emptyFileContainer, togglePinIndicator, clearPostPinnedArea, addNewPost } from "./dom-manipulation";
 
 /**
  * @param {Event} e 
@@ -332,12 +332,18 @@ function onClickUploadImageToServer(e, cropper) {
       })
   });
 }
-
+/**
+ * 
+ * @param {Event} e 
+ * @returns {Promise<post>}
+ */
 function onClickTogglePinned(e) {
   e.stopPropagation();
   const button = e.target
   const postWrapper = findPostWrapperElement(button, 'post-wrapper') || findPostWrapperElement(button, 'original-post') || findPostWrapperElement(button, 'comment-post');
-  const pinned = button.dataset.pinned;
+  console.log(button.dataset)
+  const pinned = button.dataset.pinned == 'true';
+  const isProfilePage = document.querySelector("div#profile-posts div.pinned-button-wrapper");
 
   if (!postWrapper) {
     alert("Couldnt find post id")
@@ -345,15 +351,35 @@ function onClickTogglePinned(e) {
   }
 
   const pid = getPostIdForWrapper(postWrapper)
-  console.log("🚀 ~ file: listeners.js ~ line 345 ~ onClickTogglePinned ~ pid", pid)
   togglePinned(pid, pinned)
     .then(({ data, msg, status }) => {
       if (status == 200) {
-        if (data.pinned) {
-          //TODO dodati pinned post tekst i dodati ga na vrh stranice
-
-        }
         button.dataset.pinned = data.pinned;
+        console.log("🚀 ~ file: listeners.js ~ line 357 ~ .then ~ data", data)
+        togglePinIndicator(e, data);
+
+        //* This means that I am on profile page and I need to set new pinned post
+        if (isProfilePage) {
+          if (!data.pinned) {
+            postWrapper.classList.add('animate__bounceOutRight');
+
+            setTimeout(() => {
+              postWrapper.remove()
+              clearPostPinnedArea()
+
+              if (data.pinned) {
+                const wrapper = document.querySelector("#profile-posts div.pinned-post-wrapper")
+                wrapper.innerHTML = `<div class='border-b-4 border-super-light-gray-border'></div>`
+                addNewPost(wrapper, data, data.fromNow, 'prepend');
+              }
+            }, 420)
+
+          } else {
+            const wrapper = document.querySelector("#profile-posts div.pinned-post-wrapper")
+            wrapper.innerHTML = `<div class='border-b-4 border-super-light-gray-border'></div>`
+            addNewPost(wrapper, data, data.fromNow, 'prepend');
+          }
+        }
       }
     })
 

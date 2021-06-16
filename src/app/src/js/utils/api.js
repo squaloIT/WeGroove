@@ -119,7 +119,7 @@ function togglePinned(postId, pinned) {
     headers: {
       "Content-Type": "application/json"
     },
-    body: { pinned: !pinned }
+    body: JSON.stringify({ pinned: !pinned })
   })
     .then(res => res.json())
 }
