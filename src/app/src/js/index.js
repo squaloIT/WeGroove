@@ -1,5 +1,5 @@
 import { createPost } from './utils/api';
-import { disableButton, enableButton, addNewPost, showSpinner, hideSpinner, setSeparatorHeightForAllReplies, togglePinIndicator } from './utils/dom-manipulation';
+import { disableButton, enableButton, addNewPost, showSpinner, hideSpinner, setSeparatorHeightForAllReplies } from './utils/dom-manipulation';
 import { onClickLikePost, onClickRetweetPost, onClickCommentPost, onClickCommentButton, onPostWrapperClick, onClickDeletePost, onClickTogglePinned } from './utils/listeners';
 
 export default function index() {

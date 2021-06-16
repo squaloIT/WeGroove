@@ -1,4 +1,4 @@
-import { onClickLikePost, onClickRetweetPost, onClickCommentPost, onClickDeletePost } from './listeners';
+import { onClickLikePost, onClickRetweetPost, onClickCommentPost, onClickDeletePost, onClickTogglePinned } from './listeners';
 
 /** @returns String */
 const getDeleteButtonContent = () => `<svg viewBox="0 0 24 24" aria-hidden="true" class="fill-current pointer-events-none text-mid-gray-for-text w-5 h-5">
@@ -184,19 +184,6 @@ function createDeleteButtonElements() {
   return { span: null, button }
 }
 
-/** 
- * @returns { buttonWrapperElements }
- */
-function createPinButtonElements() {
-  const button = document.createElement('button')
-  button.className = 'cursor-pointer pin-post-button focus:outline-none p-2 rounded-full'
-  button.dataset.pinned = "false";
-  button.addEventListener('click',);
-  button.innerHTML = getPinButtonContent()
-
-  return { span: null, button }
-}
-
 export {
   createPostHTML,
   getCommentButtonContent,
@@ -205,7 +192,6 @@ export {
   getRetweetButtonContent,
   createDeleteButtonElements,
   createCommentButtonElements,
-  createPinButtonElements,
   createElementForButtonWrapper,
   createLikeButtonElements,
   createPostElement,

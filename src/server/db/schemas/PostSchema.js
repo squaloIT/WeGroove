@@ -57,7 +57,7 @@ PostSchema.statics.findAllUserPosts = async (userId, filterTab = false) => {
   const filterObj = createFiltersForSelectedTab(userId, filterTab);
 
   var allPostsForFilters = await PostModel
-    .find({ ...filterObj })
+    .find({ ...filterObj, pinned: false })
     .sort({ "createdAt": "-1" })
     .lean()
 

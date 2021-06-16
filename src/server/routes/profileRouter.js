@@ -153,7 +153,6 @@ router.get('/:username/:tab', async (req, res, next) => {
           return res.redirect('/')
         })
     }
-    console.log("🚀 ~ file: profileRouter.js ~ line 155 ~ router.get ~ pinnedPost", pinnedPost)
 
     res.render('main', {
       page: 'profile',
@@ -185,8 +184,6 @@ router.get('/:username', async (req, res, next) => {
       console.log(err);
       return res.redirect('/')
     })
-
-  console.log("🚀 ~ file: profileRouter.js ~ line 184 ~ router.get ~ pinnedPost", JSON.stringify(pinnedPost, null, 2))
 
   res.render('main', {
     page: 'profile',

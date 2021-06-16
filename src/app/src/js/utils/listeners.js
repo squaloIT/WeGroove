@@ -1,5 +1,5 @@
 import { likePost, retweetPost, getPostData, replyToPost, deletePostByID, followOrUnfollowUser, togglePinned } from "./api";
-import { animateButtonAfterClickOnLike, animateButtonAfterClickOnRetweet, showSpinner, hideSpinner, findPostWrapperElement, openModal, toggleButtonAvailability, toggleScrollForTextarea, getPostIdForWrapper, getProfileIdFromFollowButton, toggleFollowButtons, emptyImagePreviewContainer, emptyFileContainer, togglePinIndicator, clearPostPinnedArea, addNewPost } from "./dom-manipulation";
+import { animateButtonAfterClickOnLike, animateButtonAfterClickOnRetweet, showSpinner, hideSpinner, findPostWrapperElement, openModal, toggleButtonAvailability, toggleScrollForTextarea, getPostIdForWrapper, getProfileIdFromFollowButton, toggleFollowButtons, emptyImagePreviewContainer, emptyFileContainer } from "./dom-manipulation";
 
 /**
  * @param {Event} e 
@@ -262,11 +262,9 @@ function openPhotoEditModal(e, type, cropper) {
       const reader = new FileReader();
 
       reader.onload = function (e) {
-        alert("TEST")
         const previewImage = document.querySelector('div#image-preview > img');
         previewImage.src = e.target.result;
 
-        console.log("🚀 ~ file: listeners.js ~ line 274 ~ cropper", cropper)
         if (cropper.instance) {
           cropper.instance.destroy();
           // emptyImagePreviewContainer();
@@ -305,16 +303,13 @@ function onClickUploadImageToServer(e, cropper) {
     return;
   }
   const photoSaveLabel = e.target.querySelector('span.photo-save__label')
-  console.log("🚀 ~ file: listeners.js ~ line 287 ~ onClickUploadImageToServer ~ photoSaveLabel", photoSaveLabel)
   const photoSaveSpinner = e.target.querySelector('i.photo-save__spinner')
-  console.log("🚀 ~ file: listeners.js ~ line 289 ~ onClickUploadImageToServer ~ photoSaveSpinner", photoSaveSpinner)
   showSpinner(photoSaveLabel, photoSaveSpinner)
 
   canvas.toBlob((blob) => {
     var formData = new FormData()
     formData.append('croppedImage', blob)
     const typeOfPhotoToUpload = document.querySelector('input#photo').dataset.type;
-    console.log("🚀 ~ file: listeners.js ~ line 290 ~ canvas.toBlob ~ typeOfPhotoToUpload", typeOfPhotoToUpload)
 
     fetch(`/profile/upload/${typeOfPhotoToUpload}`, {
       method: "POST",
@@ -343,7 +338,7 @@ function onClickTogglePinned(e) {
   const postWrapper = findPostWrapperElement(button, 'post-wrapper') || findPostWrapperElement(button, 'original-post') || findPostWrapperElement(button, 'comment-post');
   console.log(button.dataset)
   const pinned = button.dataset.pinned == 'true';
-  const isProfilePage = document.querySelector("div#profile-posts div.pinned-button-wrapper");
+  // const isProfilePage = document.querySelector("div#profile-posts div.pinned-button-wrapper");
 
   if (!postWrapper) {
     alert("Couldnt find post id")
@@ -354,32 +349,7 @@ function onClickTogglePinned(e) {
   togglePinned(pid, pinned)
     .then(({ data, msg, status }) => {
       if (status == 200) {
-        button.dataset.pinned = data.pinned;
-        console.log("🚀 ~ file: listeners.js ~ line 357 ~ .then ~ data", data)
-        togglePinIndicator(e, data);
-
-        //* This means that I am on profile page and I need to set new pinned post
-        if (isProfilePage) {
-          if (!data.pinned) {
-            postWrapper.classList.add('animate__bounceOutRight');
-
-            setTimeout(() => {
-              postWrapper.remove()
-              clearPostPinnedArea()
-
-              if (data.pinned) {
-                const wrapper = document.querySelector("#profile-posts div.pinned-post-wrapper")
-                wrapper.innerHTML = `<div class='border-b-4 border-super-light-gray-border'></div>`
-                addNewPost(wrapper, data, data.fromNow, 'prepend');
-              }
-            }, 420)
-
-          } else {
-            const wrapper = document.querySelector("#profile-posts div.pinned-post-wrapper")
-            wrapper.innerHTML = `<div class='border-b-4 border-super-light-gray-border'></div>`
-            addNewPost(wrapper, data, data.fromNow, 'prepend');
-          }
-        }
+        location.reload();
       }
     })
 

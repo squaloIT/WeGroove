@@ -134,8 +134,10 @@ router.put('/pin/:postId', checkIsLoggedIn, async (req, res) => {
 
   try {
     /** @type { post } */
+    await PostModel.updateOne({ pinned: true, "postedBy": req.session.user._id }, { pinned: false })
     var newPost = await PostModel.findByIdAndUpdate(req.params.postId, { pinned }, { new: true })
-    await PostModel.updateOne({ pinned: true, "postedBy._id": req.session.user._id }, { pinned: false })
+      .populate("postedBy")
+      .lean()
   }
   catch (err) {
     console.log(err)
@@ -146,7 +148,6 @@ router.put('/pin/:postId', checkIsLoggedIn, async (req, res) => {
   }
 
   newPost.fromNow = moment(newPost.createdAt).fromNow()
-
   res.status(200).json({
     status: 200,
     msg: newPost.pinned ? "Post pinned" : "Post unpinned",

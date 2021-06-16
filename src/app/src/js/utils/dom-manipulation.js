@@ -91,13 +91,12 @@ function disableButton(postBtn, hoverClass) {
  * @param { string } method 
  */
 function addNewPost(targetElement, post, createdAt, method = 'prepend') {
-  const postElement = createPostElement(postId, post.content, post.postedBy, createdAt);
+  const postElement = createPostElement(post._id, post.content, post.postedBy, createdAt);
   targetElement[method](postElement);
 
   createElementForButtonWrapper(postElement, '.button-comment-wrapper', createCommentButtonElements)
   createElementForButtonWrapper(postElement, '.button-retweet-wrapper', createRetweetButtonElements)
   createElementForButtonWrapper(postElement, '.button-like-wrapper', createLikeButtonElements)
-  createElementForButtonWrapper(postElement, '.pinned-button-wrapper', createPinButtonElements)
   createElementForButtonWrapper(postElement, '.delete-post-button-wrapper', createDeleteButtonElements)
 }
 
@@ -314,24 +313,6 @@ function toggleFollowButtons(e, label, span) {
   }
 }
 
-function togglePinIndicator(e, newPost) {
-  const postWrapper = findPostWrapperElement(e.target, 'post-wrapper') || findPostWrapperElement(e.target, 'original-post') || findPostWrapperElement(e.target, 'comment-post');
-  console.log("🚀 ~ file: dom-manipulation.js ~ line 321 ~ togglePinIndicator ~ postWrapper", postWrapper)
-  const pinnedContainer = postWrapper.querySelector('div.post-content-info__pinned-container');
-
-  if (newPost.pinned) {
-    pinnedContainer.classList.remove('hidden')
-    pinnedContainer.classList.add('block')
-    e.target.querySelector('i.fa-map-pin').classList.remove('text-mid-gray-for-text')
-    e.target.querySelector('i.fa-map-pin').classList.add('text-[#F5A962]')
-  } else {
-    pinnedContainer.classList.remove('block')
-    pinnedContainer.classList.add('hidden')
-    e.target.querySelector('i.fa-map-pin').classList.add('text-mid-gray-for-text')
-    e.target.querySelector('i.fa-map-pin').classList.remove('text-[#F5A962]')
-  }
-}
-
 function clearPostPinnedArea() {
   document.querySelector("#profile-posts div.pinned-post-wrapper").innerHTML = '';
 }
@@ -344,7 +325,6 @@ export {
   showSpinner,
   getProfileIdFromFollowButton,
   clearPostPinnedArea,
-  togglePinIndicator,
   findPostWrapperElement,
   animateButtonAfterClickOnLike,
   animateButtonAfterClickOnRetweet,
