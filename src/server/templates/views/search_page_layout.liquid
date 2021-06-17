@@ -1,0 +1,24 @@
+<div class="w-full" id='search_page'>
+  <div class='top-wrapper border-b border-super-light-gray-border pb-4 mt-2 px-3'>
+    <h1 class="text-brand-purple font-bold tracking-wider text-3xl font-lobster ">{{title}}</h1>
+  </div>
+
+  <div class='search_page_search px-6 py-4'>
+    <div class=''>
+      <input type='search' class='w-full mt-0 block px-1 py-2 border-0 border-b-2 border-gray-200 focus:ring-0 focus:border-brand-purple bg-transparent ' placeholder="Your search..." id='search' name='search' data-type="{{active}}" />
+    </div>
+  </div>
+
+  <div class='tabs-wrapper flex justify-between h-16 border-b border-t border-super-light-gray-border'>
+ 
+      {% render 'profile_page_tab', href: "/search/posts", user: user, active: active, text: 'Posts', width: 2 %}
+      {% render 'profile_page_tab', href: "/search/users", user: user, active: active, text: 'Users', width: 2 %}  
+       
+  </div>
+
+  <div class='content-wrapper' id='profile-posts'>
+      TODO OVDE IDU POSTOVI
+
+  
+  </div>
+</div>

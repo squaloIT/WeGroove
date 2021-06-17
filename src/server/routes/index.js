@@ -5,6 +5,7 @@ const registrationRouter = require('./registrationRouter')
 const postsRouter = require('./postsRouter')
 const postAPI = require('./api/posts')
 const profileRouter = require('./profileRouter')
+const searchRouter = require('./searchRouter')
 
 module.exports = {
   loginRouter,
@@ -13,5 +14,6 @@ module.exports = {
   registrationRouter,
   postAPI,
   profileRouter,
+  searchRouter,
   postsRouter
 }

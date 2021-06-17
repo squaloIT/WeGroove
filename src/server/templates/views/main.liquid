@@ -21,6 +21,9 @@
         {% elsif page == 'profile' %}
           {% render 'profile_page_layout', user: user, userProfile: userProfile, active: active, posts: posts, pinnedPost:pinnedPost %}
         
+        {% elsif page == 'search' %}
+          {% render 'search_page_layout', user: user, active: active, title: title %}
+        
         {% elsif page == 'followers_page' %}
           {% render 'followers_page_layout', user: user, userProfile: userProfile, active: active, followingOrFollowers: followingOrFollowers %}
 

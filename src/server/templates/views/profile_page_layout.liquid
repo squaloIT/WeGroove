@@ -10,10 +10,14 @@
     {% render 'profile_page_user_info', userProfile: userProfile %}
 
   <div class='tabs-wrapper flex justify-between h-16 border-b border-t border-super-light-gray-border'>
+  
+  {% assign postsHref = "/profile/" | append: userProfile.username | append: "/posts" %}
+  {% assign repliesHref = "/profile/" | append: userProfile.username | append: "/replies" %}
+  {% assign likesHref =  "/profile/" | append: userProfile.username | append: "/likes" %}
 
-      {% render 'profile_page_tab', userProfile: userProfile, active: active, text: 'Posts', width: 3 %}
-      {% render 'profile_page_tab', userProfile: userProfile, active: active, text: 'Replies', width: 3 %}
-      {% render 'profile_page_tab', userProfile: userProfile, active: active, text: 'Likes', width: 3  %}    
+    {% render 'profile_page_tab', href: postsHref, userProfile: userProfile, active: active, text: 'Posts', width: 3 %}
+    {% render 'profile_page_tab', href: repliesHref, userProfile: userProfile, active: active, text: 'Replies', width: 3 %}
+    {% render 'profile_page_tab', href: likesHref, userProfile: userProfile, active: active, text: 'Likes', width: 3 %}    
        
   </div>
 

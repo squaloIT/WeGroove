@@ -4,20 +4,26 @@
 {% if activeDownCased == textDownCased %}
    
     <div class='active tab-container w-1/{{width}} hover:bg-comment-button-blue hover:bg-opacity-20 hover:cursor-pointer hover:text-brand-blue hover:border-brand-blue '>
-  <a class='block w-full' href="/profile/{{userProfile.username}}/{{textDownCased}}">
-      <div class='tab flex justify-center items-center h-16 pointer-events-none'>
-        <span class='text-brand-blue font-bold pointer-events-none'>{{text}}</span>
-      </div>
-  </a>
+
+      <a class='block w-full' href="{{href}}">
+        <div class='tab flex justify-center items-center h-16 pointer-events-none'>
+          <span class='text-brand-blue font-bold pointer-events-none'>{{text}}</span>
+        </div>
+      </a>
+
     </div>
+
 {% else %}
-      <div class='tab-container w-1/{{width}} hover:bg-comment-button-blue hover:bg-opacity-20 
+
+    <div class='tab-container w-1/{{width}} hover:bg-comment-button-blue hover:bg-opacity-20 
       hover:cursor-pointer hover:text-brand-blue hover:border-brand-blue'>
-    <a class='block w-full' href="/profile/{{userProfile.username}}/{{textDownCased}}">
+
+      <a class='block w-full' href="{{href}}"> 
         <div class='tab flex justify-center items-center h-16 pointer-events-none'>
           <span class='text-dark-gray-for-text font-bold  pointer-events-none'>{{text}}</span>
         </div>
-    </a>
-      </div>
+      </a>
+
+    </div>
   
 {% endif %}

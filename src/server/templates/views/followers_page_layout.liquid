@@ -7,8 +7,11 @@
   </div>
 
   <div class='tabs-wrapper flex justify-between h-16 border-b border-t border-super-light-gray-border'>
-    {% render 'profile_page_tab', active: active, userProfile:userProfile, text: 'Followers', width: 2 %}
-    {% render 'profile_page_tab', active: active, userProfile:userProfile, text: 'Following', width: 2 %}
+  {% assign followersHref = "/profile/" | append: userProfile.username | append: "/followers" %}
+  {% assign followingHref = "/profile/" | append: userProfile.username | append: "/following" %}
+
+    {% render 'profile_page_tab', href: followersHref, active: active, userProfile:userProfile, text: 'Followers', width: 2 %}
+    {% render 'profile_page_tab', href: followingHref, active: active, userProfile:userProfile, text: 'Following', width: 2 %}
   </div>
 
   <div class='content-wrapper' id='profile-posts'>

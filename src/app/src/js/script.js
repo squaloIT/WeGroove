@@ -18,6 +18,12 @@ if (window.location.pathname.indexOf('/profile') == 0) {
   })
 }
 
+if (window.location.pathname.indexOf('/search') == 0) {
+  import('./search').then(({ default: search }) => {
+    search();
+  })
+}
+
 if (window.location.pathname == '/login') {
   import('./login').then(({ default: login }) => {
     login();
