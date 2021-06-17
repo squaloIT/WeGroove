@@ -147,7 +147,7 @@ router.get('/:username/:tab', async (req, res, next) => {
 
     let pinnedPost = null;
     if (tab == 'posts' || tab == 'replies') {
-      pinnedPost = await PostModel.getPinnedPostForUserID(req.session.user._id, allUserPosts)
+      pinnedPost = await PostModel.getPinnedPostForUserID(user._id, allUserPosts)
         .catch(err => {
           console.log(err);
           return res.redirect('/')
@@ -179,7 +179,7 @@ router.get('/:username', async (req, res, next) => {
       return res.redirect('/')
     })
 
-  let pinnedPost = await PostModel.getPinnedPostForUserID(req.session.user._id, allUserPosts)
+  let pinnedPost = await PostModel.getPinnedPostForUserID(user._id, allUserPosts)
     .catch(err => {
       console.log(err);
       return res.redirect('/')
