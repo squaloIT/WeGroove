@@ -124,7 +124,18 @@ function togglePinned(postId, pinned) {
     .then(res => res.json())
 }
 
+function searchTermByType(type, searchTerm) {
+  return fetch(`${process.env.SERVER_URL_DEV}/api/search/${type}/${searchTerm}`, {
+    method: 'GET',
+    headers: {
+      "Content-Type": "application/json"
+    }
+  })
+    .then(res => res.json())
+}
+
 export {
+  searchTermByType,
   createPost,
   likePost,
   retweetPost,
