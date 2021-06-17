@@ -121,6 +121,10 @@ router.get('/:username/:tab', async (req, res, next) => {
       return res.redirect('/')
     })
 
+  if (tab === 'likes' && user._id != req.session.user._id) {
+    return res.redirect('/')
+  }
+
   if (tab === 'following' || tab === 'followers') {
     const followingOrFollowers = await UserModel.getAllFollowersOrFollowingForUser(user._id, tab)
       .catch(err => {
