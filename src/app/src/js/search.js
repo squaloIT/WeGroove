@@ -1,4 +1,4 @@
-import { addNewPost, setSeparatorHeightForAllReplies } from "./utils/dom-manipulation"
+import { addNewPost, addNewPostWithPredefinedButtons, addUserToSearchResults, setSeparatorHeightForAllReplies } from "./utils/dom-manipulation"
 import { onClickCommentButton, onClickCommentPost, onClickDeletePost, onClickLikePost, onClickRetweetPost, onClickTogglePinned, onFollowOrUnfollowClick, onPostWrapperClick } from "./utils/listeners"
 import { searchTermByType } from './utils/api'
 import { createCommentButtonElements, createDeleteButtonElements, createElementForButtonWrapper, createLikeButtonElements, createPostElement, createRetweetButtonElements } from "./utils/html-creators"
@@ -57,26 +57,18 @@ export default function search() {
       } else {
 
         searchTermByType(searchType, value)
-          .then(data => {
+          .then(({ data }) => {
             //TODO ISPISATI POSTOVE ILI User-e
             console.log(data)
-            if (searchType == 'posts') {
-              data.data.forEach(post => {
-                // addNewPost(searchResults, post, post.fromNow)
-                const postElement = createPostElement(post._id, post.content, post.postedBy, post.fromNow);
-                searchResults.append(postElement);
 
-                createElementForButtonWrapper(postElement, '.button-comment-wrapper', () => createCommentButtonElements(post))
-                createElementForButtonWrapper(postElement, '.button-retweet-wrapper', () => createRetweetButtonElements(post))
-                createElementForButtonWrapper(postElement, '.button-like-wrapper', () => createLikeButtonElements(post))
-                if (post.hasDelete) {
-                  createElementForButtonWrapper(postElement, '.delete-post-button-wrapper', createDeleteButtonElements)
-                }
-              })
-            }
-            else if (searchType === 'users') {
-
-            }
+            data.forEach(elem => {
+              if (searchType == 'posts') {
+                addNewPostWithPredefinedButtons(searchResults, elem)
+              }
+              else if (searchType === 'users') {
+                addUserToSearchResults(searchResults, elem)
+              }
+            })
           })
           .catch(err => {
             console.error(err)

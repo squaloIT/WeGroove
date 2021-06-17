@@ -36,7 +36,12 @@ router.get('/:type/:searchTerm', checkIsLoggedIn, async (req, res) => {
       // .populate('following')
       // .populate('followers')
       .lean()
-    console.log("🚀 ~ file: search.js ~ line 41 ~ router.get ~ results", JSON.stringify(results, null, 2))
+
+    results = results.map(user => {
+      user.isFollowed = req.session.user.following.map(id => String(id)).includes(String(user._id))
+
+      return user
+    })
   }
 
   return res.status(200).json({

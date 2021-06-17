@@ -1,4 +1,4 @@
-import { onClickLikePost, onClickRetweetPost, onClickCommentPost, onClickDeletePost, onClickTogglePinned } from './listeners';
+import { onClickLikePost, onClickRetweetPost, onClickCommentPost, onClickDeletePost, onClickTogglePinned, onFollowOrUnfollowClick } from './listeners';
 
 /** @returns String */
 const getDeleteButtonContent = () => `<svg viewBox="0 0 24 24" aria-hidden="true" class="fill-current pointer-events-none text-mid-gray-for-text w-5 h-5">
@@ -6,7 +6,8 @@ const getDeleteButtonContent = () => `<svg viewBox="0 0 24 24" aria-hidden="true
 </svg>`;
 
 /** @returns String */
-const getPinButtonContent = () => `<i class="fas fa-map-pin fill-current pointer-events-none text-mid-gray-for-text w-5 h-5"></i>`;
+const getFollowButtonContent = text => `<span class='follow-button__label pointer-events-none'>${text}</span>
+<i class="follow-button__spinner hidden fas fa-spinner fa-pulse"></i>`;
 
 /** @returns String */
 const getCommentButtonContent = () => `<svg viewBox="0 0 24 24" aria-hidden="true" class="inline-block fill-current h-5 w-5 align-text-bottom"><g><path d="M14.046 2.242l-4.148-.01h-.002c-4.374 0-7.8 3.427-7.8 7.802 0 4.098 3.186 7.206 7.465 7.37v3.828c0 .108.044.286.12.403.142.225.384.347.632.347.138 0 .277-.038.402-.118.264-.168 6.473-4.14 8.088-5.506 1.902-1.61 3.04-3.97 3.043-6.312v-.017c-.006-4.367-3.43-7.787-7.8-7.788zm3.787 12.972c-1.134.96-4.862 3.405-6.772 4.643V16.67c0-.414-.335-.75-.75-.75h-.396c-3.66 0-6.318-2.476-6.318-5.886 0-3.534 2.768-6.302 6.3-6.302l4.147.01h.002c3.532 0 6.3 2.766 6.302 6.296-.003 1.91-.942 3.844-2.514 5.176z"></path></g></svg>`;
@@ -196,11 +197,63 @@ function createDeleteButtonElements() {
   return { span: null, button }
 }
 
+/** @returns { HTMLElement } */
+function createFollowButtonElement(user) {
+  const button = document.createElement('button')
+  button.dataset.profileId = user._id;
+
+  button.className = 'following-unfollowing follow-button cursor-pointer text-base rounded-xl outline-none px-3 py-2 font-semibold ring-0 focus:outline-white focus:shadow-none focus:ring-0'
+  button.addEventListener('click', e => onFollowOrUnfollowClick(e, 'follow'));
+  button.innerHTML = getFollowButtonContent("Follow")
+
+  return button
+}
+
+/** @returns { HTMLElement } */
+function createFollowingButtonElement(user) {
+  const button = document.createElement('button')
+  button.dataset.profileId = user._id;
+
+  button.className = 'following-unfollowing unfollow-button cursor-pointer text-base font-semibold rounded-xl outline-none px-3 py-2 focus:outline-white focus:shadow-none focus:ring-0'
+  button.addEventListener('click', e => onFollowOrUnfollowClick(e, 'unfollow'));
+  button.innerHTML = getFollowButtonContent("Following")
+
+  return button
+}
+
+function createUserRowHTML(user) {
+  return `<div class='w-full px-6 flex py-4 border-b border-super-light-gray-border'>
+  <div class='w-4/5 flex'>
+    <div class="image-container w-14 h-14">
+      <a href="/profile/${user.username}">
+        <img class='w-14 h-14 rounded-full bg-white' src="${user.profilePic}" alt="${user.username}" />
+      </a>
+    </div>
+
+    <div class='info ml-6 font-roboto w-[85%]'>
+      <a href="/profile/${user.username}">
+        <p class='full-name font-bold'>${user.firstName} ${user.lastName}</p>
+        <p class='username text-brand-dark-gray'>@${user.username}</p>
+        <p class='description'>${user.description}</p>
+      </a>
+    </div>
+  </div>
+  
+  <div class='w-1/5 flex flex-col justify-start follow-button-wrap'>
+
+   
+  </div>
+</div>`
+}
+
 export {
   createPostHTML,
   getCommentButtonContent,
   getDeleteButtonContent,
   getLikeButtonContent,
+  createFollowingButtonElement,
+  createFollowButtonElement,
+  createUserRowHTML,
   getRetweetButtonContent,
   createDeleteButtonElements,
   createCommentButtonElements,

@@ -1,5 +1,5 @@
 import './../../../typedefs';
-import { createCommentButtonElements, createDeleteButtonElements, createElementForButtonWrapper, createLikeButtonElements, createPinButtonElements, createPostElement, createRetweetButtonElements } from './html-creators';
+import { createCommentButtonElements, createDeleteButtonElements, createElementForButtonWrapper, createFollowButtonElement, createFollowingButtonElement, createLikeButtonElements, createPinButtonElements, createPostElement, createRetweetButtonElements, createUserRowHTML } from './html-creators';
 import { onKeyUpCommentTA, createFunctionToCloseModal } from './listeners';
 
 /**
@@ -98,6 +98,24 @@ function addNewPost(targetElement, post, createdAt, method = 'prepend') {
   createElementForButtonWrapper(postElement, '.button-retweet-wrapper', createRetweetButtonElements)
   createElementForButtonWrapper(postElement, '.button-like-wrapper', createLikeButtonElements)
   createElementForButtonWrapper(postElement, '.delete-post-button-wrapper', createDeleteButtonElements)
+}
+
+/**
+ * Adds newly created post to the targetElement
+ * @param { HTMLElement } targetElement 
+ * @param {post} post
+ * @param { string } method 
+ */
+function addNewPostWithPredefinedButtons(targetElement, post, method = 'prepend') {
+  const postElement = createPostElement(post._id, post.content, post.postedBy, post.fromNow);
+  targetElement[method](postElement);
+
+  createElementForButtonWrapper(postElement, '.button-comment-wrapper', () => createCommentButtonElements(post))
+  createElementForButtonWrapper(postElement, '.button-retweet-wrapper', () => createRetweetButtonElements(post))
+  createElementForButtonWrapper(postElement, '.button-like-wrapper', () => createLikeButtonElements(post))
+  if (post.hasDelete) {
+    createElementForButtonWrapper(postElement, '.delete-post-button-wrapper', createDeleteButtonElements)
+  }
 }
 
 /**
@@ -317,10 +335,26 @@ function clearPostPinnedArea() {
   document.querySelector("#profile-posts div.pinned-post-wrapper").innerHTML = '';
 }
 
+function addUserToSearchResults(searchResults, user) {
+  const div = document.createElement('div');
+  const row = createUserRowHTML(user)
+  div.innerHTML = row
+  const wrap = div.querySelector('div.follow-button-wrap')
+
+  if (user.isFollowed) {
+    wrap.appendChild(createFollowingButtonElement(user))
+  } else {
+    wrap.appendChild(createFollowButtonElement(user))
+  }
+  searchResults.append(div);
+}
+
 export {
   enableButton,
   disableButton,
   addNewPost,
+  addUserToSearchResults,
+  addNewPostWithPredefinedButtons,
   hideSpinner,
   showSpinner,
   getProfileIdFromFollowButton,
