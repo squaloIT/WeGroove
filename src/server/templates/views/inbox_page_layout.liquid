@@ -5,13 +5,21 @@
     </div>
 
     <div class='w-1/5 flex justify-end'>
-      <a href='/message/new-message'>
-        <i class="far fa-plus-square text-2xl rounded-full cursor-pointer hover:-translate-y-0.5 transform hover:text-brand-purple text-brand-dark-gray"></i>
-      </a>
+      {% if title == 'New Message' %}
+          <a href='/message'>
+            <i class="fas fa-inbox text-2xl rounded-full cursor-pointer hover:-translate-y-0.5 transform hover:text-brand-purple text-brand-dark-gray"></i>
+          </a>
+      {% else %}
+          <a href='/message/new-message'>
+            <i class="far fa-plus-square text-2xl rounded-full cursor-pointer hover:-translate-y-0.5 transform hover:text-brand-purple text-brand-dark-gray"></i>
+          </a>
+      {% endif %}
+
     </div>
   </div>
 
   {% if title == 'New Message' %}
+
     <div class='user-list-wrapper w-full flex items-baseline px-4 py-2 border-b border-super-light-gray-border 
     min-h-[60px]'>
         <label>To: </label>
