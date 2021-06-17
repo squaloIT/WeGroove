@@ -8,12 +8,10 @@ require('./../../typedefs');
 
 router.get('/:type/:searchTerm', checkIsLoggedIn, async (req, res) => {
   var results = null;
-
+  const filter = { $regex: req.params.searchTerm, $options: "i" }
   if (req.params.type == 'posts') {
     const allPosts = await PostModel.getAllPosts(req.session.user)
-    results = await PostModel.find({
-      content: { $regex: req.params.searchTerm, $options: "i" }
-    }).lean()
+    results = await PostModel.find({ content: filter }).lean()
 
     results = results.map(post => {
       /** @type { post } */
@@ -25,6 +23,20 @@ router.get('/:type/:searchTerm', checkIsLoggedIn, async (req, res) => {
 
       return p
     })
+  }
+  else if (req.params.type == 'users') {
+    results = await UserModel.find({
+      $or: [
+        { username: filter },
+        { lastName: filter },
+        { firstName: filter },
+        { email: filter }
+      ]
+    })
+      // .populate('following')
+      // .populate('followers')
+      .lean()
+    console.log("🚀 ~ file: search.js ~ line 41 ~ router.get ~ results", JSON.stringify(results, null, 2))
   }
 
   return res.status(200).json({
