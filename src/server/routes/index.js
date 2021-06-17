@@ -7,6 +7,7 @@ const postAPI = require('./api/posts')
 const searchAPI = require('./api/search')
 const profileRouter = require('./profileRouter')
 const searchRouter = require('./searchRouter')
+const messageRouter = require('./messageRouter')
 
 module.exports = {
   loginRouter,
@@ -17,5 +18,6 @@ module.exports = {
   searchAPI,
   profileRouter,
   searchRouter,
+  messageRouter,
   postsRouter
 }

@@ -3,14 +3,6 @@ const router = express.Router();
 
 require('./../typedefs');
 
-router.get('/posts/:searchTerm', async (req, res, next) => {
-
-})
-
-router.get('/users/:searchTerm', async (req, res, next) => {
-
-})
-
 router.get('/:searchType', (req, res, next) => {
   const searchType = req.params.searchType.toLowerCase();
 
