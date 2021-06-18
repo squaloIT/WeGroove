@@ -34,7 +34,16 @@
  * @property { String } apiResponse.msg
  * @property { Object | undefined } apiResponse.data
 */
-
+/**
+ * @typedef { Object } chat
+ * @property { String } chatName
+ * @property { boolean } isGroupChat
+ * @property { Array.<user> } users
+ * @property { message } latestMessage
+*/
+/**
+ * @typedef { Object } message
+*/
 /**
  * @typedef {Object} buttonWrapperElements
  * @property {HTMLElement} span - The X Coordinate

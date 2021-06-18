@@ -23,7 +23,16 @@
  * @property { String } user.firstName
  * @property { String } user.lastName
 */
-
+/**
+ * @typedef { Object } chat
+ * @property { String } chatName
+ * @property { boolean } isGroupChat
+ * @property { Array.<user> } users
+ * @property { message } latestMessage
+*/
+/**
+ * @typedef { Object } message
+*/
 /**
  * @typedef { Object } post
  * @property { String } post._id
