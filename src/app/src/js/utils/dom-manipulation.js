@@ -64,25 +64,27 @@ function fillModalWithPostValues(modal, post) {
 }
 /**
  * Enables button for creating new post
- * @param { HTMLElement } postBtn 
+ * @param { HTMLElement } btn 
  * @param { String } hoverClass 
  */
-function enableButton(postBtn, hoverClass) {
-  postBtn.classList.add(hoverClass);
-  postBtn.classList.add('cursor-pointer');
-  postBtn.classList.remove('cursor-auto');
-  postBtn.classList.remove('bg-opacity-50');
+function enableButton(btn, hoverClass) {
+  btn.classList.add(hoverClass);
+  btn.classList.add('cursor-pointer');
+  btn.classList.remove('cursor-auto');
+  btn.classList.remove('bg-opacity-50');
+  btn.removeAttribute('disabled')
 }
 /**
  * Disables button for creating new post
- * @param { HTMLElement } postBtn 
+ * @param { HTMLElement } btn 
  * @param { String } hoverClass 
  */
-function disableButton(postBtn, hoverClass) {
-  postBtn.classList.add('bg-opacity-50');
-  postBtn.classList.add('cursor-auto');
-  postBtn.classList.remove(hoverClass);
-  postBtn.classList.remove('cursor-pointer');
+function disableButton(btn, hoverClass) {
+  btn.classList.add('bg-opacity-50');
+  btn.classList.add('cursor-auto');
+  btn.classList.remove(hoverClass);
+  btn.classList.remove('cursor-pointer');
+  btn.setAttribute('disabled', true)
 }
 /**
  * Adds newly created post to the targetElement
@@ -256,12 +258,12 @@ function animateButtonAfterClickOnRetweet(button, numOfRetweets) {
   span.innerHTML = numOfRetweets || '&nbsp;&nbsp;';
 }
 
-/**
- * @param {String} postValue 
+/** 
  * @param {HTMLElement} postBtn 
+ * @param {Function} isAvailableFN 
  */
-function toggleButtonAvailability(postValue, postBtn) {
-  if (postValue.trim().length == 0) {
+function toggleButtonAvailability(postBtn, isAvailableFN) {
+  if (isAvailableFN()) {
     disableButton(postBtn, 'hover:bg-comment-button-blue')
   } else {
     enableButton(postBtn, 'hover:bg-comment-button-blue')
@@ -334,26 +336,83 @@ function toggleFollowButtons(e, label, span) {
 function clearPostPinnedArea() {
   document.querySelector("#profile-posts div.pinned-post-wrapper").innerHTML = '';
 }
-
-function addUserToSearchResults(searchResults, user) {
+/**
+ * 
+ * @param {user} user 
+ * @param {boolean} displayFollowButton 
+ * @returns { HTMLElement }
+ */
+function createSearchResultRowElement(user, displayFollowButton = true) {
   const div = document.createElement('div');
   const row = createUserRowHTML(user)
   div.innerHTML = row
   const wrap = div.querySelector('div.follow-button-wrap')
 
   if (user.isFollowed) {
-    wrap.appendChild(createFollowingButtonElement(user))
+    displayFollowButton && wrap.appendChild(createFollowingButtonElement(user))
   } else {
-    wrap.appendChild(createFollowButtonElement(user))
+    displayFollowButton && wrap.appendChild(createFollowButtonElement(user))
   }
-  searchResults.append(div);
+
+  return div;
+}
+/**
+ * @param {Array.<user>} selectedUsers 
+ */
+function displaySelectedUsers(selectedUsers) {
+  const searchInputWrapper = document.querySelector("div#inbox div.user-list-wrapper span.users")
+  if (selectedUsers.length > 0) {
+    searchInputWrapper.classList.add('pr-2')
+  } else {
+    searchInputWrapper.classList.remove('pr-2')
+  }
+  searchInputWrapper.querySelectorAll('span.user-username').forEach(el => el.remove())
+
+  selectedUsers.forEach(user => {
+    const span = document.createElement('span')
+    span.className = 'user-username px-2 py-1 mr-1 mb-1 inline-block text-brand-blue ';
+    span.innerHTML = `${user.username}`
+    searchInputWrapper.append(span)
+  })
+}
+/**
+ * Creates HTML div for every user in inbox search
+ * @param {user} user 
+ * @param {Array.<user>} selectedUsers 
+ * @param {HTMLElement} searchInput 
+ * @param {HTMLElement} contentWrapper 
+ */
+function createRowAndAddListener(user, selectedUsers, searchInput, contentWrapper) {
+  const div = createSearchResultRowElement(user, false)
+  const aTag = document.createElement("a");
+
+  aTag.addEventListener('click', e => {
+    e.stopPropagation();
+    e.preventDefault();
+
+    emptyTextboxAndContainer(searchInput, contentWrapper)
+    selectedUsers.push(user);
+    toggleButtonAvailability(createChatButton, () => selectedUsers.length == 0);
+    displaySelectedUsers(selectedUsers)
+  });
+  aTag.appendChild(div)
+  contentWrapper.append(aTag)
+}
+/**
+ * @param {HTMLElement} searchInput 
+ * @param {HTMLElement} contentWrapper 
+ */
+function emptyTextboxAndContainer(searchInput, contentWrapper) {
+  searchInput.value = '';
+  searchInput.focus();
+  contentWrapper.innerHTML = '';
 }
 
 export {
   enableButton,
   disableButton,
   addNewPost,
-  addUserToSearchResults,
+  createSearchResultRowElement,
   addNewPostWithPredefinedButtons,
   hideSpinner,
   showSpinner,
@@ -369,5 +428,7 @@ export {
   toggleFollowButtons,
   setSeparatorHeightForAllReplies,
   getPostIdForWrapper,
-  openModal
+  openModal,
+  displaySelectedUsers,
+  createRowAndAddListener
 }

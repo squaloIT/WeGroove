@@ -124,7 +124,7 @@ function onClickCommentPost(e) {
  */
 function onKeyUpCommentTA(e) {
   const postBtn = document.querySelector('div.reply-button-wrapper button.reply-comment-button')
-  toggleButtonAvailability(e.target.value, postBtn)
+  toggleButtonAvailability(postBtn, () => e.target.value.trim().length == 0)
   toggleScrollForTextarea(e, postBtn)
 }
 /**

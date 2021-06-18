@@ -1,10 +1,45 @@
 const express = require('express');
-const { fillPostAdditionalFields } = require('../../utils');
 const router = express.Router();
+const { fillPostAdditionalFields } = require('../../utils');
 const PostModel = require('./../../db/schemas/PostSchema')
 const UserModel = require('./../../db/schemas/UserSchema')
 const { checkIsLoggedIn } = require('./../../middleware')
 require('./../../typedefs');
+
+router.get('/inbox/:searchTerm', checkIsLoggedIn, async (req, res) => {
+  const filter = { $regex: req.params.searchTerm, $options: "i" };
+
+  try {
+    let users = await UserModel.find({
+      $or: [
+        { username: filter },
+        { lastName: filter },
+        { firstName: filter }
+      ],
+      $and: [{
+        _id: {
+          $ne: req.session.user._id
+        }
+      }]
+    }).lean()
+
+    users = setIsFollowedForUsers(users, req)
+
+    return res.status(200).json({
+      msg: "Successfully found users",
+      data: users,
+      status: 200
+    });
+
+  } catch (err) {
+    console.log(err)
+    res.status(400).json({
+      msg: "There was an error while trying to find users",
+      status: 400,
+      data: null
+    })
+  }
+});
 
 router.get('/:type/:searchTerm', checkIsLoggedIn, async (req, res) => {
   var results = null;
@@ -32,16 +67,9 @@ router.get('/:type/:searchTerm', checkIsLoggedIn, async (req, res) => {
         { firstName: filter },
         { email: filter }
       ]
-    })
-      // .populate('following')
-      // .populate('followers')
-      .lean()
+    }).lean()
 
-    results = results.map(user => {
-      user.isFollowed = req.session.user.following.map(id => String(id)).includes(String(user._id))
-
-      return user
-    })
+    results = setIsFollowedForUsers(results, req)
   }
 
   return res.status(200).json({
@@ -51,5 +79,11 @@ router.get('/:type/:searchTerm', checkIsLoggedIn, async (req, res) => {
   })
 })
 
+function setIsFollowedForUsers(results, req) {
+  return results.map(user => ({
+    ...user,
+    isFollowed: req.session.user.following.map(id => String(id)).includes(String(user._id))
+  }))
+}
 
 module.exports = router;

@@ -1,7 +1,6 @@
-import { addNewPost, addNewPostWithPredefinedButtons, addUserToSearchResults, setSeparatorHeightForAllReplies } from "./utils/dom-manipulation"
+import { addNewPost, addNewPostWithPredefinedButtons, createSearchResultRowElement, setSeparatorHeightForAllReplies } from "./utils/dom-manipulation"
 import { onClickCommentButton, onClickCommentPost, onClickDeletePost, onClickLikePost, onClickRetweetPost, onClickTogglePinned, onFollowOrUnfollowClick, onPostWrapperClick } from "./utils/listeners"
 import { searchTermByType } from './utils/api'
-import { createCommentButtonElements, createDeleteButtonElements, createElementForButtonWrapper, createLikeButtonElements, createPostElement, createRetweetButtonElements } from "./utils/html-creators"
 
 export default function search() {
   document.querySelector('div.reply-button-wrapper button.reply-comment-button')
@@ -66,7 +65,8 @@ export default function search() {
                 addNewPostWithPredefinedButtons(searchResults, elem)
               }
               else if (searchType === 'users') {
-                addUserToSearchResults(searchResults, elem)
+                createSearchResultRowElement(searchResults, elem, true)
+                searchResults.append(div);
               }
             })
           })

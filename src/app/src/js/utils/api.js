@@ -123,9 +123,28 @@ function togglePinned(postId, pinned) {
   })
     .then(res => res.json())
 }
-
+/**
+ * Searches for users in search page
+ * @param {String} type 
+ * @param {String} searchTerm 
+ * @returns { Promise }
+ */
 function searchTermByType(type, searchTerm) {
   return fetch(`${process.env.SERVER_URL_DEV}/api/search/${type}/${searchTerm}`, {
+    method: 'GET',
+    headers: {
+      "Content-Type": "application/json"
+    }
+  })
+    .then(res => res.json())
+}
+/**
+ * Searches for users on inbox page
+ * @param {String} searchTerm 
+ * @returns { Promise }
+ */
+function searchUsers(searchTerm) {
+  return fetch(`${process.env.SERVER_URL_DEV}/api/search/inbox/${searchTerm}`, {
     method: 'GET',
     headers: {
       "Content-Type": "application/json"
@@ -136,6 +155,7 @@ function searchTermByType(type, searchTerm) {
 
 export {
   searchTermByType,
+  searchUsers,
   createPost,
   likePost,
   retweetPost,
