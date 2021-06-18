@@ -158,14 +158,14 @@ function searchUsers(searchTerm) {
  * @returns { Promise }
  */
 function createChat(selectedUsers) {
-  const data = JSON.stringify(selectedUsers);
-
   return fetch(`${process.env.SERVER_URL_DEV}/api/chat/create`, {
     method: 'POST',
     headers: {
       "Content-Type": "application/json"
     },
-    body: data
+    body: JSON.stringify({
+      users: selectedUsers
+    })
   }).then(res => res.json())
 }
 

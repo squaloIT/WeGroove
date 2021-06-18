@@ -4,6 +4,7 @@ const logoutRouter = require('./logoutRouter')
 const registrationRouter = require('./registrationRouter')
 const postsRouter = require('./postsRouter')
 const postAPI = require('./api/post')
+const chatAPI = require('./api/chat')
 const searchAPI = require('./api/search')
 const profileRouter = require('./profileRouter')
 const searchRouter = require('./searchRouter')
@@ -15,6 +16,7 @@ module.exports = {
   logoutRouter,
   registrationRouter,
   postAPI,
+  chatAPI,
   searchAPI,
   profileRouter,
   searchRouter,

@@ -45,7 +45,7 @@ export default function inbox() {
     })
   }
 
-  createChatButton.addEventListener('click', e => onClickCreateChat(e, selectedUsers))
+  createChatButton && createChatButton.addEventListener('click', e => onClickCreateChat(e, selectedUsers))
 
   function deleteUserFromSelectedUsers(selectedUsers, createChatButton, contentWrapper) {
     selectedUsers.pop();

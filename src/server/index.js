@@ -5,7 +5,7 @@ const path = require('path')
 const bodyParser = require('body-parser');
 const session = require('express-session')
 const cookieParser = require('cookie-parser');
-const { homeRouter, loginRouter, logoutRouter, postAPI, postsRouter, registrationRouter, profileRouter, searchRouter, searchAPI, messageRouter } = require('./routes/index')
+const { homeRouter, loginRouter, logoutRouter, postAPI, postsRouter, registrationRouter, profileRouter, searchRouter, searchAPI, messageRouter, chatAPI } = require('./routes/index')
 const { checkIsLoggedIn, isRememberedCookiePresent } = require('./middleware')
 
 const app = express()
@@ -49,4 +49,5 @@ app.use('/message', checkIsLoggedIn, messageRouter);
 app.use('/', checkIsLoggedIn, homeRouter);
 
 app.use('/api/posts', postAPI);
+app.use('/api/chat', chatAPI);
 app.use('/api/search', searchAPI);
