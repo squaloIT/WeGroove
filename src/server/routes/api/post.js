@@ -1,10 +1,10 @@
 const moment = require('moment');
 const express = require('express')
 const router = express.Router();
-const PostModel = require('./../../db/schemas/PostSchema')
-const UserModel = require('./../../db/schemas/UserSchema')
-const { checkIsLoggedIn } = require('./../../middleware')
-require('./../../typedefs');
+const PostModel = require('../../db/schemas/PostSchema')
+const UserModel = require('../../db/schemas/UserSchema')
+const { checkIsLoggedIn } = require('../../middleware')
+require('../../typedefs');
 
 router.post('/', checkIsLoggedIn, async (req, res, next) => {
   if (!req.body.content || !req.session.user) {
