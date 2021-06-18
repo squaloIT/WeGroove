@@ -355,6 +355,17 @@ function onClickTogglePinned(e) {
 
 }
 
+function onClickCreateChat(e, selectedUsers) {
+  createChat(selectedUsers)
+    .then(res => {
+      console.log(res)
+      //TODO Ucitati stranicu sa tim chat-om
+    })
+    .catch(err => {
+      console.error(err)
+    })
+}
+
 export {
   onClickLikePost,
   onClickCommentPost,
@@ -368,5 +379,6 @@ export {
   onPostWrapperClick,
   onClickTogglePinned,
   onClickUploadImageToServer,
-  onFollowOrUnfollowClick
+  onFollowOrUnfollowClick,
+  onClickCreateChat
 }

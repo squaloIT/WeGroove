@@ -152,6 +152,22 @@ function searchUsers(searchTerm) {
   })
     .then(res => res.json())
 }
+/**
+ * 
+ * @param {Array.<user>} selectedUsers 
+ * @returns { Promise }
+ */
+function createChat(selectedUsers) {
+  const data = JSON.stringify(selectedUsers);
+
+  return fetch(`${process.env.SERVER_URL_DEV}/api/chat/create`, {
+    method: 'POST',
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: data
+  }).then(res => res.json())
+}
 
 export {
   searchTermByType,
@@ -164,5 +180,6 @@ export {
   deletePostByID,
   followOrUnfollowUser,
   togglePinned,
+  createChat,
   getAllPostsForUserAndSelectedTab
 }

@@ -1,5 +1,6 @@
 import { searchUsers } from "./utils/api";
 import { createRowAndAddListener, displaySelectedUsers, toggleButtonAvailability } from "./utils/dom-manipulation";
+import { onClickCreateChat } from "./utils/listeners";
 
 export default function inbox() {
   var timer = null;
@@ -43,6 +44,8 @@ export default function inbox() {
       }, 1000)
     })
   }
+
+  createChatButton.addEventListener('click', e => onClickCreateChat(e, selectedUsers))
 
   function deleteUserFromSelectedUsers(selectedUsers, createChatButton, contentWrapper) {
     selectedUsers.pop();
