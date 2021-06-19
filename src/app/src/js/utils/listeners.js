@@ -354,12 +354,14 @@ function onClickTogglePinned(e) {
     })
 
 }
-
+/**
+ * @param { Event } e 
+ * @param { Array.<user> } selectedUsers 
+ */
 function onClickCreateChat(e, selectedUsers) {
   createChat(selectedUsers)
     .then(res => {
-      console.log(res)
-      //TODO Ucitati stranicu sa tim chat-om
+      window.location.href = '/messages/' + res.data._id
     })
     .catch(err => {
       console.error(err)
