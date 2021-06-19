@@ -7,8 +7,6 @@ require('./../typedefs');
 router.get('/', async (req, res, next) => {
   /** @type { Array.<chat> } */
   const chats = await ChatSchema.getAllChatsForUser(req.session.user._id);
-  console.log("🚀 ~ file: messageRouter.js ~ line 10 ~ router.get ~ chats", JSON.stringify(chats));
-
   const chatWihoutLoggedUser = chats.map(c => {
     const users = c.users.filter(u => u._id != req.session.user._id);
 
