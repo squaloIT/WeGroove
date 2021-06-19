@@ -25,7 +25,7 @@
           {% render 'search_page_layout', user: user, active: active, title: title %}
         
         {% elsif page == 'inbox' %}
-          {% render 'inbox_page_layout', user: user, active: active, title: title %}
+          {% render 'inbox_page_layout', user: user, active: active, title: title, chats: chats %}
         
         {% elsif page == 'followers_page' %}
           {% render 'followers_page_layout', user: user, userProfile: userProfile, active: active, followingOrFollowers: followingOrFollowers %}

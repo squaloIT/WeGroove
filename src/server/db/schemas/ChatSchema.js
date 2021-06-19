@@ -8,4 +8,14 @@ const ChatSchema = new mongoose.Schema({
   latestMessage: { type: mongoose.Schema.Types.ObjectId, ref: "Message" }
 }, { timestamps: true });
 
-module.exports = mongoose.model("Chat", ChatSchema)
+ChatSchema.statics.getAllChatsForUser = async function (userId) {
+  const chats = await ChatModel
+    .find({ users: { $elemMatch: { $eq: userId } } })
+    .populate('users')
+    .lean()
+  // TODO - Populate users
+
+  return chats;
+}
+const ChatModel = mongoose.model("Chat", ChatSchema)
+module.exports = ChatModel

@@ -41,6 +41,11 @@
     </div>
     
   {% else %}
+
+    <div class='chats-wrapper'>
+      {% render 'chats', chats: chats %}
+    </div>
+
   {% endif %}
 
 </div>
