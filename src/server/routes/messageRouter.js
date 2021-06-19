@@ -25,7 +25,7 @@ router.get('/', async (req, res, next) => {
   });
 })
 
-router.get('/new-message', (req, res, next) => {
+router.get('/new', (req, res, next) => {
   res.status(200).render('main', {
     title: "New Message",
     page: 'inbox',
