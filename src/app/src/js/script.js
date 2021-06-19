@@ -24,7 +24,7 @@ if (window.location.pathname.indexOf('/search') == 0) {
   })
 }
 
-if (window.location.pathname.indexOf('/message') == 0) {
+if (window.location.pathname.indexOf('/messages') == 0) {
   import('./inbox').then(({ default: inbox }) => {
     inbox();
   })

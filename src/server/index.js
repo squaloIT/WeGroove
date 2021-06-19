@@ -45,7 +45,7 @@ app.use('/registration', registrationRouter);
 app.use('/post', checkIsLoggedIn, postsRouter);
 app.use('/profile', checkIsLoggedIn, profileRouter);
 app.use('/search', checkIsLoggedIn, searchRouter);
-app.use('/message', checkIsLoggedIn, messageRouter);
+app.use('/messages', checkIsLoggedIn, messageRouter);
 app.use('/', checkIsLoggedIn, homeRouter);
 
 app.use('/api/posts', postAPI);
