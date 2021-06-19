@@ -5,13 +5,13 @@
     </div>
 
     <div class='w-1/5 flex justify-end'>
-      {% if title == 'New Message' %}
-          <a href='/messages'>
-            <i class="fas fa-inbox text-2xl rounded-full cursor-pointer hover:-translate-y-0.5 transform hover:text-brand-purple text-brand-dark-gray"></i>
-          </a>
-      {% else %}
+      {% if subPage == 'inbox' %}
           <a href='/messages/new'>
             <i class="far fa-plus-square text-2xl rounded-full cursor-pointer hover:-translate-y-0.5 transform hover:text-brand-purple text-brand-dark-gray"></i>
+          </a>
+      {% else %}
+          <a href='/messages'>
+            <i class="fas fa-inbox text-2xl rounded-full cursor-pointer hover:-translate-y-0.5 transform hover:text-brand-purple text-brand-dark-gray"></i>
           </a>
       {% endif %}
 
@@ -19,7 +19,7 @@
   </div>
 
 
-  {% if title == 'New Message' %}
+  {% if subPage == 'new-message' %}
 
     <div class='user-list-wrapper w-full flex flex-wrap items-baseline px-4 py-2 border-b border-super-light-gray-border 
     min-h-[60px]'>
@@ -40,12 +40,14 @@
       </button>
     </div>
     
-  {% else %}
+  {% elsif subPage == 'inbox' %}
 
     <div class='chats-wrapper'>
       {% render 'chats', chats: chats %}
     </div>
 
+  {% else %}
+    STRANICA ZA CHAT
   {% endif %}
 
 </div>
