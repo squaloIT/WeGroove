@@ -12,6 +12,7 @@ ChatSchema.statics.getAllChatsForUser = async function (userId) {
   const chats = await ChatModel
     .find({ users: { $elemMatch: { $eq: userId } } })
     .populate('users')
+    .sort({ updatedAt: -1 })
     .lean()
   // TODO - Populate users
 
