@@ -30,7 +30,7 @@
   </div>
 
   <div class='flex flex-row space-x-5 justify-between pt-2 '>
-    <a href="/profile/{{post.postedBy.username}}" class='cursor-pointer'>
+    <a href="/profile/{{post.retweetData.postedBy.username}}" class='cursor-pointer'>
       {% render 'small_profile_image_rounded', user: post.retweetData.postedBy %}
 
       {% comment %} <div class="post__image-container w-14 h-14">
