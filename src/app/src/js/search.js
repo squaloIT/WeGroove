@@ -42,6 +42,7 @@ export default function search() {
 
   /** @type { HTMLElement } */
   const searchResults = document.querySelector('div#search-results')
+  console.log("🚀 ~ file: search.js ~ line 45 ~ search ~ searchResults", searchResults)
 
   var timer = null;
   document.querySelector('input#search').addEventListener('keyup', function (e) {
@@ -65,7 +66,7 @@ export default function search() {
                 addNewPostWithPredefinedButtons(searchResults, elem)
               }
               else if (searchType === 'users') {
-                createSearchResultRowElement(searchResults, elem, true)
+                const div = createSearchResultRowElement(elem, true)
                 searchResults.append(div);
               }
             })

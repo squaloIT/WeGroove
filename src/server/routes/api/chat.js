@@ -21,7 +21,7 @@ router.post('/create', checkIsLoggedIn, async (req, res) => {
     const chatAlreadyExists = await ChatModel.findOne({ users: { $eq: users } })
 
     if (!chatAlreadyExists) {
-      const chat = new ChatModel({ isGroupChat: true, users })
+      const chat = new ChatModel({ isGroupChat: users.length > 2, users })
       await chat.save()
 
       return res.status(200).json({

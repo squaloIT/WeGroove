@@ -1,5 +1,5 @@
 const express = require('express');
-const { Schema } = require('mongoose');
+const mongoose = require('mongoose');
 const ChatModel = require('../db/schemas/ChatSchema');
 const ChatSchema = require('../db/schemas/ChatSchema');
 const UserModel = require('../db/schemas/UserSchema');
@@ -45,7 +45,7 @@ router.get('/:chatId', async (req, res, next) => {
   var chat = await ChatModel.findOne({
     _id: chatId,
     users: { $elemMatch: { $eq: userId } }
-  })
+  }).populate("users");
 
   if (chat == null) {
     const userFound = await UserModel.findById(chatId);
@@ -66,32 +66,53 @@ router.get('/:chatId', async (req, res, next) => {
   });
 })
 
-function createOrGetChatWithUser(userFound, userLogged) {
-  return ChatModel.findOneAndUpdate(
+async function createOrGetChatWithUser(userFound, userLogged) {
+  var chat = await ChatModel.findOne(
     {
       isGroupChat: false,
-      users: [userFound._id, userLogged._id]
-      // users: {
-      //   $size: 2,
-      //   $all: [
-      //     {
-      //       $elemMatch: { $eq: Schema.Types.ObjectId(userFound._id) },
-      //       $elemMatch: { $eq: Schema.Types.ObjectId(userLogged._id) }
-      //     }
-      //   ]
-      // }
-    },
-    {
-      $setOnInsert: {
-        users: [userFound._id, userLogged._id]
-      }
-    },
-    {
-      new: true,
-      upsert: true
+      users: ["" + userFound._id, "" + userLogged._id]
     }
-  )
-    .populate('users')
+  ).populate('users');
+
+  if (chat == null) {
+    chat = new ChatModel({
+      isGroupChat: false,
+      users: [userFound._id, userLogged._id]
+    })
+
+    await chat.save()
+    chat = await chat.populate('users');
+  }
+
+  return chat
 }
+
+// function createOrGetChatWithUser(userFound, userLogged) {
+//   return ChatModel.findOneAndUpdate( //???
+//     {
+//       isGroupChat: false,
+//       // users: [userFound._id, userLogged._id]
+//       users: {
+//         $size: 2,
+//         $all: [
+//           {
+//             $elemMatch: { $eq: mongoose.Types.ObjectId(userFound._id) },
+//             $elemMatch: { $eq: mongoose.Types.ObjectId(userLogged._id) }
+//           }
+//         ]
+//       }
+//     },//60ce04c54ccebe53c0239fed
+//     {
+//       $setOnInsert: {
+//         users: [userFound._id, userLogged._id]
+//       }
+//     },
+//     {
+//       new: true,
+//       upsert: true
+//     }
+//   )
+//     .populate('users')
+// }
 
 module.exports = router;

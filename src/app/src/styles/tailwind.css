@@ -311,7 +311,7 @@ div.tab-container.active span {
 	color: rgba(50,106,218,1);
 }
 
- button.white-text-onHover-button:hover span {
+ button.white-text-onHover-button:hover span,  a.white-text-onHover-button:hover span {
 	color:#fff;
 }
  button.unfollow-button:hover span {

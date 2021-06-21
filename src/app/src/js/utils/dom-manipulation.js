@@ -319,14 +319,14 @@ function toggleFollowButtons(e, label, span) {
     e.target.classList.remove('unfollow-button')
     e.target.classList.add('follow-button')
     label.innerText = "Follow";
-    const messageButton = document.querySelector('button.message-user-button')
+    const messageButton = document.querySelector('button.message-user-link')
     messageButton && messageButton.classList.add('hidden');
     if (span) span.innerText = Number(span.innerText) - 1;
 
   } else {
     e.target.classList.remove('follow-button')
     e.target.classList.add('unfollow-button')
-    const messageButton = document.querySelector('button.message-user-button')
+    const messageButton = document.querySelector('button.message-user-link')
     messageButton && messageButton.classList.remove('hidden');
     label.innerText = "Following"
     if (span) span.innerText = Number(span.innerText) + 1;
