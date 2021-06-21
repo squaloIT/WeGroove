@@ -6,7 +6,7 @@ import { onKeyUpCommentTA, createFunctionToCloseModal } from './listeners';
  * @param {post} post 
  */
 function openModal(post) {
-  const modal = document.getElementById('comment-modal')
+  const modal = document.getElementById('modal-container')
   modal.classList.remove('hidden')
 
   fillModalWithPostValues(modal, post)

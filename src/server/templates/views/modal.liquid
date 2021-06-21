@@ -1,0 +1,13 @@
+<div id="modal-container" class="fixed top-0 left-0 w-screen h-screen flex justify-center bg-blue-500 bg-opacity-50 transform transition-transform duration-300 hidden">
+    <div class="bg-white max-w-[80vw] w-[50vw] h-[fit-content] max-h-[85vh] rounded-2xl overflow-hidden mt-12 "> 
+        <!-- Modal Header -->
+        {% render 'modal_header' %}
+        <!-- Modal content -->
+        {% if page == 'inbox' %}
+            {% render 'modal_content_inbox', user: user %}
+        {% else %}
+            {% render 'modal_content_comment', user: user %}
+        {% endif %}
+    </div>
+</div>
+

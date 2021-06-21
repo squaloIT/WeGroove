@@ -7,10 +7,10 @@ import { animateButtonAfterClickOnLike, animateButtonAfterClickOnRetweet, showSp
 function onClickCommentButton(e) {
   e.stopPropagation();
   const pid = e.target.dataset.pid;
-  const content = document.querySelector("div#comment-modal div.reply-aria textarea").value;
+  const content = document.querySelector("div#modal-container div.reply-aria textarea").value;
 
-  const commentButtonLabel = document.querySelector('div#comment-modal div.reply-button-wrapper span.comment-button__label')
-  const commentButtonSpinner = document.querySelector('div#comment-modal div.reply-button-wrapper .comment-button__spinner')
+  const commentButtonLabel = document.querySelector('div#modal-container div.reply-button-wrapper span.comment-button__label')
+  const commentButtonSpinner = document.querySelector('div#modal-container div.reply-button-wrapper .comment-button__spinner')
   showSpinner(commentButtonLabel, commentButtonSpinner)
 
   replyToPost(pid, content)

@@ -8,6 +8,13 @@ export default function inbox() {
   const contentWrapper = document.querySelector('div#inbox div.content-wrapper');
   const searchInput = document.querySelector('input#search-user')
   const createChatButton = document.querySelector('button#createChatButton')
+  const chatNameHeader = document.querySelector('div#inbox div.header-chat-name')
+
+  if (chatNameHeader) {
+    chatNameHeader.addEventListener('click', function (e) {
+      //TODO otvoriti modal za menjanje imena chat-a
+    })
+  }
 
   if (searchInput) {
     searchInput.addEventListener('keyup', function (e) {
