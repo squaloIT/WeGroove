@@ -352,3 +352,12 @@ div#inbox div.user-list-wrapper span.users span.user-username {
 	border-color: #326ada;
 	pointer-events: none;
 }
+
+div#inbox div.group-message-image-container div.image-container:last-child {
+	margin-left: 0px;
+}
+
+div#inbox div.header-chat-image-container div.image-container img {
+	border:2px solid rgba(67,62,144,1);
+	background-color: rgba(67,62,144,1)
+}

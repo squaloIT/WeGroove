@@ -11,7 +11,13 @@
         </div>
       </div>
 
-      <div class='w-[65%] border-l-2 border-r-2 border-super-light-gray-border min-h-screen  pb-10'>
+      <div class='w-[65%] border-l-2 border-r-2 border-super-light-gray-border min-h-screen  
+      {% if subPage == 'chat' %}
+        h-screen
+      {% else %}
+      pb-10
+      {% endif %}
+      '>
         {% if page == 'home' %}
           {% render 'home_page_layout', user: user, posts: posts, title: title %}
 
@@ -25,7 +31,7 @@
           {% render 'search_page_layout', user: user, active: active, title: title %}
         
         {% elsif page == 'inbox' %}
-          {% render 'inbox_page_layout', user: user, active: active, title: title, chats: chats, subPage: subPage %}
+          {% render 'inbox_page_layout', user: user, active: active, title: title, chats: chats, subPage: subPage, chat: chat %}
         
         {% elsif page == 'followers_page' %}
           {% render 'followers_page_layout', user: user, userProfile: userProfile, active: active, followingOrFollowers: followingOrFollowers %}

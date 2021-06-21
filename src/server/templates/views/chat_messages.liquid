@@ -1,0 +1,54 @@
+<div class='header-chat-info-wrapper border-b border-super-light-gray-border'>
+  <div class='header-chat-info-container flex flex-1 px-3 py-2'>
+   
+    <div class='header-chat-image-container'> 
+      {% if chat.users.size > 2 %}
+
+        {% render 'chat_message_header_images', chat: chat, userLogged: user %}
+
+      {% else %}
+        {% comment %} User which is logged in is always in the last place so to fisplay other users image i get the first from the array (only two in array) {% endcomment %}
+        {% render 'small_profile_image_rounded', user: chat.users[0] %}
+
+      {% endif %}
+    </div>
+
+    <div class='header-chat-name flex flex-1 items-center ml-4'>
+      <h4 class='w-full hover:border hover:border-brand-dark-gray hover:cursor-text py-1 px-2 text-gray-500'>This is chat name</h4>
+    </div>
+  </div>
+
+</div>
+
+
+<div class="chat-messages-container flex flex-1 flex-col bottom-3 h-full overflow-y-auto">
+  
+  <div class='message-container w-full px-4'>
+    <div class='incoming-message'>
+      <span class='inline-block px-2 py-1'>Neki Tekst poruke</span>
+    </div>
+  </div>
+
+  <div class='message-container w-full px-4'>
+    <div class='outgoing-message'>
+      <span class='inline-block px-2 py-1'>Neki Tekst poruke</span>
+    </div>
+  </div>
+  
+  <div class='message-container w-full px-4'>
+    <div class='outgoing-message'>
+      <span class='inline-block px-2 py-1'>Neki Tekst poruke</span>
+    </div>
+  </div>
+</div>
+
+<div class='footer-chat-messages-container flex py-2 px-3'>
+
+  <textarea 
+  class='chat-message-ta resize-none block border-none bg-black bg-opacity-5 text-brand-dark-gray w-11/12 rounded-2xl h-10 py-2' 
+  placeholder="Type your new message..."></textarea>
+
+  <button class='ml-3' id='send-message-button'>
+    <i class="fas fa-paper-plane text-comment-button-blue text-lg"></i>
+  </button>
+</div>
