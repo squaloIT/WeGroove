@@ -31,7 +31,7 @@
 
 <div class="chat-messages-container flex flex-1 flex-col h-full overflow-y-auto pt-2">
   {% for message in messages %}
-      {% render 'chat_message_row', message: message, user: user %}
+      {% render 'chat_message_row', message: message, user: user, chat: chat %}
   {% endfor %}
 </div>
 

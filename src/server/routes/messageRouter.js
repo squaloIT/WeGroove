@@ -7,6 +7,7 @@ const router = express.Router();
 
 require('./../typedefs');
 
+//* messages
 router.get('/', async (req, res, next) => {
   /** @type { Array.<chat> } */
   const chats = await ChatModel.getAllChatsForUser(req.session.user._id);
@@ -29,6 +30,7 @@ router.get('/', async (req, res, next) => {
   });
 })
 
+//* messages/new
 router.get('/new', (req, res, next) => {
   res.status(200).render('main', {
     title: "New Message",
@@ -38,6 +40,7 @@ router.get('/new', (req, res, next) => {
   });
 })
 
+//* messages/60d1b0731fefcb2adc407e4d
 router.get('/:chatId', async (req, res, next) => {
   const chatId = req.params.chatId;
   const userId = req.session.user._id;
@@ -57,7 +60,20 @@ router.get('/:chatId', async (req, res, next) => {
     }
   }
 
-  const chatMessages = await MessageModel.find({ chat: chatId })
+  let chatMessages = await MessageModel.find({ chat: chatId })
+    .populate('sender')
+    .populate('chat')
+    .lean()
+
+  chatMessages = chatMessages.map((msg, i) => {
+    return {
+      ...msg,
+      prevMessage: chatMessages[i - 1],
+      nextMessage: chatMessages[i + 1],
+    }
+  });
+
+  console.log(JSON.stringify(chatMessages, null, 3));
 
   res.status(200).render('main', {
     title: "Chat",
@@ -90,33 +106,5 @@ async function createOrGetChatWithUser(userFound, userLogged) {
 
   return chat
 }
-
-// function createOrGetChatWithUser(userFound, userLogged) {
-//   return ChatModel.findOneAndUpdate( //???
-//     {
-//       isGroupChat: false,
-//       // users: [userFound._id, userLogged._id]
-//       users: {
-//         $size: 2,
-//         $all: [
-//           {
-//             $elemMatch: { $eq: mongoose.Types.ObjectId(userFound._id) },
-//             $elemMatch: { $eq: mongoose.Types.ObjectId(userLogged._id) }
-//           }
-//         ]
-//       }
-//     },//60ce04c54ccebe53c0239fed
-//     {
-//       $setOnInsert: {
-//         users: [userFound._id, userLogged._id]
-//       }
-//     },
-//     {
-//       new: true,
-//       upsert: true
-//     }
-//   )
-//     .populate('users')
-// }
 
 module.exports = router;
