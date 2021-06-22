@@ -168,10 +168,26 @@ function createChat(selectedUsers) {
     })
   }).then(res => res.json())
 }
+/**
+ * 
+ * @param {string} chatName 
+ * @param {string} chatId 
+ * @returns { Promise }
+ */
+function changeChatName(chatName, chatId) {
+  return fetch(`${process.env.SERVER_URL_DEV}/api/chat/change-chat-name`, {
+    method: 'PUT',
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({ chatName, chatId })
+  }).then(res => res.json())
+}
 
 export {
   searchTermByType,
   searchUsers,
+  changeChatName,
   createPost,
   likePost,
   retweetPost,

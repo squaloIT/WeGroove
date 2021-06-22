@@ -1,6 +1,6 @@
 import { searchUsers } from "./utils/api";
-import { createRowAndAddListener, displaySelectedUsers, toggleButtonAvailability } from "./utils/dom-manipulation";
-import { onClickCreateChat } from "./utils/listeners";
+import { createRowAndAddListener, disableButton, displaySelectedUsers, toggleButtonAvailability } from "./utils/dom-manipulation";
+import { onClickCreateChat, onClickSaveChatNameButton } from "./utils/listeners";
 
 export default function inbox() {
   var timer = null;
@@ -12,11 +12,39 @@ export default function inbox() {
 
   if (chatNameHeader) {
     chatNameHeader.addEventListener('click', function (e) {
+      const chatId = e.target.dataset.chatId;
+      const currentChatName = chatNameHeader.innerText;
+
       const modal = document.querySelector('#modal-container')
       modal.classList.remove('hidden')
+      const chatName = modal.querySelector('input#chat-name');
+      chatName.setAttribute('value', currentChatName)
+      const saveButton = modal.querySelector('.save-modal-button')
+      saveButton.addEventListener(
+        'click',
+        e => onClickSaveChatNameButton(e, modal, chatId)
+      )
+
+      if (chatName.value.trim().length == 0) {
+        disableButton(saveButton, 'hover:bg-comment-button-blue')
+      }
 
       const closebutton = modal.querySelector('.close-modal-button')
-      closebutton.addEventListener('click', () => modal.classList.add('hidden'))
+      closebutton.addEventListener('click', () => {
+        modal.classList.add('hidden')
+        chatName.value = ''
+      })
+
+      const cancelButton = modal.querySelector('.cancel-modal-button')
+      cancelButton.addEventListener('click', () => {
+        modal.classList.add('hidden')
+        chatName.value = ''
+      })
+
+      chatName.addEventListener('keyup', function (e) {
+        toggleButtonAvailability(saveButton, () => chatName.value.trim().length == 0);
+      })
+
     })
   }
 

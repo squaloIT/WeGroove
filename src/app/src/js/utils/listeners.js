@@ -1,4 +1,4 @@
-import { likePost, retweetPost, getPostData, replyToPost, deletePostByID, followOrUnfollowUser, togglePinned, createChat } from "./api";
+import { likePost, retweetPost, getPostData, replyToPost, deletePostByID, followOrUnfollowUser, togglePinned, createChat, changeChatName } from "./api";
 import { animateButtonAfterClickOnLike, animateButtonAfterClickOnRetweet, showSpinner, hideSpinner, findPostWrapperElement, openModal, toggleButtonAvailability, toggleScrollForTextarea, getPostIdForWrapper, getProfileIdFromFollowButton, toggleFollowButtons, emptyImagePreviewContainer, emptyFileContainer } from "./dom-manipulation";
 
 /**
@@ -368,6 +368,30 @@ function onClickCreateChat(e, selectedUsers) {
     })
 }
 
+/**
+ * @param { Event } e 
+ * @param { HTMLElement } modal 
+ * @param { string } chatId 
+ */
+function onClickSaveChatNameButton(e, modal, chatId) {
+  const chatNameElement = modal.querySelector('input#chat-name')
+  const chatName = chatNameElement.value.trim()
+
+  if (chatName.length > 0) {
+    changeChatName(chatName, chatId)
+      .then(res => {
+        const chatNameHeader = document.querySelector('#inbox > div.chat-messages-wrapper > div.header-chat-info-wrapper > div > div.header-chat-name > h4');
+        chatNameHeader.innerHTML = res.data.chatName;
+        modal.classList.add('hidden')
+        chatNameElement.value = ''
+      })
+      .catch(err => {
+        console.error(err)
+        alert("There was an error while trying to change chat name")
+      })
+  }
+}
+
 export {
   onClickLikePost,
   onClickCommentPost,
@@ -382,5 +406,6 @@ export {
   onClickTogglePinned,
   onClickUploadImageToServer,
   onFollowOrUnfollowClick,
+  onClickSaveChatNameButton,
   onClickCreateChat
 }

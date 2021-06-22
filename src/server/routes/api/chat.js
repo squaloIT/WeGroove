@@ -46,5 +46,56 @@ router.post('/create', checkIsLoggedIn, async (req, res) => {
   }
 });
 
+router.put('/change-chat-name', checkIsLoggedIn, async (req, res) => {
+  const newChatName = req.body.chatName;
+  const chatId = req.body.chatId;
+  console.log(newChatName)
+  console.log(chatId)
+
+  var chat = await ChatModel.findByIdAndUpdate(chatId, {
+    chatName: newChatName
+  }, { new: true })
+    .catch(err => {
+      console.log(err)
+      return res.status(400).json({
+        data: null,
+        status: 400,
+        msg: err
+      })
+    })
+
+  if (chat == null) {
+    chat = await ChatModel.findOneAndUpdate(
+      {
+        isGroupChat: false,
+        users: [chatId, req.session.user._id]
+      },
+      { chatName: newChatName },
+      { new: true }
+    )
+      .catch(err => {
+        console.log(err)
+        return res.status(400).json({
+          data: null,
+          status: 400,
+          msg: err
+        })
+      })
+  }
+
+  if (chat == null) {
+    return res.status(400).json({
+      data: null,
+      status: 400,
+      msg: 'No chat found'
+    })
+  }
+
+  return res.status(200).json({
+    data: chat,
+    status: 200,
+    msg: 'Successfully changed chat name.'
+  })
+})
 
 module.exports = router;
