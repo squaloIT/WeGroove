@@ -367,3 +367,25 @@ div#inbox div.header-chat-image-container div.image-container img {
 	bottom:3.5rem;
 	right:1.25rem;
 }
+
+#inbox > div.chat-messages-wrapper div.message-container.sent {
+	justify-content: flex-end;
+}
+#inbox > div.chat-messages-wrapper div.message-container.sent span {
+	background-color: #1da1f2;
+	color: white;
+	font-weight: 200;
+}
+#inbox > div.chat-messages-wrapper div.message-container.received span {
+	/* background-color: rgb(235, 238, 240); */
+	background-color: rgba(0,0,0,0.05);
+	color:#1c1d1d;
+	font-weight: 200;
+}
+#inbox > div.chat-messages-wrapper div.message-container.received {
+	justify-content: flex-start;
+}
+
+emoji-picker {
+  --border-size: 2px;
+}
