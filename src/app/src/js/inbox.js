@@ -38,8 +38,16 @@ export default function inbox() {
       tooltip.classList.toggle('hidden')
     })
     tooltip.appendChild(emojiPicker);
-    emojiPicker.addEventListener('emoji-click', e => addEmojiToInput(e, chatMessageInput))
+    emojiPicker.addEventListener('emoji-click', e => {
+      toggleButtonAvailability(
+        sendMessageButton,
+        () => chatMessageInput.value.trim() == 0,
+        'hover:bg-comment-button-blue-background'
+      )
+      addEmojiToInput(e, chatMessageInput)
+    })
     document.querySelector('body').addEventListener('click', () => tooltip.classList.add('hidden'))
+    document.querySelector('emoji-picker').addEventListener('click', (e) => e.stopPropagation())
   }
 
   if (chatNameHeader) {
