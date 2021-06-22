@@ -7,8 +7,10 @@
         {% render 'chat_message_header_images', chat: chat, userLogged: user %}
 
       {% else %}
+        <a href="/profile/{{chat.users[0].username}}">
+            {% render 'small_profile_image_rounded', user: chat.users[0] %}
+        </a>
         {% comment %} User which is logged in is always in the last place so to fisplay other users image i get the first from the array (only two in array) {% endcomment %}
-        {% render 'small_profile_image_rounded', user: chat.users[0] %}
 
       {% endif %}
     </div>

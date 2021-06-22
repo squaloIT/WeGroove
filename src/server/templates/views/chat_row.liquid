@@ -12,7 +12,11 @@
   <div class='chat-info-messages w-11/12 ml-3'>
     <a href="/messages/{{chat._id}}">
       <h4 class='text-xl overflow-hidden whitespace-nowrap overflow-ellipsis'>{{ chat.chatName }}</h4>
-      <p class='text-brand-dark-gray text-lg overflow-hidden whitespace-nowrap overflow-ellipsis'>{{ chat.latestMessage }}</p>
+      <p class='text-brand-dark-gray text-lg overflow-hidden whitespace-nowrap overflow-ellipsis'>
+          {% if chat.latestMessage.content %}
+            {{ chat.latestMessage.sender.firstName }} {{ chat.latestMessage.sender.lastName }}: {{ chat.latestMessage.content}}
+          {% endif %}
+      </p>
     </a>
   </div>
 </div>

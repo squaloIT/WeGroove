@@ -1,4 +1,5 @@
 const express = require('express');
+const ChatModel = require('../../db/schemas/ChatSchema');
 const router = express.Router();
 const Message = require('./../../db/schemas/MessageSchema')
 const { checkIsLoggedIn } = require('./../../middleware')
@@ -17,26 +18,31 @@ router.post('/sendMessage', checkIsLoggedIn, async (req, res) => {
     })
   }
 
-  const newMessage = await Message({
-    content,
-    sender: senderId,
-    chat: chatId
-  })
-    .save()
-    .catch(err => {
-      console.log(err)
-      res.status(400).json({
-        data: null,
-        status: 400,
-        msg: err
-      })
-    })
+  try {
+    const newMessage = await Message({
+      content,
+      sender: senderId,
+      chat: chatId
+    }).save()
 
-  return res.status(200).json({
-    data: newMessage,
-    status: 200,
-    msg: "success"
-  })
+    await ChatModel.findByIdAndUpdate(chatId, {
+      latestMessage: newMessage._id
+    });
+
+    res.status(200).json({
+      data: newMessage,
+      status: 200,
+      msg: "success"
+    })
+  } catch (err) {
+    console.error(err)
+
+    return res.status(400).json({
+      data: null,
+      status: 400,
+      msg: err
+    })
+  }
 });
 
 

@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const UserModel = require('./UserSchema');
 require('./../../typedefs')
 
 const ChatSchema = new mongoose.Schema({
@@ -9,12 +10,15 @@ const ChatSchema = new mongoose.Schema({
 }, { timestamps: true });
 
 ChatSchema.statics.getAllChatsForUser = async function (userId) {
-  const chats = await ChatModel
+  let chats = await ChatModel
     .find({ users: { $elemMatch: { $eq: userId } } })
     .populate('users')
+    .populate('latestMessage')
     .sort({ updatedAt: -1 })
     .lean()
   // TODO - Populate users
+
+  chats = await UserModel.populate(chats, { path: "latestMessage.sender" })
 
   return chats;
 }
