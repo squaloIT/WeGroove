@@ -12,7 +12,11 @@ export default function inbox() {
 
   if (chatNameHeader) {
     chatNameHeader.addEventListener('click', function (e) {
-      //TODO otvoriti modal za menjanje imena chat-a
+      const modal = document.querySelector('#modal-container')
+      modal.classList.remove('hidden')
+
+      const closebutton = modal.querySelector('.close-modal-button')
+      closebutton.addEventListener('click', () => modal.classList.add('hidden'))
     })
   }
 
