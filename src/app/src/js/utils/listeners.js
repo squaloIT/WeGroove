@@ -302,8 +302,8 @@ function onClickUploadImageToServer(e, cropper) {
     alert("Couldn't upload image, make sure that it is an image file")
     return;
   }
-  const photoSaveLabel = e.target.querySelector('span.photo-save__label')
-  const photoSaveSpinner = e.target.querySelector('i.photo-save__spinner')
+  const photoSaveLabel = e.target.querySelector('span.modal-save-button__label')
+  const photoSaveSpinner = e.target.querySelector('i.modal-save-button__spinner')
   showSpinner(photoSaveLabel, photoSaveSpinner)
 
   canvas.toBlob((blob) => {
