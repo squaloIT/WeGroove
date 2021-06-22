@@ -55,6 +55,14 @@ router.put('/change-chat-name', checkIsLoggedIn, async (req, res) => {
   const newChatName = req.body.chatName;
   const chatId = req.body.chatId;
 
+  if (!newChatName || !chatId) {
+    return res.status(400).json({
+      data: null,
+      status: 400,
+      msg: "Provide all values"
+    })
+  }
+
   var chat = await ChatModel.findByIdAndUpdate(chatId, {
     chatName: newChatName
   }, { new: true })
