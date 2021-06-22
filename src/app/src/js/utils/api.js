@@ -183,6 +183,22 @@ function changeChatName(chatName, chatId) {
     body: JSON.stringify({ chatName, chatId })
   }).then(res => res.json())
 }
+/**
+ * 
+ * @param {string} chatId 
+ * @param {string} content 
+ * @returns { Promise }
+ */
+function sendMessage(chatId, content) {
+  return fetch(`${process.env.SERVER_URL_DEV}/api/message/sendMessage`, {
+    method: 'POST',
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({ chatId, content })
+  }).then(res => res.json())
+}
+
 
 export {
   searchTermByType,
@@ -197,5 +213,6 @@ export {
   followOrUnfollowUser,
   togglePinned,
   createChat,
-  getAllPostsForUserAndSelectedTab
+  getAllPostsForUserAndSelectedTab,
+  sendMessage
 }

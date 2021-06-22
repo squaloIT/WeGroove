@@ -261,12 +261,13 @@ function animateButtonAfterClickOnRetweet(button, numOfRetweets) {
 /** 
  * @param {HTMLElement} postBtn 
  * @param {Function} isAvailableFN 
+ * @param {string} hoverClassToRemoveOrAdd 
  */
-function toggleButtonAvailability(postBtn, isAvailableFN) {
+function toggleButtonAvailability(postBtn, isAvailableFN, hoverClassToRemoveOrAdd = 'hover:bg-comment-button-blue') {
   if (isAvailableFN()) {
-    disableButton(postBtn, 'hover:bg-comment-button-blue')
+    disableButton(postBtn, hoverClassToRemoveOrAdd)
   } else {
-    enableButton(postBtn, 'hover:bg-comment-button-blue')
+    enableButton(postBtn, hoverClassToRemoveOrAdd)
   }
 }
 /**

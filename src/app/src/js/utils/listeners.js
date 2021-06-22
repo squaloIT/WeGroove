@@ -1,4 +1,4 @@
-import { likePost, retweetPost, getPostData, replyToPost, deletePostByID, followOrUnfollowUser, togglePinned, createChat, changeChatName } from "./api";
+import { likePost, retweetPost, getPostData, replyToPost, deletePostByID, followOrUnfollowUser, togglePinned, createChat, changeChatName, sendMessage } from "./api";
 import { animateButtonAfterClickOnLike, animateButtonAfterClickOnRetweet, showSpinner, hideSpinner, findPostWrapperElement, openModal, toggleButtonAvailability, toggleScrollForTextarea, getPostIdForWrapper, getProfileIdFromFollowButton, toggleFollowButtons, emptyImagePreviewContainer, emptyFileContainer } from "./dom-manipulation";
 
 /**
@@ -396,6 +396,22 @@ function addEmojiToInput(e, textarea) {
   //TODO dodati da se emoji dodaje na kraju 
   textarea.value += e.detail.unicode
 }
+/**
+ * 
+ * @param {Event} e 
+ * @param {string} content 
+ */
+function onSendMessage(e, content) {
+  const chatId = e.target.dataset.chatId;
+
+  sendMessage(chatId, content)
+    .then(res => {
+      console.log(res)
+    })
+    .catch(err => {
+      console.error(err)
+    })
+}
 
 export {
   onClickLikePost,
@@ -413,5 +429,6 @@ export {
   onFollowOrUnfollowClick,
   onClickSaveChatNameButton,
   onClickCreateChat,
-  addEmojiToInput
+  addEmojiToInput,
+  onSendMessage
 }

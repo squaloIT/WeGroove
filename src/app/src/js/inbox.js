@@ -1,6 +1,6 @@
 import { searchUsers } from "./utils/api";
 import { createRowAndAddListener, disableButton, displaySelectedUsers, toggleButtonAvailability } from "./utils/dom-manipulation";
-import { addEmojiToInput, onClickCreateChat, onClickSaveChatNameButton } from "./utils/listeners";
+import { addEmojiToInput, onClickCreateChat, onClickSaveChatNameButton, onSendMessage } from "./utils/listeners";
 import { Picker } from 'emoji-picker-element'
 
 export default function inbox() {
@@ -12,6 +12,23 @@ export default function inbox() {
   const chatNameHeader = document.querySelector('div#inbox div.header-chat-name')
   const chatMessageInput = document.querySelector('div#inbox textarea.chat-message-ta')
   const emojiButton = document.querySelector('#emoji-button');
+  const sendMessageButton = document.querySelector('#send-message-button');
+
+  if (sendMessageButton) {
+    disableButton(sendMessageButton, 'hover:bg-comment-button-blue-background')
+    sendMessageButton.addEventListener('click', (e) => onSendMessage(e, chatMessageInput.value.trim()))
+
+    chatMessageInput.addEventListener('keyup', e => {
+      toggleButtonAvailability(
+        sendMessageButton,
+        () => e.target.value.trim() == 0,
+        'hover:bg-comment-button-blue-background'
+      )
+      if (e.keyCode == 13 || e.which == 13) {
+        onSendMessage(e, e.target.value.trim())
+      }
+    })
+  }
 
   if (emojiButton) {
     const emojiPicker = new Picker();
