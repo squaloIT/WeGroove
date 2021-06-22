@@ -25,13 +25,19 @@
 */
 /**
  * @typedef { Object } chat
+ * @property { String } _id
  * @property { String } chatName
  * @property { boolean } isGroupChat
  * @property { Array.<user> } users
  * @property { message } latestMessage
-*/
+ */
 /**
  * @typedef { Object } message
+ * @property { String } _id
+ * @property { String } content
+ * @property { user } sender
+ * @property { Array.<user> } readBy
+ * @property { chat } chat
 */
 /**
  * @typedef { Object } post
