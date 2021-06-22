@@ -392,6 +392,11 @@ function onClickSaveChatNameButton(e, modal, chatId) {
   }
 }
 
+function addEmojiToInput(e, textarea) {
+  //TODO dodati da se emoji dodaje na kraju 
+  textarea.value += e.detail.unicode
+}
+
 export {
   onClickLikePost,
   onClickCommentPost,
@@ -407,5 +412,6 @@ export {
   onClickUploadImageToServer,
   onFollowOrUnfollowClick,
   onClickSaveChatNameButton,
-  onClickCreateChat
+  onClickCreateChat,
+  addEmojiToInput
 }

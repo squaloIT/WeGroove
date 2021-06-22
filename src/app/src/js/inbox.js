@@ -1,6 +1,7 @@
 import { searchUsers } from "./utils/api";
 import { createRowAndAddListener, disableButton, displaySelectedUsers, toggleButtonAvailability } from "./utils/dom-manipulation";
-import { onClickCreateChat, onClickSaveChatNameButton } from "./utils/listeners";
+import { addEmojiToInput, onClickCreateChat, onClickSaveChatNameButton } from "./utils/listeners";
+import { Picker } from 'emoji-picker-element'
 
 export default function inbox() {
   var timer = null;
@@ -9,6 +10,20 @@ export default function inbox() {
   const searchInput = document.querySelector('input#search-user')
   const createChatButton = document.querySelector('button#createChatButton')
   const chatNameHeader = document.querySelector('div#inbox div.header-chat-name')
+  const chatMessageInput = document.querySelector('div#inbox textarea.chat-message-ta')
+  const emojiButton = document.querySelector('#emoji-button');
+
+  if (emojiButton) {
+    const emojiPicker = new Picker();
+    const tooltip = document.querySelector('#chat-emojis-tooltip');
+    emojiButton.addEventListener('click', (e) => {
+      e.stopPropagation()
+      tooltip.classList.toggle('hidden')
+    })
+    tooltip.appendChild(emojiPicker);
+    emojiPicker.addEventListener('emoji-click', e => addEmojiToInput(e, chatMessageInput))
+    document.querySelector('body').addEventListener('click', () => tooltip.classList.add('hidden'))
+  }
 
   if (chatNameHeader) {
     chatNameHeader.addEventListener('click', function (e) {

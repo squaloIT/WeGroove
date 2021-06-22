@@ -361,3 +361,9 @@ div#inbox div.header-chat-image-container div.image-container img {
 	border:2px solid rgba(67,62,144,1);
 	background-color: rgba(67,62,144,1)
 }
+
+#chat-emojis-tooltip {
+	position: absolute;
+	bottom:3.5rem;
+	right:1.25rem;
+}
