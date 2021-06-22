@@ -31,7 +31,7 @@
 
   {% else %}
     <div class='chat-messages-wrapper flex flex-col relative h-[90%]'>
-      {% render 'chat_messages', chat: chat, user: user %}
+      {% render 'chat_messages', chat: chat, user: user, messages: messages %}
     </div>
 
   {% endif %}

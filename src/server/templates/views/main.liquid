@@ -31,7 +31,7 @@
           {% render 'search_page_layout', user: user, active: active, title: title %}
         
         {% elsif page == 'inbox' %}
-          {% render 'inbox_page_layout', user: user, active: active, title: title, chats: chats, subPage: subPage, chat: chat %}
+          {% render 'inbox_page_layout', user: user, active: active, title: title, chats: chats, subPage: subPage, chat: chat, messages: messages %}
         
         {% elsif page == 'followers_page' %}
           {% render 'followers_page_layout', user: user, userProfile: userProfile, active: active, followingOrFollowers: followingOrFollowers %}

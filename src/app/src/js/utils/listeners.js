@@ -402,7 +402,7 @@ function addEmojiToInput(e, textarea) {
  * @param {HTMLElement} messageInput 
  */
 function onSendMessage(e, messageInput) {
-  const chatId = e.target.dataset.chatId;
+  const chatId = document.querySelector('#send-message-button').dataset.chatId;
   const content = messageInput.value.trim()
 
   sendMessage(chatId, content)
@@ -412,6 +412,7 @@ function onSendMessage(e, messageInput) {
     })
     .catch(err => {
       console.error(err)
+      messageInput.value = content;
     })
 }
 

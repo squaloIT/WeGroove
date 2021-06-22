@@ -1,7 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const ChatModel = require('../db/schemas/ChatSchema');
-const ChatSchema = require('../db/schemas/ChatSchema');
+const MessageModel = require('../db/schemas/MessageSchema');
 const UserModel = require('../db/schemas/UserSchema');
 const router = express.Router();
 
@@ -9,7 +9,7 @@ require('./../typedefs');
 
 router.get('/', async (req, res, next) => {
   /** @type { Array.<chat> } */
-  const chats = await ChatSchema.getAllChatsForUser(req.session.user._id);
+  const chats = await ChatModel.getAllChatsForUser(req.session.user._id);
   const chatWihoutLoggedUser = chats.map(c => {
     const users = c.users.filter(u => u._id != req.session.user._id);
 
@@ -57,12 +57,15 @@ router.get('/:chatId', async (req, res, next) => {
     }
   }
 
+  const chatMessages = await MessageModel.find({ chat: chatId })
+
   res.status(200).render('main', {
     title: "Chat",
     subPage: 'chat',
     page: 'inbox',
     user: req.session.user,
-    chat
+    messages: chatMessages,
+    chat,
   });
 })
 
