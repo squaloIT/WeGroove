@@ -16,7 +16,7 @@ export default function inbox() {
 
   if (sendMessageButton) {
     disableButton(sendMessageButton, 'hover:bg-comment-button-blue-background')
-    sendMessageButton.addEventListener('click', (e) => onSendMessage(e, chatMessageInput.value.trim()))
+    sendMessageButton.addEventListener('click', (e) => onSendMessage(e, chatMessageInput))
 
     chatMessageInput.addEventListener('keyup', e => {
       toggleButtonAvailability(
@@ -25,7 +25,7 @@ export default function inbox() {
         'hover:bg-comment-button-blue-background'
       )
       if (e.keyCode == 13 || e.which == 13) {
-        onSendMessage(e, e.target.value.trim())
+        onSendMessage(e, e.target)
       }
     })
   }

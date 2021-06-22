@@ -1,5 +1,5 @@
 import './../../../typedefs';
-import { createCommentButtonElements, createDeleteButtonElements, createElementForButtonWrapper, createFollowButtonElement, createFollowingButtonElement, createLikeButtonElements, createPinButtonElements, createPostElement, createRetweetButtonElements, createUserRowHTML } from './html-creators';
+import { createCommentButtonElements, createDeleteButtonElements, createElementForButtonWrapper, createFollowButtonElement, createFollowingButtonElement, createLikeButtonElements, createNewMessageHTML, createPinButtonElements, createPostElement, createRetweetButtonElements, createUserRowHTML } from './html-creators';
 import { onKeyUpCommentTA, createFunctionToCloseModal } from './listeners';
 
 /**
@@ -408,6 +408,18 @@ function emptyTextboxAndContainer(searchInput, contentWrapper) {
   searchInput.focus();
   contentWrapper.innerHTML = '';
 }
+/**
+ * 
+ * @param {message} message 
+ * @param {string} type 
+ */
+function addNewMessage(message, type) {
+  const messagesContainer = document.querySelector('#inbox > div.chat-messages-wrapper div.chat-messages-container');
+  const content = message.content;
+
+  const html = createNewMessageHTML(content, type == 'sent');
+  messagesContainer.innerHTML += html
+}
 
 export {
   enableButton,
@@ -431,5 +443,6 @@ export {
   getPostIdForWrapper,
   openModal,
   displaySelectedUsers,
-  createRowAndAddListener
+  createRowAndAddListener,
+  addNewMessage
 }

@@ -1,5 +1,5 @@
 import { likePost, retweetPost, getPostData, replyToPost, deletePostByID, followOrUnfollowUser, togglePinned, createChat, changeChatName, sendMessage } from "./api";
-import { animateButtonAfterClickOnLike, animateButtonAfterClickOnRetweet, showSpinner, hideSpinner, findPostWrapperElement, openModal, toggleButtonAvailability, toggleScrollForTextarea, getPostIdForWrapper, getProfileIdFromFollowButton, toggleFollowButtons, emptyImagePreviewContainer, emptyFileContainer } from "./dom-manipulation";
+import { animateButtonAfterClickOnLike, animateButtonAfterClickOnRetweet, showSpinner, hideSpinner, findPostWrapperElement, openModal, toggleButtonAvailability, toggleScrollForTextarea, getPostIdForWrapper, getProfileIdFromFollowButton, toggleFollowButtons, emptyImagePreviewContainer, emptyFileContainer, addNewMessage } from "./dom-manipulation";
 
 /**
  * @param {Event} e 
@@ -399,14 +399,16 @@ function addEmojiToInput(e, textarea) {
 /**
  * 
  * @param {Event} e 
- * @param {string} content 
+ * @param {HTMLElement} messageInput 
  */
-function onSendMessage(e, content) {
+function onSendMessage(e, messageInput) {
   const chatId = e.target.dataset.chatId;
+  const content = messageInput.value.trim()
 
   sendMessage(chatId, content)
     .then(res => {
-      console.log(res)
+      addNewMessage(res.data, 'sent')
+      messageInput.value = '';
     })
     .catch(err => {
       console.error(err)

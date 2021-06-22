@@ -246,6 +246,16 @@ function createUserRowHTML(user) {
 </div>`
 }
 
+function createNewMessageHTML(content, isSent) {
+  return `
+  <div class='message-container ${isSent ? 'sent' : 'received'} flex w-full px-4 mb-2'>
+    <div class='incoming-message max-w-[55%]'>
+      <span class='inline-block px-4 py-2 rounded-2xl'>${content}</span>
+    </div>
+  </div>
+  `
+}
+
 export {
   createPostHTML,
   getCommentButtonContent,
@@ -260,5 +270,6 @@ export {
   createElementForButtonWrapper,
   createLikeButtonElements,
   createPostElement,
-  createRetweetButtonElements
+  createRetweetButtonElements,
+  createNewMessageHTML
 }
