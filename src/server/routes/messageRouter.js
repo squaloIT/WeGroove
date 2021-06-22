@@ -77,7 +77,8 @@ async function createOrGetChatWithUser(userFound, userLogged) {
   if (chat == null) {
     chat = new ChatModel({
       isGroupChat: false,
-      users: [userFound._id, userLogged._id]
+      users: [userFound._id, userLogged._id],
+      chatName: userFound.firstName + " " + userFound.lastName
     })
 
     await chat.save()
