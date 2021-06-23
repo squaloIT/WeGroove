@@ -1,7 +1,7 @@
 module.exports = {
   mode: 'jit',
   purge: [
-    './../server/templates/views/*.liquid',
+    './../server/templates/views/*',
     "./dist/*.js"
   ],
   darkMode: false, // or 'media' or 'class'
@@ -30,13 +30,32 @@ module.exports = {
         ubuntu: ['Ubuntu', 'monospace'],
         lobster: ['Lobster', 'cursive'],
       },
+      animation: {
+        blob: 'blob 6s infinite'
+      },
+      keyframes: {
+        blob: {
+          "0%": {
+            transform: "translate(0px, 0px) scale(1)"
+          },
+          "33%": {
+            transform: "translate(-30px, 20px) scale(1.1)"
+          },
+          "66%": {
+            transform: "translate(30px, -30px) scale(0.9)"
+          },
+          "100%": {
+            transform: "translate(0px, 0px) scale(1)"
+          }
+        }
+      }
     },
     screens: {
-      'xs': { 'min': '400px', max: "639px" },
-      'sm': { 'min': '640px', 'max': '767px' },
-      'md': { 'min': '768px', 'max': '1023px' },
-      'lg': { 'min': '1024px', 'max': '1279px' },
-      'xl': { 'min': '1280px', 'max': '1535px' },
+      'xs': { 'min': '400px' },
+      'sm': { 'min': '640px' },
+      'md': { 'min': '768px' },
+      'lg': { 'min': '1024px' },
+      'xl': { 'min': '1280px' },
       '2xl': { 'min': '1536px' },
     },
   },
