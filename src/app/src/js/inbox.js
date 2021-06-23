@@ -1,5 +1,5 @@
 import { searchUsers } from "./utils/api";
-import { createRowAndAddListener, disableButton, displaySelectedUsers, toggleButtonAvailability } from "./utils/dom-manipulation";
+import { createRowAndAddListener, disableButton, displaySelectedUsers, scrollMessagesToBottom, toggleButtonAvailability } from "./utils/dom-manipulation";
 import { addEmojiToInput, onClickCreateChat, onClickSaveChatNameButton, onSendMessage } from "./utils/listeners";
 import { Picker } from 'emoji-picker-element'
 
@@ -13,10 +13,15 @@ export default function inbox() {
   const chatMessageInput = document.querySelector('div#inbox textarea.chat-message-ta')
   const emojiButton = document.querySelector('#emoji-button');
   const sendMessageButton = document.querySelector('#send-message-button');
+  const chatMessagesContainer = document.querySelector('#inbox div.chat-messages-container');
+
+  if (chatMessagesContainer) {
+    scrollMessagesToBottom(chatMessagesContainer)
+  }
 
   if (sendMessageButton) {
     disableButton(sendMessageButton, 'hover:bg-comment-button-blue-background')
-    sendMessageButton.addEventListener('click', (e) => onSendMessage(e, chatMessageInput))
+    sendMessageButton.addEventListener('click', (e) => onSendMessage(e, chatMessageInput, chatMessagesContainer))
 
     chatMessageInput.addEventListener('keyup', e => {
       toggleButtonAvailability(
@@ -25,7 +30,8 @@ export default function inbox() {
         'hover:bg-comment-button-blue-background'
       )
       if (e.keyCode == 13 || e.which == 13) {
-        onSendMessage(e, e.target)
+        onSendMessage(e, e.target, chatMessagesContainer)
+        scrollMessagesToBottom(chatMessagesContainer)
       }
     })
   }

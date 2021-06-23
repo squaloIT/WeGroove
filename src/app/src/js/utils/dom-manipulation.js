@@ -420,6 +420,13 @@ function addNewMessage(message, type) {
   const html = createNewMessageHTML(content, type == 'sent');
   messagesContainer.innerHTML += html
 }
+/**
+ * 
+ * @param {HTMLElement} messagesContainer 
+ */
+function scrollMessagesToBottom(messagesContainer) {
+  messagesContainer.scrollTo({ top: messagesContainer.scrollHeight, behavior: 'smooth' });
+}
 
 export {
   enableButton,
@@ -444,5 +451,6 @@ export {
   openModal,
   displaySelectedUsers,
   createRowAndAddListener,
-  addNewMessage
+  addNewMessage,
+  scrollMessagesToBottom
 }
