@@ -7,9 +7,13 @@
         {% render 'chat_message_header_images', chat: chat, userLogged: user %}
 
       {% else %}
-        <a href="/profile/{{chat.users[0].username}}">
-            {% render 'small_profile_image_rounded', user: chat.users[0] %}
-        </a>
+        {% for chatUser in chat.users %}
+            {% if chatUser._id != user._id %}
+                <a href="/profile/{{chatUser.username}}">
+                    {% render 'small_profile_image_rounded', user: chatUser %}
+                </a>
+            {% endif %}
+        {% endfor %}
         {% comment %} User which is logged in is always in the last place so to fisplay other users image i get the first from the array (only two in array) {% endcomment %}
 
       {% endif %}
@@ -20,7 +24,11 @@
         {% if chat.chatName %}
           {{chat.chatName}}
         {% else %}
-          {{chat.users[0].firstName}} {{chat.users[0].lastName}}
+          {% for chatUser in chat.users %}
+              {% if chatUser._id != user._id %}
+                  {{chatUser.firstName}} {{chatUser.lastName}}
+              {% endif %}
+          {% endfor %}
         {% endif %}
       </h4>
     </div>
