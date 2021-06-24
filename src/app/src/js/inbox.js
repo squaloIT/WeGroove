@@ -2,11 +2,9 @@ import { searchUsers } from "./utils/api";
 import { createRowAndAddListener, disableButton, displaySelectedUsers, scrollMessagesToBottom, toggleButtonAvailability } from "./utils/dom-manipulation";
 import { addEmojiToInput, onClickCreateChat, onClickSaveChatNameButton, onSendMessage, updateTyping } from "./utils/listeners";
 import { Picker } from 'emoji-picker-element'
-import { connectClientSocket, emitTypingToRoom, emitJoinRoom, emitStopTypingToRoom } from './client-socket'
+import { emitJoinRoom } from './client-socket'
 
 export default function inbox() {
-  connectClientSocket();
-
   var timer = null;
   const selectedUsers = [];
   const contentWrapper = document.querySelector('div#inbox div.content-wrapper');
@@ -17,14 +15,14 @@ export default function inbox() {
   const emojiButton = document.querySelector('#emoji-button');
   const sendMessageButton = document.querySelector('#send-message-button');
   const chatMessagesContainer = document.querySelector('#inbox div.chat-messages-container');
+  const urlParts = window.location.pathname.split('/')
+  const chatId = urlParts[urlParts.length - 1]
 
   if (chatMessagesContainer) {
     scrollMessagesToBottom(chatMessagesContainer)
   }
 
   if (sendMessageButton) {
-    const urlParts = window.location.pathname.split('/')
-    const chatId = urlParts[urlParts.length - 1]
     emitJoinRoom(chatId);
 
     disableButton(sendMessageButton, 'hover:bg-comment-button-blue-background')
@@ -52,12 +50,15 @@ export default function inbox() {
       tooltip.classList.toggle('hidden')
     })
     tooltip.appendChild(emojiPicker);
+
     emojiPicker.addEventListener('emoji-click', e => {
       toggleButtonAvailability(
         sendMessageButton,
         () => chatMessageInput.value.trim() == 0,
         'hover:bg-comment-button-blue-background'
       )
+
+      updateTyping(chatId)
       addEmojiToInput(e, chatMessageInput)
     })
     document.querySelector('body').addEventListener('click', () => tooltip.classList.add('hidden'))

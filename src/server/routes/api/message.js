@@ -1,5 +1,6 @@
 const express = require('express');
 const ChatModel = require('../../db/schemas/ChatSchema');
+const { emitMessageToUsers } = require('../../socket');
 const router = express.Router();
 const Message = require('./../../db/schemas/MessageSchema')
 const { checkIsLoggedIn } = require('./../../middleware')
@@ -25,9 +26,13 @@ router.post('/sendMessage', checkIsLoggedIn, async (req, res) => {
       chat: chatId
     }).save()
 
-    await ChatModel.findByIdAndUpdate(chatId, {
+    const chat = await ChatModel.findByIdAndUpdate(chatId, {
       latestMessage: newMessage._id
-    });
+    }, { new: true });
+
+    const userIdsToEmitNewMessage = chat.users.filter(_id => _id != senderId)
+
+    emitMessageToUsers(userIdsToEmitNewMessage, newMessage);
 
     res.status(200).json({
       data: newMessage,

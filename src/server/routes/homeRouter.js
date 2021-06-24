@@ -3,6 +3,7 @@ const router = express.Router();
 const PostModel = require('../db/schemas/PostSchema')
 var moment = require('moment');
 const { emitUserIdToRetreiveSocketId } = require('../socket');
+const { createUserJWT } = require('../utils');
 require('./../typedefs');
 
 router.get("/", async (req, res, next) => {
@@ -37,12 +38,13 @@ router.get("/", async (req, res, next) => {
     page: 'home',
     title: "Home",
     posts: allPostsWithFromNow,
+    jwtUser: req.jwtUser,
     user
   });
 
-  setTimeout(() => {
-    emitUserIdToRetreiveSocketId(user._id)
-  }, 2000)
+  // setTimeout(() => {
+  //   emitUserIdToRetreiveSocketId(user._id)
+  // }, 2000)
 })
 
 

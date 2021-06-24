@@ -1,4 +1,10 @@
 import './../styles/tailwind.css';
+import { connectClientSocket } from './client-socket';
+
+if (window.location.pathname != '/login' && window.location.pathname != '/registration') {
+  const jwtUser = document.querySelector("input#test").value;
+  connectClientSocket(jwtUser)
+}
 
 if (window.location.pathname.indexOf('/post') == 0) {
   import('./post').then(({ default: postJS }) => {

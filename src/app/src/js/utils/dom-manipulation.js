@@ -409,7 +409,7 @@ function emptyTextboxAndContainer(searchInput, contentWrapper) {
   contentWrapper.innerHTML = '';
 }
 /**
- * 
+ * Type can be sent or received
  * @param {message} message 
  * @param {string} type 
  */

@@ -1,5 +1,6 @@
 require('./../typedefs')
 const moment = require('moment');
+const jwt = require('jsonwebtoken')
 
 /**
  * @param {Number} userId 
@@ -87,9 +88,17 @@ function fillPostAdditionalFields(post, allPosts) {
 
   }
 }
+/**
+ * Creates jwt token used in all routes and in main.liquid
+ * @param {user} user 
+ */
+function createUserJWT(user) {
+  return jwt.sign(user, process.env.SECRET_KEY)
+}
 
 module.exports = {
   createFiltersForSelectedTab,
   getNumberOfCommentsForPost,
+  createUserJWT,
   fillPostAdditionalFields
 }

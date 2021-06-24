@@ -1,6 +1,7 @@
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
-const UserModel = require('./db/schemas/UserSchema')
+const UserModel = require('./db/schemas/UserSchema');
+const { createUserJWT } = require('./utils');
 
 exports.checkIsLoggedIn = (req, res, next) => {
   if (req.session && req.session.user) {
@@ -45,4 +46,9 @@ exports.isRememberedCookiePresent = (req, res, next) => {
       return res.redirect('/');
     }
   });
+}
+
+exports.generateUserJWT = (req, res, next) => {
+  req.jwtUser = createUserJWT(req.session.user);
+  next()
 }

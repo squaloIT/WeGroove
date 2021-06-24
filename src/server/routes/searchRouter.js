@@ -9,6 +9,7 @@ router.get('/:searchType', (req, res, next) => {
   res.status(200).render('main', {
     title: "Search",
     page: 'search',
+    jwtUser: req.jwtUser,
     user: req.session.user,
     active: searchType
   });

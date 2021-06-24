@@ -27,6 +27,7 @@ router.get("/:id", async (req, res, next) => {
     title: "View Post",
     post,
     repliesForPost,
+    jwtUser: req.jwtUser,
     user
   });
 })

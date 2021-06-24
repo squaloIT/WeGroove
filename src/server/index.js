@@ -6,7 +6,7 @@ const bodyParser = require('body-parser');
 const session = require('express-session')
 const cookieParser = require('cookie-parser');
 const { homeRouter, loginRouter, logoutRouter, postAPI, postsRouter, registrationRouter, profileRouter, searchRouter, searchAPI, messageRouter, chatAPI, messageAPI } = require('./routes/index')
-const { checkIsLoggedIn, isRememberedCookiePresent } = require('./middleware')
+const { checkIsLoggedIn, isRememberedCookiePresent, generateUserJWT } = require('./middleware')
 const { connect } = require('./socket')
 
 const app = express()
@@ -44,11 +44,11 @@ app.use('*/uploads/images', express.static(path.join(__dirname, 'uploads/images'
 app.use('/login', isRememberedCookiePresent, loginRouter);
 app.use('/logout', logoutRouter);
 app.use('/registration', registrationRouter);
-app.use('/post', checkIsLoggedIn, postsRouter);
-app.use('/profile', checkIsLoggedIn, profileRouter);
-app.use('/search', checkIsLoggedIn, searchRouter);
-app.use('/messages', checkIsLoggedIn, messageRouter);
-app.use('/', checkIsLoggedIn, homeRouter);
+app.use('/post', checkIsLoggedIn, generateUserJWT, postsRouter);
+app.use('/profile', checkIsLoggedIn, generateUserJWT, profileRouter);
+app.use('/search', checkIsLoggedIn, generateUserJWT, searchRouter);
+app.use('/messages', checkIsLoggedIn, generateUserJWT, messageRouter);
+app.use('/', checkIsLoggedIn, generateUserJWT, homeRouter);
 
 app.use('/api/posts', postAPI);
 app.use('/api/chat', chatAPI);

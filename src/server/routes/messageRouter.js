@@ -26,6 +26,7 @@ router.get('/', async (req, res, next) => {
     page: 'inbox',
     subPage: 'inbox',
     user: req.session.user,
+    jwtUser: req.jwtUser,
     chats: chatWihoutLoggedUser
   });
 })
@@ -36,6 +37,7 @@ router.get('/new', (req, res, next) => {
     title: "New Message",
     subPage: 'new-message',
     page: 'inbox',
+    jwtUser: req.jwtUser,
     user: req.session.user
   });
 })
@@ -78,6 +80,7 @@ router.get('/:chatId', async (req, res, next) => {
     subPage: 'chat',
     page: 'inbox',
     user: req.session.user,
+    jwtUser: req.jwtUser,
     messages: chatMessages,
     chat,
   });

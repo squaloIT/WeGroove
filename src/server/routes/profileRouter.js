@@ -138,6 +138,7 @@ router.get('/:username/:tab', async (req, res, next) => {
       followingOrFollowers: followingOrFollowers[tab],
       active: tab,
       userProfile: user,
+      jwtUser: req.jwtUser,
       user: req.session.user
     })
   }
@@ -164,6 +165,7 @@ router.get('/:username/:tab', async (req, res, next) => {
       posts: allUserPosts,
       active: tab,
       userProfile: user,
+      jwtUser: req.jwtUser,
       user: req.session.user,
       pinnedPost
     })
@@ -196,6 +198,7 @@ router.get('/:username', async (req, res, next) => {
     active: "Posts",
     userProfile: user,
     user: req.session.user,
+    jwtUser: req.jwtUser,
     pinnedPost
   })
 })
