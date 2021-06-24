@@ -1,4 +1,5 @@
 import { io } from "socket.io-client";
+import { hideTypingDots, showTypingDots } from "./utils/dom-manipulation";
 
 var socket = null;
 
@@ -15,14 +16,17 @@ function connectClientSocket() {
       })
     })
 
-    socket.on('typing', () => {
-      console.log("USER IS FUCKING TYPING")
-    })
+    socket.on('typing', showTypingDots);
+    socket.on('stop-typing', hideTypingDots)
   })
 }
 
-function sendTypingToRoom(chatId) {
-  socket.emit("typing", chatId)
+function emitTypingToRoom(room) {
+  socket.emit("typing", room)
+}
+
+function emitStopTypingToRoom(room) {
+  socket.emit("stop-typing", room)
 }
 
 function emitJoinRoom(room) {
@@ -35,7 +39,8 @@ function sendMessageToChat(chatId, message) {
 
 export {
   connectClientSocket,
-  sendTypingToRoom,
+  emitTypingToRoom,
   sendMessageToChat,
+  emitStopTypingToRoom,
   emitJoinRoom
 }

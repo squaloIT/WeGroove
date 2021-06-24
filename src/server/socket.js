@@ -20,6 +20,10 @@ function connect(app) {
       socket.to(room).emit("typing")
     })
 
+    socket.on('stop-typing', (room) => {
+      socket.to(room).emit("stop-typing")
+    })
+
     socket.on('joinRoom', (room) => {
       socket.join(room)
     })

@@ -428,10 +428,21 @@ function scrollMessagesToBottom(messagesContainer) {
   messagesContainer.scrollTo({ top: messagesContainer.scrollHeight, behavior: 'smooth' });
 }
 
+function showTypingDots() {
+  console.log(document.querySelector('div.chat-typing-container'))
+  document.querySelector('div.chat-typing-container').classList.remove('hidden')
+}
+
+function hideTypingDots() {
+  document.querySelector('div.chat-typing-container').classList.add('hidden')
+}
+
 export {
   enableButton,
   disableButton,
   addNewPost,
+  showTypingDots,
+  hideTypingDots,
   createSearchResultRowElement,
   addNewPostWithPredefinedButtons,
   hideSpinner,

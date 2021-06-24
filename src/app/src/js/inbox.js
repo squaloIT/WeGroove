@@ -1,8 +1,8 @@
 import { searchUsers } from "./utils/api";
 import { createRowAndAddListener, disableButton, displaySelectedUsers, scrollMessagesToBottom, toggleButtonAvailability } from "./utils/dom-manipulation";
-import { addEmojiToInput, onClickCreateChat, onClickSaveChatNameButton, onSendMessage } from "./utils/listeners";
+import { addEmojiToInput, onClickCreateChat, onClickSaveChatNameButton, onSendMessage, updateTyping } from "./utils/listeners";
 import { Picker } from 'emoji-picker-element'
-import { connectClientSocket, sendTypingToRoom, emitJoinRoom } from './client-socket'
+import { connectClientSocket, emitTypingToRoom, emitJoinRoom, emitStopTypingToRoom } from './client-socket'
 
 export default function inbox() {
   connectClientSocket();
@@ -31,7 +31,7 @@ export default function inbox() {
     sendMessageButton.addEventListener('click', (e) => onSendMessage(e, chatMessageInput, chatMessagesContainer))
 
     chatMessageInput.addEventListener('keyup', e => {
-      sendTypingToRoom(chatId)
+      updateTyping(chatId)
       toggleButtonAvailability(
         sendMessageButton,
         () => e.target.value.trim() == 0,

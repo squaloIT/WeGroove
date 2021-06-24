@@ -1,3 +1,4 @@
+import { emitStopTypingToRoom, emitTypingToRoom } from "../client-socket";
 import { likePost, retweetPost, getPostData, replyToPost, deletePostByID, followOrUnfollowUser, togglePinned, createChat, changeChatName, sendMessage } from "./api";
 import { animateButtonAfterClickOnLike, animateButtonAfterClickOnRetweet, showSpinner, hideSpinner, findPostWrapperElement, openModal, toggleButtonAvailability, toggleScrollForTextarea, getPostIdForWrapper, getProfileIdFromFollowButton, toggleFollowButtons, emptyImagePreviewContainer, emptyFileContainer, addNewMessage, scrollMessagesToBottom } from "./dom-manipulation";
 
@@ -412,11 +413,42 @@ function onSendMessage(e, messageInput, chatMessagesContainer) {
       messageInput.value = '';
       messageInput.focus()
       scrollMessagesToBottom(chatMessagesContainer)
+      stopTyping(chatId)
     })
     .catch(err => {
       console.error(err)
       messageInput.value = content;
     })
+}
+
+var typing = false;
+var lastTypingTime = 0;
+/**
+ * Emits event about typing or not typing by the user
+ * @param {String} room 
+ */
+function updateTyping(room) {
+  if (!typing) {
+    typing = true;
+    emitTypingToRoom(room)
+  }
+
+  lastTypingTime = new Date().getTime();
+  var timerLength = 3000;
+
+  setTimeout(() => {
+    const timeNow = new Date().getTime();
+    const timeDiff = timeNow - lastTypingTime;
+
+    if (timeDiff >= timerLength) {
+      stopTyping(room)
+    }
+  }, timerLength)
+}
+
+function stopTyping(room) {
+  emitStopTypingToRoom(room)
+  typing = false;
 }
 
 export {
@@ -436,5 +468,7 @@ export {
   onClickSaveChatNameButton,
   onClickCreateChat,
   addEmojiToInput,
-  onSendMessage
+  onSendMessage,
+  updateTyping,
+  stopTyping
 }
