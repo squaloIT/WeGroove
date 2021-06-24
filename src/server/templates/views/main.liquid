@@ -35,6 +35,9 @@
         
         {% elsif page == 'followers_page' %}
           {% render 'followers_page_layout', user: user, userProfile: userProfile, active: active, followingOrFollowers: followingOrFollowers %}
+        
+        {% elsif page == 'notifications' %}
+          {% render 'notification_page_layout', user: user, title: title, notifications: notifications %}
 
         {% else %}
           {% render 'post', post: post, user: user %}
