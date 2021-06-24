@@ -9,5 +9,17 @@ const NotificationSchema = new mongoose.Schema({
   notificationType: { type: String, required: true }
 }, { timestamps: true });
 
-const NotifiationModel = mongoose.model("Notification", NotificationSchema)
-module.exports = NotifiationModel
+NotificationSchema.methods.createNotification = async function (data) {
+  await NotificationModel.deleteOne({
+    userFrom: this.userFrom,
+    userTo: this.userTo,
+    notificationType: this.notificationType,
+    entity: this.entity
+  });
+
+  const newNotification = await this.save()
+  return newNotification;
+};
+
+const NotificationModel = mongoose.model("Notification", NotificationSchema)
+module.exports = NotificationModel

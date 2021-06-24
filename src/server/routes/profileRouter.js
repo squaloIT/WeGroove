@@ -4,6 +4,7 @@ const express = require('express')
 const router = express.Router();
 const UserModel = require('../db/schemas/UserSchema')
 const PostModel = require('../db/schemas/PostSchema')
+const NotificationModel = require('../db/schemas/NotificationSchema')
 var multer = require('multer')
 var upload = multer({ dest: 'uploads/' })
 require('./../typedefs');
@@ -94,8 +95,19 @@ router.post('/:action/:profileId', async (req, res, next) => {
     profile.save(),
     user.save()
   ])
-    .then(([newProfile, newUser]) => {
+    .then(async ([newProfile, newUser]) => {
       req.session.user = newUser.getDataForSession()
+
+      if (req.params.action == 'follow') {
+        const notification = new NotificationModel({
+          userFrom: user._id,
+          userTo: profile._id,
+          notificationType: 'follow',
+          entity: user._id
+        })
+        await notification.createNotification()
+      }
+
       return res.status(201).json({
         msg: 'Operation successfull',
         status: 201,
