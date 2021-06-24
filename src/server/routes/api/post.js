@@ -3,7 +3,8 @@ const express = require('express')
 const router = express.Router();
 const PostModel = require('../../db/schemas/PostSchema')
 const UserModel = require('../../db/schemas/UserSchema')
-const { checkIsLoggedIn } = require('../../middleware')
+const { checkIsLoggedIn } = require('../../middleware');
+const NotificationModel = require('../../db/schemas/NotificationSchema');
 require('../../typedefs');
 
 router.post('/', checkIsLoggedIn, async (req, res, next) => {
@@ -207,6 +208,16 @@ router.post('/retweet', checkIsLoggedIn, async (req, res) => {
         status: 400
       });
     });
+
+  if (!deletedPost) {
+    const notification = new NotificationModel({
+      userFrom: req.session.user._id,
+      userTo: post.postedBy,
+      notificationType: 'retweet',
+      entity: post._id
+    })
+    await notification.createNotification()
+  }
 
   res.status(201).json({
     status: 201,
