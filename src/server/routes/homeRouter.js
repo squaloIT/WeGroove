@@ -1,12 +1,16 @@
 const express = require('express')
 const router = express.Router();
 const PostModel = require('../db/schemas/PostSchema')
-var moment = require('moment')
+var moment = require('moment');
+const { emitUserIdToRetreiveSocketId } = require('../socket');
 require('./../typedefs');
 
 router.get("/", async (req, res, next) => {
   /** @type { user } user */
   const user = req.session.user;
+
+  // const io = req.io;
+  // io.join(user._id)
 
   /** @type { post[] } allPosts */
   let allPosts = await PostModel.getAllPosts(user);
@@ -35,6 +39,10 @@ router.get("/", async (req, res, next) => {
     posts: allPostsWithFromNow,
     user
   });
+
+  setTimeout(() => {
+    emitUserIdToRetreiveSocketId(user._id)
+  }, 2000)
 })
 
 

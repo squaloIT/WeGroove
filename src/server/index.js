@@ -7,11 +7,13 @@ const session = require('express-session')
 const cookieParser = require('cookie-parser');
 const { homeRouter, loginRouter, logoutRouter, postAPI, postsRouter, registrationRouter, profileRouter, searchRouter, searchAPI, messageRouter, chatAPI, messageAPI } = require('./routes/index')
 const { checkIsLoggedIn, isRememberedCookiePresent } = require('./middleware')
+const { connect } = require('./socket')
 
 const app = express()
 const port = process.env.PORT || 3000;
 const db = require('./db/index')
 const server = app.listen(port, () => console.log("Server listening on port " + port))
+connect(server);
 
 const viewsPath = path.join(__dirname, "./templates/views")
 const partialsPath = path.join(__dirname, "./templates/partials")

@@ -4,6 +4,7 @@ import { onClickLikePost, onClickRetweetPost, onClickCommentPost, onClickComment
 
 export default function index() {
   const taPost = document.querySelector('textarea#post');
+  import('./client-socket');
 
   if (taPost) {
     taPost.addEventListener('keyup', checkInsertPostTextArea);
