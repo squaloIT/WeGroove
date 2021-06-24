@@ -2,8 +2,11 @@ import { searchUsers } from "./utils/api";
 import { createRowAndAddListener, disableButton, displaySelectedUsers, scrollMessagesToBottom, toggleButtonAvailability } from "./utils/dom-manipulation";
 import { addEmojiToInput, onClickCreateChat, onClickSaveChatNameButton, onSendMessage } from "./utils/listeners";
 import { Picker } from 'emoji-picker-element'
+import { connectClientSocket, sendTypingToRoom, emitJoinRoom } from './client-socket'
 
 export default function inbox() {
+  connectClientSocket();
+
   var timer = null;
   const selectedUsers = [];
   const contentWrapper = document.querySelector('div#inbox div.content-wrapper');
@@ -20,10 +23,15 @@ export default function inbox() {
   }
 
   if (sendMessageButton) {
+    const urlParts = window.location.pathname.split('/')
+    const chatId = urlParts[urlParts.length - 1]
+    emitJoinRoom(chatId);
+
     disableButton(sendMessageButton, 'hover:bg-comment-button-blue-background')
     sendMessageButton.addEventListener('click', (e) => onSendMessage(e, chatMessageInput, chatMessagesContainer))
 
     chatMessageInput.addEventListener('keyup', e => {
+      sendTypingToRoom(chatId)
       toggleButtonAvailability(
         sendMessageButton,
         () => e.target.value.trim() == 0,

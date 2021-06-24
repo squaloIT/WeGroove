@@ -1,10 +1,11 @@
 import { createPost } from './utils/api';
 import { disableButton, enableButton, addNewPost, showSpinner, hideSpinner, setSeparatorHeightForAllReplies } from './utils/dom-manipulation';
 import { onClickLikePost, onClickRetweetPost, onClickCommentPost, onClickCommentButton, onPostWrapperClick, onClickDeletePost, onClickTogglePinned } from './utils/listeners';
+import { connectClientSocket } from './client-socket';
 
 export default function index() {
   const taPost = document.querySelector('textarea#post');
-  import('./client-socket');
+  connectClientSocket();
 
   if (taPost) {
     taPost.addEventListener('keyup', checkInsertPostTextArea);

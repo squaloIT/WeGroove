@@ -73,8 +73,6 @@ router.get('/:chatId', async (req, res, next) => {
     }
   });
 
-  console.log(JSON.stringify(chatMessages, null, 3));
-
   res.status(200).render('main', {
     title: "Chat",
     subPage: 'chat',

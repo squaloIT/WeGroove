@@ -13,20 +13,25 @@ function connect(app) {
     socketIO = socket;
 
     socket.on('saveSocketIDForUserID', data => {
-      console.log("🚀 ~ file: socket.js ~ line 18 ~ data", data)
       addSocketIDForUserID(data.userID, data.socketId)
+    })
+
+    socket.on('typing', (room) => {
+      socket.to(room).emit("typing")
+    })
+
+    socket.on('joinRoom', (room) => {
+      socket.join(room)
     })
   })
 }
 
 function emitUserIdToRetreiveSocketId(userID) {
-  console.log('emitUserIdToRetreiveSocketId')
   socketIO.emit("getSocketIDForUserID", userID)
 }
 
 function addSocketIDForUserID(userID, socketID) {
   sessionsMap[userID] = socketID;
-  console.log("🚀 ~ file: socket.js ~ line 30 ~ sessionsMap", sessionsMap)
 }
 
 function deleteUserFromSessionMap(userId) {
