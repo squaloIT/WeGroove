@@ -120,6 +120,16 @@ router.put('/like', checkIsLoggedIn, async (req, res) => {
     }
   }, { new: true })
 
+  if (!isLiked) {
+    const notification = new NotificationModel({
+      userFrom: req.session.user._id,
+      userTo: newPostWithLikes.postedBy,
+      notificationType: 'like',
+      entity: newPostWithLikes._id
+    })
+    await notification.createNotification()
+  }
+
   res.status(201).json({
     status: 201,
     msg: isLiked ? "Post unliked" : "Post liked",
