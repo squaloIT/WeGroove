@@ -6,7 +6,7 @@ const bodyParser = require('body-parser');
 const session = require('express-session')
 const cookieParser = require('cookie-parser');
 const { homeRouter, loginRouter, logoutRouter, postAPI, postsRouter, registrationRouter, profileRouter, searchRouter, searchAPI, messageRouter, notificationRouter, chatAPI, messageAPI, notificationAPI } = require('./routes/index')
-const { checkIsLoggedIn, isRememberedCookiePresent, generateUserJWT } = require('./middleware')
+const { checkIsLoggedIn, isRememberedCookiePresent, generateUserJWT, getNumberOfUnreadNotifications, getNumberOfUnreadChats } = require('./middleware')
 const { connect } = require('./socket')
 
 const app = express()
@@ -44,12 +44,12 @@ app.use('*/uploads/images', express.static(path.join(__dirname, 'uploads/images'
 app.use('/login', isRememberedCookiePresent, loginRouter);
 app.use('/logout', logoutRouter);
 app.use('/registration', registrationRouter);
-app.use('/post', checkIsLoggedIn, generateUserJWT, postsRouter);
-app.use('/profile', checkIsLoggedIn, generateUserJWT, profileRouter);
-app.use('/search', checkIsLoggedIn, generateUserJWT, searchRouter);
-app.use('/messages', checkIsLoggedIn, generateUserJWT, messageRouter);
-app.use('/notifications', checkIsLoggedIn, generateUserJWT, notificationRouter);
-app.use('/', checkIsLoggedIn, generateUserJWT, homeRouter);
+app.use('/post', checkIsLoggedIn, getNumberOfUnreadNotifications, getNumberOfUnreadChats, generateUserJWT, postsRouter);
+app.use('/profile', checkIsLoggedIn, getNumberOfUnreadNotifications, getNumberOfUnreadChats, generateUserJWT, profileRouter);
+app.use('/search', checkIsLoggedIn, getNumberOfUnreadNotifications, getNumberOfUnreadChats, generateUserJWT, searchRouter);
+app.use('/messages', checkIsLoggedIn, getNumberOfUnreadNotifications, getNumberOfUnreadChats, generateUserJWT, messageRouter);
+app.use('/notifications', checkIsLoggedIn, getNumberOfUnreadNotifications, getNumberOfUnreadChats, generateUserJWT, notificationRouter);
+app.use('/', checkIsLoggedIn, getNumberOfUnreadNotifications, getNumberOfUnreadChats, generateUserJWT, homeRouter);
 
 app.use('/api/posts', postAPI);
 app.use('/api/chat', chatAPI);

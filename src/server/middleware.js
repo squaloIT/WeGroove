@@ -2,6 +2,8 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const UserModel = require('./db/schemas/UserSchema');
 const { createUserJWT } = require('./utils');
+const ChatModel = require('./db/schemas/ChatSchema');
+const NotificationModel = require('./db/schemas/NotificationSchema');
 
 exports.checkIsLoggedIn = (req, res, next) => {
   if (req.session && req.session.user) {
@@ -50,5 +52,28 @@ exports.isRememberedCookiePresent = (req, res, next) => {
 
 exports.generateUserJWT = (req, res, next) => {
   req.jwtUser = createUserJWT(req.session.user);
+  next()
+}
+
+exports.getNumberOfUnreadChats = async (req, res, next) => {
+  const unreadChats = await ChatModel
+    .find({})
+    .populate('latestMessage')
+    .lean()
+
+  req.numberOfUnreadChats = unreadChats.filter(c =>
+    c.latestMessage &&
+    !c.latestMessage.readBy.map(s => String(s)).includes(req.session.user._id)
+  ).length
+
+  next()
+}
+
+exports.getNumberOfUnreadNotifications = async (req, res, next) => {
+  const notifications = await NotificationModel
+    .find({ seen: false })
+
+  req.numberOfUnreadNotifications = notifications.length
+
   next()
 }
