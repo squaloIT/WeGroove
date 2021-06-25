@@ -14,7 +14,6 @@ function connect(app) {
     socketIO = socket;
 
     socket.on('saveSocketIDForUserID', data => {
-      console.log(data.socketId)
       addSocketIDForUserID(data.jwtUser, data.socketId)
     })
 
