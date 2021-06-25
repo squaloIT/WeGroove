@@ -67,8 +67,9 @@ exports.getNumberOfUnreadChats = async (req, res, next) => {
 }
 
 exports.getNumberOfUnreadNotifications = async (req, res, next) => {
-  const notifications = await NotificationModel
-    .find({ seen: false })
+  const notifications = await NotificationModel.getAllNotificationsForUser(req.session.user._id, {
+    seen: false
+  })
 
   req.numberOfUnreadNotifications = notifications.length
 

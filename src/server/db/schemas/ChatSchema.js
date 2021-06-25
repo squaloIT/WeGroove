@@ -16,7 +16,6 @@ ChatSchema.statics.getAllChatsForUser = async function (userId) {
     .populate('latestMessage')
     .sort({ updatedAt: -1 })
     .lean()
-  // TODO - Populate users
 
   chats = await UserModel.populate(chats, { path: "latestMessage.sender" })
 

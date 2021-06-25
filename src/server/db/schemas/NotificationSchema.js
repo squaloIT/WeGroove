@@ -22,5 +22,22 @@ NotificationSchema.methods.createNotification = async function () {
   return newNotification;
 };
 
+NotificationSchema.statics.getAllNotificationsForUser = async function (userId, additionalFilters = {}) {
+  const filters = {
+    userTo: userId,
+    notificationType: { $ne: 'new-message' },
+    userFrom: { $ne: userId },
+    ...additionalFilters
+  };
+
+  const notifications = await NotificationModel.find(filters)
+    .sort({ createdAt: -1 })
+    .populate('userTo')
+    .populate('userFrom')
+    .lean()
+
+  return notifications
+}
+
 const NotificationModel = mongoose.model("Notification", NotificationSchema)
 module.exports = NotificationModel
