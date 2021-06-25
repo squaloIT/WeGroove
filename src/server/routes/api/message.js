@@ -1,8 +1,9 @@
 const express = require('express');
-const ChatModel = require('../../db/schemas/ChatSchema');
-const { emitMessageToUsers } = require('../../socket');
 const router = express.Router();
+const ChatModel = require('../../db/schemas/ChatSchema');
+const NotificationModel = require('../../db/schemas/NotificationSchema');
 const Message = require('./../../db/schemas/MessageSchema')
+const { emitMessageToUsers } = require('../../socket');
 const { checkIsLoggedIn } = require('./../../middleware')
 require('./../../typedefs');
 
@@ -30,9 +31,10 @@ router.post('/sendMessage', checkIsLoggedIn, async (req, res) => {
       latestMessage: newMessage._id
     }, { new: true });
 
-    const userIdsToEmitNewMessage = chat.users.filter(_id => _id != senderId)
+    const userIds = chat.users.filter(_id => _id != senderId)
 
-    emitMessageToUsers(userIdsToEmitNewMessage, newMessage);
+    emitMessageToUsers(userIds, newMessage);
+    addNotificationsToUsers(userIds, newMessage);
 
     res.status(200).json({
       data: newMessage,
@@ -49,6 +51,23 @@ router.post('/sendMessage', checkIsLoggedIn, async (req, res) => {
     })
   }
 });
-
+/**
+ * 
+ * @param {Array.<string>} userIds 
+ * @param {message} message 
+ */
+function addNotificationsToUsers(userIds, message) {
+  userIds.forEach(id => {
+    if (id) {
+      const notification = new NotificationModel({
+        userTo: id,
+        userFrom: message.sender,//* this is id
+        notificationType: 'new-message',
+        entity: message.chat //* this is id
+      })
+      notification.createNotification();
+    }
+  })
+}
 
 module.exports = router;
