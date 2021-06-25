@@ -5,7 +5,7 @@ const path = require('path')
 const bodyParser = require('body-parser');
 const session = require('express-session')
 const cookieParser = require('cookie-parser');
-const { homeRouter, loginRouter, logoutRouter, postAPI, postsRouter, registrationRouter, profileRouter, searchRouter, searchAPI, messageRouter, notificationRouter, chatAPI, messageAPI } = require('./routes/index')
+const { homeRouter, loginRouter, logoutRouter, postAPI, postsRouter, registrationRouter, profileRouter, searchRouter, searchAPI, messageRouter, notificationRouter, chatAPI, messageAPI, notificationAPI } = require('./routes/index')
 const { checkIsLoggedIn, isRememberedCookiePresent, generateUserJWT } = require('./middleware')
 const { connect } = require('./socket')
 
@@ -55,3 +55,4 @@ app.use('/api/posts', postAPI);
 app.use('/api/chat', chatAPI);
 app.use('/api/search', searchAPI);
 app.use('/api/message', messageAPI);
+app.use('/api/notification', notificationAPI);

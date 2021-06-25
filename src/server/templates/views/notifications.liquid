@@ -1,44 +1,49 @@
 {% if notifications.size > 0 %}
     {% for notification in notifications %}
         <a 
-        class='inline-block w-full
         {% if notification.seen == false %}
-          active bg-comment-button-blue-background
+            class='notification-link inline-block w-full active bg-comment-button-blue-background'
+        {% else %}
+            class='notification-link inline-block w-full'
         {% endif %}
-        '
-        href='
-          {% if notification.notificationType == 'follow' %}
-            /profile/{{notification.entity}}
-          {% else %}
-            /post/{{notification.entity}}
-          {% endif %}
-        '>
-          <div class='notification-container w-full p-3 flex flex-1 items-center font-roboto'>
+        
+        {% if notification.notificationType == 'follow' %}
+            href='/profile/{{notification.entity}}'
+        {% else %}
+            href='/post/{{notification.entity}}'
+        {% endif %}
+
+        data-notification-id="{{notification._id}}"
+        >
+          <div class='notification-container w-full p-3 flex flex-1 items-center font-roboto pointer-events-none'>
               {% render 'small_profile_image_rounded', user: notification.userFrom %}
 
-              <div class='flex items-center justify-between w-full space-x-1 ml-3'>
-                  <div>
-                      <span class='notification-user-fullName text-dark-gray-for-text'>
+              <div class='flex items-center justify-between w-full space-x-1 ml-3 pointer-events-none'>
+                  <div class='pointer-events-none'>
+                      <span class='notification-user-fullName text-dark-gray-for-text  pointer-events-none'>
                         {{notification.userFrom.firstName}} {{notification.userFrom.lastName}}
                       </span>
                     
                       {% if notification.notificationType == 'follow' %}
-                        <span class='notification-text text-dark-gray-for-text'> has started following you</span>
+                        <span class='notification-text text-dark-gray-for-text  pointer-events-none'> has started following you</span>
 
                       {% elsif notification.notificationType == 'retweet' %}
-                        <span class='notification-text text-dark-gray-for-text'> has re-posted one of your posts</span>
+                        <span class='notification-text text-dark-gray-for-text  pointer-events-none'> has re-posted one of your posts</span>
 
                       {% elsif notification.notificationType == 'like' %}
-                        <span class='notification-text text-dark-gray-for-text'> liked one of your posts</span>
+                        <span class='notification-text text-dark-gray-for-text  pointer-events-none'> liked one of your posts</span>
                         
                       {% elsif notification.notificationType == 'comment' %}
-                        <span class='notification-text text-dark-gray-for-text'> replied to one of your posts</span>
+                        <span class='notification-text text-dark-gray-for-text  pointer-events-none'> replied to one of your posts</span>
 
                       {% else %}
                         SHOULD NOT HAPPEN
                       {% endif %}
                   </div>
-                  <div class='p-1 rounded-full bg-brand-purple'></div>
+
+                  {% if notification.read == false %}
+                    <div class='p-1 rounded-full bg-brand-purple pointer-events-none'></div>
+                  {% endif %}
               </div>
           </div>
         </a>

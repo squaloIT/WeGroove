@@ -11,6 +11,7 @@ const postAPI = require('./api/post')
 const chatAPI = require('./api/chat')
 const searchAPI = require('./api/search')
 const messageAPI = require('./api/message')
+const notificationAPI = require('./api/notification')
 
 module.exports = {
   loginRouter,
@@ -25,5 +26,6 @@ module.exports = {
   notificationRouter,
   searchRouter,
   messageRouter,
-  postsRouter
+  postsRouter,
+  notificationAPI
 }

@@ -198,6 +198,20 @@ function sendMessage(chatId, content) {
     body: JSON.stringify({ chatId, content })
   }).then(res => res.json())
 }
+/**
+ * 
+ * @param {string} _id
+ * @returns { Promise }
+ */
+function sendNotificationRead(_id) {
+  return fetch(`${process.env.SERVER_URL_DEV}/api/notification/read`, {
+    method: 'POST',
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({ notificationId: _id })
+  }).then(res => res.json())
+}
 
 
 export {
@@ -214,5 +228,6 @@ export {
   togglePinned,
   createChat,
   getAllPostsForUserAndSelectedTab,
-  sendMessage
+  sendMessage,
+  sendNotificationRead
 }

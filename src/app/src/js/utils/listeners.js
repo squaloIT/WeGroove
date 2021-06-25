@@ -1,5 +1,5 @@
 import { emitStopTypingToRoom, emitTypingToRoom } from "../client-socket";
-import { likePost, retweetPost, getPostData, replyToPost, deletePostByID, followOrUnfollowUser, togglePinned, createChat, changeChatName, sendMessage } from "./api";
+import { likePost, retweetPost, getPostData, replyToPost, deletePostByID, followOrUnfollowUser, togglePinned, createChat, changeChatName, sendMessage, sendNotificationRead } from "./api";
 import { animateButtonAfterClickOnLike, animateButtonAfterClickOnRetweet, showSpinner, hideSpinner, findPostWrapperElement, openModal, toggleButtonAvailability, toggleScrollForTextarea, getPostIdForWrapper, getProfileIdFromFollowButton, toggleFollowButtons, emptyImagePreviewContainer, emptyFileContainer, addNewMessage, scrollMessagesToBottom } from "./dom-manipulation";
 
 /**
@@ -451,6 +451,30 @@ function stopTyping(room) {
   typing = false;
 }
 
+function onClickOnNotification(e) {
+  e.preventDefault();
+  /** @type { HTMLElement } */
+  const aTag = e.target;
+  const href = aTag.getAttribute('href');
+  const notificationId = aTag.dataset.notificationId;
+
+  if (!notificationId) {
+    alert("No notification ID")
+    return;
+  }
+
+  sendNotificationRead(notificationId)
+    .then(data => {
+      if (data.status == 200) {
+        window.location.href = href;
+      }
+    })
+    .catch(err => {
+      console.log(err);
+      alert("There was a problem with viewing notification, please try again later thank you.")
+    })
+}
+
 export {
   onClickLikePost,
   onClickCommentPost,
@@ -470,5 +494,6 @@ export {
   addEmojiToInput,
   onSendMessage,
   updateTyping,
-  stopTyping
+  stopTyping,
+  onClickOnNotification
 }

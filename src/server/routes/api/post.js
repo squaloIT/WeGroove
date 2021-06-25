@@ -52,7 +52,7 @@ router.post('/replyTo/:id', checkIsLoggedIn, async (req, res, next) => {
       pinned: false,
       postedBy: req.session.user,
       replyTo: postId
-    });
+    })
 
     //* Populate will populate any ObjectID field with data from model specified before populate keyword.
     createdPost = await UserModel.populate(createdPost, { path: 'postedBy' });
@@ -60,11 +60,13 @@ router.post('/replyTo/:id', checkIsLoggedIn, async (req, res, next) => {
     /** @type { Boolean } isSaved */
     const isSaved = await createdPost.save();
 
+    const postWithReplyTo = await PostModel.populate(createdPost, { path: 'replyTo' });
+
     const notification = new NotificationModel({
       userFrom: req.session.user._id,
-      userTo: createdPost.postedBy,
+      userTo: postWithReplyTo.replyTo.postedBy,
       notificationType: 'comment',
-      entity: createdPost._id
+      entity: postWithReplyTo.replyTo
     })
     await notification.createNotification();
 
