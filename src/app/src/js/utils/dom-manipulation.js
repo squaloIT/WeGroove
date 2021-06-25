@@ -415,17 +415,21 @@ function emptyTextboxAndContainer(searchInput, contentWrapper) {
  */
 function addNewMessage(message, type) {
   const messagesContainer = document.querySelector('#inbox > div.chat-messages-wrapper div.chat-messages-container');
-  const content = message.content;
+  if (messagesContainer) {
+    const content = message.content;
 
-  const html = createNewMessageHTML(content, type == 'sent');
-  messagesContainer.innerHTML += html
+    const html = createNewMessageHTML(content, type == 'sent');
+    messagesContainer.innerHTML += html
+  }
 }
 /**
  * 
  * @param {HTMLElement} messagesContainer 
  */
 function scrollMessagesToBottom(messagesContainer) {
-  messagesContainer.scrollTo({ top: messagesContainer.scrollHeight, behavior: 'smooth' });
+  if (messagesContainer) {
+    messagesContainer.scrollTo({ top: messagesContainer.scrollHeight, behavior: 'smooth' });
+  }
 }
 
 function showTypingDots() {

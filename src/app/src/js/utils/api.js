@@ -212,6 +212,19 @@ function sendNotificationRead(_id) {
     body: JSON.stringify({ notificationId: _id })
   }).then(res => res.json())
 }
+/**
+ * 
+ * @param {string} _id
+ * @returns { Promise }
+ */
+function getNumberOfUnreadForUser(_id) {
+  return fetch(`${process.env.SERVER_URL_DEV}/api/message/unread-number`, {
+    method: 'GET',
+    headers: {
+      "Content-Type": "application/json"
+    }
+  }).then(res => res.json())
+}
 
 
 export {
@@ -229,5 +242,6 @@ export {
   createChat,
   getAllPostsForUserAndSelectedTab,
   sendMessage,
-  sendNotificationRead
+  sendNotificationRead,
+  getNumberOfUnreadForUser
 }

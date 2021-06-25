@@ -33,14 +33,15 @@ router.post('/sendMessage', checkIsLoggedIn, async (req, res) => {
 
     const userIds = chat.users.filter(_id => _id != senderId)
 
-    emitMessageToUsers(userIds, newMessage);
-    addNotificationsToUsers(userIds, newMessage);
-
     res.status(200).json({
       data: newMessage,
       status: 200,
       msg: "success"
     })
+
+    emitMessageToUsers(userIds, newMessage);
+    addNotificationsToUsers(userIds, newMessage);
+
   } catch (err) {
     console.error(err)
 
@@ -51,6 +52,30 @@ router.post('/sendMessage', checkIsLoggedIn, async (req, res) => {
     })
   }
 });
+
+router.get('/unread-number', checkIsLoggedIn, async (req, res) => {
+  const unreadChats = await ChatModel.getAllChatsForUser(req.session.user._id)
+    .catch(err => {
+      console.log(err)
+
+      res.status(400).json({
+        data: null,
+        msg: 'Error while getting number of unread messages',
+        status: 400
+      });
+    })
+
+  const numberOfUnreadChats = unreadChats.filter(c =>
+    c.latestMessage &&
+    !c.latestMessage.readBy.map(s => String(s)).includes(req.session.user._id)
+  ).length
+
+  res.status(200).json({
+    data: numberOfUnreadChats,
+    msg: '',
+    status: 200
+  });
+})
 /**
  * 
  * @param {Array.<string>} userIds 
