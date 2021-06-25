@@ -1,4 +1,3 @@
-import './../styles/tailwind.css';
 import { onClickLikePost, onClickRetweetPost, onClickCommentPost, onClickCommentButton, onClickDeletePost } from './utils/listeners';
 
 export default function postJS() {
