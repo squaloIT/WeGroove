@@ -2,7 +2,7 @@
     {% for notification in notifications %}
         <a 
         class='inline-block w-full
-        {% if notification.read == false %}
+        {% if notification.seen == false %}
           active bg-comment-button-blue-background
         {% endif %}
         '

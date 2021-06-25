@@ -4,9 +4,10 @@ require('./../../typedefs')
 const NotificationSchema = new mongoose.Schema({
   userTo: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
   userFrom: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
-  read: { type: Boolean, default: false },
+  notificationType: { type: String, required: true },
   entity: mongoose.Types.ObjectId,
-  notificationType: { type: String, required: true }
+  read: { type: Boolean, default: false },
+  seen: { type: Boolean, default: false },
 }, { timestamps: true });
 
 NotificationSchema.methods.createNotification = async function () {

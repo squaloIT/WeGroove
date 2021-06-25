@@ -9,7 +9,8 @@ router.get('/', async (req, res, next) => {
 
   const usersNotification = await NotificationModel.find({
     userTo: req.session.user._id,
-    notificationType: { $ne: 'new-message' }
+    notificationType: { $ne: 'new-message' },
+    userFrom: { $ne: req.session.user._id }
   })
     .sort({ createdAt: -1 })
     .populate('userTo')
@@ -27,7 +28,7 @@ router.get('/', async (req, res, next) => {
   setTimeout(async () => {
     await NotificationModel.updateMany({
       userTo: req.session.user._id
-    }, { read: true })
+    }, { seen: true })
   }, 2000)
 })
 
