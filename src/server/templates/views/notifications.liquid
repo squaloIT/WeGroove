@@ -16,26 +16,29 @@
           <div class='notification-container w-full p-3 flex flex-1 items-center font-roboto'>
               {% render 'small_profile_image_rounded', user: notification.userFrom %}
 
-              <div class='flex items-center space-x-1 ml-3'>
-                  <span class='notification-user-fullName text-dark-gray-for-text'>
-                    {{notification.userFrom.firstName}} {{notification.userFrom.lastName}}
-                  </span>
-                 
-                  {% if notification.notificationType == 'follow' %}
-                    <span class='notification-text text-dark-gray-for-text'> has started following you</span>
-
-                  {% elsif notification.notificationType == 'retweet' %}
-                    <span class='notification-text text-dark-gray-for-text'> has re-posted one of your posts</span>
-
-                  {% elsif notification.notificationType == 'like' %}
-                    <span class='notification-text text-dark-gray-for-text'> liked one of your posts</span>
+              <div class='flex items-center justify-between w-full space-x-1 ml-3'>
+                  <div>
+                      <span class='notification-user-fullName text-dark-gray-for-text'>
+                        {{notification.userFrom.firstName}} {{notification.userFrom.lastName}}
+                      </span>
                     
-                  {% elsif notification.notificationType == 'comment' %}
-                    <span class='notification-text text-dark-gray-for-text'> replied to one of your posts</span>
+                      {% if notification.notificationType == 'follow' %}
+                        <span class='notification-text text-dark-gray-for-text'> has started following you</span>
 
-                  {% else %}
-                    SHOULD NOT HAPPEN
-                  {% endif %}
+                      {% elsif notification.notificationType == 'retweet' %}
+                        <span class='notification-text text-dark-gray-for-text'> has re-posted one of your posts</span>
+
+                      {% elsif notification.notificationType == 'like' %}
+                        <span class='notification-text text-dark-gray-for-text'> liked one of your posts</span>
+                        
+                      {% elsif notification.notificationType == 'comment' %}
+                        <span class='notification-text text-dark-gray-for-text'> replied to one of your posts</span>
+
+                      {% else %}
+                        SHOULD NOT HAPPEN
+                      {% endif %}
+                  </div>
+                  <div class='p-1 rounded-full bg-brand-purple'></div>
               </div>
           </div>
         </a>
