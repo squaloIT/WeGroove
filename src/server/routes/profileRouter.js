@@ -151,6 +151,8 @@ router.get('/:username/:tab', async (req, res, next) => {
       active: tab,
       userProfile: user,
       jwtUser: req.jwtUser,
+      numOfUnreadNotifications: req.numberOfUnreadNotifications,
+      numOfUnreadChats: req.numberOfUnreadChats,
       user: req.session.user
     })
   }
@@ -179,6 +181,8 @@ router.get('/:username/:tab', async (req, res, next) => {
       userProfile: user,
       jwtUser: req.jwtUser,
       user: req.session.user,
+      numOfUnreadNotifications: req.numberOfUnreadNotifications,
+      numOfUnreadChats: req.numberOfUnreadChats,
       pinnedPost
     })
   }
@@ -211,6 +215,8 @@ router.get('/:username', async (req, res, next) => {
     userProfile: user,
     user: req.session.user,
     jwtUser: req.jwtUser,
+    numOfUnreadNotifications: req.numberOfUnreadNotifications,
+    numOfUnreadChats: req.numberOfUnreadChats,
     pinnedPost
   })
 })

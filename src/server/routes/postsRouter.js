@@ -28,6 +28,8 @@ router.get("/:id", async (req, res, next) => {
     post,
     repliesForPost,
     jwtUser: req.jwtUser,
+    numOfUnreadNotifications: req.numberOfUnreadNotifications,
+    numOfUnreadChats: req.numberOfUnreadChats,
     user
   });
 })

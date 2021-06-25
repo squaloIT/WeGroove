@@ -27,7 +27,9 @@ router.get('/', async (req, res, next) => {
     subPage: 'inbox',
     user: req.session.user,
     jwtUser: req.jwtUser,
-    chats: chatWihoutLoggedUser
+    chats: chatWihoutLoggedUser,
+    numOfUnreadNotifications: req.numberOfUnreadNotifications,
+    numOfUnreadChats: req.numberOfUnreadChats,
   });
 })
 
@@ -38,7 +40,9 @@ router.get('/new', (req, res, next) => {
     subPage: 'new-message',
     page: 'inbox',
     jwtUser: req.jwtUser,
-    user: req.session.user
+    user: req.session.user,
+    numOfUnreadNotifications: req.numberOfUnreadNotifications,
+    numOfUnreadChats: req.numberOfUnreadChats,
   });
 })
 
@@ -88,6 +92,8 @@ router.get('/:chatId', async (req, res, next) => {
     user: req.session.user,
     jwtUser: req.jwtUser,
     messages: chatMessages,
+    numOfUnreadNotifications: req.numberOfUnreadNotifications,
+    numOfUnreadChats: req.numberOfUnreadChats,
     chat,
   });
 })

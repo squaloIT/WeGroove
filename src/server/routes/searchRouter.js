@@ -11,6 +11,8 @@ router.get('/:searchType', (req, res, next) => {
     page: 'search',
     jwtUser: req.jwtUser,
     user: req.session.user,
+    numOfUnreadNotifications: req.numberOfUnreadNotifications,
+    numOfUnreadChats: req.numberOfUnreadChats,
     active: searchType
   });
 })
