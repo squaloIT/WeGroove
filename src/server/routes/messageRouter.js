@@ -11,13 +11,15 @@ require('./../typedefs');
 router.get('/', async (req, res, next) => {
   /** @type { Array.<chat> } */
   const chats = await ChatModel.getAllChatsForUser(req.session.user._id);
-  const chatWihoutLoggedUser = chats.map(c => {
+  const chatWithoutLoggedUser = chats.map(c => {
     const users = c.users.filter(u => u._id != req.session.user._id);
+    const isSeen = c.latestMessage && c.latestMessage.readBy.map(s => String(s)).includes(req.session.user._id)
 
     return {
       ...c,
       chatName: c.chatName ? c.chatName : users.map(u => u.firstName + " " + u.lastName).join(", "),
-      users
+      users,
+      isSeen
     }
   });
 
@@ -27,7 +29,7 @@ router.get('/', async (req, res, next) => {
     subPage: 'inbox',
     user: req.session.user,
     jwtUser: req.jwtUser,
-    chats: chatWihoutLoggedUser,
+    chats: chatWithoutLoggedUser,
     numOfUnreadNotifications: req.numberOfUnreadNotifications,
     numOfUnreadChats: req.numberOfUnreadChats,
   });
