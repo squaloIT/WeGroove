@@ -60,6 +60,14 @@ router.post('/replyTo/:id', checkIsLoggedIn, async (req, res, next) => {
     /** @type { Boolean } isSaved */
     const isSaved = await createdPost.save();
 
+    const notification = new NotificationModel({
+      userFrom: req.session.user._id,
+      userTo: createdPost.postedBy,
+      notificationType: 'comment',
+      entity: createdPost._id
+    })
+    await notification.createNotification();
+
     return res.status(isSaved ? 201 : 400).json({
       msg: isSaved ? "Post successfully saved" : "There was an error while saving post",
       status: isSaved ? 201 : 400,
