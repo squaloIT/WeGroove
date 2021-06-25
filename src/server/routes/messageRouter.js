@@ -62,6 +62,12 @@ router.get('/:chatId', async (req, res, next) => {
     }
   }
 
+  await MessageModel.updateMany({ chat: chatId }, {
+    $addToSet: {
+      readBy: userId
+    }
+  })
+
   let chatMessages = await MessageModel.find({ chat: chatId })
     .populate('sender')
     .populate('chat')
