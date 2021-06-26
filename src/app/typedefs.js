@@ -52,6 +52,7 @@
 */
 /**
  * @typedef {Object} notification
+ * @property {string} _id -
  * @property {user} userTo -
  * @property {user} userFrom -
  * @property {String} notificationType -
