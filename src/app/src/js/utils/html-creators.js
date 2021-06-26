@@ -255,6 +255,50 @@ function createNewMessageHTML(content, isSent) {
   </div>
   `
 }
+/**
+ * 
+ * @param {notification} notification 
+ */
+function createNotificationRow(notification) {
+  let div = `<div class='notification-container w-full p-3 flex flex-1 items-center font-roboto pointer-events-none'>
+      <div class="image-container w-14 h-14">
+        <img class='w-14 rounded-full bg-white' src='${notification.userFrom.profilePic}' alt="${notification.userFrom.username}" title='${notification.userFrom.username}' />
+      </div>
+
+      <div class='flex items-center justify-between w-full space-x-1 ml-3 pointer-events-none'>
+          <div class='pointer-events-none'>
+              <span class='notification-user-fullName text-dark-gray-for-text  pointer-events-none'>
+                ${notification.userFrom.firstName} ${notification.userFrom.lastName}
+              </span>
+                  `
+  let notificationText = '';
+
+  if (notification.notificationType == 'follow') {
+    notificationText = "<span class='notification-text text-dark-gray-for-text  pointer-events-none'> has started following you</span>"
+  }
+  else if (notification.notificationType == 'retweet') {
+    notificationText = "<span class='notification-text text-dark-gray-for-text  pointer-events-none'> has re-posted one of your posts</span>"
+  }
+  else if (notification.notificationType == 'like') {
+    notificationText = "<span class='notification-text text-dark-gray-for-text  pointer-events-none'> liked one of your posts</span>"
+  }
+  else if (notification.notificationType == 'comment') {
+    notificationText = "<span class='notification-text text-dark-gray-for-text  pointer-events-none'> replied to one of your posts</span>"
+  }
+  else {
+    notificationText = "<span class='notification-text text-dark-gray-for-text  pointer-events-none'> SHOULD NOT HAPPEN</span>"
+  }
+
+  div += `
+                ${notificationText}
+              </div>
+
+            ${!notification.read ? "<div class='p-1 rounded-full bg-brand-purple pointer-events-none'></div>" : ""}
+          </div>
+        </div>
+  `
+  return div;
+}
 
 export {
   createPostHTML,
@@ -271,5 +315,6 @@ export {
   createLikeButtonElements,
   createPostElement,
   createRetweetButtonElements,
+  createNotificationRow,
   createNewMessageHTML
 }

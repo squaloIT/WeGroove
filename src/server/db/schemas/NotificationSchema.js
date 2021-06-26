@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const { emitNotificationToUser } = require('../../socket');
+const UserModel = require('./UserSchema');
 require('./../../typedefs')
 
 const NotificationSchema = new mongoose.Schema({
@@ -24,9 +25,9 @@ NotificationSchema.methods.createNotification = async function () {
   }
 
   /** @type { notification } */
-  const newNotification = await this.save();
-  newNotification.populate('userTo')
-  newNotification.populate('userFrom')
+  let newNotification = await this.save();
+  newNotification = await UserModel.populate(newNotification, { path: "userTo" })
+  newNotification = await UserModel.populate(newNotification, { path: "userFrom" })
 
   if (newNotification.notificationType != 'new-message') {
     const notifications = await NotificationModel.getAllNotificationsForUser(newNotification.userTo._id, {

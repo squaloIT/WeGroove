@@ -1,6 +1,6 @@
 import { emitStopTypingToRoom, emitTypingToRoom } from "../client-socket";
 import { likePost, retweetPost, getPostData, replyToPost, deletePostByID, followOrUnfollowUser, togglePinned, createChat, changeChatName, sendMessage, sendNotificationRead, getNumberOfUnreadForUser } from "./api";
-import { animateButtonAfterClickOnLike, animateButtonAfterClickOnRetweet, showSpinner, hideSpinner, findPostWrapperElement, openModal, toggleButtonAvailability, toggleScrollForTextarea, getPostIdForWrapper, getProfileIdFromFollowButton, toggleFollowButtons, emptyImagePreviewContainer, emptyFileContainer, addNewMessage, scrollMessagesToBottom } from "./dom-manipulation";
+import { animateButtonAfterClickOnLike, animateButtonAfterClickOnRetweet, showSpinner, hideSpinner, findPostWrapperElement, openModal, toggleButtonAvailability, toggleScrollForTextarea, getPostIdForWrapper, getProfileIdFromFollowButton, toggleFollowButtons, emptyImagePreviewContainer, emptyFileContainer, addNewMessage, scrollMessagesToBottom, createNewNotification } from "./dom-manipulation";
 
 /**
  * @param {Event} e 
@@ -497,10 +497,20 @@ function onNewMessage(msg) {
  * @param {Number} data.notificationNumber 
  */
 function onNewNotification(data) {
-  const numOfNotificationsSpan = document.querySelector("#numOfUnreadNotifications")
-  if (numOfNotificationsSpan && data.notificationNumber > 0) {
-    numOfNotificationsSpan.classList.add('bg-red-700')
-    numOfNotificationsSpan.innerText = data.notificationNumber
+  const numOfNotificationsSpan = document.querySelector("#numOfUnreadNotifications");
+  const notificationsContainer = document.querySelector('#notifications div.content-wrapper')
+  data = JSON.parse(data)
+
+  //* If true means that we are on notifications page
+  if (notificationsContainer) {
+    //TODO - add new notification to screen
+    const newNotificationElement = createNewNotification(data.notification)
+    notificationsContainer.prepend(newNotificationElement)
+  } else {
+    if (numOfNotificationsSpan && data.notificationNumber > 0) {
+      numOfNotificationsSpan.classList.add('bg-red-700')
+      numOfNotificationsSpan.innerText = data.notificationNumber
+    }
   }
 }
 

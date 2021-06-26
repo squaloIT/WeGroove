@@ -6,9 +6,10 @@ const jwt = require('jsonwebtoken')
 //* Or the last way would be to pass it as parameter to module I am require-ing
 var socketIO = null;
 const sessionsMap = {}; // TODO DELETE USERS FROM THIS OBJECT ON DISCONNECT
+var io = null;
 
 function connect(app) {
-  const io = socket(app, { pingTimeout: 60000 })
+  io = socket(app, { pingTimeout: 60000 })
 
   io.on('connection', socket => {
     socketIO = socket;
@@ -72,12 +73,12 @@ function deleteUserFromSessionMap(userId) {
  */
 function emitNotificationToUser(notification, notificationNumber) {
   const userID = notification.userTo._id || notification.userTo;
-
   const socketID = sessionsMap[userID]
-  socketIO.to(socketID).emit('new-notification', {
-    ...notification,
+
+  io.to(socketID).emit('new-notification', JSON.stringify({
+    notification,
     notificationNumber
-  })
+  }))
 }
 
 module.exports = {

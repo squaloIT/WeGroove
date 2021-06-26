@@ -1,5 +1,5 @@
 import './../../../typedefs';
-import { createCommentButtonElements, createDeleteButtonElements, createElementForButtonWrapper, createFollowButtonElement, createFollowingButtonElement, createLikeButtonElements, createNewMessageHTML, createPinButtonElements, createPostElement, createRetweetButtonElements, createUserRowHTML } from './html-creators';
+import { createCommentButtonElements, createDeleteButtonElements, createElementForButtonWrapper, createFollowButtonElement, createFollowingButtonElement, createLikeButtonElements, createNewMessageHTML, createNotificationRow, createPinButtonElements, createPostElement, createRetweetButtonElements, createUserRowHTML } from './html-creators';
 import { onKeyUpCommentTA, createFunctionToCloseModal } from './listeners';
 
 /**
@@ -440,6 +440,25 @@ function showTypingDots() {
 function hideTypingDots() {
   document.querySelector('div.chat-typing-container').classList.add('hidden')
 }
+/**
+ * @param {notification} notification 
+ * @returns HTMLElement
+ */
+function createNewNotification(notification) {
+  const aTag = document.createElement('a');
+  aTag.className = 'notification-link inline-block w-full active bg-comment-button-blue-background';
+  aTag.setAttribute('notification-id', notification._id);
+
+  if (notification.notificationType == 'follow') {
+    aTag.href = `/profile/${notification.entity}`
+  } else {
+    aTag.href = `/post/${notification.entity}`
+  }
+
+  aTag.innerHTML = createNotificationRow(notification);
+
+  return aTag;
+}
 
 export {
   enableButton,
@@ -467,5 +486,6 @@ export {
   displaySelectedUsers,
   createRowAndAddListener,
   addNewMessage,
+  createNewNotification,
   scrollMessagesToBottom
 }
