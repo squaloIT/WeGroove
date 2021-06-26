@@ -1,5 +1,5 @@
 import { emitStopTypingToRoom, emitTypingToRoom } from "../client-socket";
-import { likePost, retweetPost, getPostData, replyToPost, deletePostByID, followOrUnfollowUser, togglePinned, createChat, changeChatName, sendMessage, sendNotificationRead } from "./api";
+import { likePost, retweetPost, getPostData, replyToPost, deletePostByID, followOrUnfollowUser, togglePinned, createChat, changeChatName, sendMessage, sendNotificationRead, getNumberOfUnreadForUser } from "./api";
 import { animateButtonAfterClickOnLike, animateButtonAfterClickOnRetweet, showSpinner, hideSpinner, findPostWrapperElement, openModal, toggleButtonAvailability, toggleScrollForTextarea, getPostIdForWrapper, getProfileIdFromFollowButton, toggleFollowButtons, emptyImagePreviewContainer, emptyFileContainer, addNewMessage, scrollMessagesToBottom } from "./dom-manipulation";
 
 /**
@@ -474,6 +474,35 @@ function onClickOnNotification(e) {
       alert("There was a problem with viewing notification, please try again later thank you.")
     })
 }
+/**
+ * 
+ * @param {message} msg 
+ */
+function onNewMessage(msg) {
+  addNewMessage(msg, 'received')
+  scrollMessagesToBottom(document.querySelector('#inbox div.chat-messages-container'))
+  getNumberOfUnreadForUser()
+    .then(data => {
+      const numOfChatsSpan = document.querySelector("#numOfUnreadChats")
+      if (numOfChatsSpan && data.data > 0) {
+        numOfChatsSpan.classList.add('bg-red-700')
+        numOfChatsSpan.innerText = data.data
+      }
+    })
+}
+/**
+ * 
+ * @param {Object} data 
+ * @param {notification} data.notification 
+ * @param {Number} data.notificationNumber 
+ */
+function onNewNotification(data) {
+  const numOfNotificationsSpan = document.querySelector("#numOfUnreadNotifications")
+  if (numOfNotificationsSpan && data.data > 0) {
+    numOfNotificationsSpan.classList.add('bg-red-700')
+    numOfNotificationsSpan.innerText = data.notificationNumber
+  }
+}
 
 export {
   onClickLikePost,
@@ -495,5 +524,7 @@ export {
   onSendMessage,
   updateTyping,
   stopTyping,
-  onClickOnNotification
+  onClickOnNotification,
+  onNewMessage,
+  onNewNotification
 }

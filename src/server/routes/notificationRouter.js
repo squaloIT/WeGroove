@@ -19,6 +19,7 @@ router.get('/', async (req, res, next) => {
     notifications: usersNotification
   });
 
+  //TODO - Prebaciti ovo na klijenta tako da se taj api pozove cim se zeljena stranica ucita
   setTimeout(async () => {
     await NotificationModel.updateMany({
       userTo: req.session.user._id

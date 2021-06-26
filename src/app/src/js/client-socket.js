@@ -1,7 +1,5 @@
 import { io } from "socket.io-client";
-import { getNumberOfUnreadForUser } from "./utils/api";
-import { addNewMessage, hideTypingDots, scrollMessagesToBottom, showTypingDots } from "./utils/dom-manipulation";
-
+import { onNewMessage, onNewNotification } from "./utils/listeners";
 var socket = null;
 
 function connectClientSocket(jwtUser) {
@@ -15,18 +13,8 @@ function connectClientSocket(jwtUser) {
       socketId: socket.id
     })
 
-    socket.on('new-message', (msg) => {
-      addNewMessage(msg, 'received')
-      scrollMessagesToBottom(document.querySelector('#inbox div.chat-messages-container'))
-      getNumberOfUnreadForUser()
-        .then(data => {
-          const numOfChatsSpan = document.querySelector("#numOfUnreadChats")
-          if (numOfChatsSpan && data.data > 0) {
-            numOfChatsSpan.classList.add('bg-red-700')
-            numOfChatsSpan.innerText = data.data
-          }
-        })
-    });
+    socket.on('new-notification', onNewNotification);
+    socket.on('new-message', onNewMessage);
     socket.on('typing', showTypingDots);
     socket.on('stop-typing', hideTypingDots)
   })

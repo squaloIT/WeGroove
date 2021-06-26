@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const { emitNotificationToUser } = require('../../socket');
 require('./../../typedefs')
 
 const NotificationSchema = new mongoose.Schema({
@@ -18,7 +19,18 @@ NotificationSchema.methods.createNotification = async function () {
     entity: this.entity
   });
 
-  const newNotification = await this.save()
+  /** @type { notification } */
+  const newNotification = await this.save();
+  newNotification.populate('userTo')
+  newNotification.populate('userFrom')
+
+  if (newNotification.notificationType != 'new-message') {
+    const notifications = await NotificationModel.getAllNotificationsForUser(req.session.user._id, {
+      seen: false
+    })
+
+    emitNotificationToUser(newNotification, notifications.length)
+  }
   return newNotification;
 };
 
@@ -30,6 +42,7 @@ NotificationSchema.statics.getAllNotificationsForUser = async function (userId, 
     ...additionalFilters
   };
 
+  /** @type { Array.<notification> } */
   const notifications = await NotificationModel.find(filters)
     .sort({ createdAt: -1 })
     .populate('userTo')

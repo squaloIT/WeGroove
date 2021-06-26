@@ -66,9 +66,22 @@ function addSocketIDForUserID(jwtUser, socketID) {
 function deleteUserFromSessionMap(userId) {
   delete sessionsMap[userId];
 }
+/**
+ * @param {notification} notification 
+ * @param {Number} notificationNumber 
+ */
+function emitNotificationToUser(notification, notificationNumber) {
+  const socketID = sessionMap[notification.userTo]
+  socketIO.to(socketID).emit('new-notification', {
+    ...notification,
+    notification
+  })
+}
 
 module.exports = {
   connect,
   emitMessageToUsers,
+  deleteUserFromSessionMap,
   emitUserIdToRetreiveSocketId,
+  emitNotificationToUser
 }
