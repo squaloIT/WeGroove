@@ -498,7 +498,7 @@ function onNewMessage(msg) {
  */
 function onNewNotification(data) {
   const numOfNotificationsSpan = document.querySelector("#numOfUnreadNotifications")
-  if (numOfNotificationsSpan && data.data > 0) {
+  if (numOfNotificationsSpan && data.notificationNumber > 0) {
     numOfNotificationsSpan.classList.add('bg-red-700')
     numOfNotificationsSpan.innerText = data.notificationNumber
   }

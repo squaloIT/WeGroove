@@ -71,10 +71,12 @@ function deleteUserFromSessionMap(userId) {
  * @param {Number} notificationNumber 
  */
 function emitNotificationToUser(notification, notificationNumber) {
-  const socketID = sessionMap[notification.userTo]
+  const userID = notification.userTo._id || notification.userTo;
+
+  const socketID = sessionsMap[userID]
   socketIO.to(socketID).emit('new-notification', {
     ...notification,
-    notification
+    notificationNumber
   })
 }
 

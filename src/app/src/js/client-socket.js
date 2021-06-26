@@ -1,4 +1,5 @@
 import { io } from "socket.io-client";
+import { hideTypingDots, showTypingDots } from "./utils/dom-manipulation";
 import { onNewMessage, onNewNotification } from "./utils/listeners";
 var socket = null;
 
@@ -32,14 +33,9 @@ function emitJoinRoom(room) {
   socket.emit("joinRoom", room)
 }
 
-function sendMessageToChat(chatId, message) {
-
-}
-
 export {
   connectClientSocket,
   emitTypingToRoom,
-  sendMessageToChat,
   emitStopTypingToRoom,
   emitJoinRoom
 }

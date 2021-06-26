@@ -12,12 +12,16 @@ const NotificationSchema = new mongoose.Schema({
 }, { timestamps: true });
 
 NotificationSchema.methods.createNotification = async function () {
-  await NotificationModel.deleteOne({
-    userFrom: this.userFrom,
-    userTo: this.userTo,
-    notificationType: this.notificationType,
-    entity: this.entity
-  });
+  //* This if is needed because I always comment on the same posts, and it should not delete previous comment notification 
+  //* if the new one is added
+  if (this.notificationType != 'comment') {
+    var deleted = await NotificationModel.deleteOne({
+      userFrom: this.userFrom,
+      userTo: this.userTo,
+      notificationType: this.notificationType,
+      entity: this.entity
+    });
+  }
 
   /** @type { notification } */
   const newNotification = await this.save();
@@ -25,7 +29,7 @@ NotificationSchema.methods.createNotification = async function () {
   newNotification.populate('userFrom')
 
   if (newNotification.notificationType != 'new-message') {
-    const notifications = await NotificationModel.getAllNotificationsForUser(req.session.user._id, {
+    const notifications = await NotificationModel.getAllNotificationsForUser(newNotification.userTo._id, {
       seen: false
     })
 
