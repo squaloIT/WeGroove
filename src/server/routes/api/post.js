@@ -61,7 +61,7 @@ router.post('/replyTo/:id', checkIsLoggedIn, async (req, res, next) => {
     const isSaved = await createdPost.save();
 
     const postWithReplyTo = await PostModel.populate(createdPost, { path: 'replyTo' });
-
+    /** @type { notification } */
     const notification = new NotificationModel({
       userFrom: req.session.user._id,
       userTo: postWithReplyTo.replyTo.postedBy,
@@ -131,6 +131,7 @@ router.put('/like', checkIsLoggedIn, async (req, res) => {
   }, { new: true })
 
   if (!isLiked) {
+    /** @type { notification } */
     const notification = new NotificationModel({
       userFrom: req.session.user._id,
       userTo: newPostWithLikes.postedBy,
@@ -230,6 +231,7 @@ router.post('/retweet', checkIsLoggedIn, async (req, res) => {
     });
 
   if (!deletedPost) {
+    /** @type { notification } */
     const notification = new NotificationModel({
       userFrom: req.session.user._id,
       userTo: post.postedBy,

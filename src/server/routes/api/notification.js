@@ -7,6 +7,7 @@ require('../../typedefs');
 
 router.post('/read', checkIsLoggedIn, async (req, res) => {
   const notificationId = req.body.notificationId;
+  /** @type { notification | null } */
   const notification = await NotificationModel.findByIdAndUpdate(notificationId, {
     read: true
   })

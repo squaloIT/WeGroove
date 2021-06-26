@@ -51,6 +51,16 @@
  * @property { chat } chat
 */
 /**
+ * @typedef {Object} notification
+ * @property {user} userTo -
+ * @property {user} userFrom -
+ * @property {String} notificationType -
+ * @property {String} entity -
+ * @property {boolean} read -
+ * @property {boolean} seen -
+ */
+
+/**
  * @typedef {Object} buttonWrapperElements
  * @property {HTMLElement} span - The X Coordinate
  * @property {HTMLElement} button - The Y Coordinate

@@ -84,6 +84,7 @@ router.get('/unread-number', checkIsLoggedIn, async (req, res) => {
 function addNotificationsToUsers(userIds, message) {
   userIds.forEach(id => {
     if (id) {
+      /** @type { notification } */
       const notification = new NotificationModel({
         userTo: id,
         userFrom: message.sender,//* this is id

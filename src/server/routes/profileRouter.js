@@ -99,6 +99,7 @@ router.post('/:action/:profileId', async (req, res, next) => {
       req.session.user = newUser.getDataForSession()
 
       if (req.params.action == 'follow') {
+        /** @type { notification } */
         const notification = new NotificationModel({
           userFrom: user._id,
           userTo: profile._id,
