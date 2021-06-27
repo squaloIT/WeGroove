@@ -226,6 +226,16 @@ function getNumberOfUnreadForUser(_id) {
   }).then(res => res.json())
 }
 
+function setSeenForMessagesInChat(chatId) {
+  return fetch(`${process.env.SERVER_URL_DEV}/api/message/seen-chat-messages`, {
+    method: 'POST',
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({ chatId })
+  }).then(res => res.json())
+}
+
 
 export {
   searchTermByType,
@@ -243,5 +253,6 @@ export {
   getAllPostsForUserAndSelectedTab,
   sendMessage,
   sendNotificationRead,
-  getNumberOfUnreadForUser
+  getNumberOfUnreadForUser,
+  setSeenForMessagesInChat
 }

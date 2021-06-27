@@ -1,5 +1,5 @@
 import { emitStopTypingToRoom, emitTypingToRoom } from "../client-socket";
-import { likePost, retweetPost, getPostData, replyToPost, deletePostByID, followOrUnfollowUser, togglePinned, createChat, changeChatName, sendMessage, sendNotificationRead, getNumberOfUnreadForUser } from "./api";
+import { likePost, retweetPost, getPostData, replyToPost, deletePostByID, followOrUnfollowUser, togglePinned, createChat, changeChatName, sendMessage, sendNotificationRead, getNumberOfUnreadForUser, setSeenForMessagesInChat } from "./api";
 import { animateButtonAfterClickOnLike, animateButtonAfterClickOnRetweet, showSpinner, hideSpinner, findPostWrapperElement, openModal, toggleButtonAvailability, toggleScrollForTextarea, getPostIdForWrapper, getProfileIdFromFollowButton, toggleFollowButtons, emptyImagePreviewContainer, emptyFileContainer, addNewMessage, scrollMessagesToBottom, createNewNotification, createChatRow, findChatElement } from "./dom-manipulation";
 
 /**
@@ -482,9 +482,15 @@ function onNewMessage(msg) {
   const chatContainer = document.querySelector('#inbox div.chat-messages-container')
   const inboxChatsWrapper = document.querySelector('#inbox #chats')
 
+  //* This means that I am in the chat so no notification should be fetched and displayed
   if (chatContainer) {
     addNewMessage(msg, 'received')
     scrollMessagesToBottom(chatContainer)
+    setSeenForMessagesInChat(msg.chat._id || msg.chat)
+      .then(data => console.log(data.msg))
+      .catch(err => console.error(err));
+
+    return
   }
 
   if (inboxChatsWrapper) {

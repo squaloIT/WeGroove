@@ -95,6 +95,28 @@ router.get('/unread-number', checkIsLoggedIn, async (req, res) => {
     status: 200
   });
 })
+
+router.post('/seen-chat-messages', checkIsLoggedIn, async (req, res) => {
+  const chatId = req.body.chatId;
+  const userId = req.session.user._id;
+
+  await MessageModel.updateMany({ chat: chatId }, {
+    $addToSet: {
+      readBy: userId
+    }
+  })
+    .catch(err => {
+      console.log(err);
+      res.status(400).send()
+    })
+
+  res.status(200).json({
+    msg: "Messages seen",
+    status: 200,
+    data: null
+  })
+})
+
 /**
  * 
  * @param {Array.<string>} userIds 
