@@ -14,8 +14,7 @@ router.post('/create', checkIsLoggedIn, async (req, res) => {
       msg: "There was no user specified for chat!"
     })
   }
-  //* Need to add logged in user to group chat
-  const chatName = users.map(el => el.firstName + " " + el.lastName).join(", ")
+
   users.push(req.session.user._id);
 
   try {
@@ -25,7 +24,7 @@ router.post('/create', checkIsLoggedIn, async (req, res) => {
       const chat = new ChatModel({
         isGroupChat: users.length > 2,
         users,
-        chatName
+        chatName: null
       });
       await chat.save()
 
