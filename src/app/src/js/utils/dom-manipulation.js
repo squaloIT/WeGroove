@@ -1,5 +1,5 @@
 import './../../../typedefs';
-import { createCommentButtonElements, createDeleteButtonElements, createElementForButtonWrapper, createFollowButtonElement, createFollowingButtonElement, createLikeButtonElements, createNewMessageHTML, createNotificationRow, createPinButtonElements, createPostElement, createRetweetButtonElements, createUserRowHTML } from './html-creators';
+import { createChatRowContent, createCommentButtonElements, createDeleteButtonElements, createElementForButtonWrapper, createFollowButtonElement, createFollowingButtonElement, createLikeButtonElements, createNewMessageHTML, createNotificationRow, createPinButtonElements, createPostElement, createRetweetButtonElements, createUserRowHTML } from './html-creators';
 import { onKeyUpCommentTA, createFunctionToCloseModal } from './listeners';
 
 /**
@@ -459,6 +459,31 @@ function createNewNotification(notification) {
 
   return aTag;
 }
+/**
+ * @param {String} chatId 
+ * @param {HTMLElement} chatsContainer 
+ * @returns {HTMLElement | null}
+ */
+function findChatElement(chatId, chatsContainer) {
+  const chats = Array.from(chatsContainer.querySelectorAll('div[data-chat-id]'));
+  console.log("🚀 ~ file: dom-manipulation.js ~ line 468 ~ findChatElement ~ chats", chats)
+  const chat = chats.find(c => c.dataset.chatId == chatId);
+  console.log("🚀 ~ file: dom-manipulation.js ~ line 471 ~ findChatElement ~ chat", chat)
+  return chat
+}
+/**
+ * @param {message} msg 
+ * @returns { HTMLElement }
+ */
+function createChatRow(msg) {
+  const chatContainer = document.createElement('div');
+  chatContainer.className = `w-full px-6 py-2 border-b border-super-light-gray-border flex justify-between bg-comment-button-blue-background`;
+  chatContainer.dataset.chatId = msg.chat._id || msg.chat;
+
+  const chatContent = createChatRowContent(msg)
+  chatContainer.innerHTML = chatContent
+  return chatContainer;
+}
 
 export {
   enableButton,
@@ -487,5 +512,7 @@ export {
   createRowAndAddListener,
   addNewMessage,
   createNewNotification,
-  scrollMessagesToBottom
+  scrollMessagesToBottom,
+  findChatElement,
+  createChatRow
 }

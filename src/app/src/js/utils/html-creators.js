@@ -299,6 +299,58 @@ function createNotificationRow(notification) {
   `
   return div;
 }
+/**
+ * 
+ * @param {message} msg
+ * @returns {String} 
+ */
+function createChatRowContent(msg) {
+  return `
+    <div class='chat-image-rounded w-1/12'>
+      <a href="/messages/${msg.chat._id || msg.chat}">
+        ${createImagesForChatRow(msg.chat)}
+      </a>
+    </div>
+
+    <div class='chat-info-messages w-11/12 ml-3'>
+      <a href="/messages/${msg.chat._id}">
+        <h4 class='text-xl overflow-hidden whitespace-nowrap overflow-ellipsis font-semibold'>${msg.chat.chatName}</h4>
+        <p class='text-brand-dark-gray text-lg overflow-hidden whitespace-nowrap overflow-ellipsis font-medium'>
+          ${msg.sender.firstName} ${msg.sender.lastName}: ${msg.content}
+        </p>
+      </a>
+    </div>
+  </div>
+  `
+}
+/**
+ * @param {message} chat 
+ * @returns { String }
+ */
+function createImagesForChatRow(chat) {
+  if (chat.users.length > 1) {
+    return `<div class="image-container w-14 h-14 relative">
+    <img 
+      class='w-10 h-10 rounded-full bg-white absolute bottom-0 left-0 z-20' 
+      src="${chat.users[0].profilePic}" 
+      alt="${chat.users[0].username}" 
+      title=${chat.users[0].username}
+    />
+    <img 
+      class='w-10 h-10 rounded-full bg-white absolute right-0 top-0 z-10' 
+      src="${chat.users[1].profilePic}" 
+      alt="${chat.users[1].username}" 
+      title=${chat.users[1].username}
+    />
+  </div>`
+
+  } else {
+    return `
+      <div class="image-container w-14 h-14">
+        <img class='w-14 rounded-full bg-white' src="${chat.users[0].profilePic}" alt="${chat.users[0].username}" title="${chat.users[0].username}" />
+      </div>`
+  }
+}
 
 export {
   createPostHTML,
@@ -316,5 +368,6 @@ export {
   createPostElement,
   createRetweetButtonElements,
   createNotificationRow,
-  createNewMessageHTML
+  createNewMessageHTML,
+  createChatRowContent
 }

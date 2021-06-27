@@ -1,6 +1,6 @@
 import { emitStopTypingToRoom, emitTypingToRoom } from "../client-socket";
 import { likePost, retweetPost, getPostData, replyToPost, deletePostByID, followOrUnfollowUser, togglePinned, createChat, changeChatName, sendMessage, sendNotificationRead, getNumberOfUnreadForUser } from "./api";
-import { animateButtonAfterClickOnLike, animateButtonAfterClickOnRetweet, showSpinner, hideSpinner, findPostWrapperElement, openModal, toggleButtonAvailability, toggleScrollForTextarea, getPostIdForWrapper, getProfileIdFromFollowButton, toggleFollowButtons, emptyImagePreviewContainer, emptyFileContainer, addNewMessage, scrollMessagesToBottom, createNewNotification } from "./dom-manipulation";
+import { animateButtonAfterClickOnLike, animateButtonAfterClickOnRetweet, showSpinner, hideSpinner, findPostWrapperElement, openModal, toggleButtonAvailability, toggleScrollForTextarea, getPostIdForWrapper, getProfileIdFromFollowButton, toggleFollowButtons, emptyImagePreviewContainer, emptyFileContainer, addNewMessage, scrollMessagesToBottom, createNewNotification, createChatRow, findChatElement } from "./dom-manipulation";
 
 /**
  * @param {Event} e 
@@ -479,16 +479,39 @@ function onClickOnNotification(e) {
  * @param {message} msg 
  */
 function onNewMessage(msg) {
-  addNewMessage(msg, 'received')
-  scrollMessagesToBottom(document.querySelector('#inbox div.chat-messages-container'))
-  getNumberOfUnreadForUser()
-    .then(data => {
-      const numOfChatsSpan = document.querySelector("#numOfUnreadChats")
-      if (numOfChatsSpan && data.data > 0) {
-        numOfChatsSpan.classList.add('bg-red-700')
-        numOfChatsSpan.innerText = data.data
-      }
-    })
+  const chatContainer = document.querySelector('#inbox div.chat-messages-container')
+  const inboxChatsWrapper = document.querySelector('#inbox #chats')
+
+  if (chatContainer) {
+    addNewMessage(msg, 'received')
+    scrollMessagesToBottom(chatContainer)
+  }
+
+  if (inboxChatsWrapper) {
+    const chatElement = findChatElement(msg.chat._id || msg.chat, inboxChatsWrapper)
+    if (chatElement) {
+      chatElement.classList.add('bg-comment-button-blue-background')
+      chatElement.querySelector('div.chat-info-messages h4').classList.add('font-semibold')
+      const contentEl = chatElement.querySelector('div.chat-info-messages p');
+      contentEl.classList.add('font-medium')
+      contentEl.innerText = msg.content;
+
+    } else {
+      const chatRow = createChatRow(msg)
+      inboxChatsWrapper.prepend(chatRow);
+    }
+
+  } else {
+    getNumberOfUnreadForUser()
+      .then(data => {
+        const numOfChatsSpan = document.querySelector("#numOfUnreadChats")
+        if (numOfChatsSpan && data.data > 0) {
+          numOfChatsSpan.classList.add('bg-red-700')
+          numOfChatsSpan.innerText = data.data
+        }
+      })
+  }
+
 }
 /**
  * 
