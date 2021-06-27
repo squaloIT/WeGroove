@@ -1,40 +1,40 @@
-<div 
-  {% if chat.isSeen == false %}
-    class='w-full px-6 py-2 border-b border-super-light-gray-border flex justify-between bg-comment-button-blue-background'
-  {% else %}
-    class='w-full px-6 py-2 border-b border-super-light-gray-border flex justify-between'
-  {% endif %}
->
-  <div class='chat-image-rounded w-1/12'>
-    <a href="/messages/{{chat._id}}">
-      {% if chat.users.size > 1 %}
-        {% render 'group_chat_images_rounded', users: chat.users %}
-      {% else %}
-        {% render 'small_profile_image_rounded', user: chat.users[0] %}
-      {% endif %}
-    </a>
-  </div>
+{% if chat.latestMessage.content %}
+  <div 
+    {% if chat.isSeen == false %}
+      class='w-full px-6 py-2 border-b border-super-light-gray-border flex justify-between bg-comment-button-blue-background'
+    {% else %}
+      class='w-full px-6 py-2 border-b border-super-light-gray-border flex justify-between'
+    {% endif %}
+  >
+    <div class='chat-image-rounded w-1/12'>
+      <a href="/messages/{{chat._id}}">
+        {% if chat.users.size > 1 %}
+          {% render 'group_chat_images_rounded', users: chat.users %}
+        {% else %}
+          {% render 'small_profile_image_rounded', user: chat.users[0] %}
+        {% endif %}
+      </a>
+    </div>
 
-  <div class='chat-info-messages w-11/12 ml-3'>
-    <a href="/messages/{{chat._id}}">
-      <h4 
-      {% if chat.isSeen == false %}
-        class='text-xl overflow-hidden whitespace-nowrap overflow-ellipsis font-semibold'
-      {% else %}
-        class='text-xl overflow-hidden whitespace-nowrap overflow-ellipsis'
-      {% endif %}
-      >{{ chat.chatName }}</h4>
-      <p 
-      {% if chat.isSeen == false %}
-        class='text-brand-dark-gray text-lg overflow-hidden whitespace-nowrap overflow-ellipsis'
-      {% else %}
-        class='text-brand-dark-gray text-lg overflow-hidden whitespace-nowrap overflow-ellipsis font-medium'
-      {% endif %}
-      >
-          {% if chat.latestMessage.content %}
-            {{ chat.latestMessage.sender.firstName }} {{ chat.latestMessage.sender.lastName }}: {{ chat.latestMessage.content}}
-          {% endif %}
-      </p>
-    </a>
+    <div class='chat-info-messages w-11/12 ml-3'>
+      <a href="/messages/{{chat._id}}">
+        <h4 
+        {% if chat.isSeen == false %}
+          class='text-xl overflow-hidden whitespace-nowrap overflow-ellipsis font-semibold'
+        {% else %}
+          class='text-xl overflow-hidden whitespace-nowrap overflow-ellipsis'
+        {% endif %}
+        >{{ chat.chatName }}</h4>
+        <p 
+        {% if chat.isSeen == false %}
+          class='text-brand-dark-gray text-lg overflow-hidden whitespace-nowrap overflow-ellipsis'
+        {% else %}
+          class='text-brand-dark-gray text-lg overflow-hidden whitespace-nowrap overflow-ellipsis font-medium'
+        {% endif %}
+        >
+          {{ chat.latestMessage.sender.firstName }} {{ chat.latestMessage.sender.lastName }}: {{ chat.latestMessage.content}}
+        </p>
+      </a>
+    </div>
   </div>
-</div>
+{% endif %}
