@@ -1,7 +1,6 @@
 import { searchUsers } from "./utils/api";
-import { createRowAndAddListener, disableButton, displaySelectedUsers, scrollMessagesToBottom, toggleButtonAvailability } from "./utils/dom-manipulation";
+import { createRowAndAddListener, defineEmojiTooltip, disableButton, displaySelectedUsers, scrollMessagesToBottom, toggleButtonAvailability } from "./utils/dom-manipulation";
 import { addEmojiToInput, onClickCreateChat, onClickSaveChatNameButton, onSendMessage, updateTyping } from "./utils/listeners";
-import { Picker } from 'emoji-picker-element'
 import { emitJoinRoom } from './client-socket'
 
 export default function inbox() {
@@ -43,26 +42,20 @@ export default function inbox() {
   }
 
   if (emojiButton) {
-    const emojiPicker = new Picker();
-    const tooltip = document.querySelector('#chat-emojis-tooltip');
-    emojiButton.addEventListener('click', (e) => {
-      e.stopPropagation()
-      tooltip.classList.toggle('hidden')
-    })
-    tooltip.appendChild(emojiPicker);
+    defineEmojiTooltip(
+      emojiButton,
+      document.querySelector('#chat-emojis-tooltip'),
+      (e) => {
+        toggleButtonAvailability(
+          sendMessageButton,
+          () => chatMessageInput.value.trim() == 0,
+          'hover:bg-comment-button-blue-background'
+        )
 
-    emojiPicker.addEventListener('emoji-click', e => {
-      toggleButtonAvailability(
-        sendMessageButton,
-        () => chatMessageInput.value.trim() == 0,
-        'hover:bg-comment-button-blue-background'
-      )
-
-      updateTyping(chatId)
-      addEmojiToInput(e, chatMessageInput)
-    })
-    document.querySelector('body').addEventListener('click', () => tooltip.classList.add('hidden'))
-    document.querySelector('emoji-picker').addEventListener('click', (e) => e.stopPropagation())
+        updateTyping(chatId)
+        addEmojiToInput(e, chatMessageInput)
+      }
+    );
   }
 
   if (chatNameHeader) {

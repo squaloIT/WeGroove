@@ -1,3 +1,4 @@
+import { Picker } from 'emoji-picker-element'
 import './../../../typedefs';
 import { createChatRowContent, createCommentButtonElements, createDeleteButtonElements, createElementForButtonWrapper, createFollowButtonElement, createFollowingButtonElement, createLikeButtonElements, createNewMessageHTML, createNotificationRow, createPinButtonElements, createPostElement, createRetweetButtonElements, createUserRowHTML } from './html-creators';
 import { onKeyUpCommentTA, createFunctionToCloseModal } from './listeners';
@@ -486,6 +487,27 @@ function createChatRow(msg) {
   chatContainer.innerHTML = chatContent
   return chatContainer;
 }
+/**
+ * 
+ * @param {HTMLElement} emojiButton 
+ * @param {HTMLElement} tooltip 
+ * @param {Function} onEmojiClick 
+ */
+function defineEmojiTooltip(emojiButton, tooltip, onEmojiClick) {
+  if (emojiButton) {
+    const emojiPicker = new Picker();
+
+    emojiButton.addEventListener('click', (e) => {
+      e.stopPropagation()
+      tooltip.classList.toggle('hidden')
+    })
+    tooltip.appendChild(emojiPicker);
+
+    emojiPicker.addEventListener('emoji-click', onEmojiClick)
+    document.querySelector('body').addEventListener('click', () => tooltip.classList.add('hidden'))
+    document.querySelector('emoji-picker').addEventListener('click', (e) => e.stopPropagation())
+  }
+}
 
 export {
   enableButton,
@@ -516,5 +538,6 @@ export {
   createNewNotification,
   scrollMessagesToBottom,
   findChatElement,
+  defineEmojiTooltip,
   createChatRow
 }
