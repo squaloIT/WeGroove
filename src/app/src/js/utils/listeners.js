@@ -138,6 +138,7 @@ const createFunctionToCloseModal = (modal, taReply) => () => {
   taReply.value = '';
   taReply.style.height = '50px';
   taReply.style.overflowY = 'hidden'
+  document.querySelector('#comment-images-for-upload').value = ''
   modal.querySelector('div.left-column__line-separator').style.height = '0px'
 }
 /**

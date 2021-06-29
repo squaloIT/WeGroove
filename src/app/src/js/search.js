@@ -5,6 +5,11 @@ import { searchTermByType } from './utils/api'
 export default function search() {
   addEmojiToCommentModal()
 
+  document.querySelector('div.reply-icons-wrapper button.comment-image-button')
+    .addEventListener('click', () => {
+      document.querySelector('#comment-images-for-upload').click()
+    })
+
   document.querySelector('div.reply-button-wrapper button.reply-comment-button')
     .addEventListener('click', onClickCommentButton)
 

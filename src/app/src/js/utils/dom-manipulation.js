@@ -19,6 +19,7 @@ function openModal(post) {
   const closebutton = modal.querySelector('.close-modal-button')
   closebutton.addEventListener('click', createFunctionToCloseModal(modal, taReply))
 }
+
 function emptyImagePreviewContainer() {
   const imagePreviewContainer = document.querySelector("#image-preview");
 

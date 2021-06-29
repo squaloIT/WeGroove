@@ -1,5 +1,5 @@
 <div  class="flex justify-end button-retweet-wrapper">
-  <button class='retweet-post hover:bg-retweet-button-green-background hover:text-retweet-button-green p-2 rounded-full'>
+  <button class='retweet-post hover:bg-retweet-button-green-background hover:text-retweet-button-green p-2 rounded-full border-none ring-0 outline-white focus:outline-white focus:shadow-none focus:ring-0'>
     {% if retweetData %}
       {% assign retweets = retweetData.retweetUsers | join: "," %}
     {% else %}

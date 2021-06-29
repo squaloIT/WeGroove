@@ -7,6 +7,10 @@ export default function index() {
   const emojiButton = document.querySelector('#emoji-button');
   const submitPostButton = document.querySelector('button#submitPostButton')
 
+  document.querySelector('button#add-post-image-button').addEventListener('click', () => {
+    document.querySelector('#post-images-for-upload').click()
+  })
+
   if (emojiButton) {
     defineEmojiTooltip(
       emojiButton,
@@ -68,6 +72,11 @@ export default function index() {
 
   document.querySelector('div.reply-button-wrapper button.reply-comment-button')
     .addEventListener('click', onClickCommentButton)
+
+  document.querySelector('div.reply-icons-wrapper button.comment-image-button')
+    .addEventListener('click', () => {
+      document.querySelector('#comment-images-for-upload').click()
+    })
 
   Array.from(document.querySelectorAll('.comment-button')).forEach(el => {
     el.addEventListener('click', onClickCommentPost)

@@ -1,5 +1,5 @@
 <div  class="flex justify-end button-like-wrapper">
-  <button class='post-like hover:bg-like-button-red-background hover:text-like-button-red p-2 rounded-full'>
+  <button class='post-like hover:bg-like-button-red-background hover:text-like-button-red p-2 rounded-full border-none ring-0 outline-white focus:outline-white focus:shadow-none focus:ring-0'>
     {% if retweetData %}
       {% assign likes = retweetData.likes | join: "," %}
     {% else %}
