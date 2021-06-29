@@ -58,8 +58,10 @@ function fillModalWithPostValues(modal, post) {
   modal.querySelector('div.comment-modal__content div.post-content > p').innerHTML = post.content;
   modal.querySelector('div.comment-modal__content span.postedBy-name').innerHTML = post.postedBy.firstName + " " + post.postedBy.lastName;
   modal.querySelector('div.comment-modal__content span.postedBy-username').innerHTML = `@${post.postedBy.username}`;
-  modal.querySelector('div.comment-modal__content span.postedBy-month-and-date').innerHTML = post.fromNow;
+  modal.querySelector('div.comment-modal__content span.postedBy-month-and-date').innerHTML = post.fromNow || (`${post.date} · ${post.time}`);
   modal.querySelector('div.comment-modal__content a.postedBy-username-link').innerHTML = `@${post.postedBy.username}`;
+  modal.querySelector('div.comment-modal__content img.post-creator-profile-picture').setAttribute('src', post.postedBy.profilePic)
+  modal.querySelector('div.comment-modal__content img.post-creator-profile-picture').setAttribute('alt', post.postedBy.username)
   modal.querySelector('div.reply-button-wrapper button.reply-comment-button').dataset.pid = post._id;
 }
 /**
