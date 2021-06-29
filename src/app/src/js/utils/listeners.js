@@ -1,6 +1,7 @@
 import { emitStopTypingToRoom, emitTypingToRoom } from "../client-socket";
 import { likePost, retweetPost, getPostData, replyToPost, deletePostByID, followOrUnfollowUser, togglePinned, createChat, changeChatName, sendMessage, sendNotificationRead, getNumberOfUnreadForUser, setSeenForMessagesInChat } from "./api";
 import { animateButtonAfterClickOnLike, animateButtonAfterClickOnRetweet, showSpinner, hideSpinner, findPostWrapperElement, openModal, toggleButtonAvailability, toggleScrollForTextarea, getPostIdForWrapper, getProfileIdFromFollowButton, toggleFollowButtons, emptyImagePreviewContainer, emptyFileContainer, addNewMessage, scrollMessagesToBottom, createNewNotification, createChatRow, findChatElement, addEmojiToCommentModal } from "./dom-manipulation";
+import { validateNumberOfImages } from "./validation";
 
 /**
  * @param {Event} e 
@@ -582,6 +583,7 @@ function addAllListenersToPosts() {
   ).forEach(el => {
     el.addEventListener('click', onClickTogglePinned)
   })
+  document.querySelector('#comment-images-for-upload').addEventListener('change', validateNumberOfImages)
 }
 
 export {

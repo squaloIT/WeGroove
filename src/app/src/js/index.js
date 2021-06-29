@@ -1,6 +1,7 @@
 import { createPost } from './utils/api';
 import { disableButton, enableButton, addNewPost, showSpinner, hideSpinner, setSeparatorHeightForAllReplies, toggleButtonAvailability, defineEmojiTooltip } from './utils/dom-manipulation';
 import { addEmojiToInput, addAllListenersToPosts } from './utils/listeners';
+import { validateNumberOfImages } from './utils/validation';
 
 export default function index() {
   const taPost = document.querySelector('textarea#post');
@@ -9,6 +10,7 @@ export default function index() {
 
   document.querySelector('button#add-post-image-button').addEventListener('click', () => {
     document.querySelector('#post-images-for-upload').click()
+    document.querySelector('#post-images-for-upload').addEventListener('change', validateNumberOfImages)
   })
 
   if (emojiButton) {

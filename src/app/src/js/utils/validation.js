@@ -52,10 +52,20 @@ const validateInput = (val, regex = null) => {
   return val && new RegExp(regex).test(val)
 }
 
+const validateNumberOfImages = e => {
+  console.log(e.target.files)
+
+  if (e.target.files.length >= 4) {
+    alert("Maximum is 4 images")
+    e.target.value = ''
+  }
+}
+
 export {
   validateForm,
   removeErrBorder,
   addErrBorder,
   displayErrorLabel,
-  hideErrorLabel
+  hideErrorLabel,
+  validateNumberOfImages
 }
