@@ -1,10 +1,12 @@
-import { setSeparatorHeightForAllReplies } from "./utils/dom-manipulation"
+import { addEmojiToCommentModal, setSeparatorHeightForAllReplies } from "./utils/dom-manipulation"
 import { onClickCommentButton, onClickCommentPost, onClickDeletePost, onClickLikePost, onClickRetweetPost, onClickTogglePinned, onClickUploadImageToServer, onClosePhotoModal, onFollowOrUnfollowClick, onPostWrapperClick, openPhotoEditModal } from "./utils/listeners"
 
 export default function profile() {
   const cropper = {
     instance: null
   };
+
+  addEmojiToCommentModal()
 
   document.querySelector('div.reply-button-wrapper button.reply-comment-button')
     .addEventListener('click', onClickCommentButton)

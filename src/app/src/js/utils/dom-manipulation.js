@@ -1,7 +1,7 @@
 import { Picker } from 'emoji-picker-element'
 import './../../../typedefs';
 import { createChatRowContent, createCommentButtonElements, createDeleteButtonElements, createElementForButtonWrapper, createFollowButtonElement, createFollowingButtonElement, createLikeButtonElements, createNewMessageHTML, createNotificationRow, createPinButtonElements, createPostElement, createRetweetButtonElements, createUserRowHTML } from './html-creators';
-import { onKeyUpCommentTA, createFunctionToCloseModal } from './listeners';
+import { onKeyUpCommentTA, createFunctionToCloseModal, addEmojiToInput } from './listeners';
 
 /**
  * @param {post} post 
@@ -509,6 +509,28 @@ function defineEmojiTooltip(emojiButton, tooltip, onEmojiClick) {
   }
 }
 
+function addEmojiToCommentModal() {
+  const replyTa = document.querySelector('div#modal-container div.reply-aria textarea');
+  const emojiButton = document.querySelector('#modal-container div.comment-modal__content div.modal-content__right-column div.reply-aria div.reply-icons-wrapper div.reply-icons button.emoji-modal-button');
+  const commentPostButton = document.querySelector('div.reply-button-wrapper button.reply-comment-button')
+
+  if (emojiButton) {
+    defineEmojiTooltip(
+      emojiButton,
+      document.querySelector('#comment-emoji-tooltip'),
+      (e) => {
+        toggleButtonAvailability(
+          commentPostButton,
+          () => replyTa.value.trim() == 0,
+          'hover:bg-comment-button-blue-background'
+        )
+
+        addEmojiToInput(e, replyTa)
+      }
+    )
+  }
+}
+
 export {
   enableButton,
   disableButton,
@@ -539,5 +561,6 @@ export {
   scrollMessagesToBottom,
   findChatElement,
   defineEmojiTooltip,
+  addEmojiToCommentModal,
   createChatRow
 }

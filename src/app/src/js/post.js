@@ -1,6 +1,9 @@
-import { onClickLikePost, onClickRetweetPost, onClickCommentPost, onClickCommentButton, onClickDeletePost } from './utils/listeners';
+import { addEmojiToCommentModal } from './utils/dom-manipulation';
+import { onClickLikePost, onClickRetweetPost, onClickCommentPost, onClickCommentButton, onClickDeletePost, addEmojiToInput } from './utils/listeners';
 
 export default function postJS() {
+  addEmojiToCommentModal()
+
   document.querySelector('div.reply-button-wrapper button.reply-comment-button')
     .addEventListener('click', onClickCommentButton)
 

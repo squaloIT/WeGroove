@@ -1,8 +1,10 @@
-import { addNewPost, addNewPostWithPredefinedButtons, createSearchResultRowElement, setSeparatorHeightForAllReplies } from "./utils/dom-manipulation"
+import { addEmojiToCommentModal, addNewPost, addNewPostWithPredefinedButtons, createSearchResultRowElement, setSeparatorHeightForAllReplies } from "./utils/dom-manipulation"
 import { onClickCommentButton, onClickCommentPost, onClickDeletePost, onClickLikePost, onClickRetweetPost, onClickTogglePinned, onFollowOrUnfollowClick, onPostWrapperClick } from "./utils/listeners"
 import { searchTermByType } from './utils/api'
 
 export default function search() {
+  addEmojiToCommentModal()
+
   document.querySelector('div.reply-button-wrapper button.reply-comment-button')
     .addEventListener('click', onClickCommentButton)
 
