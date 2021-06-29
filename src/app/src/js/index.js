@@ -10,7 +10,7 @@ export default function index() {
 
   if (emojiButton) {
     const emojiPicker = new Picker();
-    const tooltip = document.querySelector('#chat-emojis-tooltip');
+    const tooltip = document.querySelector('#insert-post-emojis-tooltip');
 
     emojiButton.addEventListener('click', (e) => {
       e.stopPropagation()
