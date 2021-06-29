@@ -273,7 +273,7 @@ function openPhotoEditModal(e, type, cropper) {
         }
 
         cropper.instance = new Cropper(previewImage, {
-          aspectRatio: type == 'profile' ? 1 / 1 : 16 / 9,
+          aspectRatio: type == 'profile' ? 1 / 1 : 3 / 1,
           background: false
         })
       }
