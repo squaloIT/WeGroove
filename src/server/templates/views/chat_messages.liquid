@@ -26,7 +26,7 @@
         {% else %}
           {% for chatUser in chat.users %}
               {% if chatUser._id != user._id %}
-                  {{chatUser.firstName}} {{chatUser.lastName}}
+                  {{chatUser.fullName}}
               {% endif %}
           {% endfor %}
         {% endif %}

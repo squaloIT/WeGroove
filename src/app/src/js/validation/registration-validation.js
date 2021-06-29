@@ -1,15 +1,17 @@
 import { validateForm } from './../utils/validation';
-
+/**
+ * 
+ * @param {{ full_name: String, username: String, email: String, password: String, confirm_password: string }} 
+ * @returns Object
+ */
 function generateFormObjectWithRegex({
-  first_name,
-  last_name,
+  full_name,
   username,
   email,
   password,
   confirm_password
 }) {
-  const firstNameRegex = /^[A-Z][a-z]{1,30}$/;
-  const lastNameRegex = /^[A-Z][a-z]{1,30}$/;
+  const fullNameRegex = /^[A-Z][a-zA-Z]{3,}(?: [A-Z][a-zA-Z]*){0,2}$/;
   const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/ //Minimum eight characters, at least one letter and one number:
   const usernameRegex = /^(?=.{3,20}$)(?![_.])(?!.*[_.]{2})[a-zA-Z0-9._]+(?<![_.])$/
   // └─────┬────┘└───┬──┘└─────┬─────┘└─────┬─────┘ └───┬───┘
@@ -24,13 +26,9 @@ function generateFormObjectWithRegex({
   // username is 3-20 characters long
 
   return {
-    'firstName': {
-      val: first_name,
-      regex: firstNameRegex
-    },
-    'lastName': {
-      val: last_name,
-      regex: lastNameRegex
+    'fullName': {
+      val: full_name,
+      regex: fullNameRegex
     },
     username: {
       val: username,
@@ -49,18 +47,18 @@ function generateFormObjectWithRegex({
     }
   }
 }
-
+/**
+ * @returns {{ full_name: String, username: String, email: String, password: String, confirm_password: string }}
+ */
 function getValuesFromForm() {
-  const first_name = document.querySelector('#firstName').value
-  const last_name = document.querySelector('#lastName').value
+  const full_name = document.querySelector('#fullName').value
   const username = document.querySelector('#username').value
   const email = document.querySelector('#email').value
   const password = document.querySelector('#password').value
   const confirm_password = document.querySelector('#confirmPassword').value
 
   return {
-    first_name,
-    last_name,
+    full_name,
     username,
     email,
     password,

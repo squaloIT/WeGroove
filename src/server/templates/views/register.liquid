@@ -26,12 +26,9 @@
 
         <form method="post" action="/registration" id='registration-form'>
           <div class='mt-6'>
-            {% render 'register_form_input', type: 'text', inputName: 'firstName', inputId: 'firstName', labelText: 'First name: ', required: true, placeholder: 'John', errorLabelText: 'You must specify first name and it must begin with an uppercase', hasErrorLabel: true %}
+            {% render 'register_form_input', type: 'text', inputName: 'fullName', inputId: 'fullName', labelText: 'Full name: ', required: true, placeholder: 'John Doe', errorLabelText: 'You must specify full name and it must begin with an uppercase', hasErrorLabel: true %}
           </div>
-          <div class='mt-6'>
-            {% render 'register_form_input', type: 'text', inputName: 'lastName', inputId: 'lastName', labelText: 'Last Name: ', required: true, placeholder: 'Doe', errorLabelText: 'Last name needs to begin with capital letter and have minimum 2 chars', hasErrorLabel: true %}
-          </div>
-          
+
           <div class='mt-6'>
             {% render 'register_form_input', type: 'text', inputName: 'username', inputId: 'username', labelText: 'Username: ', required: true, placeholder: 'Your username', errorLabelText: 'Username must be 3-20 characters long, no _ or . at the beginning, no __ or _. or ._ or .. inside and no _ or . at the end', hasErrorLabel: true %}
           </div>

@@ -42,8 +42,7 @@ function createPostHTML(content, user, createdAt) {
     _id,
     profilePic,
     username,
-    firstName,
-    lastName
+    fullName
   } = user;
 
   return `<div class="post__image-container w-14 h-14">
@@ -61,7 +60,7 @@ function createPostHTML(content, user, createdAt) {
       <div class='w-8/12 flex flex-row items-center'>
         <div class="post-content-info__username-container cursor-pointer">
           <p class="name font-bold">
-            <a href="/profile/${user.username}">${firstName} ${lastName} -
+            <a href="/profile/${user.username}">${fullName} -
             </a>
           </p>
         </div>
@@ -232,7 +231,7 @@ function createUserRowHTML(user) {
 
     <div class='info ml-6 font-roboto w-[85%]'>
       <a href="/profile/${user.username}">
-        <p class='full-name font-bold'>${user.firstName} ${user.lastName}</p>
+        <p class='full-name font-bold'>${user.fullName}</p>
         <p class='username text-brand-dark-gray'>@${user.username}</p>
         <p class='description'>${user.description}</p>
       </a>
@@ -268,7 +267,7 @@ function createNotificationRow(notification) {
       <div class='flex items-center justify-between w-full space-x-1 ml-3 pointer-events-none'>
           <div class='pointer-events-none'>
               <span class='notification-user-fullName text-dark-gray-for-text  pointer-events-none'>
-                ${notification.userFrom.firstName} ${notification.userFrom.lastName}
+                ${notification.userFrom.fullName}
               </span>
                   `
   let notificationText = '';
@@ -316,7 +315,7 @@ function createChatRowContent(msg) {
       <a href="/messages/${msg.chat._id}">
         <h4 class='text-xl overflow-hidden whitespace-nowrap overflow-ellipsis font-semibold'>${msg.chat.chatName}</h4>
         <p class='text-brand-dark-gray text-lg overflow-hidden whitespace-nowrap overflow-ellipsis font-medium'>
-          ${msg.sender.firstName} ${msg.sender.lastName}: ${msg.content}
+          ${msg.sender.fullName}: ${msg.content}
         </p>
       </a>
     </div>

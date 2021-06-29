@@ -33,7 +33,7 @@
           class='text-brand-dark-gray text-lg overflow-hidden whitespace-nowrap overflow-ellipsis'
         {% endif %}
         >
-          {{ chat.latestMessage.sender.firstName }} {{ chat.latestMessage.sender.lastName }}: {{ chat.latestMessage.content}}
+          {{ chat.latestMessage.sender.fullName }}: {{ chat.latestMessage.content}}
         </p>
       </a>
     </div>

@@ -14,7 +14,7 @@ router.post('/', async (req, res, next) => {
   /** @type { userFromRegistration } user */
   const user = req.body;
 
-  if (user.username && user.password && user.firstName && user.lastName && user.email) {
+  if (user.username && user.password && user.fullName && user.email) {
 
     try {
       var userWhichAlreadyExists = await userModel.isAlreadyCreated(user.username, user.email)
@@ -42,8 +42,7 @@ router.post('/', async (req, res, next) => {
         password: hash,
         email: user.email,
         description: user.description,
-        firstName: user.firstName,
-        lastName: user.lastName
+        fullName: user.fullName
       })
       var crtUser = await createdUser.save();
 

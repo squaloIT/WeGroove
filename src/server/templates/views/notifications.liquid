@@ -21,7 +21,7 @@
               <div class='flex items-center justify-between w-full space-x-1 ml-3 pointer-events-none'>
                   <div class='pointer-events-none'>
                       <span class='notification-user-fullName text-dark-gray-for-text  pointer-events-none'>
-                        {{notification.userFrom.firstName}} {{notification.userFrom.lastName}}
+                        {{notification.userFrom.fullName}}
                       </span>
                     
                       {% if notification.notificationType == 'follow' %}

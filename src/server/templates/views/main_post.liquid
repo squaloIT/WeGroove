@@ -4,7 +4,7 @@
       {% render 'small_profile_image_rounded', user: user %}
 
       <div class='post-content__user-info ml-2'>
-        <p class="name font-bold -mb-1">{{post.postedBy.firstName}} {{post.postedBy.lastName}}</p>
+        <p class="name font-bold -mb-1">{{post.postedBy.fullName}}</p>
         <span class="username text-sm text-gray-500 ">@{{post.postedBy.username}}</span>
       </div>
     </div>

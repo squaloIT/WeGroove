@@ -13,8 +13,7 @@ router.get('/inbox/:searchTerm', checkIsLoggedIn, async (req, res) => {
     let users = await UserModel.find({
       $or: [
         { username: filter },
-        { lastName: filter },
-        { firstName: filter }
+        { fullName: filter }
       ],
       $and: [{
         _id: {
@@ -63,8 +62,7 @@ router.get('/:type/:searchTerm', checkIsLoggedIn, async (req, res) => {
     results = await UserModel.find({
       $or: [
         { username: filter },
-        { lastName: filter },
-        { firstName: filter },
+        { fullName: filter },
         { email: filter }
       ]
     }).lean()

@@ -17,7 +17,7 @@ router.get('/', async (req, res, next) => {
 
     return {
       ...c,
-      chatName: c.chatName ? c.chatName : users.map(u => u.firstName + " " + u.lastName).join(", "),
+      chatName: c.chatName ? c.chatName : users.map(u => u.fullName).join(", "),
       users,
       isSeen
     }

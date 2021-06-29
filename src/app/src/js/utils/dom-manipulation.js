@@ -56,7 +56,7 @@ function adjustHeightOfSeparator(modal) {
  */
 function fillModalWithPostValues(modal, post) {
   modal.querySelector('div.comment-modal__content div.post-content > p').innerHTML = post.content;
-  modal.querySelector('div.comment-modal__content span.postedBy-name').innerHTML = post.postedBy.firstName + " " + post.postedBy.lastName;
+  modal.querySelector('div.comment-modal__content span.postedBy-name').innerHTML = post.postedBy.fullName;
   modal.querySelector('div.comment-modal__content span.postedBy-username').innerHTML = `@${post.postedBy.username}`;
   modal.querySelector('div.comment-modal__content span.postedBy-month-and-date').innerHTML = post.fromNow || (`${post.date} · ${post.time}`);
   modal.querySelector('div.comment-modal__content a.postedBy-username-link').innerHTML = `@${post.postedBy.username}`;

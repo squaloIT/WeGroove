@@ -4,8 +4,7 @@ const bcrypt = require('bcrypt');
 require('./../../typedefs')
 
 const UserSchema = new mongoose.Schema({
-  firstName: { type: String, required: true, trim: true },
-  lastName: { type: String, required: true, trim: true },
+  fullName: { type: String, required: true, trim: true },
   username: { type: String, required: true, trim: true, unique: true },
   email: { type: String, required: true, trim: true, unique: true },
   description: { type: String, required: true, trim: true },
@@ -64,8 +63,7 @@ UserSchema.methods.getDataForSession = function () {
     profilePic: user.profilePic,
     following: user.following,
     followers: user.followers,
-    firstName: user.firstName,
-    lastName: user.lastName,
+    fullName: user.fullName,
     _id: user._id
   }
 

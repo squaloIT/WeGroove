@@ -6,8 +6,7 @@
  * @property { String } user.password
  * @property { String } user.profilePic
 *  @property { String } user.description
- * @property { String } user.firstName
- * @property { String } user.lastName
+ * @property { String } user.fullName
  * @property { Array.<post> | Array.<String> } user.likes
  * @property { Array.<post> | Array.<String> } user.retweets
  * @property { String } user.createdAt
@@ -20,8 +19,7 @@
  * @property { String } user.email
  * @property { String } user.password
  * @property { String } user.description
- * @property { String } user.firstName
- * @property { String } user.lastName
+ * @property { String } user.fullName
 */
 /**
  * @typedef { Object } chat
