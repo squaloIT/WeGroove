@@ -1,6 +1,6 @@
 import { emitStopTypingToRoom, emitTypingToRoom } from "../client-socket";
 import { likePost, retweetPost, getPostData, replyToPost, deletePostByID, followOrUnfollowUser, togglePinned, createChat, changeChatName, sendMessage, sendNotificationRead, getNumberOfUnreadForUser, setSeenForMessagesInChat } from "./api";
-import { animateButtonAfterClickOnLike, animateButtonAfterClickOnRetweet, showSpinner, hideSpinner, findPostWrapperElement, openModal, toggleButtonAvailability, toggleScrollForTextarea, getPostIdForWrapper, getProfileIdFromFollowButton, toggleFollowButtons, emptyImagePreviewContainer, emptyFileContainer, addNewMessage, scrollMessagesToBottom, createNewNotification, createChatRow, findChatElement } from "./dom-manipulation";
+import { animateButtonAfterClickOnLike, animateButtonAfterClickOnRetweet, showSpinner, hideSpinner, findPostWrapperElement, openModal, toggleButtonAvailability, toggleScrollForTextarea, getPostIdForWrapper, getProfileIdFromFollowButton, toggleFollowButtons, emptyImagePreviewContainer, emptyFileContainer, addNewMessage, scrollMessagesToBottom, createNewNotification, createChatRow, findChatElement, addEmojiToCommentModal } from "./dom-manipulation";
 
 /**
  * @param {Event} e 
@@ -544,6 +544,46 @@ function onNewNotification(data) {
   }
 }
 
+function addAllListenersToPosts() {
+  addEmojiToCommentModal()
+
+  document.querySelector('div.reply-button-wrapper button.reply-comment-button')
+    .addEventListener('click', onClickCommentButton)
+
+  document.querySelector('div.reply-icons-wrapper button.comment-image-button')
+    .addEventListener('click', () => {
+      document.querySelector('#comment-images-for-upload').click()
+    })
+
+  Array.from(document.querySelectorAll('.comment-button')).forEach(el => {
+    el.addEventListener('click', onClickCommentPost)
+  })
+
+  Array.from(document.querySelectorAll('.post-like')).forEach(el => {
+    el.addEventListener('click', onClickLikePost)
+  })
+
+  Array.from(document.querySelectorAll('.retweet-post')).forEach(el => {
+    el.addEventListener('click', onClickRetweetPost)
+  })
+
+  Array.from(document.querySelectorAll('.post-wrapper')).forEach(el => {
+    el.addEventListener('click', onPostWrapperClick)
+  })
+
+  Array.from(
+    document.querySelectorAll('div.post-wrapper div.delete-post-button-wrapper button.delete-post-button')
+  ).forEach(el => {
+    el.addEventListener('click', onClickDeletePost)
+  })
+
+  Array.from(
+    document.querySelectorAll('#posts div.post-content__info.flex.flex-row.items-center.w-full div.pinned-button-wrapper.inline-block > button')
+  ).forEach(el => {
+    el.addEventListener('click', onClickTogglePinned)
+  })
+}
+
 export {
   onClickLikePost,
   onClickCommentPost,
@@ -566,5 +606,6 @@ export {
   stopTyping,
   onClickOnNotification,
   onNewMessage,
+  addAllListenersToPosts,
   onNewNotification
 }

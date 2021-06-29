@@ -1,6 +1,6 @@
 import { createPost } from './utils/api';
 import { disableButton, enableButton, addNewPost, showSpinner, hideSpinner, setSeparatorHeightForAllReplies, toggleButtonAvailability, defineEmojiTooltip } from './utils/dom-manipulation';
-import { onClickLikePost, onClickRetweetPost, onClickCommentPost, onClickCommentButton, onPostWrapperClick, onClickDeletePost, onClickTogglePinned, addEmojiToInput } from './utils/listeners';
+import { addEmojiToInput, addAllListenersToPosts } from './utils/listeners';
 
 export default function index() {
   const taPost = document.querySelector('textarea#post');
@@ -70,41 +70,7 @@ export default function index() {
     })
   }
 
-  document.querySelector('div.reply-button-wrapper button.reply-comment-button')
-    .addEventListener('click', onClickCommentButton)
-
-  document.querySelector('div.reply-icons-wrapper button.comment-image-button')
-    .addEventListener('click', () => {
-      document.querySelector('#comment-images-for-upload').click()
-    })
-
-  Array.from(document.querySelectorAll('.comment-button')).forEach(el => {
-    el.addEventListener('click', onClickCommentPost)
-  })
-
-  Array.from(document.querySelectorAll('.post-like')).forEach(el => {
-    el.addEventListener('click', onClickLikePost)
-  })
-
-  Array.from(document.querySelectorAll('.retweet-post')).forEach(el => {
-    el.addEventListener('click', onClickRetweetPost)
-  })
-
-  Array.from(document.querySelectorAll('.post-wrapper')).forEach(el => {
-    el.addEventListener('click', onPostWrapperClick)
-  })
-
-  Array.from(
-    document.querySelectorAll('div.post-wrapper div.delete-post-button-wrapper button.delete-post-button')
-  ).forEach(el => {
-    el.addEventListener('click', onClickDeletePost)
-  })
-
-  Array.from(
-    document.querySelectorAll('#posts div.post-content__info.flex.flex-row.items-center.w-full div.pinned-button-wrapper.inline-block > button')
-  ).forEach(el => {
-    el.addEventListener('click', onClickTogglePinned)
-  })
+  addAllListenersToPosts()
 
   setSeparatorHeightForAllReplies()
 
