@@ -13,7 +13,6 @@ export default function search() {
 
   /** @type { HTMLElement } */
   const searchResults = document.querySelector('div#search-results')
-  console.log("🚀 ~ file: search.js ~ line 45 ~ search ~ searchResults", searchResults)
 
   var timer = null;
   document.querySelector('input#search').addEventListener('keyup', function (e) {
@@ -29,9 +28,6 @@ export default function search() {
 
         searchTermByType(searchType, value)
           .then(({ data }) => {
-            //TODO ISPISATI POSTOVE ILI User-e
-            console.log(data)
-
             data.forEach(elem => {
               if (searchType == 'posts') {
                 addNewPostWithPredefinedButtons(searchResults, elem)
