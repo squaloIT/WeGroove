@@ -406,4 +406,5 @@ div#inbox div.header-chat-image-container div.image-container img {
 
 emoji-picker {
   --border-size: 2px;
+	--button-hover-background: rgba(29, 161, 242, 0.25)
 }

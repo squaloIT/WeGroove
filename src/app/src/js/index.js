@@ -1,9 +1,35 @@
 import { createPost } from './utils/api';
-import { disableButton, enableButton, addNewPost, showSpinner, hideSpinner, setSeparatorHeightForAllReplies } from './utils/dom-manipulation';
-import { onClickLikePost, onClickRetweetPost, onClickCommentPost, onClickCommentButton, onPostWrapperClick, onClickDeletePost, onClickTogglePinned } from './utils/listeners';
+import { disableButton, enableButton, addNewPost, showSpinner, hideSpinner, setSeparatorHeightForAllReplies, toggleButtonAvailability } from './utils/dom-manipulation';
+import { onClickLikePost, onClickRetweetPost, onClickCommentPost, onClickCommentButton, onPostWrapperClick, onClickDeletePost, onClickTogglePinned, addEmojiToInput } from './utils/listeners';
+import { Picker } from 'emoji-picker-element'
 
 export default function index() {
   const taPost = document.querySelector('textarea#post');
+  const emojiButton = document.querySelector('#emoji-button');
+  const submitPostButton = document.querySelector('button#submitPostButton')
+
+  if (emojiButton) {
+    const emojiPicker = new Picker();
+    const tooltip = document.querySelector('#chat-emojis-tooltip');
+
+    emojiButton.addEventListener('click', (e) => {
+      e.stopPropagation()
+      tooltip.classList.toggle('hidden')
+    })
+    tooltip.appendChild(emojiPicker);
+
+    emojiPicker.addEventListener('emoji-click', e => {
+      toggleButtonAvailability(
+        submitPostButton,
+        () => taPost.value.trim() == 0,
+        'hover:bg-comment-button-blue-background'
+      )
+
+      addEmojiToInput(e, taPost)
+    })
+    document.querySelector('body').addEventListener('click', () => tooltip.classList.add('hidden'))
+    document.querySelector('emoji-picker').addEventListener('click', (e) => e.stopPropagation())
+  }
 
   if (taPost) {
     taPost.addEventListener('keyup', checkInsertPostTextArea);
@@ -20,7 +46,6 @@ export default function index() {
 
   });
 
-  const submitPostButton = document.querySelector('button#submitPostButton')
   if (submitPostButton) {
     submitPostButton.addEventListener('click', () => {
       const postContentTextbox = document.querySelector('textarea#post')
@@ -90,9 +115,9 @@ export default function index() {
     const postBtn = document.querySelector('button#submitPostButton')
 
     if (postValue.trim().length == 0) {
-      disableButton(postBtn, 'hover:bg-brand-purple-hover')
+      disableButton(postBtn, 'hover:bg-comment-button-blue')
     } else {
-      enableButton(postBtn, 'hover:bg-brand-purple-hover')
+      enableButton(postBtn, 'hover:bg-comment-button-blue')
     }
 
     postBtn.disabled = postValue.trim().length == 0;
