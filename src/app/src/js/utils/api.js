@@ -1,6 +1,7 @@
 /**
  * Sends request to /api/posts to attempt creation of a new post.
  * @param { String } content 
+ * @param { Array.<File> } selectedImages 
  * @returns Promise
  */
 function createPost(content, selectedImages) {
@@ -60,15 +61,22 @@ function getPostData(_id) {
 /** 
  * @param { String } _id 
  * @param { String } content 
+ * @param { Array.<File> } selectedImages 
  * @returns Promise
  */
-function replyToPost(_id, content) {
+function replyToPost(_id, content, selectedImages) {
+  const formData = new FormData()
+
+  formData.append('content', content)
+  formData.append('_id', _id)
+
+  for (let i = 0; i < selectedImages.length; i++) {
+    formData.append('images', selectedImages[i]);
+  }
+
   return fetch(`${process.env.SERVER_URL_DEV}/api/posts/replyTo/${_id}`, {
     method: 'POST',
-    headers: {
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify({ _id, content })
+    body: formData
   })
 }
 

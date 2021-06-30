@@ -41,7 +41,7 @@ router.post('/', checkIsLoggedIn, upload.array('images', 5), moveFilesToUploadAn
   }
 });
 
-router.post('/replyTo/:id', checkIsLoggedIn, async (req, res, next) => {
+router.post('/replyTo/:id', checkIsLoggedIn, upload.array('images', 5), moveFilesToUploadAndSetFilesPath, async (req, res, next) => {
   if (!req.body.content || !req.session.user) {
     return res.sendStatus(400);
   }
@@ -55,7 +55,8 @@ router.post('/replyTo/:id', checkIsLoggedIn, async (req, res, next) => {
       content: req.body.content,
       pinned: false,
       postedBy: req.session.user,
-      replyTo: postId
+      replyTo: postId,
+      images: req.filesPathArr
     })
 
     //* Populate will populate any ObjectID field with data from model specified before populate keyword.
