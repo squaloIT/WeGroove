@@ -1,6 +1,6 @@
 import { emitStopTypingToRoom, emitTypingToRoom } from "../client-socket";
 import { likePost, retweetPost, getPostData, replyToPost, deletePostByID, followOrUnfollowUser, togglePinned, createChat, changeChatName, sendMessage, sendNotificationRead, getNumberOfUnreadForUser, setSeenForMessagesInChat } from "./api";
-import { animateButtonAfterClickOnLike, animateButtonAfterClickOnRetweet, showSpinner, hideSpinner, findPostWrapperElement, openModal, toggleButtonAvailability, toggleScrollForTextarea, getPostIdForWrapper, getProfileIdFromFollowButton, toggleFollowButtons, emptyImagePreviewContainer, emptyFileContainer, addNewMessage, scrollMessagesToBottom, createNewNotification, createChatRow, findChatElement, addEmojiToCommentModal } from "./dom-manipulation";
+import { animateButtonAfterClickOnLike, animateButtonAfterClickOnRetweet, showSpinner, hideSpinner, findPostWrapperElement, openModal, toggleButtonAvailability, toggleScrollForTextarea, getPostIdForWrapper, getProfileIdFromFollowButton, toggleFollowButtons, emptyImagePreviewContainer, emptyFileContainer, addNewMessage, scrollMessagesToBottom, createNewNotification, createChatRow, findChatElement, addEmojiToCommentModal, addSelectedImagesToPreview } from "./dom-manipulation";
 import { validateNumberOfImages } from "./validation";
 
 /**
@@ -545,16 +545,22 @@ function onNewNotification(data) {
   }
 }
 
-function addAllListenersToPosts() {
+function addAllListenersToPosts(validateAndPreviewImages = null) {
   addEmojiToCommentModal()
 
   document.querySelector('div.reply-button-wrapper button.reply-comment-button')
     .addEventListener('click', onClickCommentButton)
 
-  document.querySelector('div.reply-icons-wrapper button.comment-image-button')
-    .addEventListener('click', () => {
-      document.querySelector('#comment-images-for-upload').click()
-    })
+  if (validateAndPreviewImages) {
+    const commentUploadImagesInput = document.querySelector('#comment-images-for-upload');
+
+    document.querySelector('div.reply-icons-wrapper button.comment-image-button')
+      .addEventListener('click', () => {
+        commentUploadImagesInput.click()
+        commentUploadImagesInput.removeEventListener('change', validateAndPreviewImages)
+        commentUploadImagesInput.addEventListener('change', validateAndPreviewImages)
+      })
+  }
 
   Array.from(document.querySelectorAll('.comment-button')).forEach(el => {
     el.addEventListener('click', onClickCommentPost)
@@ -586,6 +592,43 @@ function addAllListenersToPosts() {
   document.querySelector('#comment-images-for-upload').addEventListener('change', validateNumberOfImages)
 }
 
+const onClickRemoveImage = selectedImages => (e, img) => {
+  const imageId = img.dataset.imageId;
+  const deletedImage = selectedImages.find(file => imageId == `${file.lastModified}-${file.name}`)
+
+  selectedImages = selectedImages.filter(file => file != deletedImage)
+  const imageWrapper = document.querySelector(`.image-wrapper img[data-image-id="${deletedImage.lastModified}-${deletedImage.name}"]`).parentElement;
+  imageWrapper.remove()
+  console.log("🚀 ~ file: listeners.js ~ line 593 ~ selectedImages", selectedImages)
+
+  if (selectedImages.length == 0) {
+    uploadPreview.classList.add('hidden')
+  }
+}
+
+const validateAndPreviewImagesForComment = (selectedImages) => (e) => {
+  const uploadPreview = document.querySelector('#modal-container div.upload-images-preview-wrapper');
+  const taReply = document.querySelector("#modal-container div.reply-aria textarea")
+  const submitCommentBtn = document.querySelector('div.reply-button-wrapper button.reply-comment-button')
+
+  if (validateNumberOfImages(e)) {
+    uploadPreview.innerHTML = '';
+    uploadPreview.classList.remove('hidden')
+    selectedImages = Array.from(e.target.files)
+    addSelectedImagesToPreview(uploadPreview, e.target.files, onClickRemoveImage(selectedImages))
+
+    toggleButtonAvailability(
+      submitCommentBtn,
+      () => taReply.value.trim() == 0 && selectedImages.length == 0,
+      'bg-opacity-100'
+    )
+
+  } else {
+    uploadPreview.classList.add('hidden')
+    selectedImages = []
+  }
+}
+
 export {
   onClickLikePost,
   onClickCommentPost,
@@ -608,6 +651,8 @@ export {
   stopTyping,
   onClickOnNotification,
   onNewMessage,
+  onClickRemoveImage,
   addAllListenersToPosts,
+  validateAndPreviewImagesForComment,
   onNewNotification
 }

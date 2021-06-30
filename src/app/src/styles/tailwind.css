@@ -409,6 +409,10 @@ emoji-picker {
 	--button-hover-background: rgba(29, 161, 242, 0.25)
 }
 
+#modal-container div.upload-images-preview-wrapper {
+	max-height: 350px;
+	overflow-y: auto;
+}
 .upload-images-preview-wrapper img {
 	height:150px;
 }

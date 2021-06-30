@@ -1,6 +1,6 @@
 import { Picker } from 'emoji-picker-element'
 import './../../../typedefs';
-import { createChatRowContent, createCommentButtonElements, createDeleteButtonElements, createElementForButtonWrapper, createFollowButtonElement, createFollowingButtonElement, createImagePreview, createLikeButtonElements, createNewMessageHTML, createNotificationRow, createPinButtonElements, createPostElement, createRetweetButtonElements, createUserRowHTML } from './html-creators';
+import { createChatRowContent, createCommentButtonElements, createDeleteButtonElements, createElementForButtonWrapper, createFollowButtonElement, createFollowingButtonElement, createImagePreview, createLikeButtonElements, createNewMessageHTML, createNotificationRow, createPostElement, createRetweetButtonElements, createUserRowHTML } from './html-creators';
 import { onKeyUpCommentTA, createFunctionToCloseModal, addEmojiToInput } from './listeners';
 
 /**
@@ -535,12 +535,12 @@ function addEmojiToCommentModal() {
  * 
  * @param {HTMLElement} uploadPreview 
  * @param {FileList} files 
- * @param {Function} onRemoveImage 
+ * @param {Function} onClickRemoveImage 
  */
-function addSelectedImagesToPreview(uploadPreview, files, onRemoveImage) {
+function addSelectedImagesToPreview(uploadPreview, files, onClickRemoveImage) {
   Array.from(files).forEach(file => {
     console.log(file)
-    const imageWrapper = createImagePreview(file, onRemoveImage)
+    const imageWrapper = createImagePreview(file, onClickRemoveImage)
     uploadPreview.appendChild(imageWrapper);
   })
 }

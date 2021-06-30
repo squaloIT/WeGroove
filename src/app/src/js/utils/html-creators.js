@@ -353,10 +353,10 @@ function createImagesForChatRow(chat) {
 /**
  * 
  * @param {File} file 
- * @param {Function} onRemoveImage 
+ * @param {Function} onClickRemoveImage 
  * @returns {HTMLElement}
  */
-function createImagePreview(file, onRemoveImage) {
+function createImagePreview(file, onClickRemoveImage) {
   const imgSrc = URL.createObjectURL(file);
 
   const div = document.createElement('div')
@@ -370,16 +370,16 @@ function createImagePreview(file, onRemoveImage) {
   }
 
   div.className = 'image-wrapper relative ml-1 mt-1';
-  const button = createRemoveImageButton(e => onRemoveImage(e, img))
+  const button = createRemoveImageButton(e => onClickRemoveImage(e, img))
   div.appendChild(button)
   div.appendChild(img)
 
   return div
 }
-function createRemoveImageButton(onRemoveImage) {
+function createRemoveImageButton(onClickRemoveImage) {
   const button = document.createElement('button');
   button.className = "absolute right-1 top-1 bg-white bg-opacity-50 rounded-full p-1"
-  button.addEventListener('click', onRemoveImage)
+  button.addEventListener('click', onClickRemoveImage)
   button.innerHTML = `
   <svg viewBox="0 0 24 24" aria-hidden="true" class="w-4 pointer-events-none">
     <g>

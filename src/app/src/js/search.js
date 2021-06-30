@@ -1,9 +1,11 @@
 import { addNewPostWithPredefinedButtons, createSearchResultRowElement, setSeparatorHeightForAllReplies } from "./utils/dom-manipulation"
-import { addAllListenersToPosts, onFollowOrUnfollowClick } from "./utils/listeners"
+import { addAllListenersToPosts, onFollowOrUnfollowClick, validateAndPreviewImagesForComment } from "./utils/listeners"
 import { searchTermByType } from './utils/api'
 
 export default function search() {
-  addAllListenersToPosts()
+  var selectedImages = []
+
+  addAllListenersToPosts(validateAndPreviewImagesForComment(selectedImages))
 
   Array.from(
     document.querySelectorAll('div#profile div.profile-follow-buttons button.following-unfollowing')

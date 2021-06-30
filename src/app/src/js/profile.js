@@ -1,12 +1,13 @@
 import { setSeparatorHeightForAllReplies } from "./utils/dom-manipulation"
-import { addAllListenersToPosts, onClickUploadImageToServer, onClosePhotoModal, onFollowOrUnfollowClick, openPhotoEditModal } from "./utils/listeners"
+import { addAllListenersToPosts, onClickUploadImageToServer, onClosePhotoModal, onFollowOrUnfollowClick, openPhotoEditModal, validateAndPreviewImagesForComment } from "./utils/listeners"
 
 export default function profile() {
   const cropper = {
     instance: null
   };
+  var selectedImages = []
 
-  addAllListenersToPosts()
+  addAllListenersToPosts(validateAndPreviewImagesForComment(selectedImages))
 
   Array.from(
     document.querySelectorAll('div#profile div.profile-follow-buttons button.following-unfollowing')

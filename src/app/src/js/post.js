@@ -1,5 +1,7 @@
-import { addAllListenersToPosts } from "./utils/listeners";
+import { addAllListenersToPosts, validateAndPreviewImagesForComment } from "./utils/listeners";
 
 export default function postJS() {
-  addAllListenersToPosts()
+  var selectedImages = []
+
+  addAllListenersToPosts(validateAndPreviewImagesForComment(selectedImages))
 }

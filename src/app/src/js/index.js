@@ -1,13 +1,15 @@
 import { createPost } from './utils/api';
 import { addNewPost, showSpinner, hideSpinner, setSeparatorHeightForAllReplies, toggleButtonAvailability, defineEmojiTooltip, addSelectedImagesToPreview } from './utils/dom-manipulation';
-import { addEmojiToInput, addAllListenersToPosts } from './utils/listeners';
+import { addEmojiToInput, addAllListenersToPosts, onClickRemoveImage, validateAndPreviewImagesForComment } from './utils/listeners';
 import { validateNumberOfImages } from './utils/validation';
 
 export default function index() {
-  var selectedImages = []
+  var selectedImagesForPost = []
+  var selectedImagesForComment = []
   const taPost = document.querySelector('textarea#post');
   const emojiButton = document.querySelector('#emoji-button');
   const submitPostButton = document.querySelector('button#submitPostButton')
+
   const uploadImagesInput = document.querySelector('#post-images-for-upload')
   const uploadPreview = document.querySelector('div.post-insert-wrapper div.textarea-container div.upload-images-preview-wrapper');
 
@@ -24,7 +26,7 @@ export default function index() {
       (e) => {
         toggleButtonAvailability(
           submitPostButton,
-          () => taPost.value.trim() == 0 && selectedImages.length == 0,
+          () => taPost.value.trim() == 0 && selectedImagesForPost.length == 0,
           'bg-opacity-100'
         )
 
@@ -76,7 +78,7 @@ export default function index() {
     })
   }
 
-  addAllListenersToPosts()
+  addAllListenersToPosts(validateAndPreviewImagesForComment(selectedImagesForComment))
 
   setSeparatorHeightForAllReplies()
 
@@ -89,42 +91,31 @@ export default function index() {
 
     toggleButtonAvailability(
       postBtn,
-      () => postValue.trim() == 0 && selectedImages.length == 0,
+      () => postValue.trim() == 0 && selectedImagesForPost.length == 0,
       'bg-opacity-100'
     )
 
-    postBtn.disabled = postValue.trim().length == 0 && selectedImages.length == 0;
+    postBtn.disabled = postValue.trim().length == 0 && selectedImagesForPost.length == 0;
   }
 
   function validateAndPreviewImages(e) {
     if (validateNumberOfImages(e)) {
       uploadPreview.innerHTML = '';
       uploadPreview.classList.remove('hidden')
-      addSelectedImagesToPreview(uploadPreview, e.target.files, onRemoveImage)
-      selectedImages = Array.from(e.target.files)
+      selectedImagesForPost = Array.from(e.target.files)
+      addSelectedImagesToPreview(uploadPreview, e.target.files, onClickRemoveImage(selectedImagesForPost))
 
       toggleButtonAvailability(
         submitPostButton,
-        () => taPost.value.trim() == 0 && selectedImages.length == 0,
+        () => taPost.value.trim() == 0 && selectedImagesForPost.length == 0,
         'bg-opacity-100'
       )
 
     } else {
       uploadPreview.classList.add('hidden')
-      selectedImages = []
+      selectedImagesForPost = []
     }
   }
 
-  function onRemoveImage(e, img) {
-    const imageId = img.dataset.imageId;
-    const deletedImage = selectedImages.find(file => imageId == `${file.lastModified}-${file.name}`)
 
-    selectedImages = selectedImages.filter(file => file != deletedImage)
-    const imageWrapper = document.querySelector(`.image-wrapper img[data-image-id="${deletedImage.lastModified}-${deletedImage.name}"]`).parentElement;
-    imageWrapper.remove()
-
-    if (selectedImages.length == 0) {
-      uploadPreview.classList.add('hidden')
-    }
-  }
 }
