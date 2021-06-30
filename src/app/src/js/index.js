@@ -1,6 +1,6 @@
 import { createPost } from './utils/api';
 import { addNewPost, showSpinner, hideSpinner, setSeparatorHeightForAllReplies, toggleButtonAvailability, defineEmojiTooltip, addSelectedImagesToPreview } from './utils/dom-manipulation';
-import { addEmojiToInput, addAllListenersToPosts, onClickRemoveImage, validateAndPreviewImagesForComment } from './utils/listeners';
+import { addEmojiToInput, addAllListenersToPosts, validateAndPreviewImagesForComment } from './utils/listeners';
 import { validateNumberOfImages } from './utils/validation';
 
 export default function index() {
@@ -60,6 +60,8 @@ export default function index() {
       showSpinner(postButtonLabel, postButtonSpinner)
 
       if (postContentValue.length > 0) {
+        console.log("🚀 ~ file: index.js ~ line 67 ~ submitPostButton.addEventListener ~ selectedImagesForPost", selectedImagesForPost)
+
         createPost(postContentValue, selectedImagesForPost)
           .then(res => res.json())
           .then(res => {
@@ -110,7 +112,20 @@ export default function index() {
       uploadPreview.innerHTML = '';
       uploadPreview.classList.remove('hidden')
       selectedImagesForPost = Array.from(e.target.files)
-      addSelectedImagesToPreview(uploadPreview, e.target.files, onClickRemoveImage(selectedImagesForPost, uploadPreview))
+
+      addSelectedImagesToPreview(uploadPreview, e.target.files, (e, img) => {
+        const imageId = img.dataset.imageId;
+        const deletedImage = selectedImagesForPost.find(file => imageId == `${file.lastModified}-${file.name}`)
+
+        selectedImagesForPost = selectedImagesForPost.filter(file => file != deletedImage)
+        const imageWrapper = document.querySelector(`.image-wrapper img[data-image-id="${deletedImage.lastModified}-${deletedImage.name}"]`).parentElement;
+        imageWrapper.remove()
+        console.log("🚀 ~ file: listeners.js ~ line 593 ~ selectedImagesForPost", selectedImagesForPost)
+
+        if (selectedImagesForPost.length == 0) {
+          uploadPreview.classList.add('hidden')
+        }
+      })
 
       toggleButtonAvailability(
         submitPostButton,

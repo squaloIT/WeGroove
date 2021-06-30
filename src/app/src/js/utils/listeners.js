@@ -592,20 +592,6 @@ function addAllListenersToPosts(validateAndPreviewImages = null) {
   document.querySelector('#comment-images-for-upload').addEventListener('change', validateNumberOfImages)
 }
 
-const onClickRemoveImage = (selectedImages, uploadPreview) => (e, img) => {
-  const imageId = img.dataset.imageId;
-  const deletedImage = selectedImages.find(file => imageId == `${file.lastModified}-${file.name}`)
-
-  selectedImages = selectedImages.filter(file => file != deletedImage)
-  const imageWrapper = document.querySelector(`.image-wrapper img[data-image-id="${deletedImage.lastModified}-${deletedImage.name}"]`).parentElement;
-  imageWrapper.remove()
-  console.log("🚀 ~ file: listeners.js ~ line 593 ~ selectedImages", selectedImages)
-
-  if (selectedImages.length == 0) {
-    uploadPreview.classList.add('hidden')
-  }
-}
-
 const validateAndPreviewImagesForComment = (selectedImages) => (e) => {
   const uploadPreview = document.querySelector('#modal-container div.upload-images-preview-wrapper');
   const taReply = document.querySelector("#modal-container div.reply-aria textarea")
@@ -615,7 +601,19 @@ const validateAndPreviewImagesForComment = (selectedImages) => (e) => {
     uploadPreview.innerHTML = '';
     uploadPreview.classList.remove('hidden')
     selectedImages = Array.from(e.target.files)
-    addSelectedImagesToPreview(uploadPreview, e.target.files, onClickRemoveImage(selectedImages, uploadPreview))
+    addSelectedImagesToPreview(uploadPreview, e.target.files, (e, img) => {
+      const imageId = img.dataset.imageId;
+      const deletedImage = selectedImages.find(file => imageId == `${file.lastModified}-${file.name}`)
+
+      selectedImages = selectedImages.filter(file => file != deletedImage)
+      const imageWrapper = document.querySelector(`.image-wrapper img[data-image-id="${deletedImage.lastModified}-${deletedImage.name}"]`).parentElement;
+      imageWrapper.remove()
+      console.log("🚀 ~ file: listeners.js ~ line 593 ~ selectedImages", selectedImages)
+
+      if (selectedImages.length == 0) {
+        uploadPreview.classList.add('hidden')
+      }
+    })
 
     toggleButtonAvailability(
       submitCommentBtn,
@@ -651,7 +649,6 @@ export {
   stopTyping,
   onClickOnNotification,
   onNewMessage,
-  onClickRemoveImage,
   addAllListenersToPosts,
   validateAndPreviewImagesForComment,
   onNewNotification

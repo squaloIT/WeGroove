@@ -540,8 +540,34 @@ function addEmojiToCommentModal() {
 function addSelectedImagesToPreview(uploadPreview, files, onClickRemoveImage) {
   Array.from(files).forEach(file => {
     console.log(file)
-    const imageWrapper = createImagePreview(file, onClickRemoveImage)
-    uploadPreview.appendChild(imageWrapper);
+    const imgSrc = URL.createObjectURL(file);
+
+    const div = document.createElement('div')
+    const img = document.createElement('img')
+
+    img.src = imgSrc;
+    img.dataset['imageId'] = `${file.lastModified}-${file.name}`; //! ZAVRSI
+
+    img.onload = function () {
+      URL.revokeObjectURL(img.src) // free memory
+    }
+
+    div.className = 'image-wrapper relative ml-1 mt-1';
+    const button = document.createElement('button');
+
+    button.className = "absolute right-1 top-1 bg-white bg-opacity-50 rounded-full p-1"
+    button.addEventListener('click', e => onClickRemoveImage(e, img))
+    button.innerHTML = `
+    <svg viewBox="0 0 24 24" aria-hidden="true" class="w-4 pointer-events-none">
+      <g>
+        <path d="M13.414 12l5.793-5.793c.39-.39.39-1.023 0-1.414s-1.023-.39-1.414 0L12 10.586 6.207 4.793c-.39-.39-1.023-.39-1.414 0s-.39 1.023 0 1.414L10.586 12l-5.793 5.793c-.39.39-.39 1.023 0 1.414.195.195.45.293.707.293s.512-.098.707-.293L12 13.414l5.793 5.793c.195.195.45.293.707.293s.512-.098.707-.293c.39-.39.39-1.023 0-1.414L13.414 12z"></path>
+      </g>
+    </svg>`
+
+    div.appendChild(button)
+    div.appendChild(img)
+
+    uploadPreview.appendChild(div);
   })
 }
 
