@@ -18,6 +18,7 @@
  * @typedef { Object } post
  * @property { String } post._id
  * @property { String } post.content
+ * @property { Array.<String> } images
  * @property { user | String } post.postedBy
  * @property { Boolean } post.pinned
  * @property { Array.<user> | Array.<String> } post.likes
