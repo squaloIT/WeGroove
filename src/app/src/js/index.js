@@ -1,11 +1,12 @@
-import { createPost, replyToPost } from './utils/api';
-import { addNewPost, showSpinner, hideSpinner, setSeparatorHeightForAllReplies, toggleButtonAvailability, defineEmojiTooltip, addSelectedImagesToPreview } from './utils/dom-manipulation';
-import { addEmojiToInput, addAllListenersToPosts } from './utils/listeners';
+import { createPost } from './utils/api';
+import { addNewPost, addSelectedImagesToPreview, defineEmojiTooltip, hideSpinner, setSeparatorHeightForAllReplies, showSpinner, toggleButtonAvailability } from './utils/dom-manipulation';
+import imageCommentPreview from './utils/image-comment-preview';
+import { addEmojiToInput } from './utils/listeners';
 import { validateNumberOfImages } from './utils/validation';
 
 export default function index() {
   var selectedImagesForPost = []
-  var selectedImagesForComment = []
+  imageCommentPreview()
   const taPost = document.querySelector('textarea#post');
   const emojiButton = document.querySelector('#emoji-button');
   const submitPostButton = document.querySelector('button#submitPostButton')
@@ -81,43 +82,7 @@ export default function index() {
     })
   }
 
-  document.querySelector('div.reply-button-wrapper button.reply-comment-button')
-    .addEventListener('click', onClickCommentButton)
 
-  addAllListenersToPosts((e) => {
-    const uploadPreview = document.querySelector('#modal-container div.upload-images-preview-wrapper');
-    const taReply = document.querySelector("#modal-container div.reply-aria textarea")
-    const submitCommentBtn = document.querySelector('div.reply-button-wrapper button.reply-comment-button')
-
-    if (validateNumberOfImages(e)) {
-      uploadPreview.innerHTML = '';
-      uploadPreview.classList.remove('hidden')
-      selectedImagesForComment = Array.from(e.target.files)
-      addSelectedImagesToPreview(uploadPreview, e.target.files, (e, img) => {
-        const imageId = img.dataset.imageId;
-        const deletedImage = selectedImagesForComment.find(file => imageId == `${file.lastModified}-${file.name}`)
-
-        selectedImagesForComment = selectedImagesForComment.filter(file => file != deletedImage)
-        const imageWrapper = document.querySelector(`.image-wrapper img[data-image-id="${deletedImage.lastModified}-${deletedImage.name}"]`).parentElement;
-        imageWrapper.remove()
-        console.log("🚀 ~ file: listeners.js ~ line 593 ~ selectedImagesForComment", selectedImagesForComment)
-
-        if (selectedImagesForComment.length == 0) {
-          uploadPreview.classList.add('hidden')
-        }
-      })
-
-      toggleButtonAvailability(
-        submitCommentBtn,
-        () => taReply.value.trim() == 0 && selectedImagesForComment.length == 0,
-        'bg-opacity-100'
-      )
-
-    } else {
-      uploadPreview.classList.add('hidden')
-      selectedImagesForComment = []
-    }
-  })
 
   setSeparatorHeightForAllReplies()
 
@@ -175,32 +140,7 @@ export default function index() {
     }
   }
 
-  /**
-   * @param {Event} e 
-   */
-  function onClickCommentButton(e) {
-    e.stopPropagation();
-    const pid = e.target.dataset.pid;
-    const content = document.querySelector("div#modal-container div.reply-aria textarea").value;
 
-    const commentButtonLabel = document.querySelector('div#modal-container div.reply-button-wrapper span.comment-button__label')
-    const commentButtonSpinner = document.querySelector('div#modal-container div.reply-button-wrapper .comment-button__spinner')
-    showSpinner(commentButtonLabel, commentButtonSpinner)
-    console.log(selectedImagesForComment)
-    replyToPost(pid, content, selectedImagesForComment)
-      .then(res => res.json())
-      .then(({ status }) => {
-        if (status == 201) {
-          hideSpinner(commentButtonLabel, commentButtonSpinner);
-          location.reload()
-        }
-      })
-      .catch(err => {
-        hideSpinner(commentButtonLabel, commentButtonSpinner)
-        alert(err)
-        console.error(err)
-      });
-  }
 
 
 }
