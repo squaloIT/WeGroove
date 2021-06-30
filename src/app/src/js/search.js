@@ -104,7 +104,7 @@ export default function search() {
       .then(({ status }) => {
         if (status == 201) {
           hideSpinner(commentButtonLabel, commentButtonSpinner);
-          // location.reload()
+          location.reload()
         }
       })
       .catch(err => {
