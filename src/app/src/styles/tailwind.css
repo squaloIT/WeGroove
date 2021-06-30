@@ -408,3 +408,16 @@ emoji-picker {
   --border-size: 2px;
 	--button-hover-background: rgba(29, 161, 242, 0.25)
 }
+
+.upload-images-preview-wrapper img {
+	height:150px;
+}
+
+.upload-images-preview-wrapper .image-wrapper button {
+	right: 4px;
+	top: 4px;
+}
+
+#submitPostButton[disabled] {
+	background-color: rgba(29,161,242, 0.6)
+}

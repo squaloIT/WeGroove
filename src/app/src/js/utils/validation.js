@@ -55,10 +55,13 @@ const validateInput = (val, regex = null) => {
 const validateNumberOfImages = e => {
   console.log(e.target.files)
 
-  if (e.target.files.length >= 4) {
+  if (e.target.files.length >= 5) {
     alert("Maximum is 4 images")
     e.target.value = ''
+    return false;
   }
+
+  return true;
 }
 
 export {
