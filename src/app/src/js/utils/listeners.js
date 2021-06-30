@@ -592,7 +592,7 @@ function addAllListenersToPosts(validateAndPreviewImages = null) {
   document.querySelector('#comment-images-for-upload').addEventListener('change', validateNumberOfImages)
 }
 
-const onClickRemoveImage = selectedImages => (e, img) => {
+const onClickRemoveImage = (selectedImages, uploadPreview) => (e, img) => {
   const imageId = img.dataset.imageId;
   const deletedImage = selectedImages.find(file => imageId == `${file.lastModified}-${file.name}`)
 
@@ -615,7 +615,7 @@ const validateAndPreviewImagesForComment = (selectedImages) => (e) => {
     uploadPreview.innerHTML = '';
     uploadPreview.classList.remove('hidden')
     selectedImages = Array.from(e.target.files)
-    addSelectedImagesToPreview(uploadPreview, e.target.files, onClickRemoveImage(selectedImages))
+    addSelectedImagesToPreview(uploadPreview, e.target.files, onClickRemoveImage(selectedImages, uploadPreview))
 
     toggleButtonAvailability(
       submitCommentBtn,

@@ -103,7 +103,7 @@ export default function index() {
       uploadPreview.innerHTML = '';
       uploadPreview.classList.remove('hidden')
       selectedImagesForPost = Array.from(e.target.files)
-      addSelectedImagesToPreview(uploadPreview, e.target.files, onClickRemoveImage(selectedImagesForPost))
+      addSelectedImagesToPreview(uploadPreview, e.target.files, onClickRemoveImage(selectedImagesForPost, uploadPreview))
 
       toggleButtonAvailability(
         submitPostButton,
