@@ -3,14 +3,17 @@
  * @param { String } content 
  * @returns Promise
  */
-function createPost(content) {
+function createPost(content, selectedImages) {
+  const formData = new FormData()
+
+  formData.append('content', content)
+  for (let i = 0; i < selectedImages.length; i++) {
+    formData.append('images', selectedImages[i]);
+  }
+
   return fetch(`${process.env.SERVER_URL_DEV}/api/posts`, {
     method: "POST",
-    headers: {
-      'Content-Type': 'application/json'
-      // 'Content-Type': 'application/x-www-form-urlencoded',
-    },
-    body: JSON.stringify({ content })
+    body: formData
   })
 }
 /**

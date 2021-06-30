@@ -60,10 +60,11 @@ export default function index() {
       showSpinner(postButtonLabel, postButtonSpinner)
 
       if (postContentValue.length > 0) {
-        createPost(postContentValue)
+        createPost(postContentValue, selectedImagesForPost)
           .then(res => res.json())
           .then(res => {
             postContentTextbox.value = '';
+            resetImagePreview()
             const targetElement = document.querySelector('#posts');
             addNewPost(targetElement, res.data.createdPost, "moments ago");
             hideSpinner(postButtonLabel, postButtonSpinner)
@@ -96,6 +97,12 @@ export default function index() {
     )
 
     postBtn.disabled = postValue.trim().length == 0 && selectedImagesForPost.length == 0;
+  }
+
+  function resetImagePreview() {
+    uploadPreview.innerHTML = '';
+    uploadPreview.classList.add('hidden')
+    selectedImagesForPost = []
   }
 
   function validateAndPreviewImages(e) {
