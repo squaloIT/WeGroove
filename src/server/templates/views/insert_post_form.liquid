@@ -41,5 +41,6 @@
     </div>
   </div>
 
-  <input type='file' id='post-images-for-upload' class='hidden' multiple />
+  {% render 'upload-images-preview' %}
+  <input type='file' accept="image/*" id='post-images-for-upload' class='hidden' multiple />
 </div>
