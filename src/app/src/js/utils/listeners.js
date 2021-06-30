@@ -1,6 +1,6 @@
 import { emitStopTypingToRoom, emitTypingToRoom } from "../client-socket";
 import { likePost, retweetPost, getPostData, replyToPost, deletePostByID, followOrUnfollowUser, togglePinned, createChat, changeChatName, sendMessage, sendNotificationRead, getNumberOfUnreadForUser, setSeenForMessagesInChat } from "./api";
-import { animateButtonAfterClickOnLike, animateButtonAfterClickOnRetweet, showSpinner, hideSpinner, findPostWrapperElement, openModal, toggleButtonAvailability, toggleScrollForTextarea, getPostIdForWrapper, getProfileIdFromFollowButton, toggleFollowButtons, emptyImagePreviewContainer, emptyFileContainer, addNewMessage, scrollMessagesToBottom, createNewNotification, createChatRow, findChatElement, addEmojiToCommentModal, addSelectedImagesToPreview } from "./dom-manipulation";
+import { animateButtonAfterClickOnLike, animateButtonAfterClickOnRetweet, showSpinner, hideSpinner, findPostWrapperElement, openModal, toggleButtonAvailability, toggleScrollForTextarea, getPostIdForWrapper, getProfileIdFromFollowButton, toggleFollowButtons, emptyImagePreviewContainer, emptyFileContainer, addNewMessage, scrollMessagesToBottom, createNewNotification, createChatRow, findChatElement, addEmojiToCommentModal } from "./dom-manipulation";
 import { validateNumberOfImages } from "./validation";
 
 /**
@@ -563,41 +563,6 @@ function addAllListenersToPosts(validateAndPreviewImages = null) {
   document.querySelector('#comment-images-for-upload').addEventListener('change', validateNumberOfImages)
 }
 
-const validateAndPreviewImagesForComment = (selectedImages) => (e) => {
-  const uploadPreview = document.querySelector('#modal-container div.upload-images-preview-wrapper');
-  const taReply = document.querySelector("#modal-container div.reply-aria textarea")
-  const submitCommentBtn = document.querySelector('div.reply-button-wrapper button.reply-comment-button')
-
-  if (validateNumberOfImages(e)) {
-    uploadPreview.innerHTML = '';
-    uploadPreview.classList.remove('hidden')
-    selectedImages = Array.from(e.target.files)
-    addSelectedImagesToPreview(uploadPreview, e.target.files, (e, img) => {
-      const imageId = img.dataset.imageId;
-      const deletedImage = selectedImages.find(file => imageId == `${file.lastModified}-${file.name}`)
-
-      selectedImages = selectedImages.filter(file => file != deletedImage)
-      const imageWrapper = document.querySelector(`.image-wrapper img[data-image-id="${deletedImage.lastModified}-${deletedImage.name}"]`).parentElement;
-      imageWrapper.remove()
-      console.log("🚀 ~ file: listeners.js ~ line 593 ~ selectedImages", selectedImages)
-
-      if (selectedImages.length == 0) {
-        uploadPreview.classList.add('hidden')
-      }
-    })
-
-    toggleButtonAvailability(
-      submitCommentBtn,
-      () => taReply.value.trim() == 0 && selectedImages.length == 0,
-      'bg-opacity-100'
-    )
-
-  } else {
-    uploadPreview.classList.add('hidden')
-    selectedImages = []
-  }
-}
-
 export {
   onClickLikePost,
   onClickCommentPost,
@@ -620,6 +585,5 @@ export {
   onClickOnNotification,
   onNewMessage,
   addAllListenersToPosts,
-  validateAndPreviewImagesForComment,
   onNewNotification
 }

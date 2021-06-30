@@ -1,6 +1,6 @@
 import { searchUsers } from "./utils/api";
 import { addSelectedImagesToPreview, createRowAndAddListener, defineEmojiTooltip, disableButton, displaySelectedUsers, scrollMessagesToBottom, toggleButtonAvailability } from "./utils/dom-manipulation";
-import { addEmojiToInput, onClickCreateChat, onClickRemoveImage, onClickSaveChatNameButton, onSendMessage, updateTyping } from "./utils/listeners";
+import { addEmojiToInput, onClickCreateChat, onClickSaveChatNameButton, onSendMessage, updateTyping } from "./utils/listeners";
 import { emitJoinRoom } from './client-socket'
 import { validateNumberOfImages } from "./utils/validation";
 
@@ -159,7 +159,19 @@ export default function inbox() {
       uploadPreview.innerHTML = '';
       uploadPreview.classList.remove('hidden')
       selectedImages = Array.from(e.target.files)
-      addSelectedImagesToPreview(uploadPreview, e.target.files, onClickRemoveImage(selectedImages, uploadPreview))
+      addSelectedImagesToPreview(uploadPreview, e.target.files, (e, img) => {
+        const imageId = img.dataset.imageId;
+        const deletedImage = selectedImages.find(file => imageId == `${file.lastModified}-${file.name}`)
+
+        selectedImages = selectedImages.filter(file => file != deletedImage)
+        const imageWrapper = document.querySelector(`.image-wrapper img[data-image-id="${deletedImage.lastModified}-${deletedImage.name}"]`).parentElement;
+        imageWrapper.remove()
+        console.log("🚀 ~ file: listeners.js ~ line 593 ~ selectedImages", selectedImages)
+
+        if (selectedImages.length == 0) {
+          uploadPreview.classList.add('hidden')
+        }
+      })
 
       toggleButtonAvailability(
         sendMessageButton,
