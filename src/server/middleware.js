@@ -1,5 +1,7 @@
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
+const path = require('path');
+const fs = require('fs');
 const UserModel = require('./db/schemas/UserSchema');
 const { createUserJWT } = require('./utils');
 const ChatModel = require('./db/schemas/ChatSchema');
@@ -73,5 +75,20 @@ exports.getNumberOfUnreadNotifications = async (req, res, next) => {
 
   req.numberOfUnreadNotifications = notifications.length
 
+  next()
+}
+
+exports.moveFilesToUploadAndSetFilesPath = async (req, res, next) => {
+  var filePathArr = [];
+
+  req.files.forEach(file => {
+    const filePath = `uploads/images/${file.filename}.png`;
+    const tempPath = file.path;
+    const targetPath = path.join(__dirname, `./${filePath}`)
+    fs.renameSync(tempPath, targetPath)
+    filePathArr.push(filePath)
+  })
+
+  req.filesPathArr = filePathArr;
   next()
 }

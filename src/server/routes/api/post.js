@@ -1,37 +1,26 @@
 const moment = require('moment');
 const express = require('express')
-const path = require('path');
-const fs = require('fs');
 const router = express.Router();
 const PostModel = require('../../db/schemas/PostSchema')
 const UserModel = require('../../db/schemas/UserSchema')
-const { checkIsLoggedIn } = require('../../middleware');
+const { checkIsLoggedIn, moveFilesToUploadAndSetFilesPath } = require('../../middleware');
 const NotificationModel = require('../../db/schemas/NotificationSchema');
 var multer = require('multer')
 var upload = multer({ dest: 'uploads/' })
 require('../../typedefs');
 
-router.post('/', checkIsLoggedIn, upload.array('images', 5), async (req, res, next) => {
+router.post('/', checkIsLoggedIn, upload.array('images', 5), moveFilesToUploadAndSetFilesPath, async (req, res, next) => {
   if (!req.body.content || !req.session.user) {
     return res.sendStatus(400);
   }
   try {
-    var filePathArr = [];
-
-    req.files.forEach(file => {
-      const filePath = `uploads/images/${file.filename}.png`;
-      const tempPath = file.path;
-      const targetPath = path.join(__dirname, `./../../${filePath}`)
-      fs.renameSync(tempPath, targetPath)
-      filePathArr.push(filePath)
-    })
 
     /** @type { post } createdPost */
     var createdPost = new PostModel({
       content: req.body.content,
       pinned: false,
       postedBy: req.session.user,
-      images: filePathArr
+      images: req.filesPathArr
     });
 
     //* Populate will populate any ObjectID field with data from model specified before populate keyword.
