@@ -1,10 +1,13 @@
 import { searchUsers } from "./utils/api";
-import { createRowAndAddListener, defineEmojiTooltip, disableButton, displaySelectedUsers, scrollMessagesToBottom, toggleButtonAvailability } from "./utils/dom-manipulation";
-import { addEmojiToInput, onClickCreateChat, onClickSaveChatNameButton, onSendMessage, updateTyping } from "./utils/listeners";
+import { addSelectedImagesToPreview, createRowAndAddListener, defineEmojiTooltip, disableButton, displaySelectedUsers, scrollMessagesToBottom, toggleButtonAvailability } from "./utils/dom-manipulation";
+import { addEmojiToInput, onClickCreateChat, onClickRemoveImage, onClickSaveChatNameButton, onSendMessage, updateTyping } from "./utils/listeners";
 import { emitJoinRoom } from './client-socket'
+import { validateNumberOfImages } from "./utils/validation";
 
 export default function inbox() {
   var timer = null;
+  var selectedImages = [];
+
   const selectedUsers = [];
   const contentWrapper = document.querySelector('div#inbox div.content-wrapper');
   const searchInput = document.querySelector('input#search-user')
@@ -39,6 +42,16 @@ export default function inbox() {
         scrollMessagesToBottom(chatMessagesContainer)
       }
     })
+
+    const inputFileImages = document.querySelector('#message-images-for-upload');
+    var uploadPreview = document.querySelector('#inbox > div.chat-messages-wrapper div.upload-images-preview-wrapper');
+
+    document.querySelector('#inbox button.message-image-button')
+      .addEventListener('click', () => {
+        inputFileImages.click()
+        inputFileImages.removeEventListener('change', validateAndPreviewImages)
+        inputFileImages.addEventListener('change', validateAndPreviewImages)
+      })
   }
 
   if (emojiButton) {
@@ -139,5 +152,24 @@ export default function inbox() {
     toggleButtonAvailability(createChatButton, () => selectedUsers.length == 0)
     displaySelectedUsers(selectedUsers)
     contentWrapper.innerHTML = '';
+  }
+
+  function validateAndPreviewImages(e) {
+    if (validateNumberOfImages(e)) {
+      uploadPreview.innerHTML = '';
+      uploadPreview.classList.remove('hidden')
+      selectedImages = Array.from(e.target.files)
+      addSelectedImagesToPreview(uploadPreview, e.target.files, onClickRemoveImage(selectedImages, uploadPreview))
+
+      toggleButtonAvailability(
+        sendMessageButton,
+        () => chatMessageInput.value.trim() == 0 && selectedImages.length == 0,
+        'bg-opacity-100'
+      )
+
+    } else {
+      uploadPreview.classList.add('hidden')
+      selectedImages = []
+    }
   }
 }
