@@ -6,32 +6,6 @@ import { validateNumberOfImages } from "./validation";
 /**
  * @param {Event} e 
  */
-function onClickCommentButton(e) {
-  e.stopPropagation();
-  const pid = e.target.dataset.pid;
-  const content = document.querySelector("div#modal-container div.reply-aria textarea").value;
-
-  const commentButtonLabel = document.querySelector('div#modal-container div.reply-button-wrapper span.comment-button__label')
-  const commentButtonSpinner = document.querySelector('div#modal-container div.reply-button-wrapper .comment-button__spinner')
-  showSpinner(commentButtonLabel, commentButtonSpinner)
-
-  replyToPost(pid, content)
-    .then(res => res.json())
-    .then(({ status }) => {
-      if (status == 201) {
-        hideSpinner(commentButtonLabel, commentButtonSpinner);
-        location.reload()
-      }
-    })
-    .catch(err => {
-      hideSpinner(commentButtonLabel, commentButtonSpinner)
-      alert(err)
-      console.error(err)
-    });
-}
-/**
- * @param {Event} e 
- */
 function onClickLikePost(e) {
   e.stopPropagation();
   const button = e.target;
@@ -548,9 +522,6 @@ function onNewNotification(data) {
 function addAllListenersToPosts(validateAndPreviewImages = null) {
   addEmojiToCommentModal()
 
-  document.querySelector('div.reply-button-wrapper button.reply-comment-button')
-    .addEventListener('click', onClickCommentButton)
-
   if (validateAndPreviewImages) {
     const commentUploadImagesInput = document.querySelector('#comment-images-for-upload');
 
@@ -633,7 +604,6 @@ export {
   onKeyUpCommentTA,
   createFunctionToCloseModal,
   onClickRetweetPost,
-  onClickCommentButton,
   onClickDeletePost,
   onClosePhotoModal,
   openPhotoEditModal,
