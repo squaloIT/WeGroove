@@ -67,6 +67,11 @@
 
     <div class="post-content__text w-11/12 mt-1 cursor-pointer">
       <p>{{post.content}}</p>
+      <div class='w-9/12'>
+        {% if post.images.size > 0 %}
+          {% render 'post_content_images', images: post.images %}
+        {% endif %}
+      </div>
     </div>
 
     {% render 'post_buttons_wrapper', post: post, user: user, showNumbers: true %}

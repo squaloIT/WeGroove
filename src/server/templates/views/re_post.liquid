@@ -63,6 +63,12 @@
 
       <div class="post-content__text w-11/12 mt-1 cursor-pointer">
         <p>{{post.retweetData.content}}</p>
+
+         <div class='w-9/12'>
+          {% if post.retweetData.images.size > 0 %}
+            {% render 'post_content_images', images: post.retweetData.images %}
+          {% endif %}
+        </div>
       </div>
 
       {% render 'post_buttons_wrapper', post: post, retweetData: post.retweetData, user: user, showNumbers: true %}
