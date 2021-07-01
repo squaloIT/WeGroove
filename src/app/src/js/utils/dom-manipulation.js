@@ -1,7 +1,7 @@
-import { Picker } from 'emoji-picker-element'
+import { Picker } from 'emoji-picker-element';
 import './../../../typedefs';
-import { createChatRowContent, createCommentButtonElements, createDeleteButtonElements, createElementForButtonWrapper, createFollowButtonElement, createFollowingButtonElement, createImagePreview, createLikeButtonElements, createNewMessageHTML, createNotificationRow, createPostElement, createRetweetButtonElements, createUserRowHTML } from './html-creators';
-import { onKeyUpCommentTA, createFunctionToCloseModal, addEmojiToInput } from './listeners';
+import { createChatRowContent, createCommentButtonElements, createDeleteButtonElements, createElementForButtonWrapper, createFollowButtonElement, createFollowingButtonElement, createLikeButtonElements, createNewMessageHTML, createNotificationRow, createPostElement, createRetweetButtonElements, createUserRowHTML } from './html-creators';
+import { addEmojiToInput, createFunctionToCloseModal, onKeyUpCommentTA } from './listeners';
 
 /**
  * @param {post} post 
@@ -297,7 +297,7 @@ function setSeparatorHeightForAllReplies() {
     const postWrapper = findPostWrapperElement(el, 'post-wrapper', true)
     const lineSeparator = postWrapper.querySelector('div.images-wrapper div.left-column__line-separator')
     const postOriginal = postWrapper.querySelector('div.original-post')
-    lineSeparator.style.height = (postOriginal.offsetHeight / 2)
+    lineSeparator.style.height = (postOriginal.offsetHeight - 70)
   })
 }
 /**
@@ -604,4 +604,5 @@ export {
   addEmojiToCommentModal,
   addSelectedImagesToPreview,
   createChatRow
-}
+};
+
