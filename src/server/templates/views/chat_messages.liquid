@@ -68,7 +68,10 @@
   </button>
 
 </div>
-{% render 'upload-images-preview' %}
+
+<div class='px-3 w-full'>
+  {% render 'upload-images-preview' %}
+</div>
 
 <input type='file' accept="image/*" id='message-images-for-upload' class='hidden' multiple />
 <div class='chat-emojis-tooltip hidden absolute bottom-14 right-5' id='chat-emojis-tooltip'></div>
