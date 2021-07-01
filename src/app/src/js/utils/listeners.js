@@ -1,6 +1,6 @@
 import { emitStopTypingToRoom, emitTypingToRoom } from "../client-socket";
-import { likePost, retweetPost, getPostData, replyToPost, deletePostByID, followOrUnfollowUser, togglePinned, createChat, changeChatName, sendMessage, sendNotificationRead, getNumberOfUnreadForUser, setSeenForMessagesInChat } from "./api";
-import { animateButtonAfterClickOnLike, animateButtonAfterClickOnRetweet, showSpinner, hideSpinner, findPostWrapperElement, openModal, toggleButtonAvailability, toggleScrollForTextarea, getPostIdForWrapper, getProfileIdFromFollowButton, toggleFollowButtons, emptyImagePreviewContainer, emptyFileContainer, addNewMessage, scrollMessagesToBottom, createNewNotification, createChatRow, findChatElement, addEmojiToCommentModal } from "./dom-manipulation";
+import { changeChatName, createChat, deletePostByID, followOrUnfollowUser, getNumberOfUnreadForUser, getPostData, likePost, retweetPost, sendMessage, sendNotificationRead, setSeenForMessagesInChat, togglePinned } from "./api";
+import { addEmojiToCommentModal, addNewMessage, animateButtonAfterClickOnLike, animateButtonAfterClickOnRetweet, createChatRow, createNewNotification, emptyFileContainer, emptyImagePreviewContainer, findChatElement, findPostWrapperElement, getPostIdForWrapper, getProfileIdFromFollowButton, hideSpinner, openModal, scrollMessagesToBottom, showSpinner, toggleButtonAvailability, toggleFollowButtons, toggleScrollForTextarea } from "./dom-manipulation";
 import { validateNumberOfImages } from "./validation";
 
 /**
@@ -157,14 +157,22 @@ function onClickDeletePost(e) {
     .then(data => {
       if (data.status === 204) {
         postWrapper.classList.add('animate__bounceOutRight')
-        const postsToBeRemovedFromDOM = document.querySelectorAll(`div.post-wrapper[data-pid="${pid}"], div.post-wrapper[data-retweet-id="${pid}"]`)
+        const postsToBeRemovedFromDOM = document.querySelectorAll(`div.post-wrapper[data-pid="${pid}"], div.post-wrapper[data-retweet-id="${pid}"], div.original-post[data-pid="${pid}"], div.comment-post[data-pid="${pid}"]`)
 
         Array.from(postsToBeRemovedFromDOM).forEach(el => {
+          if (el.classList.contains('original-post') || el.classList.contains('original-post')) {
+            el = findPostWrapperElement(el, 'post-wrapper', true)
+          }
+
           el.classList.add('animate__bounceOutRight')
         })
 
         setTimeout(() => {
           Array.from(postsToBeRemovedFromDOM).forEach(el => {
+            if (el.classList.contains('original-post') || el.classList.contains('original-post')) {
+              el = findPostWrapperElement(el, 'post-wrapper', true)
+            }
+
             el.remove()
 
             if (data.retweetedPost) {
@@ -586,4 +594,5 @@ export {
   onNewMessage,
   addAllListenersToPosts,
   onNewNotification
-}
+};
+
