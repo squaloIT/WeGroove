@@ -28,7 +28,7 @@ export default function inbox() {
     emitJoinRoom(chatId);
 
     disableButton(sendMessageButton, 'hover:bg-comment-button-blue-background')
-    sendMessageButton.addEventListener('click', (e) => onSendMessage(e, chatMessageInput, chatMessagesContainer))
+    sendMessageButton.addEventListener('click', (e) => onSendMessage(e, chatMessageInput, chatMessagesContainer, selectedImages))
 
     chatMessageInput.addEventListener('keyup', e => {
       updateTyping(chatId)
@@ -38,7 +38,7 @@ export default function inbox() {
         'hover:bg-comment-button-blue-background'
       )
       if (e.keyCode == 13 || e.which == 13) {
-        onSendMessage(e, e.target, chatMessagesContainer)
+        onSendMessage(e, e.target, chatMessagesContainer, selectedImages)
         scrollMessagesToBottom(chatMessagesContainer)
       }
     })
@@ -166,7 +166,6 @@ export default function inbox() {
         selectedImages = selectedImages.filter(file => file != deletedImage)
         const imageWrapper = document.querySelector(`.image-wrapper img[data-image-id="${deletedImage.lastModified}-${deletedImage.name}"]`).parentElement;
         imageWrapper.remove()
-        console.log("🚀 ~ file: listeners.js ~ line 593 ~ selectedImages", selectedImages)
 
         if (selectedImages.length == 0) {
           uploadPreview.classList.add('hidden')

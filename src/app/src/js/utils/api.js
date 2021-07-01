@@ -198,15 +198,22 @@ function changeChatName(chatName, chatId) {
  * 
  * @param {string} chatId 
  * @param {string} content 
+ * @param {Array.<File>} selectedImages 
  * @returns { Promise }
  */
-function sendMessage(chatId, content) {
+function sendMessage(chatId, content, selectedImages) {
+  const formData = new FormData();
+
+  formData.append('chatId', chatId)
+  formData.append('content', content)
+
+  for (let i = 0; i < selectedImages.length; i++) {
+    formData.append('images', selectedImages[i]);
+  }
+
   return fetch(`${process.env.SERVER_URL_DEV}/api/message/sendMessage`, {
     method: 'POST',
-    headers: {
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify({ chatId, content })
+    body: formData
   }).then(res => res.json())
 }
 /**
@@ -266,4 +273,4 @@ export {
   sendNotificationRead,
   getNumberOfUnreadForUser,
   setSeenForMessagesInChat
-}
+};

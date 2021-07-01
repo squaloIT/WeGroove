@@ -386,12 +386,13 @@ function addEmojiToInput(e, textarea) {
  * @param {Event} e 
  * @param {HTMLElement} messageInput 
  * @param {HTMLElement} chatMessagesContainer 
+ * @param {Array.<File>} selectedImages 
  */
-function onSendMessage(e, messageInput, chatMessagesContainer) {
+function onSendMessage(e, messageInput, chatMessagesContainer, selectedImages) {
   const chatId = document.querySelector('#send-message-button').dataset.chatId;
   const content = messageInput.value.trim()
 
-  sendMessage(chatId, content)
+  sendMessage(chatId, content, selectedImages)
     .then(res => {
       addNewMessage(res.data, 'sent')
       messageInput.value = '';

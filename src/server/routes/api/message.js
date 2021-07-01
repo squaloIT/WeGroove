@@ -1,15 +1,17 @@
 const express = require('express');
 const router = express.Router();
+var multer = require('multer')
+var upload = multer({ dest: 'uploads/' })
 const ChatModel = require('../../db/schemas/ChatSchema');
 const NotificationModel = require('../../db/schemas/NotificationSchema');
 const Message = require('./../../db/schemas/MessageSchema')
 const { emitMessageToUsers } = require('../../socket');
-const { checkIsLoggedIn } = require('./../../middleware');
+const { checkIsLoggedIn, moveFilesToUploadAndSetFilesPath } = require('./../../middleware');
 const UserModel = require('../../db/schemas/UserSchema');
 const MessageModel = require('./../../db/schemas/MessageSchema');
 require('./../../typedefs');
 
-router.post('/sendMessage', checkIsLoggedIn, async (req, res) => {
+router.post('/sendMessage', checkIsLoggedIn, upload.array('images', 5), moveFilesToUploadAndSetFilesPath, async (req, res) => {
   const chatId = req.body.chatId
   const content = req.body.content
   const senderId = req.session.user._id
@@ -28,7 +30,8 @@ router.post('/sendMessage', checkIsLoggedIn, async (req, res) => {
       content,
       sender: senderId,
       chat: chatId,
-      readBy: [senderId]
+      readBy: [senderId],
+      images: req.filesPathArr
     }).save()
 
     let messageToPopulate = await Message.findById(newMessage._id).lean()
