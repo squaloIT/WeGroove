@@ -282,7 +282,7 @@ router.delete('/delete/:id', checkIsLoggedIn, async (req, res) => {
     })
 
   if (post) {
-    await PostModel.deleteMany({ retweetData: post._id })
+    await PostModel.deleteMany({ $or: [{ retweetData: post._id }, { replyTo: post._id }] })
       .catch(err => {
         console.log(err);
         res.status(400).json({
