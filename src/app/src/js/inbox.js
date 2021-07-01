@@ -1,7 +1,7 @@
+import { emitJoinRoom } from './client-socket';
 import { searchUsers } from "./utils/api";
 import { addSelectedImagesToPreview, createRowAndAddListener, defineEmojiTooltip, disableButton, displaySelectedUsers, scrollMessagesToBottom, toggleButtonAvailability } from "./utils/dom-manipulation";
 import { addEmojiToInput, onClickCreateChat, onClickSaveChatNameButton, onSendMessage, updateTyping } from "./utils/listeners";
-import { emitJoinRoom } from './client-socket'
 import { validateNumberOfImages } from "./utils/validation";
 
 export default function inbox() {
@@ -34,7 +34,7 @@ export default function inbox() {
       updateTyping(chatId)
       toggleButtonAvailability(
         sendMessageButton,
-        () => e.target.value.trim() == 0,
+        () => e.target.value.trim() == 0 && selectedImages.length == 0,
         'hover:bg-comment-button-blue-background'
       )
       if (e.keyCode == 13 || e.which == 13) {
@@ -61,7 +61,7 @@ export default function inbox() {
       (e) => {
         toggleButtonAvailability(
           sendMessageButton,
-          () => chatMessageInput.value.trim() == 0,
+          () => chatMessageInput.value.trim() == 0 && selectedImages.length == 0,
           'hover:bg-comment-button-blue-background'
         )
 
@@ -176,7 +176,7 @@ export default function inbox() {
       toggleButtonAvailability(
         sendMessageButton,
         () => chatMessageInput.value.trim() == 0 && selectedImages.length == 0,
-        'bg-opacity-100'
+        'hover:bg-comment-button-blue-background'
       )
 
     } else {
