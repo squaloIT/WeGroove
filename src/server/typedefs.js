@@ -61,3 +61,9 @@
  * @property {boolean} read -
  * @property {boolean} seen -
  */
+/**
+ * @typedef {Object} hashtag
+ * @property {string} _id -
+ * @property {String} hashtag -
+ * @property {Array.<post>} posts -
+ */

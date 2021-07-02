@@ -5,7 +5,8 @@ const PostModel = require('../../db/schemas/PostSchema')
 const UserModel = require('../../db/schemas/UserSchema')
 const { checkIsLoggedIn, moveFilesToUploadAndSetFilesPath } = require('../../middleware');
 const NotificationModel = require('../../db/schemas/NotificationSchema');
-var multer = require('multer')
+var multer = require('multer');
+const HashtagModel = require('../../db/schemas/HashtagSchema');
 var upload = multer({ dest: 'uploads/' })
 require('../../typedefs');
 
@@ -14,9 +15,8 @@ router.post('/', checkIsLoggedIn, upload.array('images', 5), moveFilesToUploadAn
     return res.sendStatus(400);
   }
   try {
-
     /** @type { post } createdPost */
-    var createdPost = new PostModel({
+    var newPost = new PostModel({
       content: req.body.content,
       pinned: false,
       postedBy: req.session.user,
@@ -24,15 +24,17 @@ router.post('/', checkIsLoggedIn, upload.array('images', 5), moveFilesToUploadAn
     });
 
     //* Populate will populate any ObjectID field with data from model specified before populate keyword.
-    createdPost = await UserModel.populate(createdPost, { path: 'postedBy' });
+    newPost = await UserModel.populate(newPost, { path: 'postedBy' });
 
-    /** @type { Boolean } isSaved */
-    const isSaved = await createdPost.save();
+    /** @type { post } savedPost */
+    const savedPost = await newPost.save();
 
-    return res.status(isSaved ? 201 : 400).json({
-      msg: isSaved ? "Post successfully saved" : "There was an error while saving post",
-      status: isSaved ? 201 : 400,
-      data: { createdPost }
+    await HashtagModel.createHashTagsForPost(savedPost)
+
+    return res.status(savedPost ? 201 : 400).json({
+      msg: savedPost ? "Post successfully saved" : "There was an error while saving post",
+      status: savedPost ? 201 : 400,
+      data: { createdPost: newPost }
     });
 
   } catch (err) {
@@ -317,6 +319,5 @@ router.delete('/delete/:id', checkIsLoggedIn, async (req, res) => {
     retweetedPost: null
   })
 })
-
 
 module.exports = router;
