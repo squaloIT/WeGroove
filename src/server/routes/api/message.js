@@ -126,7 +126,7 @@ router.post('/seen-chat-messages', checkIsLoggedIn, async (req, res) => {
  * @param {message} message 
  */
 function addNotificationsToUsers(userIds, message) {
-  userIds.forEach(id => {
+  userIds.forEach(async id => {
     if (id) {
       /** @type { notification } */
       const notification = new NotificationModel({
@@ -135,7 +135,7 @@ function addNotificationsToUsers(userIds, message) {
         notificationType: 'new-message',
         entity: message.chat //* this is id
       })
-      notification.createNotification();
+      await notification.createNotification();
     }
   })
 }

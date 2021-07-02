@@ -1,4 +1,4 @@
-import { onClickLikePost, onClickRetweetPost, onClickCommentPost, onClickDeletePost, onClickTogglePinned, onFollowOrUnfollowClick } from './listeners';
+import { onClickCommentPost, onClickDeletePost, onClickLikePost, onClickRetweetPost, onFollowOrUnfollowClick } from './listeners';
 
 /** @returns String */
 const getDeleteButtonContent = () => `<svg viewBox="0 0 24 24" aria-hidden="true" class="fill-current pointer-events-none text-mid-gray-for-text w-5 h-5">
@@ -219,7 +219,11 @@ function createFollowingButtonElement(user) {
 
   return button
 }
-
+/**
+ * 
+ * @param {user} user 
+ * @returns 
+ */
 function createUserRowHTML(user) {
   return `<div class='w-full px-6 flex py-4 border-b border-super-light-gray-border'>
   <div class='w-4/5 flex'>
@@ -244,12 +248,27 @@ function createUserRowHTML(user) {
   </div>
 </div>`
 }
-
-function createNewMessageHTML(content, isSent) {
+/**
+ * 
+ * @param {String} content 
+ * @param {Array.<String>} images 
+ * @param {Boolean} isSent 
+ * @returns 
+ */
+function createNewMessageHTML(content, images, isSent) {
   return `
   <div class='message-container ${isSent ? 'sent' : 'received'} flex w-full px-4 mb-2'>
     <div class='incoming-message max-w-[55%]'>
-      <span class='inline-block px-4 py-2 rounded-2xl'>${content}</span>
+      <span class='inline-block px-4 py-2 rounded-2xl'>
+        ${content}
+        
+        ${images.length > 0 ? `
+          <div class='mt-2'>
+            ${images.map(src => `<img src='${src}' class='max-h-60 max-w-full mb-2' />`).join('')}
+          </div>
+        ` : ''}
+      </span>
+
     </div>
   </div>
   `
@@ -369,4 +388,5 @@ export {
   createNotificationRow,
   createNewMessageHTML,
   createChatRowContent
-}
+};
+

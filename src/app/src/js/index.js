@@ -61,8 +61,6 @@ export default function index() {
       showSpinner(postButtonLabel, postButtonSpinner)
 
       if (postContentValue.length > 0) {
-        console.log("🚀 ~ file: index.js ~ line 67 ~ submitPostButton.addEventListener ~ selectedImagesForPost", selectedImagesForPost)
-
         createPost(postContentValue, selectedImagesForPost)
           .then(res => res.json())
           .then(res => {
@@ -121,7 +119,6 @@ export default function index() {
         selectedImagesForPost = selectedImagesForPost.filter(file => file != deletedImage)
         const imageWrapper = document.querySelector(`.image-wrapper img[data-image-id="${deletedImage.lastModified}-${deletedImage.name}"]`).parentElement;
         imageWrapper.remove()
-        console.log("🚀 ~ file: listeners.js ~ line 593 ~ selectedImagesForPost", selectedImagesForPost)
 
         if (selectedImagesForPost.length == 0) {
           uploadPreview.classList.add('hidden')

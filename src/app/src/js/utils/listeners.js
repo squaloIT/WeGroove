@@ -321,7 +321,6 @@ function onClickTogglePinned(e) {
   e.stopPropagation();
   const button = e.target
   const postWrapper = findPostWrapperElement(button, 'post-wrapper') || findPostWrapperElement(button, 'original-post') || findPostWrapperElement(button, 'comment-post');
-  console.log(button.dataset)
   const pinned = button.dataset.pinned == 'true';
   // const isProfilePage = document.querySelector("div#profile-posts div.pinned-button-wrapper");
 
@@ -387,18 +386,20 @@ function addEmojiToInput(e, textarea) {
  * @param {HTMLElement} messageInput 
  * @param {HTMLElement} chatMessagesContainer 
  * @param {Array.<File>} selectedImages 
+ * @returns {Promise}
  */
 function onSendMessage(e, messageInput, chatMessagesContainer, selectedImages) {
   const chatId = document.querySelector('#send-message-button').dataset.chatId;
   const content = messageInput.value.trim()
 
-  sendMessage(chatId, content, selectedImages)
+  return sendMessage(chatId, content, selectedImages)
     .then(res => {
-      addNewMessage(res.data, 'sent')
+      addNewMessage(res.data, 'sent', res.data.images)
       messageInput.value = '';
       messageInput.focus()
       scrollMessagesToBottom(chatMessagesContainer)
       stopTyping(chatId)
+      return Promise.resolve(res.data)
     })
     .catch(err => {
       console.error(err)
@@ -469,7 +470,7 @@ function onNewMessage(msg) {
 
   //* This means that I am in the chat so no notification should be fetched and displayed
   if (chatContainer) {
-    addNewMessage(msg, 'received')
+    addNewMessage(msg, 'received', msg.images)
     scrollMessagesToBottom(chatContainer)
     setSeenForMessagesInChat(msg.chat._id || msg.chat)
       .then(data => console.log(data.msg))

@@ -28,7 +28,6 @@ exports.isRememberedCookiePresent = (req, res, next) => {
   jwt.verify(cookie, process.env.SECRET_KEY, async (err, verifiedJwtData) => {
     if (err) {
       console.log("ERROR IN JWT")
-      console.log("🚀 ~ file: middleware.js ~ line 18 ~ jwt.verify ~ err", err)
       next();
     } else {
       const user = await UserModel.findOne({ email: verifiedJwtData.email })

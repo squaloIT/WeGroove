@@ -19,7 +19,12 @@
          {% if message.nextMessage.sender != message.sender %}
           rounded-br-2xl
         {% endif %}        
-        rounded-tl-2xl rounded-bl-2xl'>{{message.content}}</span>
+        rounded-tl-2xl rounded-bl-2xl'>
+          {{message.content}}
+
+          {% render 'images_in_chat', images: message.images %}
+        
+        </span>
       </div>
     </div>
 {% else %}
@@ -37,13 +42,18 @@
     <div class='message-container received flex w-full px-4 mb-1'>
       <div class='max-w-[55%] flex justify-start'>
         <span class='inline-block px-4 py-2 
-        {% if message.prevMessage.sender != message.sender %}
-          rounded-tl-2xl
-        {% endif %}
-         {% if message.nextMessage.sender != message.sender %}
-          rounded-bl-2xl
-        {% endif %}
-        rounded-tr-2xl rounded-br-2xl'>{{message.content}}</span>
+          {% if message.prevMessage.sender != message.sender %}
+            rounded-tl-2xl
+          {% endif %}
+          {% if message.nextMessage.sender != message.sender %}
+            rounded-bl-2xl
+          {% endif %}
+          rounded-tr-2xl rounded-br-2xl'>
+        
+          {{message.content}}
+        
+          {% render 'images_in_chat', images: message.images %}
+        </span>
       </div>
     </div>
 {% endif %}

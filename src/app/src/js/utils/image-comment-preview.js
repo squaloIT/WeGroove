@@ -25,7 +25,6 @@ export default function imageCommentPreview() {
         selectedImagesForComment = selectedImagesForComment.filter(file => file != deletedImage)
         const imageWrapper = document.querySelector(`.image-wrapper img[data-image-id="${deletedImage.lastModified}-${deletedImage.name}"]`).parentElement;
         imageWrapper.remove()
-        console.log("🚀 ~ file: listeners.js ~ line 593 ~ selectedImagesForComment", selectedImagesForComment)
 
         if (selectedImagesForComment.length == 0) {
           uploadPreview.classList.add('hidden')
@@ -55,7 +54,7 @@ export default function imageCommentPreview() {
     const commentButtonLabel = document.querySelector('div#modal-container div.reply-button-wrapper span.comment-button__label')
     const commentButtonSpinner = document.querySelector('div#modal-container div.reply-button-wrapper .comment-button__spinner')
     showSpinner(commentButtonLabel, commentButtonSpinner)
-    console.log(selectedImagesForComment)
+
     replyToPost(pid, content, selectedImagesForComment)
       .then(res => res.json())
       .then(({ status }) => {

@@ -416,13 +416,13 @@ function emptyTextboxAndContainer(searchInput, contentWrapper) {
  * Type can be sent or received
  * @param {message} message 
  * @param {string} type 
+ * @param {Array.<String>} images 
  */
-function addNewMessage(message, type) {
+function addNewMessage(message, type, images) {
   const messagesContainer = document.querySelector('#inbox > div.chat-messages-wrapper div.chat-messages-container');
-  if (messagesContainer) {
-    const content = message.content;
 
-    const html = createNewMessageHTML(content, type == 'sent');
+  if (messagesContainer) {
+    const html = createNewMessageHTML(message.content, images, type == 'sent');
     messagesContainer.innerHTML += html
   }
 }
@@ -432,12 +432,14 @@ function addNewMessage(message, type) {
  */
 function scrollMessagesToBottom(messagesContainer) {
   if (messagesContainer) {
-    messagesContainer.scrollTo({ top: messagesContainer.scrollHeight, behavior: 'smooth' });
+
+    setTimeout(() => {
+      messagesContainer.scrollTo({ top: messagesContainer.scrollHeight, behavior: 'smooth' });
+    }, 300)
   }
 }
 
 function showTypingDots() {
-  console.log(document.querySelector('div.chat-typing-container'))
   document.querySelector('div.chat-typing-container').classList.remove('hidden')
 }
 
@@ -470,9 +472,7 @@ function createNewNotification(notification) {
  */
 function findChatElement(chatId, chatsContainer) {
   const chats = Array.from(chatsContainer.querySelectorAll('div[data-chat-id]'));
-  console.log("🚀 ~ file: dom-manipulation.js ~ line 468 ~ findChatElement ~ chats", chats)
   const chat = chats.find(c => c.dataset.chatId == chatId);
-  console.log("🚀 ~ file: dom-manipulation.js ~ line 471 ~ findChatElement ~ chat", chat)
   return chat
 }
 /**
@@ -539,7 +539,6 @@ function addEmojiToCommentModal() {
  */
 function addSelectedImagesToPreview(uploadPreview, files, onClickRemoveImage) {
   Array.from(files).forEach(file => {
-    console.log(file)
     const imgSrc = URL.createObjectURL(file);
 
     const div = document.createElement('div')

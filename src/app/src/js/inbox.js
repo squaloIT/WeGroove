@@ -25,10 +25,15 @@ export default function inbox() {
   }
 
   if (sendMessageButton) {
+    const inputFileImages = document.querySelector('#message-images-for-upload');
+    var uploadPreview = document.querySelector('#inbox > div.chat-messages-wrapper div.upload-images-preview-wrapper');
+
     emitJoinRoom(chatId);
 
     disableButton(sendMessageButton, 'hover:bg-comment-button-blue-background')
-    sendMessageButton.addEventListener('click', (e) => onSendMessage(e, chatMessageInput, chatMessagesContainer, selectedImages))
+    sendMessageButton.addEventListener('click', (e) => {
+      onSendMessage(e, chatMessageInput, chatMessagesContainer, selectedImages).then(clearImagePreview)
+    })
 
     chatMessageInput.addEventListener('keyup', e => {
       updateTyping(chatId)
@@ -38,13 +43,10 @@ export default function inbox() {
         'hover:bg-comment-button-blue-background'
       )
       if (e.keyCode == 13 || e.which == 13) {
-        onSendMessage(e, e.target, chatMessagesContainer, selectedImages)
-        scrollMessagesToBottom(chatMessagesContainer)
+        onSendMessage(e, e.target, chatMessagesContainer, selectedImages).then(clearImagePreview)
+        // scrollMessagesToBottom(chatMessagesContainer)
       }
     })
-
-    const inputFileImages = document.querySelector('#message-images-for-upload');
-    var uploadPreview = document.querySelector('#inbox > div.chat-messages-wrapper div.upload-images-preview-wrapper');
 
     document.querySelector('#inbox button.message-image-button')
       .addEventListener('click', () => {
@@ -153,6 +155,12 @@ export default function inbox() {
     displaySelectedUsers(selectedUsers)
     contentWrapper.innerHTML = '';
   }
+
+  function clearImagePreview() {
+    uploadPreview.innerHTML = '';
+    uploadPreview.classList.add('hidden')
+    selectedImages = []
+  };
 
   function validateAndPreviewImages(e) {
     if (validateNumberOfImages(e)) {
