@@ -4,6 +4,9 @@
 .transparent-borderless-spinneles-element {
 	@apply border-none ring-0 focus:shadow-none focus:ring-0;
 }
+.right-column-flex-gray {
+	@apply w-full bg-super-light-gray-border flex justify-between items-center py-1;
+}
 @tailwind utilities;
 
 @layer utilities {
