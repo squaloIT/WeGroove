@@ -65,6 +65,7 @@
  * @property {string} _id -
  * @property {String} hashtag -
  * @property {Array.<post>} posts -
+ * @property {number} postsLength -
  */
 
 /**

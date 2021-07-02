@@ -16,11 +16,11 @@
       <h2 class='font-roboto text-2xl font-semibold pl-5 pt-1 pb-2 w-full text-dark-gray-for-text mt-1'>Trends for you</h2>
 
       <div class="popular-topics-content w-full">
-        {% render 'right_column_topic' %}
-        {% render 'right_column_topic' %}
-        {% render 'right_column_topic' %}
-        {% render 'right_column_topic' %}
-        {% render 'right_column_topic' %}
+        {% for hashtag in popularHashtags %}
+
+            {% render 'right_column_topic', hashtag: hashtag %}
+
+        {% endfor%}
       </div>
     </div>
   </div>

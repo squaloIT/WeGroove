@@ -13,6 +13,7 @@ router.get('/:searchType', (req, res, next) => {
     user: req.session.user,
     numOfUnreadNotifications: req.numberOfUnreadNotifications,
     numOfUnreadChats: req.numberOfUnreadChats,
+    popularHashtags: req.mostPopularHashtags,
     active: searchType
   });
 })

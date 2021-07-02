@@ -27,6 +27,9 @@ PostSchema.post('findOneAndDelete', async function (doc, next) {
   await HashtagModel.updateMany({ posts: doc._id }, {
     $pull: {
       posts: doc._id
+    },
+    $inc: {
+      postsLength: -1
     }
   }, { new: true })
 

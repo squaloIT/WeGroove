@@ -32,6 +32,8 @@ router.get('/', async (req, res, next) => {
     chats: chatWithoutLoggedUser,
     numOfUnreadNotifications: req.numberOfUnreadNotifications,
     numOfUnreadChats: req.numberOfUnreadChats,
+    popularHashtags: req.mostPopularHashtags,
+
   });
 })
 
@@ -45,6 +47,7 @@ router.get('/new', (req, res, next) => {
     user: req.session.user,
     numOfUnreadNotifications: req.numberOfUnreadNotifications,
     numOfUnreadChats: req.numberOfUnreadChats,
+    popularHashtags: req.mostPopularHashtags,
   });
 })
 
@@ -96,6 +99,7 @@ router.get('/:chatId', async (req, res, next) => {
     messages: chatMessages,
     numOfUnreadNotifications: req.numberOfUnreadNotifications,
     numOfUnreadChats: req.numberOfUnreadChats,
+    popularHashtags: req.mostPopularHashtags,
     chat,
   });
 })

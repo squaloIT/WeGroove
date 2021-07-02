@@ -6,6 +6,7 @@ const UserModel = require('./db/schemas/UserSchema');
 const { createUserJWT } = require('./utils');
 const ChatModel = require('./db/schemas/ChatSchema');
 const NotificationModel = require('./db/schemas/NotificationSchema');
+const HashtagModel = require('./db/schemas/HashtagSchema');
 
 exports.checkIsLoggedIn = (req, res, next) => {
   if (req.session && req.session.user) {
@@ -89,5 +90,11 @@ exports.moveFilesToUploadAndSetFilesPath = async (req, res, next) => {
   })
 
   req.filesPathArr = filePathArr;
+  next()
+}
+
+
+exports.getMostPopularHashtags = async (req, res, next) => {
+  req.mostPopularHashtags = await HashtagModel.getMostPopularHashtags()
   next()
 }

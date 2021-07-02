@@ -36,6 +36,7 @@ router.get("/", async (req, res, next) => {
     jwtUser: req.jwtUser,
     numOfUnreadNotifications: req.numberOfUnreadNotifications,
     numOfUnreadChats: req.numberOfUnreadChats,
+    popularHashtags: req.mostPopularHashtags,
     user
   });
 })
