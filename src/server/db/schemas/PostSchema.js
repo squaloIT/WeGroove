@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const UserModel = require('./UserSchema');
 const moment = require('moment');
 const { createFiltersForSelectedTab, getNumberOfCommentsForPost, fillPostAdditionalFields } = require('../../utils');
+const HashtagModel = require('./HashtagSchema');
 require('./../../typedefs')
 
 const PostSchema = new mongoose.Schema({
@@ -21,6 +22,16 @@ PostSchema.pre('find', function (next) {
   this.populate('replyTo');
   next()
 })
+
+PostSchema.post('findOneAndDelete', async function (doc, next) {
+  await HashtagModel.updateMany({ posts: doc._id }, {
+    $pull: {
+      posts: doc._id
+    }
+  }, { new: true })
+
+  next()
+});
 
 /**
  * @param { user }
