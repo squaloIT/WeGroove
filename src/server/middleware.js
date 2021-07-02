@@ -57,7 +57,7 @@ exports.generateUserJWT = (req, res, next) => {
 }
 
 exports.getNumberOfUnreadChats = async (req, res, next) => {
-  const unreadChats = await ChatModel.getAllChatsForUser()
+  const unreadChats = await ChatModel.getAllChatsForUser(req.session.user._id)
 
   req.numberOfUnreadChats = unreadChats.filter(c =>
     c.latestMessage &&
