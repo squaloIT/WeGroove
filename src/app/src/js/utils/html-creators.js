@@ -326,13 +326,16 @@ function createChatRowContent(msg) {
   return `
     <div class='chat-image-rounded w-1/12'>
       <a href="/messages/${msg.chat._id || msg.chat}">
-        ${createImagesForChatRow(msg.chat)}
+        ${createImagesForChatRow(msg.chat, msg.sender)}
       </a>
     </div>
 
     <div class='chat-info-messages w-11/12 ml-3'>
       <a href="/messages/${msg.chat._id}">
-        <h4 class='text-xl overflow-hidden whitespace-nowrap overflow-ellipsis font-semibold'>${msg.chat.chatName}</h4>
+        <h4 class='text-xl overflow-hidden whitespace-nowrap overflow-ellipsis font-semibold'>
+          ${msg.chat.users.length > 1 ? (msg.chat.chatName || msg.chat.users.map(u => u.fullName).join(", ")) : msg.sender.fullName}
+        </h4>
+
         <p class='text-brand-dark-gray text-lg overflow-hidden whitespace-nowrap overflow-ellipsis font-medium'>
           ${msg.sender.fullName}: ${msg.content}
         </p>
@@ -343,9 +346,10 @@ function createChatRowContent(msg) {
 }
 /**
  * @param {message} chat 
+ * @param {user} sender 
  * @returns { String }
  */
-function createImagesForChatRow(chat) {
+function createImagesForChatRow(chat, sender) {
   if (chat.users.length > 1) {
     return `<div class="image-container w-14 h-14 relative">
     <img 
@@ -365,7 +369,7 @@ function createImagesForChatRow(chat) {
   } else {
     return `
       <div class="image-container w-14 h-14">
-        <img class='w-14 rounded-full bg-white' src="${chat.users[0].profilePic}" alt="${chat.users[0].username}" title="${chat.users[0].username}" />
+        <img class='w-14 rounded-full bg-white' src="${sender.profilePic}" alt="${sender.username}" title="${sender.username}" />
       </div>`
   }
 }

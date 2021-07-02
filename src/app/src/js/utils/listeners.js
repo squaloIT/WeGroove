@@ -486,7 +486,7 @@ function onNewMessage(msg) {
       chatElement.querySelector('div.chat-info-messages h4').classList.add('font-semibold')
       const contentEl = chatElement.querySelector('div.chat-info-messages p');
       contentEl.classList.add('font-medium')
-      contentEl.innerText = msg.content;
+      contentEl.innerText = msg.sender.fullName + ": " + msg.content;
 
     } else {
       const chatRow = createChatRow(msg)

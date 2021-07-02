@@ -3,7 +3,7 @@
     {% comment %} {% if message.prevMessage.sender != message.sender  %} {% endcomment %}
     {% if message.prevMessage.sender != message.sender and chat.users.size > 2 %}
       <div class='message-container flex w-full justify-end px-4 my-2'>
-          <div class='max-w-[55%] pr-2'>
+          <div class='max-w-[55%] pr-1'>
             <span class='sender-username text-brand-blue font-semibold'>
               {{message.sender.fullName}}
             </span>
@@ -22,7 +22,9 @@
         rounded-tl-2xl rounded-bl-2xl'>
           {{message.content}}
 
-          {% render 'images_in_chat', images: message.images %}
+          {% if message.images.size > 0 %}
+            {% render 'images_in_chat', images: message.images %}
+          {% endif %}
         
         </span>
       </div>
@@ -31,7 +33,7 @@
     {% if message.prevMessage.sender != message.sender and chat.users.size > 2 %}
     {% comment %} {% if message.prevMessage.sender != message.sender  %} {% endcomment %}
       <div class='message-container flex w-full justify-start px-4 my-2'>
-          <div class='max-w-[55%] pl-2'>
+          <div class='max-w-[55%] pl-1'>
             <span class='sender-username text-brand-purple font-semibold'>
               {{message.sender.fullName}}
             </span>
@@ -51,8 +53,10 @@
           rounded-tr-2xl rounded-br-2xl'>
         
           {{message.content}}
-        
-          {% render 'images_in_chat', images: message.images %}
+          
+          {% if message.images.size > 0 %}
+            {% render 'images_in_chat', images: message.images %}
+          {% endif %}
         </span>
       </div>
     </div>
