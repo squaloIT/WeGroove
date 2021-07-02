@@ -64,8 +64,10 @@ router.post('/replyTo/:id', checkIsLoggedIn, upload.array('images', 5), moveFile
     //* Populate will populate any ObjectID field with data from model specified before populate keyword.
     createdPost = await UserModel.populate(createdPost, { path: 'postedBy' });
 
-    /** @type { Boolean } isSaved */
-    const isSaved = await createdPost.save();
+    /** @type { post } savedPost */
+    const savedPost = await createdPost.save();
+
+    await HashtagModel.createHashTagsForPost(savedPost)
 
     const postWithReplyTo = await PostModel.populate(createdPost, { path: 'replyTo' });
     /** @type { notification } */
@@ -77,9 +79,9 @@ router.post('/replyTo/:id', checkIsLoggedIn, upload.array('images', 5), moveFile
     })
     await notification.createNotification();
 
-    return res.status(isSaved ? 201 : 400).json({
-      msg: isSaved ? "Post successfully saved" : "There was an error while saving post",
-      status: isSaved ? 201 : 400,
+    return res.status(savedPost ? 201 : 400).json({
+      msg: savedPost ? "Post successfully saved" : "There was an error while saving post",
+      status: savedPost ? 201 : 400,
       data: { createdPost }
     });
 
