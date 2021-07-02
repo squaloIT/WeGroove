@@ -250,23 +250,43 @@ function createUserRowHTML(user) {
 }
 /**
  * 
- * @param {String} content 
+ * @param {message} message 
  * @param {Array.<String>} images 
  * @param {Boolean} isSent 
  * @returns 
  */
-function createNewMessageHTML(content, images, isSent) {
+function createNewMessageHTML(message, images, isSent) {
+  console.log("🚀 ~ file: html-creators.js ~ line 259 ~ createNewMessageHTML ~ message", message)
   return `
-  <div class='message-container ${isSent ? 'sent' : 'received'} flex w-full px-4 mb-2'>
+  <div class='message-container ${isSent ? 'sent' : 'received'} flex w-full px-4 mb-2' data-sender-id="${message.sender._id || message.sender}">
     <div class='incoming-message max-w-[55%]'>
       <span class='inline-block px-4 py-2 rounded-2xl'>
-        ${content}
+        ${message.content}
         
         ${images.length > 0 ? `
           <div class='mt-2'>
             ${images.map(src => `<img src='${src}' class='max-h-60 max-w-full mb-2' />`).join('')}
           </div>
         ` : ''}
+      </span>
+
+    </div>
+  </div>
+  `
+}
+/**
+ * 
+ * @param {message} message 
+ * @param {Boolean} isSent 
+ * @returns 
+ */
+function createNewNameLabelHTML(message, isSent) {
+  return `
+  <div class='message-container ${isSent ? 'justify-end' : 'justify-start'} flex w-full px-4 mb-2' data-sender-id="${message.sender._id || message.sender}">
+    <div class=' max-w-[55%]'>
+
+      <span class='sender-username  ${isSent ? 'text-brand-blue' : 'text-brand-purple'}  font-semibold'>
+        ${message.sender.fullName}
       </span>
 
     </div>
@@ -391,6 +411,7 @@ export {
   createRetweetButtonElements,
   createNotificationRow,
   createNewMessageHTML,
-  createChatRowContent
+  createChatRowContent,
+  createNewNameLabelHTML
 };
 

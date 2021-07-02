@@ -56,7 +56,7 @@ router.post('/sendMessage', checkIsLoggedIn, upload.array('images', 5), moveFile
     const userIds = chat.users.filter(_id => _id != senderId)
 
     res.status(200).json({
-      data: newMessage,
+      data: messageToPopulate,
       status: 200,
       msg: "success"
     })

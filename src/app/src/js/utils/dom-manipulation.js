@@ -1,6 +1,6 @@
 import { Picker } from 'emoji-picker-element';
 import './../../../typedefs';
-import { createChatRowContent, createCommentButtonElements, createDeleteButtonElements, createElementForButtonWrapper, createFollowButtonElement, createFollowingButtonElement, createLikeButtonElements, createNewMessageHTML, createNotificationRow, createPostElement, createRetweetButtonElements, createUserRowHTML } from './html-creators';
+import { createChatRowContent, createCommentButtonElements, createDeleteButtonElements, createElementForButtonWrapper, createFollowButtonElement, createFollowingButtonElement, createLikeButtonElements, createNewMessageHTML, createNewNameLabelHTML, createNotificationRow, createPostElement, createRetweetButtonElements, createUserRowHTML } from './html-creators';
 import { addEmojiToInput, createFunctionToCloseModal, onKeyUpCommentTA } from './listeners';
 
 /**
@@ -420,10 +420,22 @@ function emptyTextboxAndContainer(searchInput, contentWrapper) {
  */
 function addNewMessage(message, type, images) {
   const messagesContainer = document.querySelector('#inbox > div.chat-messages-wrapper div.chat-messages-container');
+  const lastMessage = document.querySelector('#inbox > div.chat-messages-wrapper div.chat-messages-container div.message-container:last-child');
+
+  const senderId = message.sender._id || message.sender;
+  const lastMessageSenderId = lastMessage.dataset['senderId'];
+
+  console.log("🚀 ~ file: dom-manipulation.js ~ line 426 ~ addNewMessage ~ senderId", senderId)
+  console.log("🚀 ~ file: dom-manipulation.js ~ line 424 ~ addNewMessage ~ lastMessage", lastMessage);
+  console.log("🚀 ~ file: dom-manipulation.js ~ line 427 ~ addNewMessage ~ lastMessageSenderId", lastMessageSenderId)
+  var nameLabel = '';
 
   if (messagesContainer) {
-    const html = createNewMessageHTML(message.content, images, type == 'sent');
-    messagesContainer.innerHTML += html
+    if (senderId != lastMessageSenderId) {
+      nameLabel = createNewNameLabelHTML(message, type == 'sent')
+    }
+    const html = createNewMessageHTML(message, images, type == 'sent');
+    messagesContainer.innerHTML += `${nameLabel} ${html}`
   }
 }
 /**
