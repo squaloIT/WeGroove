@@ -7,6 +7,10 @@
 .right-column-flex-gray {
 	@apply w-full bg-super-light-gray-border flex justify-between items-center py-1 bg-opacity-80;
 }
+.page-title {
+	@apply text-brand-purple font-bold tracking-wider text-3xl font-lobster;
+}
+
 @tailwind utilities;
 
 @layer utilities {
