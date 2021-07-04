@@ -1,10 +1,9 @@
 import { searchTermByType } from './utils/api'
 import { addNewPostWithPredefinedButtons, createSearchResultRowElement, setSeparatorHeightForAllReplies } from "./utils/dom-manipulation"
+import imageCommentPreview from './utils/image-comment-preview'
 import { onFollowOrUnfollowClick } from "./utils/listeners"
-
 export default function search() {
   imageCommentPreview()
-
 
   Array.from(
     document.querySelectorAll('div#profile div.profile-follow-buttons button.following-unfollowing')

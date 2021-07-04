@@ -53,10 +53,12 @@ function getNumberOfCommentsForPost(allPosts, post) {
  */
 function fillPostAdditionalFields(post, allPosts) {
   if (post && allPosts) {
+    const contentWithHashtags = colorHashtagsInText(post)
 
     if (post.retweetData) {
       return {
         ...post,
+        content: contentWithHashtags,
         fromNow: moment(post.createdAt).fromNow(),
         retweetData: {
           ...post.retweetData,
@@ -68,6 +70,7 @@ function fillPostAdditionalFields(post, allPosts) {
       if (post.replyTo) {
         return {
           ...post,
+          content: contentWithHashtags,
           replyTo: {
             ...post.replyTo,
             fromNow: moment(post.replyTo.createdAt).fromNow(),
@@ -80,6 +83,7 @@ function fillPostAdditionalFields(post, allPosts) {
       else {
         return {
           ...post,
+          content: contentWithHashtags,
           fromNow: moment(post.createdAt).fromNow(),
           numOfComments: getNumberOfCommentsForPost(allPosts, post)
         }
@@ -96,9 +100,21 @@ function createUserJWT(user) {
   return jwt.sign(user, process.env.SECRET_KEY)
 }
 
+function createHashtag(text) {
+  var repl = text.replace(/#(\w+)/g, '<span class="text-brand-blue pointer-events-none">#$1</span>');
+  return repl;
+}
+
+function colorHashtagsInText(post) {
+  const contentArr = post.content.split(" ");
+  const hashtags = contentArr.filter(v => v.startsWith('#'))
+  return contentArr.map(txt => hashtags.includes(txt) ? createHashtag(txt) : txt).join(" ");
+}
+
 module.exports = {
   createFiltersForSelectedTab,
   getNumberOfCommentsForPost,
   createUserJWT,
+  colorHashtagsInText,
   fillPostAdditionalFields
 }

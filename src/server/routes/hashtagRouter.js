@@ -1,34 +1,21 @@
 const express = require('express')
 const router = express.Router();
 const HashtagModel = require('../db/schemas/HashtagSchema')
-var moment = require('moment');
+const PostModel = require('../db/schemas/PostSchema');
+const { fillPostAdditionalFields } = require('../utils');
 require('./../typedefs');
 
 router.get("/:id", async (req, res, next) => {
   /** @type { user } user */
   const user = req.session.user;
 
+  /** @type { post[] } allPosts */
+  const allPosts = await PostModel.find().sort({ "createdAt": "-1" }).lean();
+
   /** @type { hashtag }  */
   let hashtag = await HashtagModel.getHashtagWithPosts(req.params.id);
 
-  const allPostsWithFromNow = hashtag.posts.map(post => {
-    if (post.retweetData) {
-      return {
-        ...post,
-        fromNow: moment(post.createdAt).fromNow(),
-        retweetData: {
-          ...post.retweetData,
-          fromNow: moment(post.retweetData.createdAt).fromNow()
-        }
-      }
-    } else {
-      return {
-        ...post,
-        fromNow: moment(post.createdAt).fromNow()
-      }
-    }
-  });
-  console.log("🚀 ~ file: HashtagSchema.js ~ line 31 ~ allPostsWithFromNow", JSON.stringify(allPostsWithFromNow, null, 3))
+  const allPostsWithFromNow = hashtag.posts.map(post => fillPostAdditionalFields(post, allPosts))
 
   res.status(200).render('main', {
     page: 'topics',

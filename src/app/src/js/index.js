@@ -64,6 +64,7 @@ export default function index() {
         createPost(postContentValue, selectedImagesForPost)
           .then(res => res.json())
           .then(res => {
+            // window.location.reload()
             postContentTextbox.value = '';
             resetImagePreview()
             const targetElement = document.querySelector('#posts');

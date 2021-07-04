@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const UserModel = require('./UserSchema');
 const moment = require('moment');
-const { createFiltersForSelectedTab, getNumberOfCommentsForPost, fillPostAdditionalFields } = require('../../utils');
+const { createFiltersForSelectedTab, getNumberOfCommentsForPost, fillPostAdditionalFields, createHashtag, colorHashtagsInText } = require('../../utils');
 const HashtagModel = require('./HashtagSchema');
 require('./../../typedefs')
 
@@ -49,6 +49,7 @@ PostSchema.statics.getAllPosts = async (user) => {
 
   allPosts = allPosts.map(post => ({
     ...post,
+    content: colorHashtagsInText(post),
     numOfComments: getNumberOfCommentsForPost(allPosts, post)
   }))
 

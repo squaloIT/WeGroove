@@ -112,11 +112,23 @@ function createPostHTML(content, user, createdAt) {
  */
 function createPostElement(postId, content, user, createdAt) {
   const postElement = document.createElement('div')
+  const contentWithHashTags = colorHashtagsInText(content)
 
   postElement.className = `post-wrapper w-full border-b border-super-light-gray-border flex flex-row space-x-5 py-3 px-8 justify-between animate__animated`;
   postElement.dataset.pid = postId;
-  postElement.innerHTML = createPostHTML(content, user, createdAt)
+  postElement.innerHTML = createPostHTML(contentWithHashTags, user, createdAt)
   return postElement;
+}
+
+function createHashtag(text) {
+  var repl = text.replace(/#(\w+)/g, '<span class="text-brand-blue pointer-events-none">#$1</span>');
+  return repl;
+}
+
+function colorHashtagsInText(content) {
+  const contentArr = content.split(" ");
+  const hashtags = contentArr.filter(v => v.startsWith('#'))
+  return contentArr.map(txt => hashtags.includes(txt) ? createHashtag(txt) : txt).join(" ");
 }
 /**
  * @param { HTMLElement } postElement 
