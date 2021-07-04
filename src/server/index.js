@@ -5,7 +5,7 @@ const path = require('path')
 const bodyParser = require('body-parser');
 const session = require('express-session')
 const cookieParser = require('cookie-parser');
-const { homeRouter, loginRouter, logoutRouter, postAPI, postsRouter, registrationRouter, profileRouter, searchRouter, searchAPI, messageRouter, notificationRouter, chatAPI, messageAPI, notificationAPI } = require('./routes/index')
+const { homeRouter, loginRouter, logoutRouter, postAPI, postsRouter, registrationRouter, profileRouter, searchRouter, searchAPI, messageRouter, notificationRouter, chatAPI, messageAPI, notificationAPI, hashtagRouter } = require('./routes/index')
 const { checkIsLoggedIn, isRememberedCookiePresent, generateUserJWT, getNumberOfUnreadNotifications, getNumberOfUnreadChats, getMostPopularHashtags } = require('./middleware')
 const { connect } = require('./socket')
 
@@ -48,6 +48,7 @@ app.use('/post', checkIsLoggedIn, getNumberOfUnreadNotifications, getNumberOfUnr
 app.use('/profile', checkIsLoggedIn, getNumberOfUnreadNotifications, getNumberOfUnreadChats, getMostPopularHashtags, generateUserJWT, profileRouter);
 app.use('/search', checkIsLoggedIn, getNumberOfUnreadNotifications, getNumberOfUnreadChats, getMostPopularHashtags, generateUserJWT, searchRouter);
 app.use('/messages', checkIsLoggedIn, getNumberOfUnreadNotifications, getNumberOfUnreadChats, getMostPopularHashtags, generateUserJWT, messageRouter);
+app.use('/topic', checkIsLoggedIn, getNumberOfUnreadNotifications, getNumberOfUnreadChats, getMostPopularHashtags, generateUserJWT, hashtagRouter);
 app.use('/notifications', checkIsLoggedIn, getNumberOfUnreadNotifications, getNumberOfUnreadChats, getMostPopularHashtags, generateUserJWT, notificationRouter);
 app.use('/', checkIsLoggedIn, getNumberOfUnreadNotifications, getNumberOfUnreadChats, getMostPopularHashtags, generateUserJWT, homeRouter);
 

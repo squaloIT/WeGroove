@@ -38,6 +38,9 @@
         
         {% elsif page == 'notifications' %}
           {% render 'notification_page_layout', user: user, title: title, notifications: notifications %}
+        
+        {% elsif page == 'topics' %}
+          {% render 'topics_page_layout', user: user, posts: posts, title: title %}
 
         {% else %}
           {% render 'post', post: post, user: user %}

@@ -136,8 +136,4 @@ export default function index() {
       selectedImagesForPost = []
     }
   }
-
-
-
-
 }

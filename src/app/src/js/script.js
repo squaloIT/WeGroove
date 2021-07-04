@@ -42,6 +42,12 @@ if (window.location.pathname.indexOf('/notifications') == 0) {
   })
 }
 
+if (window.location.pathname.indexOf('/topic') == 0) {
+  import('./topics').then(({ default: topics }) => {
+    topics();
+  })
+}
+
 if (window.location.pathname == '/login') {
   import('./login').then(({ default: login }) => {
     login();
