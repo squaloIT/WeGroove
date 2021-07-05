@@ -1,7 +1,7 @@
 import { searchTermByType } from './utils/api'
 import { addNewPostWithPredefinedButtons, createSearchResultRowElement, setSeparatorHeightForAllReplies } from "./utils/dom-manipulation"
 import imageCommentPreview from './utils/image-comment-preview'
-import { onFollowOrUnfollowClick } from "./utils/listeners"
+import { onFollowOrUnfollowClick, onSearchTopicsAndUsers } from "./utils/listeners"
 export default function search() {
   imageCommentPreview()
 
@@ -10,6 +10,9 @@ export default function search() {
   ).forEach(el => {
     el.addEventListener('click', e => onFollowOrUnfollowClick(e, e.target.classList.contains('follow-button') ? 'follow' : 'unfollow'))
   })
+
+  document.querySelector("div.right_column #topics-users-search")
+    .addEventListener("keyup", onSearchTopicsAndUsers())
 
   /** @type { HTMLElement } */
   const searchResults = document.querySelector('div#search-results')

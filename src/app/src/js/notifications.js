@@ -1,4 +1,4 @@
-import { onClickOnNotification } from "./utils/listeners"
+import { onClickOnNotification, onSearchTopicsAndUsers } from "./utils/listeners"
 
 export default function notifications() {
   Array.from(
@@ -6,4 +6,7 @@ export default function notifications() {
   ).forEach(el => {
     el.addEventListener('click', onClickOnNotification)
   })
+
+  document.querySelector("div.right_column #topics-users-search")
+    .addEventListener("keyup", onSearchTopicsAndUsers())
 }

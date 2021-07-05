@@ -1,7 +1,7 @@
 import { emitJoinRoom } from './client-socket';
 import { searchUsers } from "./utils/api";
 import { addSelectedImagesToPreview, createRowAndAddListener, defineEmojiTooltip, disableButton, displaySelectedUsers, scrollMessagesToBottom, toggleButtonAvailability } from "./utils/dom-manipulation";
-import { addEmojiToInput, onClickCreateChat, onClickSaveChatNameButton, onSendMessage, updateTyping } from "./utils/listeners";
+import { addEmojiToInput, onClickCreateChat, onClickSaveChatNameButton, onSearchTopicsAndUsers, onSendMessage, updateTyping } from "./utils/listeners";
 import { validateNumberOfImages } from "./utils/validation";
 
 export default function inbox() {
@@ -19,6 +19,9 @@ export default function inbox() {
   const chatMessagesContainer = document.querySelector('#inbox div.chat-messages-container');
   const urlParts = window.location.pathname.split('/')
   const chatId = urlParts[urlParts.length - 1]
+
+  document.querySelector("div.right_column #topics-users-search")
+    .addEventListener("keyup", onSearchTopicsAndUsers())
 
   if (chatMessagesContainer) {
     scrollMessagesToBottom(chatMessagesContainer)

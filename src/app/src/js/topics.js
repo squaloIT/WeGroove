@@ -1,5 +1,6 @@
 import { setSeparatorHeightForAllReplies } from './utils/dom-manipulation';
 import imageCommentPreview from './utils/image-comment-preview';
+import { onSearchTopicsAndUsers } from './utils/listeners';
 
 export default function topics() {
   imageCommentPreview()
@@ -16,5 +17,6 @@ export default function topics() {
   });
 
   setSeparatorHeightForAllReplies()
-
+  document.querySelector("div.right_column #topics-users-search")
+    .addEventListener("keyup", onSearchTopicsAndUsers())
 }
