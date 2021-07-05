@@ -593,6 +593,24 @@ const onSearchTopicsAndUsers = (timeout = null) => e => {
   }, 1000)
 }
 
+/**
+ * 
+ * @param {Event} e 
+ * @param {string} todo
+ */
+function onClickToggleOnlineUsersWrapper(e, todo) {
+  const closeButton = document.querySelector('div.online-users-container > div.online-users-header > button.close-online-users');
+  const openButton = document.querySelector('div.online-users-container > div.online-users-header > button.open-online-users');
+  const onlineUsersList = e.target.parentElement.nextElementSibling;
+
+  closeButton.classList.toggle('hidden');
+  openButton.classList.toggle('hidden');
+
+  onlineUsersList.classList.toggle('slide-up')
+  onlineUsersList.classList.toggle('slide-down')
+
+}
+
 export {
   onClickLikePost,
   onClickCommentPost,
@@ -616,6 +634,7 @@ export {
   onNewMessage,
   addAllListenersToPosts,
   onNewNotification,
+  onClickToggleOnlineUsersWrapper,
   onSearchTopicsAndUsers
 };
 

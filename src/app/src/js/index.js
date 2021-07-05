@@ -1,7 +1,7 @@
 import { createPost } from './utils/api';
 import { addNewPost, addSelectedImagesToPreview, defineEmojiTooltip, hideSpinner, setSeparatorHeightForAllReplies, showSpinner, toggleButtonAvailability } from './utils/dom-manipulation';
 import imageCommentPreview from './utils/image-comment-preview';
-import { addEmojiToInput, onSearchTopicsAndUsers } from './utils/listeners';
+import { addEmojiToInput, onClickToggleOnlineUsersWrapper, onSearchTopicsAndUsers } from './utils/listeners';
 import { validateNumberOfImages } from './utils/validation';
 
 export default function index() {
@@ -21,7 +21,12 @@ export default function index() {
   })
 
   document.querySelector("div.right_column #topics-users-search")
-    .addEventListener("keyup", onSearchTopicsAndUsers())
+    .addEventListener("keyup", onSearchTopicsAndUsers());
+
+  document.querySelector("div.online-users-container div.online-users-header button.open-online-users")
+    .addEventListener("click", e => onClickToggleOnlineUsersWrapper(e, 'open'))
+  document.querySelector("div.online-users-container div.online-users-header button.close-online-users")
+    .addEventListener("click", e => onClickToggleOnlineUsersWrapper(e, 'close'))
 
   if (emojiButton) {
     defineEmojiTooltip(
