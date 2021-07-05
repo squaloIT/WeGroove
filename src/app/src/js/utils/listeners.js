@@ -580,11 +580,12 @@ const onSearchTopicsAndUsers = (timeout = null) => e => {
   timeout = setTimeout(() => {
     if (val.length > 0) {
       getTopicsAndUsersForSearch(val.trim())
-        .then(results => {
-          console.log(results);
+        .then(({ data, status, msg }) => {
+          if (status == 200) {
+            console.log(data);
+          }
         })
         .catch(err => console.error(err))
-
     }
   }, 1000)
 }

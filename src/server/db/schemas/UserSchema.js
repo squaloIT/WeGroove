@@ -80,5 +80,21 @@ UserSchema.statics.getAllFollowersOrFollowingForUser = async (userId, select) =>
   return followersAndFollowing;
 };
 
+UserSchema.statics.getUsersForSearch = async (searchTerm) => {
+  const filter = { $regex: searchTerm, $options: "i" }
+
+  /** @type { user[] } */
+  results = await UserModel.find({
+    $or: [
+      { username: filter },
+      { fullName: filter },
+      { email: filter }
+    ]
+  }).lean()
+
+  return results;
+};
+
+
 const UserModel = mongoose.model("User", UserSchema)
 module.exports = UserModel

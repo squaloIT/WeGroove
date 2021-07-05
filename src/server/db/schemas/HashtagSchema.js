@@ -39,6 +39,13 @@ HashtagSchema.statics.getMostPopularHashtags = async function () {
   return result;
 }
 
+HashtagSchema.statics.getHashtagsForSearch = async function (searchTerm) {
+  let hashtag = searchTerm.startsWith("#") ? searchTerm : "#" + searchTerm;
+
+  const result = await HashtagModel.find({ hashtag: { $regex: hashtag, $options: "i" } })
+  return result;
+}
+
 HashtagSchema.statics.getHashtagWithPosts = async function (hashId) {
   const result = await HashtagModel.findById(hashId).lean()
   return result;
