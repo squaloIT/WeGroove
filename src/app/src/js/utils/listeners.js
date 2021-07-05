@@ -1,5 +1,5 @@
 import { emitStopTypingToRoom, emitTypingToRoom } from "../client-socket";
-import { changeChatName, createChat, deletePostByID, followOrUnfollowUser, getNumberOfUnreadForUser, getPostData, likePost, retweetPost, sendMessage, sendNotificationRead, setSeenForMessagesInChat, togglePinned } from "./api";
+import { changeChatName, createChat, deletePostByID, followOrUnfollowUser, getNumberOfUnreadForUser, getPostData, getTopicsAndUsersForSearch, likePost, retweetPost, sendMessage, sendNotificationRead, setSeenForMessagesInChat, togglePinned } from "./api";
 import { addEmojiToCommentModal, addNewMessage, animateButtonAfterClickOnLike, animateButtonAfterClickOnRetweet, createChatRow, createNewNotification, emptyFileContainer, emptyImagePreviewContainer, findChatElement, findPostWrapperElement, getPostIdForWrapper, getProfileIdFromFollowButton, hideSpinner, openModal, scrollMessagesToBottom, showSpinner, toggleButtonAvailability, toggleFollowButtons, toggleScrollForTextarea } from "./dom-manipulation";
 import { validateNumberOfImages } from "./validation";
 
@@ -573,6 +573,22 @@ function addAllListenersToPosts(validateAndPreviewImages = null) {
   document.querySelector('#comment-images-for-upload').addEventListener('change', validateNumberOfImages)
 }
 
+const onSearchTopicsAndUsers = (timeout = null) => e => {
+  clearTimeout(timeout);
+  const val = e.target.value;
+
+  timeout = setTimeout(() => {
+    if (val.length > 0) {
+      getTopicsAndUsersForSearch(val.trim())
+        .then(results => {
+          console.log(results);
+        })
+        .catch(err => console.error(err))
+
+    }
+  }, 1000)
+}
+
 export {
   onClickLikePost,
   onClickCommentPost,
@@ -595,6 +611,7 @@ export {
   onClickOnNotification,
   onNewMessage,
   addAllListenersToPosts,
-  onNewNotification
+  onNewNotification,
+  onSearchTopicsAndUsers
 };
 

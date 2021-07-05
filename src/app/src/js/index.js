@@ -1,7 +1,7 @@
 import { createPost } from './utils/api';
 import { addNewPost, addSelectedImagesToPreview, defineEmojiTooltip, hideSpinner, setSeparatorHeightForAllReplies, showSpinner, toggleButtonAvailability } from './utils/dom-manipulation';
 import imageCommentPreview from './utils/image-comment-preview';
-import { addEmojiToInput } from './utils/listeners';
+import { addEmojiToInput, onSearchTopicsAndUsers } from './utils/listeners';
 import { validateNumberOfImages } from './utils/validation';
 
 export default function index() {
@@ -19,6 +19,9 @@ export default function index() {
     uploadImagesInput.removeEventListener('change', validateAndPreviewImages)
     uploadImagesInput.addEventListener('change', validateAndPreviewImages)
   })
+
+  document.querySelector("div.right_column #topics-users-search")
+    .addEventListener("keyup", onSearchTopicsAndUsers())
 
   if (emojiButton) {
     defineEmojiTooltip(

@@ -243,7 +243,10 @@ function getNumberOfUnreadForUser(_id) {
     }
   }).then(res => res.json())
 }
-
+/**
+ * @param {String} chatId 
+ * @returns { Promise }
+ */
 function setSeenForMessagesInChat(chatId) {
   return fetch(`${process.env.SERVER_URL_DEV}/api/message/seen-chat-messages`, {
     method: 'POST',
@@ -251,6 +254,18 @@ function setSeenForMessagesInChat(chatId) {
       "Content-Type": "application/json"
     },
     body: JSON.stringify({ chatId })
+  }).then(res => res.json())
+}
+/**
+ * @param {string} searchTerm 
+ * @returns {Promise}
+ */
+function getTopicsAndUsersForSearch(searchTerm) {
+  return fetch(`${process.env.SERVER_URL_DEV}/api/topics/search/${searchTerm}`, {
+    method: 'GET',
+    headers: {
+      "Content-Type": "application/json"
+    }
   }).then(res => res.json())
 }
 
@@ -272,6 +287,7 @@ export {
   sendMessage,
   sendNotificationRead,
   getNumberOfUnreadForUser,
-  setSeenForMessagesInChat
+  setSeenForMessagesInChat,
+  getTopicsAndUsersForSearch
 };
 
