@@ -405,6 +405,41 @@ function createImagesForChatRow(chat, sender) {
       </div>`
   }
 }
+/**
+ * 
+ * @param {hashtag} hashtag 
+ * @returns { string }
+ */
+const createRightColumnSearchRowForHashtag = (hashtag) => {
+  return `<a href='/topic/${hashtag._id}'>
+    <div class='hash-row py-2 px-3 border-t border-light-gray-for-text border-opacity-20 hover:bg-light-gray-for-text hover:bg-opacity-20'>
+      <p class='font-bold text-dark-gray-for-text'>${hashtag.hashtag}</p>
+    </div>
+  </a>`
+}
+
+/**
+ * 
+ * @param {user} user 
+ * @returns { string }
+ */
+const createRightColumnSearchRowForUser = user => {
+  return `
+      <a href='/profile/${user._id}'>
+        <div class='user-row flex justify-between p-2 items-center border-b border-light-gray-for-text border-opacity-20 hover:bg-light-gray-for-text hover:bg-opacity-20'>
+          <div class='image-container flex items-center'>
+            <div class="image-container w-14 h-14">
+              <img class='w-14 rounded-full bg-white' src="${user.profilePic}" alt="${user.username}" title='${user.username}' />
+            </div>
+          </div>
+
+          <div class='content-container flex flex-col justify-between w-full pl-2'>
+            <h6 class='font-bold'>${user.fullName}</h6>
+            <p class='font-light text-sm text-light-gray-for-text'>@${user.username}</p>
+          </div>
+        </div>
+      </a>`
+}
 
 export {
   createPostHTML,
@@ -424,6 +459,8 @@ export {
   createNotificationRow,
   createNewMessageHTML,
   createChatRowContent,
-  createNewNameLabelHTML
+  createNewNameLabelHTML,
+  createRightColumnSearchRowForHashtag,
+  createRightColumnSearchRowForUser
 };
 

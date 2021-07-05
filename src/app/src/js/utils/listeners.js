@@ -1,6 +1,6 @@
 import { emitStopTypingToRoom, emitTypingToRoom } from "../client-socket";
 import { changeChatName, createChat, deletePostByID, followOrUnfollowUser, getNumberOfUnreadForUser, getPostData, getTopicsAndUsersForSearch, likePost, retweetPost, sendMessage, sendNotificationRead, setSeenForMessagesInChat, togglePinned } from "./api";
-import { addEmojiToCommentModal, addNewMessage, animateButtonAfterClickOnLike, animateButtonAfterClickOnRetweet, createChatRow, createNewNotification, emptyFileContainer, emptyImagePreviewContainer, findChatElement, findPostWrapperElement, getPostIdForWrapper, getProfileIdFromFollowButton, hideSpinner, openModal, scrollMessagesToBottom, showSpinner, toggleButtonAvailability, toggleFollowButtons, toggleScrollForTextarea } from "./dom-manipulation";
+import { addEmojiToCommentModal, addNewMessage, animateButtonAfterClickOnLike, animateButtonAfterClickOnRetweet, createChatRow, createNewNotification, createRowsAfterSearchInRightColumn, emptyFileContainer, emptyImagePreviewContainer, findChatElement, findPostWrapperElement, getPostIdForWrapper, getProfileIdFromFollowButton, hideSpinner, openModal, scrollMessagesToBottom, showSpinner, toggleButtonAvailability, toggleFollowButtons, toggleScrollForTextarea } from "./dom-manipulation";
 import { validateNumberOfImages } from "./validation";
 
 /**
@@ -576,16 +576,19 @@ function addAllListenersToPosts(validateAndPreviewImages = null) {
 const onSearchTopicsAndUsers = (timeout = null) => e => {
   clearTimeout(timeout);
   const val = e.target.value;
+  document.body.addEventListener('click', () => document.querySelector('div.search-users-hastags-container > div.result-modal').classList.add('hidden'))
 
   timeout = setTimeout(() => {
     if (val.length > 0) {
       getTopicsAndUsersForSearch(val.trim())
         .then(({ data, status, msg }) => {
           if (status == 200) {
-            console.log(data);
+            createRowsAfterSearchInRightColumn(data.hashtags, data.users)
           }
         })
         .catch(err => console.error(err))
+    } else {
+      document.querySelector('div.search-users-hastags-container > div.result-modal').classList.add('hidden');
     }
   }, 1000)
 }

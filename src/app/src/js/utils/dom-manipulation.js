@@ -1,6 +1,6 @@
 import { Picker } from 'emoji-picker-element';
 import './../../../typedefs';
-import { createChatRowContent, createCommentButtonElements, createDeleteButtonElements, createElementForButtonWrapper, createFollowButtonElement, createFollowingButtonElement, createLikeButtonElements, createNewMessageHTML, createNewNameLabelHTML, createNotificationRow, createPostElement, createRetweetButtonElements, createUserRowHTML } from './html-creators';
+import { createChatRowContent, createCommentButtonElements, createDeleteButtonElements, createElementForButtonWrapper, createFollowButtonElement, createFollowingButtonElement, createLikeButtonElements, createNewMessageHTML, createNewNameLabelHTML, createNotificationRow, createPostElement, createRetweetButtonElements, createRightColumnSearchRowForHashtag, createRightColumnSearchRowForUser, createUserRowHTML } from './html-creators';
 import { addEmojiToInput, createFunctionToCloseModal, onKeyUpCommentTA } from './listeners';
 
 /**
@@ -578,6 +578,33 @@ function addSelectedImagesToPreview(uploadPreview, files, onClickRemoveImage) {
     uploadPreview.appendChild(div);
   })
 }
+/**
+ * 
+ * @param {hashtag[]} hashtags 
+ * @param {user[]} users 
+ */
+function createRowsAfterSearchInRightColumn(hashtags, users) {
+  const hashtagsWrapper = document.querySelector('div.search-users-hastags-container > div.result-modal div.hashtags');
+  const usersWrapper = document.querySelector('div.search-users-hastags-container > div.result-modal div.users');
+  const wrapper = document.querySelector('div.search-users-hastags-container > div.result-modal');
+
+  wrapper.classList.remove('hidden');
+
+  if (!hashtags.length && !users.length) {
+    hashtagsWrapper.innerHTML = 'No Results';
+    return;
+  }
+
+  hashtagsWrapper.innerHTML = '';
+  hashtags.forEach(h => {
+    hashtagsWrapper.innerHTML += createRightColumnSearchRowForHashtag(h);
+  })
+
+  usersWrapper.innerHTML = '';
+  users.forEach(u => {
+    usersWrapper.innerHTML += createRightColumnSearchRowForUser(u);
+  })
+}
 
 export {
   enableButton,
@@ -611,6 +638,7 @@ export {
   defineEmojiTooltip,
   addEmojiToCommentModal,
   addSelectedImagesToPreview,
-  createChatRow
+  createChatRow,
+  createRowsAfterSearchInRightColumn
 };
 

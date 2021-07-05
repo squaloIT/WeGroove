@@ -1,5 +1,5 @@
 <div class='right_column fixed'>
-  <div class='search-users-hastags-container w-full pt-2'>
+  <div class='search-users-hastags-container w-full pt-2 relative'>
     <div class='border border-comment-button-blue right-column-flex-gray rounded-full'>
       <svg viewBox="0 0 24 24" aria-hidden="true" class="pl-3 fill-current text-comment-button-blue w-8">
         <g>
@@ -8,6 +8,16 @@
       </svg>
       
       <input id='topics-users-search' type='search' class='w-11/12 bg-transparent transparent-borderless-spinneles-element' />
+    </div>
+
+    <div class='result-modal hidden w-full absolute top-20 left-0 max-h-80 overflow-y-auto overflow-x-auto bg-white z-10 border border-comment-button-blue'>
+      <div class='hashtags border-b-8 border-super-light-gray-border'>
+
+      </div>
+
+      <div class='users'>
+        
+      </div>
     </div>
   </div>
 

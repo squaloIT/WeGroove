@@ -17,7 +17,7 @@ router.get('/search/:searchTerm', async (req, res) => {
     /** @type { user[] } */
     const users = res[1]
 
-    return Promise.resolve([...hashtags, ...users])
+    return Promise.resolve({ hashtags, users })
   })
     .then(usersAndHashtags => {
       return res.status(200).json({
