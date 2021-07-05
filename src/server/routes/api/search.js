@@ -3,10 +3,9 @@ const router = express.Router();
 const { fillPostAdditionalFields } = require('../../utils');
 const PostModel = require('./../../db/schemas/PostSchema')
 const UserModel = require('./../../db/schemas/UserSchema')
-const { checkIsLoggedIn } = require('./../../middleware')
 require('./../../typedefs');
 
-router.get('/inbox/:searchTerm', checkIsLoggedIn, async (req, res) => {
+router.get('/inbox/:searchTerm', async (req, res) => {
   const filter = { $regex: req.params.searchTerm, $options: "i" };
 
   try {
@@ -40,9 +39,10 @@ router.get('/inbox/:searchTerm', checkIsLoggedIn, async (req, res) => {
   }
 });
 
-router.get('/:type/:searchTerm', checkIsLoggedIn, async (req, res) => {
+router.get('/:type/:searchTerm', async (req, res) => {
   var results = null;
-  const filter = { $regex: req.params.searchTerm, $options: "i" }
+  const filter = { $regex: req.params.searchTerm, $options: "i" };
+
   if (req.params.type == 'posts') {
     const allPosts = await PostModel.getAllPosts(req.session.user)
     results = await PostModel.find({ content: filter }).lean()
@@ -59,13 +59,14 @@ router.get('/:type/:searchTerm', checkIsLoggedIn, async (req, res) => {
     })
   }
   else if (req.params.type == 'users') {
-    results = await UserModel.find({
-      $or: [
-        { username: filter },
-        { fullName: filter },
-        { email: filter }
-      ]
-    }).lean()
+    // results = await UserModel.find({
+    //   $or: [
+    //     { username: filter },
+    //     { fullName: filter },
+    //     { email: filter }
+    //   ]
+    // }).lean()
+    results = await UserModel.getUsersForSearch(req.params.searchTerm)
 
     results = setIsFollowedForUsers(results, req)
   }

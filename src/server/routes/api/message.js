@@ -6,12 +6,12 @@ const ChatModel = require('../../db/schemas/ChatSchema');
 const NotificationModel = require('../../db/schemas/NotificationSchema');
 const Message = require('./../../db/schemas/MessageSchema')
 const { emitMessageToUsers } = require('../../socket');
-const { checkIsLoggedIn, moveFilesToUploadAndSetFilesPath } = require('./../../middleware');
+const { moveFilesToUploadAndSetFilesPath } = require('./../../middleware');
 const UserModel = require('../../db/schemas/UserSchema');
 const MessageModel = require('./../../db/schemas/MessageSchema');
 require('./../../typedefs');
 
-router.post('/sendMessage', checkIsLoggedIn, upload.array('images', 5), moveFilesToUploadAndSetFilesPath, async (req, res) => {
+router.post('/sendMessage', upload.array('images', 5), moveFilesToUploadAndSetFilesPath, async (req, res) => {
   const chatId = req.body.chatId
   const content = req.body.content
   const senderId = req.session.user._id
@@ -75,7 +75,7 @@ router.post('/sendMessage', checkIsLoggedIn, upload.array('images', 5), moveFile
   }
 });
 
-router.get('/unread-number', checkIsLoggedIn, async (req, res) => {
+router.get('/unread-number', async (req, res) => {
   const unreadChats = await ChatModel.getAllChatsForUser(req.session.user._id)
     .catch(err => {
       console.log(err)
@@ -99,7 +99,7 @@ router.get('/unread-number', checkIsLoggedIn, async (req, res) => {
   });
 })
 
-router.post('/seen-chat-messages', checkIsLoggedIn, async (req, res) => {
+router.post('/seen-chat-messages', async (req, res) => {
   const chatId = req.body.chatId;
   const userId = req.session.user._id;
 

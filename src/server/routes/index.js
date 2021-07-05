@@ -12,6 +12,7 @@ const postAPI = require('./api/post')
 const chatAPI = require('./api/chat')
 const searchAPI = require('./api/search')
 const messageAPI = require('./api/message')
+const hashtagAPI = require('./api/hashtag')
 const notificationAPI = require('./api/notification')
 
 module.exports = {
@@ -29,5 +30,6 @@ module.exports = {
   searchRouter,
   messageRouter,
   postsRouter,
+  hashtagAPI,
   notificationAPI
 }

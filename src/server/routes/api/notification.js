@@ -1,11 +1,10 @@
 const express = require('express')
 const router = express.Router();
-const { checkIsLoggedIn } = require('../../middleware');
 const NotificationModel = require('../../db/schemas/NotificationSchema');
 require('../../typedefs');
 
 
-router.post('/read', checkIsLoggedIn, async (req, res) => {
+router.post('/read', async (req, res) => {
   const notificationId = req.body.notificationId;
   /** @type { notification | null } */
   const notification = await NotificationModel.findByIdAndUpdate(notificationId, {

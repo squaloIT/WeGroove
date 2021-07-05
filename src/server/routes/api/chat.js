@@ -1,10 +1,9 @@
 const express = require('express');
 const router = express.Router();
 const ChatModel = require('./../../db/schemas/ChatSchema')
-const { checkIsLoggedIn } = require('./../../middleware')
 require('./../../typedefs');
 
-router.post('/create', checkIsLoggedIn, async (req, res) => {
+router.post('/create', async (req, res) => {
   const users = req.body.users
 
   if (!users || users.length == 0) {
@@ -50,7 +49,7 @@ router.post('/create', checkIsLoggedIn, async (req, res) => {
   }
 });
 
-router.put('/change-chat-name', checkIsLoggedIn, async (req, res) => {
+router.put('/change-chat-name', async (req, res) => {
   const newChatName = req.body.chatName;
   const chatId = req.body.chatId;
 

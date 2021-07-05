@@ -3,14 +3,14 @@ const express = require('express')
 const router = express.Router();
 const PostModel = require('../../db/schemas/PostSchema')
 const UserModel = require('../../db/schemas/UserSchema')
-const { checkIsLoggedIn, moveFilesToUploadAndSetFilesPath } = require('../../middleware');
+const { moveFilesToUploadAndSetFilesPath } = require('../../middleware');
 const NotificationModel = require('../../db/schemas/NotificationSchema');
 var multer = require('multer');
 const HashtagModel = require('../../db/schemas/HashtagSchema');
 var upload = multer({ dest: 'uploads/' })
 require('../../typedefs');
 
-router.post('/', checkIsLoggedIn, upload.array('images', 5), moveFilesToUploadAndSetFilesPath, async (req, res, next) => {
+router.post('/', upload.array('images', 5), moveFilesToUploadAndSetFilesPath, async (req, res, next) => {
   if (!req.body.content || !req.session.user) {
     return res.sendStatus(400);
   }
@@ -43,7 +43,7 @@ router.post('/', checkIsLoggedIn, upload.array('images', 5), moveFilesToUploadAn
   }
 });
 
-router.post('/replyTo/:id', checkIsLoggedIn, upload.array('images', 5), moveFilesToUploadAndSetFilesPath, async (req, res, next) => {
+router.post('/replyTo/:id', upload.array('images', 5), moveFilesToUploadAndSetFilesPath, async (req, res, next) => {
   if (!req.body.content || !req.session.user) {
     return res.sendStatus(400);
   }
@@ -91,7 +91,7 @@ router.post('/replyTo/:id', checkIsLoggedIn, upload.array('images', 5), moveFile
   }
 });
 
-router.put('/like', checkIsLoggedIn, async (req, res) => {
+router.put('/like', async (req, res) => {
   /** @type { String } postId */
   const postId = req.body._id; //! This is always value of real post, not retweet ( secured that on front )
 
@@ -160,7 +160,7 @@ router.put('/like', checkIsLoggedIn, async (req, res) => {
   })
 })
 
-router.put('/pin/:postId', checkIsLoggedIn, async (req, res) => {
+router.put('/pin/:postId', async (req, res) => {
   const pinned = req.body.pinned;
 
   try {
@@ -186,7 +186,7 @@ router.put('/pin/:postId', checkIsLoggedIn, async (req, res) => {
   })
 })
 
-router.post('/retweet', checkIsLoggedIn, async (req, res) => {
+router.post('/retweet', async (req, res) => {
   /** @type { String } postId */
   const postId = req.body._id;
   /** @type { String } userId */
@@ -260,7 +260,7 @@ router.post('/retweet', checkIsLoggedIn, async (req, res) => {
   })
 })
 
-router.get('/:id', checkIsLoggedIn, async (req, res) => {
+router.get('/:id', async (req, res) => {
   /** @type { post } */
   const post = await PostModel.getPostWithID(req.params.id)
 
@@ -271,7 +271,7 @@ router.get('/:id', checkIsLoggedIn, async (req, res) => {
   })
 })
 
-router.delete('/delete/:id', checkIsLoggedIn, async (req, res) => {
+router.delete('/delete/:id', async (req, res) => {
   /** @type { String } userId */
   const userId = req.session.user._id;
 
