@@ -1,7 +1,7 @@
 import { searchTermByType } from './utils/api'
 import { addNewPostWithPredefinedButtons, createSearchResultRowElement, setSeparatorHeightForAllReplies } from "./utils/dom-manipulation"
 import imageCommentPreview from './utils/image-comment-preview'
-import { onFollowOrUnfollowClick, onSearchTopicsAndUsers } from "./utils/listeners"
+import { onClickToggleOnlineUsersWrapper, onFollowOrUnfollowClick, onSearchTopicsAndUsers } from "./utils/listeners"
 export default function search() {
   imageCommentPreview()
 
@@ -13,6 +13,12 @@ export default function search() {
 
   document.querySelector("div.right_column #topics-users-search")
     .addEventListener("keyup", onSearchTopicsAndUsers())
+
+  document.querySelector("div.online-users-container div.online-users-header button.open-online-users")
+    .addEventListener("click", e => onClickToggleOnlineUsersWrapper(e))
+
+  document.querySelector("div.online-users-container div.online-users-header button.close-online-users")
+    .addEventListener("click", e => onClickToggleOnlineUsersWrapper(e))
 
   /** @type { HTMLElement } */
   const searchResults = document.querySelector('div#search-results')

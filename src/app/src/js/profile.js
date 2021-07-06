@@ -1,6 +1,6 @@
 import { setSeparatorHeightForAllReplies } from "./utils/dom-manipulation";
 import imageCommentPreview from "./utils/image-comment-preview";
-import { onClickUploadImageToServer, onClosePhotoModal, onFollowOrUnfollowClick, onSearchTopicsAndUsers, openPhotoEditModal } from "./utils/listeners";
+import { onClickToggleOnlineUsersWrapper, onClickUploadImageToServer, onClosePhotoModal, onFollowOrUnfollowClick, onSearchTopicsAndUsers, openPhotoEditModal } from "./utils/listeners";
 
 export default function profile() {
   const cropper = {
@@ -24,8 +24,15 @@ export default function profile() {
     document.querySelector("button.save-modal-button").addEventListener('click', e => onClickUploadImageToServer(e, cropper))
     document.querySelector("button.cancel-modal-button").addEventListener('click', e => onClosePhotoModal(e, cropper))
   }
+
   document.querySelector("div.right_column #topics-users-search")
     .addEventListener("keyup", onSearchTopicsAndUsers())
+
+  document.querySelector("div.online-users-container div.online-users-header button.open-online-users")
+    .addEventListener("click", e => onClickToggleOnlineUsersWrapper(e))
+
+  document.querySelector("div.online-users-container div.online-users-header button.close-online-users")
+    .addEventListener("click", e => onClickToggleOnlineUsersWrapper(e))
 
   setSeparatorHeightForAllReplies()
 }

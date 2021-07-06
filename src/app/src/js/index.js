@@ -24,9 +24,10 @@ export default function index() {
     .addEventListener("keyup", onSearchTopicsAndUsers());
 
   document.querySelector("div.online-users-container div.online-users-header button.open-online-users")
-    .addEventListener("click", e => onClickToggleOnlineUsersWrapper(e, 'open'))
+    .addEventListener("click", e => onClickToggleOnlineUsersWrapper(e))
+
   document.querySelector("div.online-users-container div.online-users-header button.close-online-users")
-    .addEventListener("click", e => onClickToggleOnlineUsersWrapper(e, 'close'))
+    .addEventListener("click", e => onClickToggleOnlineUsersWrapper(e))
 
   if (emojiButton) {
     defineEmojiTooltip(

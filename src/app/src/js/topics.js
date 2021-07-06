@@ -17,6 +17,13 @@ export default function topics() {
   });
 
   setSeparatorHeightForAllReplies()
+
   document.querySelector("div.right_column #topics-users-search")
     .addEventListener("keyup", onSearchTopicsAndUsers())
+
+  document.querySelector("div.online-users-container div.online-users-header button.open-online-users")
+    .addEventListener("click", e => onClickToggleOnlineUsersWrapper(e))
+
+  document.querySelector("div.online-users-container div.online-users-header button.close-online-users")
+    .addEventListener("click", e => onClickToggleOnlineUsersWrapper(e))
 }

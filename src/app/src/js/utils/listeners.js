@@ -597,9 +597,8 @@ const onSearchTopicsAndUsers = (timeout = null) => e => {
 /**
  * 
  * @param {Event} e 
- * @param {string} todo
  */
-function onClickToggleOnlineUsersWrapper(e, todo) {
+function onClickToggleOnlineUsersWrapper(e) {
   const closeButton = document.querySelector('div.online-users-container > div.online-users-header > button.close-online-users');
   const openButton = document.querySelector('div.online-users-container > div.online-users-header > button.open-online-users');
   const onlineUsersList = e.target.parentElement.nextElementSibling;
@@ -609,7 +608,6 @@ function onClickToggleOnlineUsersWrapper(e, todo) {
 
   onlineUsersList.classList.toggle('slide-up')
   onlineUsersList.classList.toggle('slide-down')
-
 }
 
 function onFindingOnlineUsers(users) {

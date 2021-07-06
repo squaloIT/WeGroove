@@ -1,4 +1,4 @@
-import { onClickOnNotification, onSearchTopicsAndUsers } from "./utils/listeners"
+import { onClickOnNotification, onClickToggleOnlineUsersWrapper, onSearchTopicsAndUsers } from "./utils/listeners"
 
 export default function notifications() {
   Array.from(
@@ -9,4 +9,10 @@ export default function notifications() {
 
   document.querySelector("div.right_column #topics-users-search")
     .addEventListener("keyup", onSearchTopicsAndUsers())
+
+  document.querySelector("div.online-users-container div.online-users-header button.open-online-users")
+    .addEventListener("click", e => onClickToggleOnlineUsersWrapper(e))
+
+  document.querySelector("div.online-users-container div.online-users-header button.close-online-users")
+    .addEventListener("click", e => onClickToggleOnlineUsersWrapper(e))
 }
