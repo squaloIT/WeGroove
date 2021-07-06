@@ -3,7 +3,7 @@
 var CACHE_STATIC_NAME = 'static-v5';
 var CACHE_DYNAMIC_NAME = 'dynamic-v5';
 var STATIC_FILES = [
-  '/',
+  // '/',
   '/script.bundle.js',
   '/src_js_index_js.bundle.js',
   '/assets/coverPic.jpg',
@@ -42,6 +42,7 @@ var STATIC_FILES = [
   'https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.css',
   'https://cdnjs.cloudflare.com/ajax/libs/material-design-lite/1.3.0/material.indigo-pink.min.css',
   'https://fonts.googleapis.com/css2?family=Lobster&family=Roboto&family=Ubuntu:ital,wght@0,400;1,700&display=swap',
+  '/'
   // '/',
 ];
 
@@ -59,6 +60,19 @@ self.addEventListener('install', function (event) {
 
 self.addEventListener('activate', function (event) {
   console.log("[Service worker] Activating Service worker...", event)
+
+  caches.keys()
+    .then(keys => {
+      return Promise.all(keys.map(key => {
+        console.log("[Service worker] to be deleted " + key);
+        if (key != CACHE_STATIC_NAME && key != CACHE_DYNAMIC_NAME) {
+          return caches.delete(key)
+        }
+      }))
+    })
+    .then(res => {
+      console.log(res)
+    })
 })
 
 self.addEventListener('fetch', function (event) {
@@ -79,12 +93,9 @@ self.addEventListener('fetch', function (event) {
   event.respondWith(
     caches.match(event.request)
       .then(function (response) {
-        console.log('event.request.url', event.request.url)
         if (response) {
-          console.log("NASAO U KESU")
           return response;
         } else {
-          console.log("NIJE NASAO")
           return fetch(event.request)
             .then(function (res) {
               return caches.open(CACHE_DYNAMIC_NAME)
