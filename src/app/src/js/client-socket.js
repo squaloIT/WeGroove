@@ -1,6 +1,6 @@
 import { io } from "socket.io-client";
 import { hideTypingDots, showTypingDots } from "./utils/dom-manipulation";
-import { onNewMessage, onNewNotification } from "./utils/listeners";
+import { onDisconnectRemoveFriendFromList, onFindingOnlineUsers, onFriendConnectionAddToList, onNewMessage, onNewNotification } from "./utils/listeners";
 var socket = null;
 
 function connectClientSocket(jwtUser) {
@@ -8,7 +8,6 @@ function connectClientSocket(jwtUser) {
   socket.on('connect', () => {
     console.log("CONNECTED")
     console.log(socket)
-
     socket.emit("saveSocketIDForUserID", {
       jwtUser,
       socketId: socket.id
@@ -18,6 +17,10 @@ function connectClientSocket(jwtUser) {
     socket.on('new-message', onNewMessage);
     socket.on('typing', showTypingDots);
     socket.on('stop-typing', hideTypingDots)
+    socket.on('online-users', onFindingOnlineUsers)
+    socket.on('user-connected', onFriendConnectionAddToList)
+    socket.on('user-disconnected', onDisconnectRemoveFriendFromList)
+    socket.emit("get-online-following", socket.id)
   })
 }
 
@@ -38,4 +41,5 @@ export {
   emitTypingToRoom,
   emitStopTypingToRoom,
   emitJoinRoom
-}
+};
+

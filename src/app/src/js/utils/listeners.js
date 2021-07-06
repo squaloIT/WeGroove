@@ -1,6 +1,7 @@
 import { emitStopTypingToRoom, emitTypingToRoom } from "../client-socket";
 import { changeChatName, createChat, deletePostByID, followOrUnfollowUser, getNumberOfUnreadForUser, getPostData, getTopicsAndUsersForSearch, likePost, retweetPost, sendMessage, sendNotificationRead, setSeenForMessagesInChat, togglePinned } from "./api";
 import { addEmojiToCommentModal, addNewMessage, animateButtonAfterClickOnLike, animateButtonAfterClickOnRetweet, createChatRow, createNewNotification, createRowsAfterSearchInRightColumn, emptyFileContainer, emptyImagePreviewContainer, findChatElement, findPostWrapperElement, getPostIdForWrapper, getProfileIdFromFollowButton, hideSpinner, openModal, scrollMessagesToBottom, showSpinner, toggleButtonAvailability, toggleFollowButtons, toggleScrollForTextarea } from "./dom-manipulation";
+import { createSmallRowForUser } from "./html-creators";
 import { validateNumberOfImages } from "./validation";
 
 /**
@@ -611,6 +612,37 @@ function onClickToggleOnlineUsersWrapper(e, todo) {
 
 }
 
+function onFindingOnlineUsers(users) {
+  console.log(users)
+  const usersWrapper = document.querySelector('div.online-users-container div.online-users-list')
+
+  users.forEach(u => {
+    usersWrapper.innerHTML = '';
+    users.forEach(u => {
+      usersWrapper.innerHTML += createSmallRowForUser(u, `/messages/${u._id}`);
+    })
+  })
+}
+
+const onDisconnectRemoveFriendFromList = (userId) => {
+  console.log("USER DISCONNECTED ", userId)
+  const userWrapper = document.querySelector(`div.online-users-container div.online-users-list a[data-user-id="${userId}"]`)
+
+  if (userWrapper) {
+    userWrapper.remove()
+  }
+}
+
+const onFriendConnectionAddToList = (user) => {
+  const usersWrapper = document.querySelector('div.online-users-container div.online-users-list')
+  const userWrapper = document.querySelector(`div.online-users-container div.online-users-list a[data-user-id="${user._id}"]`)
+
+  if (userWrapper) {
+    userWrapper.remove()
+  }
+  usersWrapper.innerHTML += createSmallRowForUser(user, `/messages/${user._id}`);
+}
+
 export {
   onClickLikePost,
   onClickCommentPost,
@@ -635,6 +667,9 @@ export {
   addAllListenersToPosts,
   onNewNotification,
   onClickToggleOnlineUsersWrapper,
-  onSearchTopicsAndUsers
+  onSearchTopicsAndUsers,
+  onDisconnectRemoveFriendFromList,
+  onFriendConnectionAddToList,
+  onFindingOnlineUsers
 };
 

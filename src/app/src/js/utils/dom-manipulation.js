@@ -1,6 +1,6 @@
 import { Picker } from 'emoji-picker-element';
 import './../../../typedefs';
-import { createChatRowContent, createCommentButtonElements, createDeleteButtonElements, createElementForButtonWrapper, createFollowButtonElement, createFollowingButtonElement, createLikeButtonElements, createNewMessageHTML, createNewNameLabelHTML, createNotificationRow, createPostElement, createRetweetButtonElements, createRightColumnSearchRowForHashtag, createRightColumnSearchRowForUser, createUserRowHTML } from './html-creators';
+import { createChatRowContent, createCommentButtonElements, createDeleteButtonElements, createElementForButtonWrapper, createFollowButtonElement, createFollowingButtonElement, createLikeButtonElements, createNewMessageHTML, createNewNameLabelHTML, createNotificationRow, createPostElement, createRetweetButtonElements, createRightColumnSearchRowForHashtag, createSmallRowForUser, createUserRowHTML } from './html-creators';
 import { addEmojiToInput, createFunctionToCloseModal, onKeyUpCommentTA } from './listeners';
 
 /**
@@ -602,7 +602,7 @@ function createRowsAfterSearchInRightColumn(hashtags, users) {
 
   usersWrapper.innerHTML = '';
   users.forEach(u => {
-    usersWrapper.innerHTML += createRightColumnSearchRowForUser(u);
+    usersWrapper.innerHTML += createSmallRowForUser(u, `/profile/${u._id}`);
   })
 }
 

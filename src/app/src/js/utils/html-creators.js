@@ -268,7 +268,6 @@ function createUserRowHTML(user) {
  * @returns 
  */
 function createNewMessageHTML(message, images, isSent) {
-  console.log("🚀 ~ file: html-creators.js ~ line 259 ~ createNewMessageHTML ~ message", message)
   return `
   <div class='message-container ${isSent ? 'sent' : 'received'} flex w-full px-4 mb-2' data-sender-id="${message.sender._id || message.sender}">
     <div class='incoming-message max-w-[55%]'>
@@ -421,11 +420,12 @@ const createRightColumnSearchRowForHashtag = (hashtag) => {
 /**
  * 
  * @param {user} user 
+ * @param {string} href 
  * @returns { string }
  */
-const createRightColumnSearchRowForUser = user => {
+const createSmallRowForUser = (user, href) => {
   return `
-      <a href='/profile/${user._id}'>
+      <a href='${href}' data-user-id='${user._id}'>
         <div class='user-row flex justify-between p-2 items-center border-b border-light-gray-for-text border-opacity-20 hover:bg-light-gray-for-text hover:bg-opacity-20'>
           <div class='image-container flex items-center'>
             <div class="image-container w-14 h-14">
@@ -461,6 +461,6 @@ export {
   createChatRowContent,
   createNewNameLabelHTML,
   createRightColumnSearchRowForHashtag,
-  createRightColumnSearchRowForUser
+  createSmallRowForUser
 };
 
