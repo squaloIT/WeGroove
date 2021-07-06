@@ -50,7 +50,7 @@ function connect(app) {
       // console.log("______________________________________________________________________________")
 
       connectedUserIds.forEach(id => {
-        console.log(JSON.stringify(sessionsMap[id].user.following, null, 3))
+        // console.log(JSON.stringify(sessionsMap[id].user.following, null, 3))
         if (id != "" + user._id && sessionsMap[id].user.following.includes(user._id)) {
           // console.log("SALJEM KA " + id)
           io.to(sessionsMap[id].socketID).emit('user-connected', user)
