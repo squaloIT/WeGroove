@@ -1,17 +1,6 @@
 import './../styles/tailwind.css';
 import { connectClientSocket } from './client-socket';
 
-if ('serviceWorker' in navigator) {
-  // Use the window load event to keep the page load performant
-  window.addEventListener('load', () => {
-    navigator.serviceWorker.register('/sw.js').then(res => {
-      console.log("Service worker registered")
-      console.log(res)
-    });
-
-  });
-}
-
 if (window.location.pathname != '/login' && window.location.pathname != '/registration') {
   const jwtUser = document.querySelector("input#test").value;
   connectClientSocket(jwtUser)
@@ -24,6 +13,16 @@ if (window.location.pathname.indexOf('/post') == 0) {
 }
 
 if (window.location.pathname == '/') {
+  if ('serviceWorker' in navigator) {
+    // Use the window load event to keep the page load performant
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('service-worker.js').then(res => {
+        console.log("Service worker registered")
+        console.log(res)
+      });
+
+    });
+  }
   import('./index').then(({ default: index }) => {
     index();
   })
