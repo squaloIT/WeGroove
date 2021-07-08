@@ -105,8 +105,10 @@ function emitUserIdToRetreiveSocketId(userID) {
  */
 function emitMessageToUsers(userIds, message) {
   userIds.forEach(_id => {
-    const socketID = sessionsMap[_id].socketID
-    io.to(socketID).emit('new-message', message)
+    if (sessionsMap[_id]) {
+      const socketID = sessionsMap[_id].socketID
+      io.to(socketID).emit('new-message', message)
+    }
   })
 }
 /**
