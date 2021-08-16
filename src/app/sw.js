@@ -3,9 +3,9 @@ importScripts('https://storage.googleapis.com/workbox-cdn/releases/6.1.5/workbox
 import { BackgroundSyncPlugin } from 'workbox-background-sync';
 import { ExpirationPlugin } from 'workbox-expiration';
 import { precacheAndRoute } from 'workbox-precaching';
-import { googleFontsCache, imageCache, staticResourceCache } from 'workbox-recipes';
-import { registerRoute } from 'workbox-routing';
-import { CacheFirst, NetworkFirst, NetworkOnly, StaleWhileRevalidate } from 'workbox-strategies';
+import { googleFontsCache, imageCache, offlineFallback, staticResourceCache } from 'workbox-recipes';
+import { registerRoute, setCatchHandler, setDefaultHandler } from 'workbox-routing';
+import { CacheFirst, NetworkFirst, NetworkOnly } from 'workbox-strategies';
 
 workbox.setConfig({ debug: true });
 // workbox.skipWaiting();
@@ -13,6 +13,7 @@ workbox.setConfig({ debug: true });
 
 precacheAndRoute([
   // { url: '/', revision: 'dasdasczxczxc2323' }, - Ne moze da bude ovde jer onda dodavanje novog posta ne bude procitano. 
+  { url: '/offline' },
   { url: '/script.bundle.js', revision: '123123asdasdasd' },
   { url: '/src_js_index_js.bundle.js', revision: 'asdasdasd' },
   { url: '/assets/coverPic.jpg', revision: '2e12ue1u2en' },
@@ -34,6 +35,27 @@ precacheAndRoute([
 imageCache()
 staticResourceCache()
 
+setDefaultHandler(
+  new NetworkOnly({
+    networkTimeoutSeconds: 5
+  })
+);
+
+setCatchHandler(({ event }) => {
+  switch (event.request.destination) {
+    case "document": {
+      return caches.match("/offline");
+    }
+
+    default:
+      return Response.error();
+  }
+});
+
+offlineFallback({
+  pageFallback: '/offline'
+})
+// Caching font-awesome should be in this order
 registerRoute(
   ({ url }) => url.hostname === 'fonts.gstatic.com' || url.hostname === 'ka-f.fontawesome.com',
   new CacheFirst({
@@ -42,15 +64,22 @@ registerRoute(
 );
 googleFontsCache()
 
+
+const bgSyncPlugin = new BackgroundSyncPlugin('myQueueName', {
+  maxRetentionTime: 24 * 60 // Retry for max of 24 Hours (specified in minutes)
+});
+
+
 registerRoute(
   ({ url }) => url.pathname.startsWith('/socket.io/'),
   new NetworkOnly()
 );
 
 registerRoute(
-  ({ request, sameOrigin, url }) => sameOrigin && request.destination === 'document' && !isInNetworkFirstList(request, url),
-  new StaleWhileRevalidate({
-    cacheName: 'documents',
+  ({ request, sameOrigin, url }) => sameOrigin && request.destination === 'document', // && !isInNetworkFirstList(request, url)
+  new NetworkFirst({
+    cacheName: 'pages',
+    networkTimeoutSeconds: 5,
     plugins: [
       new ExpirationPlugin({
         maxAgeSeconds: 24 * 60 * 60,
@@ -61,18 +90,11 @@ registerRoute(
 
 );
 
-const bgSyncPlugin = new BackgroundSyncPlugin('myQueueName', {
-  onSync: function (options) {
-    console.log("[Service worker]: after sync options, ", options)
-  },
-  maxRetentionTime: 24 * 60 // Retry for max of 24 Hours (specified in minutes)
-});
-
 registerRoute(
   ({ url }) => url.pathname.startsWith('/api/'),
   new NetworkOnly({
     plugins: [bgSyncPlugin],
-    // networkTimeoutSeconds: 3
+    networkTimeoutSeconds: 5,
   }),
   'POST'
 );
@@ -81,20 +103,8 @@ registerRoute(
   ({ url }) => url.pathname.startsWith('/api/'),
   new NetworkOnly({
     plugins: [bgSyncPlugin],
-    // networkTimeoutSeconds: 3
+    networkTimeoutSeconds: 5
   }),
   'PUT'
 );
 
-registerRoute(
-  ({ request, url }) => isInNetworkFirstList(request, url),
-  new NetworkFirst({
-    cacheName: "network-first-cache-later",
-    networkTimeoutSeconds: 3
-  })
-)
-function isInNetworkFirstList(request, url) {
-  console.log(url.pathname)
-  console.log(url.pathname.startsWith('/messages'))
-  return url.pathname.startsWith('/messages')
-}

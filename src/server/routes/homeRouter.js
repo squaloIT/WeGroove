@@ -42,4 +42,11 @@ router.get("/", async (req, res, next) => {
 })
 
 
+router.get("/offline", async (req, res, next) => {
+  res.status(200).render('offline_page', {
+    title: "Offline"
+  });
+})
+
+
 module.exports = router;
