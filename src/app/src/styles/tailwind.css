@@ -444,7 +444,8 @@ emoji-picker {
 .slide-up {
 	overflow-y: auto;
 	max-height: 500px; /* approximate max height */
-	height: fit-content; 
+	height: 500px;
+	/* height: fit-content;  */
 
 	transition-property: all;
 	transition-duration: .8s;
