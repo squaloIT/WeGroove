@@ -70,14 +70,15 @@ export default function index() {
       showSpinner(postButtonLabel, postButtonSpinner)
 
       if (postContentValue.length > 0) {
+        postContentTextbox.value = '';
+        resetImagePreview()
+        const targetElement = document.querySelector('#posts');
+        addNewPost(targetElement, res.data.createdPost, "moments ago");
+
         createPost(postContentValue, selectedImagesForPost)
           .then(res => res.json())
           .then(res => {
             // window.location.reload()
-            postContentTextbox.value = '';
-            resetImagePreview()
-            const targetElement = document.querySelector('#posts');
-            addNewPost(targetElement, res.data.createdPost, "moments ago");
             hideSpinner(postButtonLabel, postButtonSpinner)
           })
           .catch(err => {
@@ -88,8 +89,6 @@ export default function index() {
       }
     })
   }
-
-
 
   setSeparatorHeightForAllReplies()
 
