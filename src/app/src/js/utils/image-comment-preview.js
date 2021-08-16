@@ -54,6 +54,7 @@ export default function imageCommentPreview() {
     const commentButtonLabel = document.querySelector('div#modal-container div.reply-button-wrapper span.comment-button__label')
     const commentButtonSpinner = document.querySelector('div#modal-container div.reply-button-wrapper .comment-button__spinner')
     showSpinner(commentButtonLabel, commentButtonSpinner)
+    const modal = document.querySelector('#modal-container')
 
     replyToPost(pid, content, selectedImagesForComment)
       .then(res => res.json())
@@ -62,11 +63,12 @@ export default function imageCommentPreview() {
           hideSpinner(commentButtonLabel, commentButtonSpinner);
           location.reload()
         }
+        modal.classList.add('hidden')
       })
       .catch(err => {
         hideSpinner(commentButtonLabel, commentButtonSpinner)
-        alert(err)
         console.error(err)
+        modal.classList.add('hidden')
       });
   }
 }
