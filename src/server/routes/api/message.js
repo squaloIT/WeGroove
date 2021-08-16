@@ -67,9 +67,9 @@ router.post('/sendMessage', upload.array('images', 5), moveFilesToUploadAndSetFi
   } catch (err) {
     console.error(err)
 
-    return res.status(400).json({
+    return res.status(500).json({
       data: null,
-      status: 400,
+      status: 500,
       msg: err
     })
   }

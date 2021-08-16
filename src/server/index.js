@@ -38,6 +38,14 @@ app.use(session({
   saveUninitialized: false
 }));
 
+
+app.use('/api/posts', checkIsLoggedIn, postAPI);
+app.use('/api/chat', checkIsLoggedIn, chatAPI);
+app.use('/api/search', checkIsLoggedIn, searchAPI);
+app.use('/api/message', messageAPI);
+app.use('/api/notification', checkIsLoggedIn, notificationAPI);
+app.use('/api/topics', checkIsLoggedIn, hashtagAPI);
+
 app.use(express.static(path.join(__dirname, './../app/dist/')))
 app.use('*/uploads/images', express.static(path.join(__dirname, 'uploads/images')))
 
@@ -52,9 +60,3 @@ app.use('/topic', checkIsLoggedIn, getNumberOfUnreadNotifications, getNumberOfUn
 app.use('/notifications', checkIsLoggedIn, getNumberOfUnreadNotifications, getNumberOfUnreadChats, getMostPopularHashtags, generateUserJWT, notificationRouter);
 app.use('/', checkIsLoggedIn, getNumberOfUnreadNotifications, getNumberOfUnreadChats, getMostPopularHashtags, generateUserJWT, homeRouter);
 
-app.use('/api/posts', checkIsLoggedIn, postAPI);
-app.use('/api/chat', checkIsLoggedIn, chatAPI);
-app.use('/api/search', checkIsLoggedIn, searchAPI);
-app.use('/api/message', checkIsLoggedIn, messageAPI);
-app.use('/api/notification', checkIsLoggedIn, notificationAPI);
-app.use('/api/topics', checkIsLoggedIn, hashtagAPI);
