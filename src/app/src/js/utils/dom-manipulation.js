@@ -308,7 +308,7 @@ function getProfileIdFromFollowButton(e) {
   const profileId = e.target.dataset.profileId
 
   if (!profileId) {
-    alert("Profile id is not defined");
+    console.error("Profile id is not defined");
     return
   }
   return profileId

@@ -149,7 +149,6 @@ export default function inbox() {
             })
             .catch(err => {
               console.error(err);
-              alert("There was problem with searching users!")
             })
         }
       }, 1000)

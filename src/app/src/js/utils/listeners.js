@@ -13,7 +13,7 @@ function onClickLikePost(e) {
   const postWrapper = findPostWrapperElement(button, 'post-wrapper') || findPostWrapperElement(button, 'original-post') || findPostWrapperElement(button, 'comment-post');
 
   if (!postWrapper) {
-    alert("Couldnt find post id")
+    console.error("Couldnt find post id")
     return;
   }
 
@@ -40,7 +40,7 @@ function onClickRetweetPost(e) {
   const postWrapper = findPostWrapperElement(button, 'post-wrapper') || findPostWrapperElement(button, 'original-post') || findPostWrapperElement(button, 'comment-post');
 
   if (!postWrapper) {
-    alert("Couldnt find post id")
+    console.error("Couldnt find post id")
     return;
   }
 
@@ -82,7 +82,7 @@ function onClickCommentPost(e) {
   const postWrapper = findPostWrapperElement(button, 'post-wrapper') || findPostWrapperElement(button, 'original-post') || findPostWrapperElement(button, 'comment-post');
 
   if (!postWrapper) {
-    alert("Couldnt find post id")
+    console.error("Couldnt find post id")
     return;
   }
 
@@ -125,7 +125,7 @@ function onPostWrapperClick(e) {
 
 
   if (!postWrapper) {
-    alert("Couldnt find post id!")
+    console.error("Couldnt find post id!")
     return;
   }
 
@@ -136,7 +136,7 @@ function onPostWrapperClick(e) {
     return;
   }
 
-  return alert("Couldn't find post id")
+  return console.error("Couldn't find post id")
 }
 
 /**
@@ -147,7 +147,7 @@ function onClickDeletePost(e) {
   const postWrapper = findPostWrapperElement(e.target, 'post-wrapper') || findPostWrapperElement(e.target, 'original-post') || findPostWrapperElement(e.target, 'comment-post');
 
   if (!postWrapper) {
-    alert("Couldn't find post with that id")
+    console.error("Couldn't find post with that id")
     return;
   }
 
@@ -185,7 +185,7 @@ function onClickDeletePost(e) {
       }
 
       if (data.status === 200) {
-        alert("there was no post to be deleted")
+        console.error("there was no post to be deleted")
       }
     })
 }
@@ -222,7 +222,7 @@ function onFollowOrUnfollowClick(e, action) {
     })
     .catch(err => {
       console.error(err)
-      alert(`Problem with ${action}, please try again after later thank you.`)
+      console.error(`Problem with ${action}, please try again after later thank you.`)
     })
 }
 /**
@@ -285,7 +285,7 @@ function onClosePhotoModal(e, cropper) {
 function onClickUploadImageToServer(e, cropper) {
   var canvas = cropper.instance.getCroppedCanvas();
   if (!canvas) {
-    alert("Couldn't upload image, make sure that it is an image file")
+    console.error("Couldn't upload image, make sure that it is an image file")
     return;
   }
   const photoSaveLabel = e.target.querySelector('span.modal-save-button__label')
@@ -326,7 +326,7 @@ function onClickTogglePinned(e) {
   // const isProfilePage = document.querySelector("div#profile-posts div.pinned-button-wrapper");
 
   if (!postWrapper) {
-    alert("Couldnt find post id")
+    console.error("Couldnt find post id")
     return;
   }
 
@@ -372,7 +372,7 @@ function onClickSaveChatNameButton(e, modal, chatId) {
       })
       .catch(err => {
         console.error(err)
-        alert("There was an error while trying to change chat name")
+        console.error("There was an error while trying to change chat name")
       })
   }
 }
@@ -446,7 +446,7 @@ function onClickOnNotification(e) {
   const notificationId = aTag.dataset.notificationId;
 
   if (!notificationId) {
-    alert("No notification ID")
+    console.error("No notification ID")
     return;
   }
 
@@ -458,7 +458,7 @@ function onClickOnNotification(e) {
     })
     .catch(err => {
       console.log(err);
-      alert("There was a problem with viewing notification, please try again later thank you.")
+      console.error("There was a problem with viewing notification, please try again later thank you.")
     })
 }
 /**

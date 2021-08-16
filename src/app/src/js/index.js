@@ -82,7 +82,6 @@ export default function index() {
           })
           .catch(err => {
             console.error(err)
-            alert("Ooops, there was an error trying to save your post...")
           })
       } else {
         hideSpinner(postButtonLabel, postButtonSpinner)
