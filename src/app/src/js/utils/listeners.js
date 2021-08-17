@@ -151,29 +151,32 @@ function onClickDeletePost(e) {
 
   const pid = postWrapper.dataset.pid;
 
+  postWrapper.classList.add('animate__bounceOutRight')
+  const postsToBeRemovedFromDOM = document.querySelectorAll(`div.post-wrapper[data-pid="${pid}"], div.post-wrapper[data-retweet-id="${pid}"], div.original-post[data-pid="${pid}"], div.comment-post[data-pid="${pid}"]`)
+
+  Array.from(postsToBeRemovedFromDOM).forEach(el => {
+    if (el.classList.contains('original-post') || el.classList.contains('original-post')) {
+      el = findPostWrapperElement(el, 'post-wrapper', true)
+    }
+
+    el.classList.add('animate__bounceOutRight')
+  })
+  setTimeout(() => {
+    Array.from(postsToBeRemovedFromDOM).forEach(el => {
+      if (el.classList.contains('original-post') || el.classList.contains('original-post')) {
+        el = findPostWrapperElement(el, 'post-wrapper', true)
+      }
+
+      el.remove()
+    });
+  }, 420);
+
   deletePostByID(pid)
     .then(res => res.json())
     .then(data => {
       if (data.status === 204) {
-        postWrapper.classList.add('animate__bounceOutRight')
-        const postsToBeRemovedFromDOM = document.querySelectorAll(`div.post-wrapper[data-pid="${pid}"], div.post-wrapper[data-retweet-id="${pid}"], div.original-post[data-pid="${pid}"], div.comment-post[data-pid="${pid}"]`)
-
-        Array.from(postsToBeRemovedFromDOM).forEach(el => {
-          if (el.classList.contains('original-post') || el.classList.contains('original-post')) {
-            el = findPostWrapperElement(el, 'post-wrapper', true)
-          }
-
-          el.classList.add('animate__bounceOutRight')
-        })
-
         setTimeout(() => {
           Array.from(postsToBeRemovedFromDOM).forEach(el => {
-            if (el.classList.contains('original-post') || el.classList.contains('original-post')) {
-              el = findPostWrapperElement(el, 'post-wrapper', true)
-            }
-
-            el.remove()
-
             if (data.retweetedPost) {
               const retweetWrapper = document.querySelector(`div.post-wrapper[data-pid='${data.retweetedPost}'] div.button-retweet-wrapper`);
               removeUIRetweetedIndication(retweetWrapper)
