@@ -106,6 +106,9 @@ function createHashtag(text) {
 }
 
 function colorHashtagsInText(post) {
+  if (!post.content) {
+    return "";
+  }
   const contentArr = post.content.split(" ");
   const hashtags = contentArr.filter(v => v.startsWith('#'))
   return contentArr.map(txt => hashtags.includes(txt) ? createHashtag(txt) : txt).join(" ");
