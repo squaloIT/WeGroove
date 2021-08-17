@@ -73,12 +73,13 @@ export default function index() {
         postContentTextbox.value = '';
         resetImagePreview()
         const targetElement = document.querySelector('#posts');
-        addNewPost(targetElement, res.data.createdPost, "moments ago");
+        // addNewPost(targetElement, res.data.createdPost, "moments ago");
 
         createPost(postContentValue, selectedImagesForPost)
           .then(res => res.json())
           .then(res => {
             // window.location.reload()
+            addNewPost(targetElement, res.data.createdPost, "moments ago");
             hideSpinner(postButtonLabel, postButtonSpinner)
           })
           .catch(err => {
