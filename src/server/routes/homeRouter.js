@@ -11,23 +11,25 @@ router.get("/", async (req, res, next) => {
   /** @type { post[] } allPosts */
   let allPosts = await PostModel.getAllPosts(user);
 
-  const allPostsWithFromNow = allPosts.map(post => {
-    if (post.retweetData) {
-      return {
-        ...post,
-        fromNow: moment(post.createdAt).fromNow(),
-        retweetData: {
-          ...post.retweetData,
-          fromNow: moment(post.retweetData.createdAt).fromNow()
+  const allPostsWithFromNow = allPosts
+    .filter(post => post.postedBy != user._id && post.replyTo?.postedBy?._id != user._id)
+    .map(post => {
+      if (post.retweetData) {
+        return {
+          ...post,
+          fromNow: moment(post.createdAt).fromNow(),
+          retweetData: {
+            ...post.retweetData,
+            fromNow: moment(post.retweetData.createdAt).fromNow()
+          }
+        }
+      } else {
+        return {
+          ...post,
+          fromNow: moment(post.createdAt).fromNow()
         }
       }
-    } else {
-      return {
-        ...post,
-        fromNow: moment(post.createdAt).fromNow()
-      }
-    }
-  });
+    });
 
   res.status(200).render('main', {
     page: 'home',
