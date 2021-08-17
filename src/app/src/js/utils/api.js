@@ -38,7 +38,7 @@ function likePost(_id) {
  */
 function retweetPost(_id) {
   return fetch(`${process.env.SERVER_URL_DEV}/api/posts/retweet`, {
-    method: 'POST',
+    method: 'PUT',
     headers: {
       "Content-Type": "application/json"
     },

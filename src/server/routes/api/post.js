@@ -186,7 +186,7 @@ router.put('/pin/:postId', async (req, res) => {
   })
 })
 
-router.post('/retweet', async (req, res) => {
+router.put('/retweet', async (req, res) => {
   /** @type { String } postId */
   const postId = req.body._id;
   /** @type { String } userId */
