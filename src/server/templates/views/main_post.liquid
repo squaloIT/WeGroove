@@ -1,7 +1,7 @@
 <div class='post-wrapper w-full border-b-2 border-super-light-gray-border flex flex-row space-x-5 py-3 px-8 justify-between' data-pid="{{post._id}}">
   <div class='post-content-container flex flex-col w-full text-lg'>
     <div class='post-content__info flex flex-row items-start w-full'>
-      {% render 'small_profile_image_rounded', user: user %}
+      {% render 'small_profile_image_rounded', user: post.postedBy %}
 
       <div class='post-content__user-info ml-2'>
         <p class="name font-bold -mb-1">{{post.postedBy.fullName}}</p>
