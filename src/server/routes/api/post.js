@@ -271,7 +271,7 @@ router.get('/:id', async (req, res) => {
   })
 })
 
-router.delete('/delete/:id', async (req, res) => {
+router.put('/delete/:id', async (req, res) => {
   /** @type { String } userId */
   const userId = req.session.user._id;
 

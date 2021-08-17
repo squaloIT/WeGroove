@@ -87,7 +87,7 @@ function replyToPost(_id, content, selectedImages) {
  */
 function deletePostByID(id) {
   return fetch(`${process.env.SERVER_URL_DEV}/api/posts/delete/${id}`, {
-    method: 'DELETE',
+    method: 'PUT',
     headers: {
       "Content-Type": "application/json"
     }
