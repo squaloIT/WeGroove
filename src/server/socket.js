@@ -135,12 +135,16 @@ function deleteUserFromSessionMap(userId) {
  */
 function emitNotificationToUser(notification, notificationNumber) {
   const userID = notification.userTo._id || notification.userTo;
-  const socketID = sessionsMap[userID].socketID
+  const socketID = sessionsMap[userID]?.socketID
 
-  io.to(socketID).emit('new-notification', JSON.stringify({
-    notification,
-    notificationNumber
-  }))
+  if (socketID) {
+    io.to(socketID).emit('new-notification', JSON.stringify({
+      notification,
+      notificationNumber
+    }))
+  } else {
+    console.error("Couldn't find socketID for userId")
+  }
 }
 
 module.exports = {

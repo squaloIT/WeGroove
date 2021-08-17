@@ -19,15 +19,14 @@ function onClickLikePost(e) {
 
   const pid = getPostIdForWrapper(postWrapper)
   const otherPostLikeButtonsOnThePageWithSamePostID = document.querySelectorAll(`div.post-wrapper[data-pid="${pid}"] button.post-like, div.post-wrapper[data-retweet-id="${pid}"] button.post-like, div.original-post[data-pid="${pid}"] button.post-like, div.comment-post[data-pid="${pid}"] button.post-like`)
+  Array.from(otherPostLikeButtonsOnThePageWithSamePostID)
+    .forEach(button => {
+      animateButtonAfterClickOnLike(button)
+    });
 
   likePost(pid)
     .then(res => res.json())
-    .then(res => {
-      Array.from(otherPostLikeButtonsOnThePageWithSamePostID)
-        .forEach(button => {
-          animateButtonAfterClickOnLike(button, res.data.post.likes.length)
-        })
-    })
+    .then(res => { })
     .catch(err => console.error(err));
 }
 /**

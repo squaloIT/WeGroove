@@ -200,12 +200,12 @@ const toggleClassesForPaths = paths => {
 /**
  * 
  * @param {HTMLElement} likeButton 
- * @param {String} numOfRetweets 
  */
-function animateButtonAfterClickOnLike(likeButton, numOfLikes) {
+function animateButtonAfterClickOnLike(likeButton) {
   const svgHeartIcon = likeButton.querySelector('svg.heart-icon');
   const span = likeButton.parentElement.querySelector('span.likes-num')
   const paths = svgHeartIcon.querySelectorAll('path');
+  let numOfLikes;
 
   if (svgHeartIcon.classList.contains('filled')) {
     svgHeartIcon.classList.remove('filled')
@@ -213,7 +213,11 @@ function animateButtonAfterClickOnLike(likeButton, numOfLikes) {
     if (span) {
       span.classList.remove('text-like-button-red')
     }
+
+    numOfLikes = Number(span.innerText) - 1;
+    span.innerHTML = numOfLikes || '&nbsp;&nbsp;';
     toggleClassesForPaths(paths)
+
   } else {
     svgHeartIcon.classList.add('filled')
     svgHeartIcon.classList.add('animate__heartBeat')
@@ -224,12 +228,14 @@ function animateButtonAfterClickOnLike(likeButton, numOfLikes) {
       span.classList.add('text-like-button-red')
     }
 
+    numOfLikes = Number(span.innerText) + 1;
+    span.innerHTML = numOfLikes || '&nbsp;&nbsp;';
+
     setTimeout(() => {
       svgHeartIcon.classList.remove('animate__heartBeat')
     }, 2000)
   }
 
-  span.innerHTML = numOfLikes || '&nbsp;&nbsp;';
 }
 /**
  * @param {HTMLElement} button 
