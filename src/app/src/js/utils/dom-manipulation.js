@@ -239,11 +239,11 @@ function animateButtonAfterClickOnLike(likeButton) {
 }
 /**
  * @param {HTMLElement} button 
- * @param {String} numOfRetweets 
  */
-function animateButtonAfterClickOnRetweet(button, numOfRetweets) {
+function animateButtonAfterClickOnRetweet(button) {
   const retweetIcon = button.querySelector('svg.retweet-icon');
   const span = button.parentElement.querySelector('span.retweet-num')
+  let numOfRetweets;
 
   if (retweetIcon.classList.contains('filled')) {
     retweetIcon.classList.remove('filled')
@@ -252,6 +252,9 @@ function animateButtonAfterClickOnRetweet(button, numOfRetweets) {
     if (span) {
       span.classList.remove('text-retweet-button-green')
     }
+    numOfRetweets = Number(span.innerText) - 1;
+    span.innerHTML = numOfRetweets || '&nbsp;&nbsp;';
+
   } else {
     retweetIcon.classList.add('filled')
     retweetIcon.classList.add('animate__swing')
@@ -260,6 +263,10 @@ function animateButtonAfterClickOnRetweet(button, numOfRetweets) {
     if (span) {
       span.classList.add('text-retweet-button-green')
     }
+
+    numOfRetweets = Number(span.innerText) + 1;
+    span.innerHTML = numOfRetweets || '&nbsp;&nbsp;';
+
     setTimeout(() => {
       retweetIcon.classList.remove('animate__swing')
     }, 2000)

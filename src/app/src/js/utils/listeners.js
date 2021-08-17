@@ -45,31 +45,30 @@ function onClickRetweetPost(e) {
 
   let pid = getPostIdForWrapper(postWrapper);
 
+  if (postWrapper.dataset.retweetId) {
+    postWrapper.classList.add('animate__bounceOutRight')
+    setTimeout(() => {
+      postWrapper.remove()
+      const retweetWrapper = document.querySelector(`div.post-wrapper[data-pid='${postWrapper.dataset.retweetId}'] div.button-retweet-wrapper`);
+
+      removeUIRetweetedIndication(retweetWrapper)
+    }, 420)
+  } else {
+    animateButtonAfterClickOnRetweet(button)
+    const postsWhichRetweetedThis = document.querySelectorAll(`div.post-wrapper[data-retweet-id='${pid}'] `)
+
+    Array.from(postsWhichRetweetedThis).forEach(
+      post => {
+        post.classList.add('animate__bounceOutRight')
+        setTimeout(() => {
+          post.remove()
+        }, 420)
+      }
+    )
+  }
+
   retweetPost(pid)
     .then(res => res.json())
-    .then(res => {
-      if (postWrapper.dataset.retweetId) {
-        postWrapper.classList.add('animate__bounceOutRight')
-        setTimeout(() => {
-          postWrapper.remove()
-          const retweetWrapper = document.querySelector(`div.post-wrapper[data-pid='${postWrapper.dataset.retweetId}'] div.button-retweet-wrapper`);
-
-          removeUIRetweetedIndication(retweetWrapper)
-        }, 420)
-      } else {
-        animateButtonAfterClickOnRetweet(button, res.data.post.retweetUsers.length)
-        const postsWhichRetweetedThis = document.querySelectorAll(`div.post-wrapper[data-retweet-id='${pid}'] `)
-
-        Array.from(postsWhichRetweetedThis).forEach(
-          post => {
-            post.classList.add('animate__bounceOutRight')
-            setTimeout(() => {
-              post.remove()
-            }, 420)
-          }
-        )
-      }
-    })
     .catch(err => console.error(err));
 }
 /**
