@@ -8,7 +8,7 @@
 	@apply w-full bg-super-light-gray-border flex justify-between items-center py-1 bg-opacity-80;
 }
 .page-title {
-	@apply text-brand-purple font-bold tracking-wider text-3xl font-lobster;
+	@apply text-brand-purple font-bold tracking-wider font-lobster;
 }
 
 @tailwind utilities;
@@ -460,4 +460,40 @@ emoji-picker {
 	transition-property: all;
 	transition-duration: .8s;
 	transition-timing-function: cubic-bezier(0, 1, 0.5, 1);
+}
+
+@media screen and (max-width: 900px) {
+  emoji-picker {
+    --num-columns: 7;
+    --category-emoji-size: 1rem;
+		--emoji-size: 1.125rem;
+		--emoji-padding: 0.35rem;
+		--input-font-size:0.8rem;	
+		--input-line-height:1.2;
+  }
+
+	.upload-images-preview-wrapper img {
+		height:125px;
+	}
+}
+@media screen and (max-width: 650px) {
+  emoji-picker {
+    --num-columns: 6;
+    --category-emoji-size: 1rem;
+		--emoji-size: 1rem;
+		--emoji-padding: 0.2rem;
+		--input-font-size:0.6rem;	
+		--input-line-height:1;
+  }
+
+	.upload-images-preview-wrapper img {
+		height:100px;
+	}
+}
+
+
+@media screen and (max-width: 400px) {
+	.upload-images-preview-wrapper img {
+		height:80px;
+	}
 }

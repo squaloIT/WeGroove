@@ -576,7 +576,7 @@ function addSelectedImagesToPreview(uploadPreview, files, onClickRemoveImage) {
     div.className = 'image-wrapper relative ml-1 mt-1';
     const button = document.createElement('button');
 
-    button.className = "absolute right-1 top-1 bg-white bg-opacity-50 rounded-full p-1"
+    button.className = "absolute right-1 top-1 bg-white bg-opacity-50 rounded-full md:p-1"
     button.addEventListener('click', e => onClickRemoveImage(e, img))
     button.innerHTML = `
     <svg viewBox="0 0 24 24" aria-hidden="true" class="w-4 pointer-events-none">

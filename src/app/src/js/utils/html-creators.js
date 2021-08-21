@@ -239,9 +239,9 @@ function createFollowingButtonElement(user) {
 function createUserRowHTML(user) {
   return `<div class='w-full px-6 flex py-4 border-b border-super-light-gray-border'>
   <div class='w-4/5 flex'>
-    <div class="image-container w-14 h-14">
+    <div class="image-container  w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14">
       <a href="/profile/${user.username}">
-        <img class='w-14 h-14 rounded-full bg-white' src="${user.profilePic}" alt="${user.username}" />
+        <img class='w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 rounded-full bg-white' src="${user.profilePic}" alt="${user.username}" />
       </a>
     </div>
 
@@ -310,8 +310,8 @@ function createNewNameLabelHTML(message, isSent) {
  */
 function createNotificationRow(notification) {
   let div = `<div class='notification-container w-full p-3 flex flex-1 items-center font-roboto pointer-events-none'>
-      <div class="image-container w-14 h-14">
-        <img class='w-14 rounded-full bg-white' src='${notification.userFrom.profilePic}' alt="${notification.userFrom.username}" title='${notification.userFrom.username}' />
+      <div class="image-container  w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14">
+        <img class='w-10 sm:w-12 md:w-14 rounded-full bg-white' src='${notification.userFrom.profilePic}' alt="${notification.userFrom.username}" title='${notification.userFrom.username}' />
       </div>
 
       <div class='flex items-center justify-between w-full space-x-1 ml-3 pointer-events-none'>
@@ -382,15 +382,15 @@ function createChatRowContent(msg) {
  */
 function createImagesForChatRow(chat, sender) {
   if (chat.users.length > 1) {
-    return `<div class="image-container w-14 h-14 relative">
+    return `<div class="image-container  w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 relative">
     <img 
-      class='w-10 h-10 rounded-full bg-white absolute bottom-0 left-0 z-20' 
+      class='w-6 sm:w-8 md:w-10 h-6 sm:h-8 md:h-10  rounded-full bg-white absolute bottom-0 left-0 z-20' 
       src="${chat.users[0].profilePic}" 
       alt="${chat.users[0].username}" 
       title=${chat.users[0].username}
     />
     <img 
-      class='w-10 h-10 rounded-full bg-white absolute right-0 top-0 z-10' 
+      class='w-6 sm:w-8 md:w-10 h-6 sm:h-8 md:h-10  rounded-full bg-white absolute right-0 top-0 z-10' 
       src="${chat.users[1].profilePic}" 
       alt="${chat.users[1].username}" 
       title=${chat.users[1].username}
@@ -399,8 +399,8 @@ function createImagesForChatRow(chat, sender) {
 
   } else {
     return `
-      <div class="image-container w-14 h-14">
-        <img class='w-14 rounded-full bg-white' src="${sender.profilePic}" alt="${sender.username}" title="${sender.username}" />
+      <div class="image-container  w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14">
+        <img class='w-10 sm:w-12 md:w-14 rounded-full bg-white' src="${sender.profilePic}" alt="${sender.username}" title="${sender.username}" />
       </div>`
   }
 }
@@ -428,8 +428,8 @@ const createSmallRowForUser = (user, href) => {
       <a href='${href}' data-user-id='${user._id}'>
         <div class='user-row flex justify-between p-2 items-center border-b border-light-gray-for-text border-opacity-20 hover:bg-light-gray-for-text hover:bg-opacity-20'>
           <div class='image-container flex items-center'>
-            <div class="image-container w-14 h-14">
-              <img class='w-14 rounded-full bg-white' src="${user.profilePic}" alt="${user.username}" title='${user.username}' />
+            <div class="image-container  w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14">
+              <img class='w-10 sm:w-12 md:w-14 rounded-full bg-white' src="${user.profilePic}" alt="${user.username}" title='${user.username}' />
             </div>
           </div>
 
