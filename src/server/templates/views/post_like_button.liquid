@@ -6,7 +6,7 @@
       {% assign likes = post.likes | join: "," %}
     {% endif %}
 
-    <svg viewBox="0 0 24 24" aria-hidden="true" class="animate__animated heart-icon pointer-events-none inline-block fill-current h-5 w-5 align-text-bottom 
+    <svg viewBox="0 0 24 24" aria-hidden="true" class="animate__animated heart-icon pointer-events-none inline-block fill-current post-icon align-text-bottom 
       {% if likes contains user._id %}text-like-button-red filled {% endif %}
     ">
       <g>
@@ -36,7 +36,7 @@
   {% if showNumbers %}
     <span class="likes-num 
       {% if likes contains user._id %}text-like-button-red filled {% endif %}
-    flex items-center font-normal text-gray-700">
+    flex items-center font-normal text-gray-700 text-sm sm:text-base">
       {% if retweetData %}
           {% if retweetData.likes.size > 0 %}
             {{retweetData.likes.size}}

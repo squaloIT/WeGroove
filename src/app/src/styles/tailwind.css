@@ -11,6 +11,10 @@
 	@apply text-brand-purple font-bold tracking-wider font-lobster;
 }
 
+.post-icon {
+	@apply  w-4 h-4 sm:h-5 sm:w-5;
+}
+
 @tailwind utilities;
 
 @layer utilities {

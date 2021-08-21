@@ -6,7 +6,7 @@
       {% assign retweets = post.retweetUsers | join: "," %}
     {% endif %}
     
-    <svg viewBox="0 0 24 24" aria-hidden="true" class="retweet-icon animate__animated pointer-events-none inline-block fill-current h-5 w-5 align-text-bottom
+    <svg viewBox="0 0 24 24" aria-hidden="true" class="retweet-icon animate__animated pointer-events-none inline-block fill-current post-icon align-text-bottom
       {% if retweets contains user._id %}
         text-retweet-button-green filled
       {% endif %}
@@ -22,7 +22,7 @@
       {% if retweets contains user._id %}
           text-retweet-button-green
         {% endif %}
-    flex items-center font-normal text-gray-700 ml-1">
+    flex items-center text-sm sm:text-base font-normal text-gray-700 ml-1">
 
      {% if retweetData %}
           {% if retweetData.retweetUsers.size > 0 %}
