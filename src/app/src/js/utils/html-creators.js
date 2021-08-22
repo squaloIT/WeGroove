@@ -272,8 +272,8 @@ function createUserRowHTML(user) {
 function createNewMessageHTML(message, images, isSent) {
   return `
   <div class='message-container ${isSent ? 'sent' : 'received'} flex w-full px-4 mb-2' data-sender-id="${message.sender._id || message.sender}">
-    <div class='incoming-message max-w-[55%]'>
-      <span class='inline-block px-4 py-2 rounded-2xl'>
+    <div class='incoming-message max-w-[75%] sm:max-w-[65%] md:max-w-[55%]'>
+      <span class='inline-block px-4 py-2 rounded-2xl  text-sm sm:text-base'>
         ${message.content}
         
         ${images.length > 0 ? `
