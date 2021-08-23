@@ -20,21 +20,21 @@
 
               <div class='flex items-center justify-between w-full space-x-1 ml-3 pointer-events-none'>
                   <div class='pointer-events-none'>
-                      <span class='notification-user-fullName text-dark-gray-for-text  pointer-events-none'>
+                      <span class='notification-user-fullName text-xs xs:text-sm sm:text-base text-dark-gray-for-text  pointer-events-none'>
                         {{notification.userFrom.fullName}}
                       </span>
                     
                       {% if notification.notificationType == 'follow' %}
-                        <span class='notification-text text-dark-gray-for-text  pointer-events-none'> has started following you</span>
+                        <span class='notification-text text-dark-gray-for-text  pointer-events-none  text-xs xs:text-sm sm:text-base'> has started following you</span>
 
                       {% elsif notification.notificationType == 'retweet' %}
-                        <span class='notification-text text-dark-gray-for-text  pointer-events-none'> has re-posted one of your posts</span>
+                        <span class='notification-text text-dark-gray-for-text  pointer-events-none text-xs xs:text-sm sm:text-base'> has re-posted one of your posts</span>
 
                       {% elsif notification.notificationType == 'like' %}
-                        <span class='notification-text text-dark-gray-for-text  pointer-events-none'> liked one of your posts</span>
+                        <span class='notification-text text-dark-gray-for-text  pointer-events-none text-xs xs:text-sm sm:text-base'> liked one of your posts</span>
                         
                       {% elsif notification.notificationType == 'comment' %}
-                        <span class='notification-text text-dark-gray-for-text  pointer-events-none'> replied to one of your posts</span>
+                        <span class='notification-text text-dark-gray-for-text  pointer-events-none text-xs xs:text-sm sm:text-base'> replied to one of your posts</span>
 
                       {% else %}
                         SHOULD NOT HAPPEN
