@@ -31,14 +31,14 @@
 
           {% if userFollowing contains userProfile._id %}
             {% comment %} <div class='following-buttons-wrapper'> {% endcomment %}
-              <a href="/messages/{{userProfile._id}}" data-profile-id="{{userProfile._id}}" class='message-user-link cursor-pointer border-2 border-[#1DA1F2] white-text-onHover-button text-lg font-normal rounded-xl bg-white outline-none px-3 py-2 hover:bg-[#1DA1F2]'>
+              <a href="/messages/{{userProfile._id}}" data-profile-id="{{userProfile._id}}" class='message-user-link cursor-pointer border-2 border-[#1DA1F2] white-text-onHover-button text-sm xs:text-base sm:text-lg font-normal rounded-xl bg-white outline-none px-2.5 sm:px-3 hover:bg-[#1DA1F2] flex items-center'>
                 <span class='pointer-events-none text-[#1DA1F2]'>
                   <i class="fas fa-envelope"></i>
                 </span>
               </a>
               
-              <button data-profile-id="{{userProfile._id}}" class='following-unfollowing unfollow-button cursor-pointer text-base font-semibold rounded-xl outline-none px-3 py-2 focus:outline-white focus:shadow-none focus:ring-0'>
-                <span class='follow-button__label pointer-events-none ring-0  '>Following</span>
+              <button data-profile-id="{{userProfile._id}}" class='following-unfollowing unfollow-button cursor-pointer font-semibold rounded-xl outline-none px-2.5 py-1.5 sm:px-3 focus:outline-white focus:shadow-none focus:ring-0 text-xs xs:text-sm sm:text-base'>
+                <span class='follow-button__label pointer-events-none ring-0 '>Following</span>
                 <i class="follow-button__spinner hidden fas fa-spinner fa-pulse"></i>
               </button>
             {% comment %} </div> {% endcomment %}
@@ -46,7 +46,7 @@
           {% else %} 
             {% comment %} <div class='following-buttons-wrapper'> {% endcomment %}
   
-              <button data-profile-id="{{userProfile._id}}" class='following-unfollowing follow-button cursor-pointer text-base rounded-xl outline-none px-3 py-2 font-semibold ring-0 focus:outline-white focus:shadow-none focus:ring-0 '>
+              <button data-profile-id="{{userProfile._id}}" class='following-unfollowing follow-button cursor-pointer rounded-xl outline-none px-2.5 py-1.5 sm:px-3 font-semibold ring-0 focus:outline-white focus:shadow-none focus:ring-0 text-xs xs:text-sm sm:text-base '>
                 <span class='follow-button__label pointer-events-none'>Follow</span>
                 <i class="follow-button__spinner hidden fas fa-spinner fa-pulse"></i>
               </button>
