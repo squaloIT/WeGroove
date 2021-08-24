@@ -466,6 +466,36 @@ emoji-picker {
 	transition-timing-function: cubic-bezier(0, 1, 0.5, 1);
 }
 
+#open_hamburger_overlay_btn span.line
+{
+  border-radius: 3px;
+  z-index: 1;
+  transform-origin: 4px 0px;
+  transition: transform 0.5s cubic-bezier(0.77,0.2,0.05,1.0),
+              background 0.5s cubic-bezier(0.77,0.2,0.05,1.0),
+              opacity 0.55s ease;
+}
+
+.overlay {
+  overflow-x: hidden; 
+  transition: 0.5s; 
+}
+
+.overlay-content {
+  width: 100%; 
+}
+
+.overlay a.hamburger-menu-link {
+  transition: 0.3s; 
+}
+
+.overlay a.hamburger-menu-link:hover, .overlay a.hamburger-menu-link:focus {
+  color: #F5F8FA;
+	background-color: rgb(67, 62, 144);
+}
+
+
+
 @media screen and (max-width: 900px) {
   emoji-picker {
     --num-columns: 7;

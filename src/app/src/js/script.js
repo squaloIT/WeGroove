@@ -58,6 +58,21 @@ if (window.location.pathname.indexOf('/topic') == 0) {
   })
 }
 
+if (window.location.pathname != '/login' && window.location.pathname != '/registration') {
+  document.querySelector('#close_hamburger_overlay_btn').addEventListener('click', () => {
+    const nav = document.getElementById("myNav");
+    nav.style.height = "0%";
+    nav.style.borderBottomWidth = '0px';
+  })
+  document.querySelector('#open_hamburger_overlay_btn').addEventListener('click', () => {
+    const nav = document.getElementById("myNav");
+    nav.style.height = "100%";
+    nav.style.borderBottomWidth = '8px';
+    // nav.style.borderWidth = '4px';
+    nav.style.borderColor = 'rgb(67, 62, 144)';
+  })
+}
+
 if (window.location.pathname == '/login') {
   import('./login').then(({ default: login }) => {
     login();

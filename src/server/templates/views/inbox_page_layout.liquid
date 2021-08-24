@@ -1,21 +1,30 @@
 <div class="w-full" id='inbox'>
   <div class='top-wrapper flex justify-between items-baseline border-b border-super-light-gray-border pb-4 mt-2 px-3'>
-    <div class='w-4/5'>
-      <h1 class="page-title text-2xl sm:text-3xl">{{title}}</h1>
-    </div>
+    
+      <h1 class="page-title w-11/12 text-2xl sm:text-3xl">{{title}}</h1>
+   
+      <div class='w-2/12 flex justify-between items-center md:justify-end'>
 
-    <div class='w-1/5 flex justify-end'>
-      {% if subPage == 'inbox' %}
+          {% if subPage == 'inbox' %}
+
           <a href='/messages/new'>
             <i class="far fa-plus-square text-lg xs:text-xl sm:text-2xl rounded-full cursor-pointer hover:-translate-y-0.5 transform hover:text-brand-purple text-brand-dark-gray"></i>
           </a>
-      {% else %}
-          <a href='/messages'>
-            <i class="fas fa-inbox text-lg xs:text-xl sm:text-2xl rounded-full cursor-pointer hover:-translate-y-0.5 transform hover:text-brand-purple text-brand-dark-gray"></i>
-          </a>
-      {% endif %}
 
+          {% else %}
+
+            <a href='/messages'>
+              <i class="fas fa-inbox text-lg xs:text-xl sm:text-2xl rounded-full cursor-pointer hover:-translate-y-0.5 transform hover:text-brand-purple text-brand-dark-gray"></i>
+            </a>
+
+          {% endif %}
+
+        <div class='md:hidden'>
+          {% render 'hamburger_menu' user: user %}
+        </div>
     </div>
+    
+
   </div>
 
 

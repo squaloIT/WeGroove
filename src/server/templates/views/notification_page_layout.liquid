@@ -1,15 +1,18 @@
 <div class="w-full" id='notifications'>
-  <div class='top-wrapper border-b border-super-light-gray-border pb-4 mt-2 px-3 flex items-center'>
-    <div class='w-4/5'>
-      <h1 class="page-title text-2xl sm:text-3xl">{{title}}</h1>
-    </div>
+  <div class='top-wrapper border-b border-super-light-gray-border px-3 py-3 mt-2 flex items-center'>
 
-    <div class='w-1/5 flex justify-end'>
+    <h1 class="page-title w-10/12 text-2xl sm:text-3xl"> {{title}}</h1>
+
+    <div class='w-2/12 flex justify-between md:justify-end items-center '>
       <button>
-        <i class="fas fa-check-double text-brand-blue text-2xl"></i>
+        <i class="fas fa-check-double text-brand-purple text-2xl"></i>
       </button>
+
+      <div class='md:hidden'>
+        {% render 'hamburger_menu' user: user %}
+      </div>
     </div>
-    
+   
   </div>
 
   <div class='content-wrapper'>
