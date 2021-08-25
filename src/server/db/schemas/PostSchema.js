@@ -91,13 +91,18 @@ PostSchema.statics.findAllUserPosts = async (userId, filterTab = false) => {
 /** @returns post */
 PostSchema.statics.getPostWithID = async (_id) => {
   /** @type { post } */
-  const post = await PostModel.findById(_id)
+  let post = await PostModel.findById(_id)
     .populate('postedBy')
     .populate('retweetUsers')
     .lean()
     .catch(err => {
       console.error(err);
     })
+
+  post = {
+    ...post,
+    content: colorHashtagsInText(post)
+  }
 
   post.time = moment(post.createdAt).format("H:m A")
   post.date = moment(post.createdAt).format("MMM D, YYYY")

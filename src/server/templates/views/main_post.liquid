@@ -4,13 +4,13 @@
       {% render 'small_profile_image_rounded', user: post.postedBy %}
 
       <div class='post-content__user-info ml-2'>
-        <p class="name text-sm sm:text-base font-bold -mb-1">{{post.postedBy.fullName}}</p>
+        <p class="name text-sm sm:text-base font-bold mb-1 sm:-mb-1">{{post.postedBy.fullName}}</p>
         <span class="username text-xs sm:text-sm text-gray-500 ">@{{post.postedBy.username}}</span>
       </div>
     </div>
 
-    <div class="post-content__text w-11/12 mt-1 cursor-pointer px-2 xs:px-0">
-      <p class='text-sm sm:text-base py-2'>{{post.content}}</p>
+    <div class="post-content__text w-full xs:w-11/12 mt-1 cursor-pointer px-2 xs:px-0">
+      <p class='text-sm sm:text-base py-2 px-2 sm:px-0'>{{post.content}}</p>
       <div class='w-full md:w-10/12'>
         {% if post.images.size > 0 %}
           {% render 'post_content_images', images: post.images %}
