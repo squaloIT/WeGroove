@@ -53,6 +53,10 @@ module.exports = {
           from: path.resolve(__dirname, './../src/assets'),
           to: path.resolve(__dirname, './../dist/assets'),
         },
+        {
+          from: path.resolve(__dirname, './../manifest.webmanifest'),
+          to: path.resolve(__dirname, './../dist/manifest.webmanifest'),
+        },
         // {
         //   from: path.resolve(__dirname, './../sw.js'),
         //   to: path.resolve(__dirname, './../dist/sw.js'),
@@ -62,6 +66,6 @@ module.exports = {
     new Workbox.InjectManifest({
       swSrc: path.resolve(__dirname, './../sw.js'),
       swDest: 'service-worker.js',
-    })
+    }),
   ],
 };
