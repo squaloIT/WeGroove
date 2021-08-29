@@ -1,4 +1,5 @@
 const express = require('express');
+const { getIdsForOnlineUsers } = require('../../socket');
 const router = express.Router();
 const ChatModel = require('./../../db/schemas/ChatSchema')
 require('./../../typedefs');
@@ -104,6 +105,30 @@ router.put('/change-chat-name', async (req, res) => {
     data: chat,
     status: 200,
     msg: 'Successfully changed chat name.'
+  })
+})
+
+router.get('/online-participants/:chatId', async (req, res) => {
+  const chatId = req.params.chatId;
+
+  let userIds = await ChatModel.getAllParticipantsInChat(chatId)
+    .catch(err => {
+      console.log("ERROR IN /online-participants/:chatId")
+      return res.status(400).json({
+        data: null,
+        status: 400,
+        msg: err
+      })
+    })
+
+  userIds = userIds.map(uid => String(uid))
+  const onlineIds = getIdsForOnlineUsers();
+  const fromParticipantsOnlineUsers = userIds.filter(uid => onlineIds.includes(uid))
+
+  return res.status(200).json({
+    chatParticipantsIds: userIds,
+    allOnlineUserIds: onlineIds,
+    setOnlineIndicator: fromParticipantsOnlineUsers.length === userIds.length
   })
 })
 

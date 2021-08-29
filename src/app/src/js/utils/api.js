@@ -269,6 +269,14 @@ function getTopicsAndUsersForSearch(searchTerm) {
   }).then(res => res.json())
 }
 
+function getChatParticipants(chatId) {
+  return fetch(`${process.env.SERVER_URL_DEV}/api/chat/online-participants/${chatId}`, {
+    method: 'GET',
+    headers: {
+      "Content-Type": "application/json"
+    }
+  }).then(res => res.json())
+}
 
 export {
   searchTermByType,
@@ -288,6 +296,7 @@ export {
   sendNotificationRead,
   getNumberOfUnreadForUser,
   setSeenForMessagesInChat,
-  getTopicsAndUsersForSearch
+  getTopicsAndUsersForSearch,
+  getChatParticipants
 };
 

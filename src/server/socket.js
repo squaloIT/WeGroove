@@ -147,10 +147,15 @@ function emitNotificationToUser(notification, notificationNumber) {
   }
 }
 
+function getIdsForOnlineUsers() {
+  return Object.keys(sessionsMap);
+}
+
 module.exports = {
   connect,
   emitMessageToUsers,
   deleteUserFromSessionMap,
   emitUserIdToRetreiveSocketId,
-  emitNotificationToUser
+  emitNotificationToUser,
+  getIdsForOnlineUsers
 }

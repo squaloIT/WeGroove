@@ -1,9 +1,8 @@
 import { emitStopTypingToRoom, emitTypingToRoom } from "../client-socket";
-import { changeChatName, createChat, deletePostByID, followOrUnfollowUser, getNumberOfUnreadForUser, getPostData, getTopicsAndUsersForSearch, likePost, retweetPost, sendMessage, sendNotificationRead, setSeenForMessagesInChat, togglePinned } from "./api";
+import { changeChatName, createChat, deletePostByID, followOrUnfollowUser, getChatParticipants, getNumberOfUnreadForUser, getPostData, getTopicsAndUsersForSearch, likePost, retweetPost, sendMessage, sendNotificationRead, setSeenForMessagesInChat, togglePinned } from "./api";
 import { addEmojiToCommentModal, addNewMessage, animateButtonAfterClickOnLike, animateButtonAfterClickOnRetweet, createChatRow, createNewNotification, createRowsAfterSearchInRightColumn, emptyFileContainer, emptyImagePreviewContainer, findChatElement, findPostWrapperElement, getPostIdForWrapper, getProfileIdFromFollowButton, hideSpinner, openModal, scrollMessagesToBottom, showSpinner, toggleButtonAvailability, toggleFollowButtons, toggleScrollForTextarea } from "./dom-manipulation";
 import { createSmallRowForUser } from "./html-creators";
 import { validateNumberOfImages } from "./validation";
-
 /**
  * @param {Event} e 
  */
@@ -612,7 +611,6 @@ function onClickToggleOnlineUsersWrapper(e) {
 }
 
 function onFindingOnlineUsers(users) {
-  console.log(users)
   const usersWrapper = document.querySelector('div.online-users-container div.online-users-list')
 
   users.forEach(u => {
@@ -620,7 +618,24 @@ function onFindingOnlineUsers(users) {
     users.forEach(u => {
       usersWrapper.innerHTML += createSmallRowForUser(u, `/messages/${u._id}`);
     })
-  })
+  });
+
+  const onlineIndicatorDiv = document.querySelector('#is-online-indicator');
+
+  if (window.location.pathname.indexOf("/messages/") > -1 && window.location.pathname != '/messages/new' && onlineIndicatorDiv) {
+    const parts = window.location.pathname.split("/")
+    const chatId = parts[parts.length - 1]
+
+    getChatParticipants(chatId)
+      .then(({ chatParticipantsIds, allOnlineUserIds, setOnlineIndicator }) => {
+        if (!setOnlineIndicator) {
+          onlineIndicatorDiv.remove();
+        }
+      })
+      .catch(err => {
+        console.error("🚀 ~ file: listeners.js ~ line 641 ~ onFindingOnlineUsers ~ err", err)
+      })
+  }
 }
 
 const onDisconnectRemoveFriendFromList = (userId) => {

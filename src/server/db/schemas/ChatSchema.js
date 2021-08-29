@@ -21,5 +21,12 @@ ChatSchema.statics.getAllChatsForUser = async function (userId) {
 
   return chats;
 }
+
+ChatSchema.statics.getAllParticipantsInChat = async function (chatId) {
+  /** @type chat */
+  let chat = await ChatModel.findById(chatId).lean();
+  return chat.users;
+}
+
 const ChatModel = mongoose.model("Chat", ChatSchema)
 module.exports = ChatModel
