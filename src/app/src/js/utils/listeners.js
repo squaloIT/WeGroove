@@ -1,4 +1,4 @@
-import { emitStopTypingToRoom, emitTypingToRoom } from "../client-socket";
+import { emitAudioCallStartedForChat, emitCallAnswered, emitCallDenied, emitStopTypingToRoom, emitTypingToRoom, emitVideoCallStartedForChat } from "../client-socket";
 import { changeChatName, createChat, deletePostByID, followOrUnfollowUser, getChatParticipants, getNumberOfUnreadForUser, getPostData, getTopicsAndUsersForSearch, likePost, retweetPost, sendMessage, sendNotificationRead, setSeenForMessagesInChat, togglePinned } from "./api";
 import { addEmojiToCommentModal, addNewMessage, animateButtonAfterClickOnLike, animateButtonAfterClickOnRetweet, createChatRow, createNewNotification, createRowsAfterSearchInRightColumn, emptyFileContainer, emptyImagePreviewContainer, findChatElement, findPostWrapperElement, getPostIdForWrapper, getProfileIdFromFollowButton, hideSpinner, openModal, scrollMessagesToBottom, showSpinner, toggleButtonAvailability, toggleFollowButtons, toggleScrollForTextarea } from "./dom-manipulation";
 import { createSmallRowForUser } from "./html-creators";
@@ -630,6 +630,12 @@ function onFindingOnlineUsers(users) {
       .then(({ chatParticipantsIds, allOnlineUserIds, setOnlineIndicator }) => {
         if (!setOnlineIndicator) {
           onlineIndicatorDiv.remove();
+        } else {
+          onlineIndicatorDiv.classList.remove("hidden")
+          const phoneIcon = onlineIndicatorDiv.querySelector(".fa-phone")
+          const videoIcon = onlineIndicatorDiv.querySelector(".fa-video")
+          phoneIcon.addEventListener('click', () => emitAudioCallStartedForChat(chatId))
+          videoIcon.addEventListener('click', () => emitVideoCallStartedForChat(chatId))
         }
       })
       .catch(err => {
@@ -655,6 +661,70 @@ const onFriendConnectionAddToList = (user) => {
     userWrapper.remove()
   }
   usersWrapper.innerHTML += createSmallRowForUser(user, `/messages/${user._id}`);
+}
+
+const videoCallTimeout = null;
+const audioCallTimeout = null;
+
+const onVideoCallDisplayRinging = ({ uuid, participants, chat }) => {
+  console.log("🚀 ~ file: listeners.js ~ line 670 ~ onVideoCallDisplayRinging ~ chat", chat)
+  console.log("🚀 ~ file: listeners.js ~ line 670 ~ onVideoCallDisplayRinging ~ uuid", uuid)
+  console.log("🚀 ~ file: listeners.js ~ line 670 ~ onVideoCallDisplayRinging ~ participants", participants)
+  const videoCallWrapper = document.querySelector("#video-call-wrapper")
+  videoCallWrapper.classList.remove("hidden");
+  clearTimeout(videoCallTimeout);
+
+  const answerBtn = videoCallWrapper.querySelector("div.call-icons-wrapper div.answer")
+  const denyBtn = videoCallWrapper.querySelector("div.call-icons-wrapper div.deny")
+  const chatNameSpan = videoCallWrapper.querySelector('span.chat-name')
+  const chatNameHeader = document.querySelector('div.header-chat-name h4')
+  chatNameSpan.innerText = chat.chatName || chatNameHeader.innerText
+
+  answerBtn.addEventListener("click", onVideoAnswerClick)
+  denyBtn.addEventListener("click", onVideoDenyClick)
+
+  setTimeout(() => {
+    videoCallWrapper.classList.add("hidden")
+    answerBtn.removeEventListener("click", onVideoAnswerClick)
+    denyBtn.removeEventListener("click", onVideoDenyClick)
+  }, 60000)
+}
+
+const onAudioCallDisplayRinging = ({ uuid, participants, chat }) => {
+  const audioCallWrapper = document.querySelector("#audio-call-wrapper")
+  audioCallWrapper.classList.remove("hidden");
+  clearTimeout(audioCallTimeout);
+
+  const answerBtn = videoCallWrapper.querySelector("div.call-icons-wrapper div.answer")
+  const denyBtn = videoCallWrapper.querySelector("div.call-icons-wrapper div.deny")
+  const chatNameSpan = videoCallWrapper.querySelector('span.chat-name')
+  const chatNameHeader = document.querySelector('div.header-chat-name h4')
+  chatNameSpan.innerText = chat.chatName || chatNameHeader.innerText
+
+  answerBtn.addEventListener("click", onAudioAnswerClick)
+  denyBtn.addEventListener("click", onAudioDenyClick)
+
+  setTimeout(() => {
+    audioCallWrapper.classList.add("hidden")
+    answerBtn.removeEventListener("click", onAudioAnswerClick)
+    denyBtn.removeEventListener("click", onAudioDenyClick)
+  }, 60000)
+}
+
+const onVideoAnswerClick = () => {
+  emitCallAnswered("video")
+}
+
+const onAudioAnswerClick = () => {
+  emitCallAnswered("audio")
+}
+
+const onVideoDenyClick = () => {
+  emitCallDenied("video")
+}
+
+const onAudioDenyClick = () => {
+  emitCallDenied("audio")
 }
 
 export {
@@ -684,6 +754,8 @@ export {
   onSearchTopicsAndUsers,
   onDisconnectRemoveFriendFromList,
   onFriendConnectionAddToList,
-  onFindingOnlineUsers
+  onFindingOnlineUsers,
+  onVideoCallDisplayRinging,
+  onAudioCallDisplayRinging
 };
 

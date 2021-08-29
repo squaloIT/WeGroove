@@ -1,5 +1,7 @@
 const socket = require('socket.io');
 const jwt = require('jsonwebtoken');
+const { v4: uuidv4 } = require('uuid');
+const ChatModel = require('./db/schemas/ChatSchema');
 // app.set("io", io); //* In this way i made io global app variable
 // let io = app.get("io"); //* And I can retreive it with app.get(io)
 //* I can also put middleware that will attach io to thhe requst and pass it down the line
@@ -58,6 +60,54 @@ function connect(app) {
       })
 
       io.to(socketId).emit('online-users', allConnectedFollowings)
+    })
+
+    socket.on("video-call-started", async ({ chatId, socketId }) => {
+      const loggedUser = findUserForSocketID(socketId);
+      const participantsUID = await ChatModel.getAllParticipantsInChat(chatId);
+      /** @type chat */
+      const chat = await ChatModel.findById(chatId);
+      const uuid = uuidv4()
+      let participantsData = {}
+
+      for (let uid in sessionsMap) {
+        participantsData[uid] = sessionsMap[uid].socketID
+      }
+
+      participantsUID.forEach(uid => {
+        if (String(loggedUser._id) != uid && sessionsMap[uid].socketID) {
+          io.to(sessionsMap[uid].socketID).emit('answer-video-call', {
+            uuid,
+            chat,
+            participants: participantsData,
+          })
+        }
+      })
+    })
+
+    socket.on("audio-call-started", async ({ chatId, socketId }) => {
+      const loggedUser = findUserForSocketID(socketId);
+      const participantsUID = await ChatModel.getAllParticipantsInChat(chatId);
+      /** @type chat */
+      const chat = await ChatModel.findById(chatId);
+      const uuid = uuidv4()
+      let participantsData = {}
+
+      for (let uid in sessionsMap) {
+        participantsData[uid] = sessionsMap[uid].socketID
+      }
+      console.log("🚀 ~ file: socket.js ~ line 85 ~ socket.on ~ participantsData", participantsData)
+      // sessionsMap[verifiedJwtData._id] = { socketID, user: verifiedJwtData };
+
+      participantsUID.forEach(uid => {
+        if (String(loggedUser._id) != uid) {
+          io.to(sessionsMap[uid].socketID).emit('answer-audio-call', {
+            uuid,
+            chat,
+            participants: participantsData,
+          })
+        }
+      })
     })
 
     socket.once('disconnect', function () {
