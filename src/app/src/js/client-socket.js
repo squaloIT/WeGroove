@@ -27,11 +27,15 @@ function connectClientSocket(jwtUser) {
 }
 
 function emitAudioCallStartedForChat(chatId) {
-  socket.emit("audio-call-started", { chatId, socketId: socket.id })
+  socket.emit("audio-call-started", { chatId, socketId: socket.id }, (uuid) => {
+    window.location.href = "/call_room/" + uuid
+  })
 }
 
 function emitVideoCallStartedForChat(chatId) {
-  socket.emit("video-call-started", { chatId, socketId: socket.id })
+  socket.emit("video-call-started", { chatId, socketId: socket.id }, (uuid) => {
+    window.location.href = "/call_room/" + uuid
+  })
 }
 
 function emitTypingToRoom(room) {
@@ -46,27 +50,12 @@ function emitJoinRoom(room) {
   socket.emit("joinRoom", room)
 }
 
-/**
- * @param { "video" | "audio" } type
- */
-function emitCallAnswered(type) {
-  socket.emit(`${type}-call-answered`)
-}
-/**
- * @param { "video" | "audio" } type
- */
-function emitCallDenied(type) {
-  socket.emit(`${type}-call-answered`)
-}
-
 export {
   connectClientSocket,
   emitTypingToRoom,
   emitStopTypingToRoom,
   emitAudioCallStartedForChat,
   emitVideoCallStartedForChat,
-  emitCallAnswered,
-  emitCallDenied,
   emitJoinRoom
 };
 

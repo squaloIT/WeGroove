@@ -1,4 +1,4 @@
-import { emitAudioCallStartedForChat, emitCallAnswered, emitCallDenied, emitStopTypingToRoom, emitTypingToRoom, emitVideoCallStartedForChat } from "../client-socket";
+import { emitAudioCallStartedForChat, emitStopTypingToRoom, emitTypingToRoom, emitVideoCallStartedForChat } from "../client-socket";
 import { changeChatName, createChat, deletePostByID, followOrUnfollowUser, getChatParticipants, getNumberOfUnreadForUser, getPostData, getTopicsAndUsersForSearch, likePost, retweetPost, sendMessage, sendNotificationRead, setSeenForMessagesInChat, togglePinned } from "./api";
 import { addEmojiToCommentModal, addNewMessage, animateButtonAfterClickOnLike, animateButtonAfterClickOnRetweet, createChatRow, createNewNotification, createRowsAfterSearchInRightColumn, emptyFileContainer, emptyImagePreviewContainer, findChatElement, findPostWrapperElement, getPostIdForWrapper, getProfileIdFromFollowButton, hideSpinner, openModal, scrollMessagesToBottom, showSpinner, toggleButtonAvailability, toggleFollowButtons, toggleScrollForTextarea } from "./dom-manipulation";
 import { createSmallRowForUser } from "./html-creators";
@@ -634,14 +634,30 @@ function onFindingOnlineUsers(users) {
           onlineIndicatorDiv.classList.remove("hidden")
           const phoneIcon = onlineIndicatorDiv.querySelector(".fa-phone")
           const videoIcon = onlineIndicatorDiv.querySelector(".fa-video")
-          phoneIcon.addEventListener('click', () => emitAudioCallStartedForChat(chatId))
-          videoIcon.addEventListener('click', () => emitVideoCallStartedForChat(chatId))
+          phoneIcon.addEventListener('click', () => {
+            emitAudioCallStartedForChat(chatId);
+          })
+          videoIcon.addEventListener('click', () => {
+            emitVideoCallStartedForChat(chatId)
+          })
         }
       })
       .catch(err => {
         console.error("🚀 ~ file: listeners.js ~ line 641 ~ onFindingOnlineUsers ~ err", err)
       })
   }
+}
+var waitingModalTimeout = null;
+
+const displayWaitingForAnswerModal = () => {
+  clearTimeout(waitingModalTimeout);
+
+  const modalWrapper = document.querySelector('#waiting_call_modal');
+  modalWrapper.classList.remove('hidden')
+
+  waitingModalTimeout = setTimeout(() => {
+    modalWrapper.classList.add('hidden')
+  }, 60000)
 }
 
 const onDisconnectRemoveFriendFromList = (userId) => {
@@ -678,15 +694,17 @@ const onVideoCallDisplayRinging = ({ uuid, participants, chat }) => {
   const denyBtn = videoCallWrapper.querySelector("div.call-icons-wrapper div.deny")
   const chatNameSpan = videoCallWrapper.querySelector('span.chat-name')
   const chatNameHeader = document.querySelector('div.header-chat-name h4')
-  chatNameSpan.innerText = chat.chatName || chatNameHeader.innerText
+  chatNameSpan.innerText = chat.chatName || chatNameHeader?.innerText || ""
 
-  answerBtn.addEventListener("click", onVideoAnswerClick)
-  denyBtn.addEventListener("click", onVideoDenyClick)
+  answerBtn.addEventListener("click", () => {
+    window.location.href = "/call_room/" + uuid
+  })
+  denyBtn.addEventListener("click", () => {
+    videoCallWrapper.classList.add("hidden");
+  })
 
   setTimeout(() => {
     videoCallWrapper.classList.add("hidden")
-    answerBtn.removeEventListener("click", onVideoAnswerClick)
-    denyBtn.removeEventListener("click", onVideoDenyClick)
   }, 60000)
 }
 
@@ -699,32 +717,18 @@ const onAudioCallDisplayRinging = ({ uuid, participants, chat }) => {
   const denyBtn = videoCallWrapper.querySelector("div.call-icons-wrapper div.deny")
   const chatNameSpan = videoCallWrapper.querySelector('span.chat-name')
   const chatNameHeader = document.querySelector('div.header-chat-name h4')
-  chatNameSpan.innerText = chat.chatName || chatNameHeader.innerText
+  chatNameSpan.innerText = chat.chatName || chatNameHeader?.innerText || ""
 
-  answerBtn.addEventListener("click", onAudioAnswerClick)
-  denyBtn.addEventListener("click", onAudioDenyClick)
+  answerBtn.addEventListener("click", () => {
+    window.location.href = "/call_room/" + uuid
+  })
+  denyBtn.addEventListener("click", () => {
+    videoCallWrapper.classList.add("hidden");
+  })
 
   setTimeout(() => {
     audioCallWrapper.classList.add("hidden")
-    answerBtn.removeEventListener("click", onAudioAnswerClick)
-    denyBtn.removeEventListener("click", onAudioDenyClick)
   }, 60000)
-}
-
-const onVideoAnswerClick = () => {
-  emitCallAnswered("video")
-}
-
-const onAudioAnswerClick = () => {
-  emitCallAnswered("audio")
-}
-
-const onVideoDenyClick = () => {
-  emitCallDenied("video")
-}
-
-const onAudioDenyClick = () => {
-  emitCallDenied("audio")
 }
 
 export {

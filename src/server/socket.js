@@ -32,37 +32,34 @@ function connect(app) {
       socket.join(room)
     })
 
-    socket.on('get-online-following', async (socketId) => {
-      const user = findUserForSocketID(socketId);
-      // console.log("🚀 ~ file: socket.js ~ line 36 ~ socket.on ~ user", user)
-      // console.log("______________________________________________________________________________")
-      // console.log("🚀 ~ file: socket.js ~ line 44 ~ socket.on ~ user.following", JSON.stringify(user.following, null, 3))
-      // console.log("______________________________________________________________________________")
-      const connectedUserIds = Object.keys(sessionsMap)
-      const ids = user.following.filter(value => connectedUserIds.includes('' + value));
+    socket.on('join-call', (roomId, userId) => {
+      socket.join(roomId)
+      socket.to(roomId).emit('user-connected-to-call', userId)
 
-      // console.log("🚀 ~ file: socket.js ~ line 44 ~ socket.on ~ ids", JSON.stringify(ids, null, 3))
-      // console.log("______________________________________________________________________________")
-
-      // const allConnectedFollowings = user.following.filter(u => ids.includes(u._id || u))
-      const allConnectedFollowings = ids.map(id => sessionsMap[id].user)
-      // console.log(JSON.stringify(connectedUserIds, null, 3))
-      // console.log("______________________________________________________________________________")
-      // console.log(JSON.stringify(allConnectedFollowings, null, 3))
-      // console.log("______________________________________________________________________________")
-
-      connectedUserIds.forEach(id => {
-        // console.log(JSON.stringify(sessionsMap[id].user.following, null, 3))
-        if (id != "" + user._id && sessionsMap[id].user.following.includes(user._id)) {
-          // console.log("SALJEM KA " + id)
-          io.to(sessionsMap[id].socketID).emit('user-connected', user)
-        }
+      socket.on('disconnect', () => {
+        socket.to(roomId).emit('user-disconnected', userId)
       })
-
-      io.to(socketId).emit('online-users', allConnectedFollowings)
     })
 
-    socket.on("video-call-started", async ({ chatId, socketId }) => {
+    socket.on('get-online-following', async (socketId) => {
+      const user = findUserForSocketID(socketId);
+
+      if (user) {
+        const connectedUserIds = Object.keys(sessionsMap)
+        const ids = user.following.filter(value => connectedUserIds.includes('' + value));
+        const allConnectedFollowings = ids.map(id => sessionsMap[id].user)
+
+        connectedUserIds.forEach(id => {
+          if (id != "" + user._id && sessionsMap[id].user.following.includes(user._id)) {
+            io.to(sessionsMap[id].socketID).emit('user-connected', user)
+          }
+        })
+
+        io.to(socketId).emit('online-users', allConnectedFollowings)
+      }
+    })
+
+    socket.on("video-call-started", async ({ chatId, socketId }, callback) => {
       const loggedUser = findUserForSocketID(socketId);
       const participantsUID = await ChatModel.getAllParticipantsInChat(chatId);
       /** @type chat */
@@ -74,8 +71,10 @@ function connect(app) {
         participantsData[uid] = sessionsMap[uid].socketID
       }
 
+      callback(uuid);
       participantsUID.forEach(uid => {
         if (String(loggedUser._id) != uid && sessionsMap[uid].socketID) {
+
           io.to(sessionsMap[uid].socketID).emit('answer-video-call', {
             uuid,
             chat,
@@ -85,22 +84,23 @@ function connect(app) {
       })
     })
 
-    socket.on("audio-call-started", async ({ chatId, socketId }) => {
+    socket.on("audio-call-started", async ({ chatId, socketId }, callback) => {
       const loggedUser = findUserForSocketID(socketId);
       const participantsUID = await ChatModel.getAllParticipantsInChat(chatId);
       /** @type chat */
       const chat = await ChatModel.findById(chatId);
       const uuid = uuidv4()
+
       let participantsData = {}
 
       for (let uid in sessionsMap) {
         participantsData[uid] = sessionsMap[uid].socketID
       }
-      console.log("🚀 ~ file: socket.js ~ line 85 ~ socket.on ~ participantsData", participantsData)
-      // sessionsMap[verifiedJwtData._id] = { socketID, user: verifiedJwtData };
 
+      callback(uuid);
       participantsUID.forEach(uid => {
         if (String(loggedUser._id) != uid) {
+
           io.to(sessionsMap[uid].socketID).emit('answer-audio-call', {
             uuid,
             chat,
@@ -110,23 +110,11 @@ function connect(app) {
       })
     })
 
-    socket.once('disconnect', function () {
-      // console.log("USER DISCONNECTED ", socket.name + " - " + socket.id)
-      // console.log(sessionsMap);
-      let userId = ''
-
-      for (let key in sessionsMap) {
-        if (sessionsMap[key] && sessionsMap[key].socketID == socket.id) {
-          userId = key
-          delete sessionsMap[key]
-        }
-      }
-      // console.log(sessionsMap)
-
-      io.emit("user-disconnected", userId)
-    })
+    socket.once('disconnect', onDisconnect)
   })
 }
+
+
 /**
  * 
  * @param {string} socketId 
@@ -199,6 +187,19 @@ function emitNotificationToUser(notification, notificationNumber) {
 
 function getIdsForOnlineUsers() {
   return Object.keys(sessionsMap);
+}
+
+function onDisconnect() {
+  let userId = ''
+
+  for (let key in sessionsMap) {
+    if (sessionsMap[key] && sessionsMap[key].socketID == socket.id) {
+      userId = key
+      delete sessionsMap[key]
+    }
+  }
+
+  io.emit("user-disconnected", userId)
 }
 
 module.exports = {

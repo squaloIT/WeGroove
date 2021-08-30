@@ -8,6 +8,7 @@ const searchRouter = require('./searchRouter')
 const messageRouter = require('./messageRouter')
 const notificationRouter = require('./notificationRouter')
 const hashtagRouter = require('./hashtagRouter')
+const callRoomRouter = require('./callRoomRouter')
 const postAPI = require('./api/post')
 const chatAPI = require('./api/chat')
 const searchAPI = require('./api/search')
@@ -31,5 +32,6 @@ module.exports = {
   messageRouter,
   postsRouter,
   hashtagAPI,
-  notificationAPI
+  notificationAPI,
+  callRoomRouter
 }

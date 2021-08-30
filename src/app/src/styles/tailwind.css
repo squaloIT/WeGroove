@@ -494,6 +494,9 @@ emoji-picker {
 	background-color: rgb(67, 62, 144);
 }
 
+#video-grid video:not(.hidden):first-child {
+	margin-right:0px;
+}
 
 
 @media screen and (max-width: 900px) {

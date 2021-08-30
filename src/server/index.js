@@ -3,9 +3,10 @@ const express = require('express')
 var { Liquid } = require('liquidjs');
 const path = require('path')
 const bodyParser = require('body-parser');
-const session = require('express-session')
+const session = require('express-session');
 const cookieParser = require('cookie-parser');
-const { homeRouter, loginRouter, logoutRouter, postAPI, postsRouter, registrationRouter, profileRouter, searchRouter, searchAPI, messageRouter, notificationRouter, chatAPI, messageAPI, notificationAPI, hashtagRouter, hashtagAPI } = require('./routes/index')
+const { PeerServer } = require('peer');
+const { homeRouter, loginRouter, logoutRouter, postAPI, postsRouter, registrationRouter, profileRouter, searchRouter, searchAPI, messageRouter, notificationRouter, chatAPI, messageAPI, notificationAPI, hashtagRouter, hashtagAPI, callRoomRouter } = require('./routes/index')
 const { checkIsLoggedIn, isRememberedCookiePresent, generateUserJWT, getNumberOfUnreadNotifications, getNumberOfUnreadChats, getMostPopularHashtags } = require('./middleware')
 const { connect } = require('./socket')
 
@@ -14,6 +15,7 @@ const port = process.env.PORT || 3000;
 const db = require('./db/index')
 const server = app.listen(port, () => console.log("Server listening on port " + port))
 connect(server);
+const peerServer = PeerServer({ port: 9000, path: '/' });
 
 const viewsPath = path.join(__dirname, "./templates/views")
 const partialsPath = path.join(__dirname, "./templates/partials")
@@ -58,5 +60,6 @@ app.use('/search', checkIsLoggedIn, getNumberOfUnreadNotifications, getNumberOfU
 app.use('/messages', checkIsLoggedIn, getNumberOfUnreadNotifications, getNumberOfUnreadChats, getMostPopularHashtags, generateUserJWT, messageRouter);
 app.use('/topic', checkIsLoggedIn, getNumberOfUnreadNotifications, getNumberOfUnreadChats, getMostPopularHashtags, generateUserJWT, hashtagRouter);
 app.use('/notifications', checkIsLoggedIn, getNumberOfUnreadNotifications, getNumberOfUnreadChats, getMostPopularHashtags, generateUserJWT, notificationRouter);
+app.use('/call_room', checkIsLoggedIn, generateUserJWT, callRoomRouter);
 app.use('/', checkIsLoggedIn, getNumberOfUnreadNotifications, getNumberOfUnreadChats, getMostPopularHashtags, generateUserJWT, homeRouter);
 

@@ -1,7 +1,11 @@
 import './../styles/tailwind.css';
 import { connectClientSocket } from './client-socket';
 
-if (window.location.pathname != '/login' && window.location.pathname != '/registration') {
+if (
+  window.location.pathname != '/login' &&
+  window.location.pathname != '/registration' &&
+  window.location.pathname.indexOf('/call_room') !== 0
+) {
   const jwtUser = document.querySelector("input#test").value;
   connectClientSocket(jwtUser)
 
@@ -83,7 +87,7 @@ if (window.location.pathname.indexOf('/topic') == 0) {
   })
 }
 
-if (window.location.pathname != '/login' && window.location.pathname != '/registration') {
+if (window.location.pathname != '/login' && window.location.pathname != '/registration' && window.location.pathname.indexOf('/call_room') !== 0) {
   document.querySelector('#close_hamburger_overlay_btn').addEventListener('click', () => {
     const nav = document.getElementById("myNav");
     nav.style.height = "0%";
@@ -107,5 +111,11 @@ if (window.location.pathname == '/login') {
 if (window.location.pathname == '/registration') {
   import('./registration').then(({ default: registration }) => {
     registration();
+  })
+}
+
+if (window.location.pathname.indexOf('/call_room') == 0) {
+  import('./call_room').then(({ default: call_room }) => {
+    call_room();
   })
 }
