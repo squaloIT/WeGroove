@@ -72,12 +72,14 @@ export default function call_room() {
     const videoGrid = document.getElementById('video-grid')
 
     video.srcObject = stream
-    video.classList.add("object-cover")
+    video.classList.add("object-fill")
     video.classList.add("cursor-pointer")
     video.classList.add("hover:border")
     video.classList.add("hover:border-white")
-    video.classList.add("max-h-80")
-    video.classList.add("mb-4")
+    video.classList.add("lg:max-h-80")
+    video.classList.add("lg:max-w-none")
+    video.classList.add("max-w-[200px]")
+    video.classList.add("lg:mb-4")
 
     video.addEventListener('loadedmetadata', () => {
       video.play()

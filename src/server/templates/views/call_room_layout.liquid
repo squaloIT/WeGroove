@@ -4,17 +4,17 @@
 
 <body class='overflow-hidden'>
   <div class='w-screen h-screen font-roboto bg-gray-800 box-border'>
-    <div class='column-wrapper flex justify-between'>
-        <div id='big-video-wrapper' class='w-4/5 mr-2 h-full'>
+    <div class='column-wrapper flex flex-col lg:justify-between h-full lg:flex-row lg:h-auto'>
+        <div id='big-video-wrapper' class='w-full lg:w-4/5 h-4/5 sm:h-3/4 lg:h-full'>
   
         </div>
 
-        <div id='video-grid' class='w-1/5 small-videos-wrapper bg-gray-700 flex flex-col h-screen overflow-y-auto'>
-          <video class='hidden mt-4 object-cover max-h-80'></video>
+        <div id='video-grid' class='w-full mb-6 mt-4 h-1/5 sm:h-1/4 lg:mt-0 lg:w-1/5 border-l-2 border-gray-800 small-videos-wrapper bg-gray-700 flex lg:flex-col lg:h-screen overflow-x-auto lg:overflow-y-auto'>
+          <video class='hidden mt-4 object-fill object-cover lg:max-h-80 max-w-[200px] lg:max-w-none'></video>
         </div>
     </div>   
     
-    <div class='controls w-4/5 fixed bottom-1 flex justify-center'>
+    <div class='controls w-full lg:w-4/5 fixed bottom-1 flex justify-center'>
       <button id='leave-call' class='uppercase px-4 py-3 bg-red-700 text-white text-sm xs:text-base sm:text-lg md:text-xl rounded-md transparent-borderless-spinneles-element tracking-wider'>leave</button>
     </div>
 
