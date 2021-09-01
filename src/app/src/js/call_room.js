@@ -81,7 +81,11 @@ export default function call_room() {
     })
 
     socket.on('already-in-room', user => {
-      displayUserBlockInAudioCall(user)
+      const isAlreadyDisplayed = document.querySelector(`#participants-wrapper .call-user-wrapper[data-uid='${user._id}']`)
+
+      if (!isAlreadyDisplayed) {
+        displayUserBlockInAudioCall(user)
+      }
     })
   }
 

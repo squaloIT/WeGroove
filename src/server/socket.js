@@ -71,7 +71,6 @@ function connect(app) {
       /** @type chat */
       const chat = await ChatModel.findById(chatId);
       const uuid = uuidv4()
-      let participantsData = {}
 
       callback(uuid);
       participantsUID.forEach(uid => {
