@@ -679,55 +679,34 @@ const onFriendConnectionAddToList = (user) => {
   usersWrapper.innerHTML += createSmallRowForUser(user, `/messages/${user._id}`);
 }
 
-const videoCallTimeout = null;
-const audioCallTimeout = null;
+let callTimeout = null;
 
-const onVideoCallDisplayRinging = ({ uuid, participants, chat }) => {
-  console.log("🚀 ~ file: listeners.js ~ line 670 ~ onVideoCallDisplayRinging ~ chat", chat)
-  console.log("🚀 ~ file: listeners.js ~ line 670 ~ onVideoCallDisplayRinging ~ uuid", uuid)
-  console.log("🚀 ~ file: listeners.js ~ line 670 ~ onVideoCallDisplayRinging ~ participants", participants)
-  const videoCallWrapper = document.querySelector("#video-call-wrapper")
-  videoCallWrapper.classList.remove("hidden");
-  clearTimeout(videoCallTimeout);
+const onCallDisplayRinging = (type, { uuid, chat }) => {
+  const callWrapper = document.querySelector(`#${type}-call-wrapper`)
+  callWrapper.classList.remove("hidden");
+  clearTimeout(callTimeout);
 
-  const answerBtn = videoCallWrapper.querySelector("div.call-icons-wrapper div.answer")
-  const denyBtn = videoCallWrapper.querySelector("div.call-icons-wrapper div.deny")
-  const chatNameSpan = videoCallWrapper.querySelector('span.chat-name')
+  var audio = document.querySelector("#ringtone")
+  audio.play();
+
+  const answerBtn = callWrapper.querySelector("div.call-icons-wrapper div.answer")
+  const denyBtn = callWrapper.querySelector("div.call-icons-wrapper div.deny")
+  const chatNameSpan = callWrapper.querySelector('span.chat-name')
   const chatNameHeader = document.querySelector('div.header-chat-name h4')
   chatNameSpan.innerText = chat.chatName || chatNameHeader?.innerText || ""
 
   answerBtn.addEventListener("click", () => {
-    window.location.href = "/call_room/" + uuid
+    window.location.href = "/call_room/" + type + "/" + uuid;
+    audio.pause();
   })
   denyBtn.addEventListener("click", () => {
-    videoCallWrapper.classList.add("hidden");
+    callWrapper.classList.add("hidden");
+    audio.pause();
   })
 
-  setTimeout(() => {
-    videoCallWrapper.classList.add("hidden")
-  }, 60000)
-}
-
-const onAudioCallDisplayRinging = ({ uuid, participants, chat }) => {
-  const audioCallWrapper = document.querySelector("#audio-call-wrapper")
-  audioCallWrapper.classList.remove("hidden");
-  clearTimeout(audioCallTimeout);
-
-  const answerBtn = videoCallWrapper.querySelector("div.call-icons-wrapper div.answer")
-  const denyBtn = videoCallWrapper.querySelector("div.call-icons-wrapper div.deny")
-  const chatNameSpan = videoCallWrapper.querySelector('span.chat-name')
-  const chatNameHeader = document.querySelector('div.header-chat-name h4')
-  chatNameSpan.innerText = chat.chatName || chatNameHeader?.innerText || ""
-
-  answerBtn.addEventListener("click", () => {
-    window.location.href = "/call_room/" + uuid
-  })
-  denyBtn.addEventListener("click", () => {
-    videoCallWrapper.classList.add("hidden");
-  })
-
-  setTimeout(() => {
-    audioCallWrapper.classList.add("hidden")
+  callTimeout = setTimeout(() => {
+    callWrapper.classList.add("hidden")
+    audio.pause();
   }, 60000)
 }
 
@@ -759,7 +738,6 @@ export {
   onDisconnectRemoveFriendFromList,
   onFriendConnectionAddToList,
   onFindingOnlineUsers,
-  onVideoCallDisplayRinging,
-  onAudioCallDisplayRinging
+  onCallDisplayRinging
 };
 

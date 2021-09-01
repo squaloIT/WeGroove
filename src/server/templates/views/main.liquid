@@ -54,6 +54,8 @@
       <div class='w-[5%] hidden lg:block'></div>
     </div>
     <input type='hidden' name='test' id='test' value="{{jwtUser}}" />
+    
+    <audio class='hidden w-1/2' src="/assets/ringtone.mp3" loop id='ringtone'></audio>
   </div>
 
   {% render 'online-users', user: user %}

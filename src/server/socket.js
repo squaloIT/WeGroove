@@ -32,13 +32,19 @@ function connect(app) {
       socket.join(room)
     })
 
-    socket.on('join-call', (roomId, userId) => {
+    socket.on('join-call', (roomId, peerId, user) => {
       socket.join(roomId)
-      socket.to(roomId).emit('user-connected-to-call', userId)
+      socket.to(roomId).emit('user-connected-to-call', peerId, user, roomId)
 
       socket.on('disconnect', () => {
-        socket.to(roomId).emit('user-disconnected', userId)
+        socket.to(roomId).emit('user-disconnected', peerId)
       })
+    })
+
+    socket.on('already-in-room', (user, roomId) => {
+      setTimeout(() => {
+        socket.to(roomId).emit("already-in-room", user)
+      }, 1000)
     })
 
     socket.on('get-online-following', async (socketId) => {
@@ -67,19 +73,10 @@ function connect(app) {
       const uuid = uuidv4()
       let participantsData = {}
 
-      for (let uid in sessionsMap) {
-        participantsData[uid] = sessionsMap[uid].socketID
-      }
-
       callback(uuid);
       participantsUID.forEach(uid => {
         if (String(loggedUser._id) != uid && sessionsMap[uid].socketID) {
-
-          io.to(sessionsMap[uid].socketID).emit('answer-video-call', {
-            uuid,
-            chat,
-            participants: participantsData,
-          })
+          io.to(sessionsMap[uid].socketID).emit('answer-video-call', { uuid, chat })
         }
       })
     })
@@ -88,24 +85,13 @@ function connect(app) {
       const loggedUser = findUserForSocketID(socketId);
       const participantsUID = await ChatModel.getAllParticipantsInChat(chatId);
       /** @type chat */
-      const chat = await ChatModel.findById(chatId);
+      const chat = await ChatModel.findById(chatId).populate("users");
       const uuid = uuidv4()
-
-      let participantsData = {}
-
-      for (let uid in sessionsMap) {
-        participantsData[uid] = sessionsMap[uid].socketID
-      }
 
       callback(uuid);
       participantsUID.forEach(uid => {
         if (String(loggedUser._id) != uid) {
-
-          io.to(sessionsMap[uid].socketID).emit('answer-audio-call', {
-            uuid,
-            chat,
-            participants: participantsData,
-          })
+          io.to(sessionsMap[uid].socketID).emit('answer-audio-call', { uuid, chat })
         }
       })
     })

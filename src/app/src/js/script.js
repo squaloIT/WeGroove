@@ -3,36 +3,43 @@ import { connectClientSocket } from './client-socket';
 
 if (
   window.location.pathname != '/login' &&
-  window.location.pathname != '/registration' &&
-  window.location.pathname.indexOf('/call_room') !== 0
+  window.location.pathname != '/registration'
 ) {
   const jwtUser = document.querySelector("input#test").value;
   connectClientSocket(jwtUser)
 
-  let deferredPrompt;
-  const addBtn = document.getElementById('install-app-button')
-  window.addEventListener('beforeinstallprompt', (e) => {
-    e.preventDefault();
-    deferredPrompt = e;
+  const audioRingtone = document.querySelector("#ringtone");
+  if (audioRingtone) {
+    console.log("🚀 ~ file: script.js ~ line 13 ~ audioRingtone", audioRingtone)
+    audioRingtone.load();
+  }
 
-    addBtn.addEventListener('click', () => {
-      document.querySelector("#install-button-wrapper").remove();
-      deferredPrompt.prompt();
-      deferredPrompt.userChoice.then((choiceResult) => {
-        if (choiceResult.outcome === 'accepted') {
-          localStorage.setItem("installed", "true")
-          console.log('User accepted the A2HS prompt');
-        } else {
-          console.log('User dismissed the A2HS prompt');
-        }
-        deferredPrompt = null;
+  if (window.location.pathname.indexOf('/call_room') !== 0) {
+    let deferredPrompt;
+    const addBtn = document.getElementById('install-app-button')
+    window.addEventListener('beforeinstallprompt', (e) => {
+      e.preventDefault();
+      deferredPrompt = e;
+
+      addBtn.addEventListener('click', () => {
+        document.querySelector("#install-button-wrapper").remove();
+        deferredPrompt.prompt();
+        deferredPrompt.userChoice.then((choiceResult) => {
+          if (choiceResult.outcome === 'accepted') {
+            localStorage.setItem("installed", "true")
+            console.log('User accepted the A2HS prompt');
+          } else {
+            console.log('User dismissed the A2HS prompt');
+          }
+          deferredPrompt = null;
+        });
       });
     });
-  });
 
-  document.querySelector('#close-install-popup').addEventListener('click', function () {
-    document.querySelector("#install-button-wrapper").remove()
-  })
+    document.querySelector('#close-install-popup').addEventListener('click', function () {
+      document.querySelector("#install-button-wrapper").remove()
+    })
+  }
 }
 
 if (window.location.pathname.indexOf('/post') == 0) {

@@ -1,3 +1,4 @@
+import jwt_decode from 'jwt-decode';
 import { io } from "socket.io-client";
 
 export default function call_room() {
@@ -8,21 +9,100 @@ export default function call_room() {
   });
   const parts = window.location.pathname.split("/")
   const ROOM_ID = parts[parts.length - 1]
+  const CALL_TYPE = parts[parts.length - 2]
 
   const myVideo = document.createElement('video')
   myVideo.muted = true;
   const peers = {};
 
-  navigator.mediaDevices.getUserMedia({
-    video: true,
-    audio: true
-  }).then(stream => {
-    addMyVideoStreaming(myVideo, stream)
+  const options = { audio: true }
+  if (CALL_TYPE === 'video') {
+    options.video = true;
+  }
 
-    const leaveCallButton = document.querySelector('button#leave-call');
-    leaveCallButton.addEventListener('click', function () {
-      window.location.href = '/'
+  navigator.mediaDevices.getUserMedia(options)
+    .then(stream => {
+      const leaveCallButton = document.querySelector('button#leave-call');
+      leaveCallButton.addEventListener('click', function () {
+        window.history.back();
+      })
+
+      if (CALL_TYPE === 'video') {
+        connectForVideo(stream)
+      } else {
+        connectForAudio(stream)
+      }
     })
+
+  socket.on('user-disconnected', userId => {
+    if (peers[userId]) peers[userId].close()
+  })
+
+  myPeer.on('open', id => {
+    const jwtUser = jwt_decode(document.querySelector("#test").value)
+    socket.emit('join-call', ROOM_ID, id, jwtUser)
+  })
+
+
+  function connectToNewUser(callType, peerId, stream, userId = null) {
+    const call = myPeer.call(peerId, stream)
+    const video = document.createElement('video')
+
+    call.on('stream', userVideoStream => {
+      addVideoStream(video, userVideoStream)
+    })
+    call.on('close', () => {
+      video.remove();
+
+      if (callType === 'audio_call') {
+        const wrapper = document.querySelector(`.call-user-wrapper[data-uid='${userId}']`)
+        wrapper.remove();
+      }
+    })
+
+    peers[peerId] = call
+  }
+
+  function connectForAudio(stream) {
+    myPeer.on('call', call => {
+      call.answer(stream)
+      const video = document.createElement('video')
+
+      call.on('stream', userVideoStream => {
+        addVideoStream(video, userVideoStream)
+      })
+    })
+
+    socket.on('user-connected-to-call', (peerId, user, roomId) => {
+      displayUserBlockInAudioCall(user)
+      connectToNewUser("audio_call", peerId, stream, user._id)
+      const jwtUser = jwt_decode(document.querySelector("#test").value)
+      socket.emit("already-in-room", jwtUser, roomId)
+    })
+
+    socket.on('already-in-room', user => {
+      displayUserBlockInAudioCall(user)
+    })
+  }
+
+  function displayUserBlockInAudioCall(user) {
+    const participantsWrapper = document.querySelector("#participants-wrapper");
+    const userBlock = createAudioBlock(user);
+    participantsWrapper.innerHTML += userBlock;
+  }
+
+  function createAudioBlock(user) {
+    return `
+      <div data-uid="${user._id}" class='call-user-wrapper flex flex-col items-center py-8 justify-evenly border-2 border-gray-200 rounded-md'>
+        <h4 class='text-2xl text-gray-200 uppercase tracking-wider'>${user.username}</h4>
+        <div class="image-container mt-10 w-32 h-32">
+          <img class='w-32 h-32 rounded-full bg-white' src="${user.profilePic}" alt="${user.username}" title=${user.username} />
+        </div> 
+      </div> `
+  }
+
+  function connectForVideo(stream) {
+    addMyVideoStreaming(myVideo, stream)
 
     myPeer.on('call', call => {
       call.answer(stream)
@@ -33,33 +113,11 @@ export default function call_room() {
       })
     })
 
-    socket.on('user-connected-to-call', userId => {
+    socket.on('user-connected-to-call', (peerId, user, roomId) => {
       setTimeout(() => {
-        connectToNewUser(userId, stream)
+        connectToNewUser("video_call", peerId, stream)
       }, 2000)
     })
-  })
-
-  socket.on('user-disconnected', userId => {
-    if (peers[userId]) peers[userId].close()
-  })
-
-  myPeer.on('open', id => {
-    socket.emit('join-call', ROOM_ID, id)
-  })
-
-  function connectToNewUser(userId, stream) {
-    const call = myPeer.call(userId, stream)
-    const video = document.createElement('video')
-
-    call.on('stream', userVideoStream => {
-      addVideoStream(video, userVideoStream)
-    })
-    call.on('close', () => {
-      video.remove()
-    })
-
-    peers[userId] = call
   }
   /**
    * 
