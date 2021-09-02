@@ -9,7 +9,10 @@
 
     <div class='flex justify-start my-4'>
       <label class='label-for-file mr-4'>Upload photo</label>
-      <div class='profile-file-wrapper' id='file-preview-wrapper'>
+
+      <button id='choose-file-button' class='cursor-pointer font-semibold rounded-xl bg-comment-button-blue text-white outline-none px-3 py-2 border-2 border-comment-button-blue text-sm sm:text-base lg:text-lg'>Choose file</button>
+
+      <div class='profile-file-wrapper hidden' id='file-preview-wrapper'>
         <input type='file' accept="image/*" name='profile-photo' id='photo' data-type="profile"/>
       </div>
     </div>
