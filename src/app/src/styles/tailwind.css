@@ -497,7 +497,11 @@ emoji-picker {
 #video-grid video:not(.hidden):first-child {
 	margin-right:0px;
 }
-
+#big-video-wrapper video {
+	object-fit: cover;
+	height:100%;
+	width:100%;
+}
 
 @media screen and (max-width: 900px) {
   emoji-picker {

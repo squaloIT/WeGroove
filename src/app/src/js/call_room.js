@@ -187,7 +187,7 @@ export default function call_room() {
       video.play()
     })
 
-    video.className = "object-fill cursor-pointer hover:border hover:border-white lg:max-h-80 lg:max-w-none max-w-[200px] lg:mb-4"
+    video.className = "object-fill cursor-pointer hover:border hover:border-white lg:max-h-80 lg:max-w-none xs:max-w-[170px] sm:max-w-[200px] max-w-[150px]  lg:mb-4"
     videoGrid.append(video)
   }
   /**
@@ -202,6 +202,7 @@ export default function call_room() {
     video.classList.add("h-full")
     video.classList.add("w-full")
     video.classList.add("object-cover")
+    video.classList.add("lg:object-fill")
 
     video.addEventListener('loadedmetadata', () => {
       video.play()
