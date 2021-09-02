@@ -68,7 +68,7 @@ export default function index() {
       const postButtonLabel = document.querySelector('.post-button__label')
       const postButtonSpinner = document.querySelector('.post-button__spinner')
       showSpinner(postButtonLabel, postButtonSpinner)
-      debugger;
+
       if (postContentValue.length > 0 || selectedImagesForPost.length > 0) {
         postContentTextbox.value = '';
 
