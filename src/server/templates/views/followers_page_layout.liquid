@@ -1,10 +1,15 @@
 <div class="w-full" id='profile'>
-  <div class='top-wrapper border-b border-super-light-gray-border pb-4 mt-2 px-3'>
-    <h1 class="page-title text-2xl sm:text-3xl">{{userProfile.username}}</h1>
-    <p class='text-base text-gray-500 '>{{posts.size}} Posts</p>
+  <div class='top-wrapper flex border-b border-super-light-gray-border pb-4 mt-2 px-3'>
+    <div class='w-10/12'>
+      <h1 class="page-title text-2xl sm:text-3xl">{{userProfile.username}}</h1>
+      <p class='text-base text-gray-500 '>{{posts.size}} Posts</p>
+    </div>
+    <div class='w-2/12 flex justify-end items-center md:hidden'>
+      {% render 'hamburger_menu' user: user %}
+    </div>
   </div>
 
-  <div class='tabs-wrapper flex justify-between h-16 border-b border-t border-super-light-gray-border'>
+  <div class='tabs-wrapper'>
   {% assign followersHref = "/profile/" | append: userProfile.username | append: "/followers" %}
   {% assign followingHref = "/profile/" | append: userProfile.username | append: "/following" %}
 

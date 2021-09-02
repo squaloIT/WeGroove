@@ -215,7 +215,7 @@ function createFollowButtonElement(user) {
   const button = document.createElement('button')
   button.dataset.profileId = user._id;
 
-  button.className = 'following-unfollowing follow-button cursor-pointer text-base rounded-xl outline-none px-1 sm:px-2 md:px-3 py-1 xs:py-2 font-semibold ring-0 focus:outline-white focus:shadow-none focus:ring-0'
+  button.className = 'following-unfollowing follow-button following-unfollowing-button'
   button.addEventListener('click', e => onFollowOrUnfollowClick(e, 'follow'));
   button.innerHTML = getFollowButtonContent("Follow")
 
@@ -227,7 +227,7 @@ function createFollowingButtonElement(user) {
   const button = document.createElement('button')
   button.dataset.profileId = user._id;
 
-  button.className = 'following-unfollowing unfollow-button cursor-pointer text-base font-semibold rounded-xl outline-none px-1.5 sm:px-3 py-2 focus:outline-white focus:shadow-none focus:ring-0'
+  button.className = 'following-unfollowing unfollow-button cursor-pointer following-unfollowing-button'
   button.addEventListener('click', e => onFollowOrUnfollowClick(e, 'unfollow'));
   button.innerHTML = getFollowButtonContent("Following")
 
@@ -239,7 +239,7 @@ function createFollowingButtonElement(user) {
  * @returns 
  */
 function createUserRowHTML(user) {
-  return `<div class='w-full px-1 sm:px-2 md:px-4 flex py-4 border-b border-super-light-gray-border'>
+  return `<div class='follow-user-row'>
   <div class='w-4/5 flex'>
     <div class="image-container w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14">
       <a href="/profile/${user.username}">

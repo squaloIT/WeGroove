@@ -15,6 +15,22 @@
 	@apply  w-4 h-4 sm:h-5 sm:w-5;
 }
 
+.following-unfollowing-button {
+	@apply cursor-pointer text-xs xs:text-sm sm:text-base rounded-md xs:rounded-lg sm:rounded-xl outline-none px-1 py-2 xs:px-2 xs:py-1.5 sm:px-3 sm:py-2 font-semibold focus:outline-white focus:shadow-none focus:ring-0;
+}
+
+.tabs-wrapper {
+	@apply flex justify-between h-14 md:h-16 border-b border-t border-super-light-gray-border;
+}
+
+.tab {
+	@apply flex justify-center items-center h-14 md:h-16 pointer-events-none
+}
+
+.follow-user-row {
+	@apply w-full flex px-1 py-2 xs:px-2 sm:px-4 sm:py-3 md:px-6 md:py-3 border-b border-super-light-gray-border;
+}
+
 @tailwind utilities;
 
 @layer utilities {

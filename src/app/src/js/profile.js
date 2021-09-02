@@ -21,6 +21,9 @@ export default function profile() {
     profilePhotoIcon.addEventListener('click', e => openPhotoEditModal(e, 'profile', cropper))
     coverPhotoIcon.addEventListener('click', e => openPhotoEditModal(e, 'cover', cropper))
 
+    document.querySelector("button#choose-file-button").addEventListener('click', e => {
+      document.querySelector("#file-preview-wrapper input#photo").click()
+    })
     document.querySelector("button.save-modal-button").addEventListener('click', e => onClickUploadImageToServer(e, cropper))
     document.querySelector("button.cancel-modal-button").addEventListener('click', e => onClosePhotoModal(e, cropper))
   }

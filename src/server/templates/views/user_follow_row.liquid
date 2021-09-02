@@ -1,4 +1,4 @@
-<div class='w-full px-6 flex py-4 border-b border-super-light-gray-border'>
+<div class='follow-user-row'>
   <div class='w-4/5 flex'>
     {% render 'user_follow_details', follow: follow%}
   </div>
@@ -7,14 +7,14 @@
     
     {% if follow._id == user._id %}
 
-      <button data-profile-id="{{user._id}}" class='edit-profile-button cursor-pointer text-base font-semibold rounded-xl outline-none px-3 py-2 focus:outline-white focus:shadow-none focus:ring-0'>
+      <button data-profile-id="{{user._id}}" class='edit-profile-button cursor-pointer text-base font-semibold rounded-md xs:rounded-lg sm:rounded-xl outline-none px-1 py-1 xs:px-2 xs:py-1.5 sm:px-3 sm:py-2  focus:outline-white focus:shadow-none focus:ring-0'>
         <span class='comment-button__label pointer-events-none'>Edit profile</span>
       </button>
 
     {% else %}
       {% comment %} <div class='flex space-x-5 following-buttons-wrapper'> {% endcomment %}
 
-        <button data-profile-id="{{follow._id}}" class='following-unfollowing follow-button cursor-pointer text-base rounded-xl outline-none px-3 py-2 font-semibold ring-0 focus:outline-white focus:shadow-none focus:ring-0 '>
+        <button data-profile-id="{{follow._id}}" class='following-unfollowing-button follow-button ring-0 '>
           <span class='follow-button__label pointer-events-none'>Follow</span>
           <i class="follow-button__spinner hidden fas fa-spinner fa-pulse"></i>
         </button>

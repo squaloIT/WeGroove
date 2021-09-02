@@ -17,7 +17,7 @@
     {% render 'profile_page_pictures', userProfile: userProfile, user: user %}
     {% render 'profile_page_user_info', userProfile: userProfile %}
 
-  <div class='tabs-wrapper flex justify-between h-12 sm:h-14 md:h-16 border-b border-t border-super-light-gray-border'>
+  <div class='tabs-wrapper'>
   
   {% assign postsHref = "/profile/" | append: userProfile.username | append: "/posts" %}
   {% assign repliesHref = "/profile/" | append: userProfile.username | append: "/replies" %}
@@ -49,4 +49,4 @@
   {% endif %}
 </div>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.js" integrity="sha512-ooSWpxJsiXe6t4+PPjCgYmVfr1NS5QXJACcR/FPpsdm6kqG1FmQ2SVyg2RXeVuCRBLr0lWHnWJP6Zs1Efvxzww==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.js"  referrerpolicy="no-referrer"></script>
