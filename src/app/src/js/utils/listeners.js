@@ -168,7 +168,7 @@ function onClickDeletePost(e) {
 
       el.remove()
     });
-  }, 420);
+  }, 700);
 
   deletePostByID(pid)
     .then(res => res.json())
