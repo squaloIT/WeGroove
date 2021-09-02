@@ -68,10 +68,10 @@ export default function index() {
       const postButtonLabel = document.querySelector('.post-button__label')
       const postButtonSpinner = document.querySelector('.post-button__spinner')
       showSpinner(postButtonLabel, postButtonSpinner)
-
-      if (postContentValue.length > 0) {
+      debugger;
+      if (postContentValue.length > 0 || selectedImagesForPost.length > 0) {
         postContentTextbox.value = '';
-        resetImagePreview()
+
         const targetElement = document.querySelector('#posts');
         // addNewPost(targetElement, res.data.createdPost, "moments ago");
 
@@ -85,6 +85,8 @@ export default function index() {
           .catch(err => {
             console.error(err)
           })
+
+        resetImagePreview()
       } else {
         hideSpinner(postButtonLabel, postButtonSpinner)
       }

@@ -11,7 +11,7 @@ var upload = multer({ dest: 'uploads/' })
 require('../../typedefs');
 
 router.post('/', upload.array('images', 5), moveFilesToUploadAndSetFilesPath, async (req, res, next) => {
-  if (!req.body.content || !req.session.user) {
+  if (hasRequiredDataToCreatePost(req)) {
     return res.sendStatus(400);
   }
   try {
@@ -44,7 +44,7 @@ router.post('/', upload.array('images', 5), moveFilesToUploadAndSetFilesPath, as
 });
 
 router.post('/replyTo/:id', upload.array('images', 5), moveFilesToUploadAndSetFilesPath, async (req, res, next) => {
-  if (!req.body.content || !req.session.user) {
+  if (hasRequiredDataToCreatePost(req)) {
     return res.sendStatus(400);
   }
   try {
@@ -321,5 +321,9 @@ router.put('/delete/:id', async (req, res) => {
     retweetedPost: null
   })
 })
+
+function hasRequiredDataToCreatePost(req) {
+  return (!req.body.content && req.filesPathArr.length == 0) || !req.session.user
+}
 
 module.exports = router;
