@@ -25,6 +25,7 @@ export default function call_room() {
     .then(stream => {
       const leaveCallButton = document.querySelector('button#leave-call');
       leaveCallButton.addEventListener('click', function () {
+        myPeer.disconnect();
         window.history.back();
       })
 
@@ -52,13 +53,9 @@ export default function call_room() {
     call.on('stream', userVideoStream => {
       addVideoStream(video, userVideoStream)
     })
-    call.on('close', () => {
-      video.remove();
 
-      if (callType === 'audio_call') {
-        const wrapper = document.querySelector(`.call-user-wrapper[data-uid='${userId}']`)
-        wrapper.remove();
-      }
+    call.on('close', () => {
+      removeVideo(callType, video, userId)
     })
 
     peers[peerId] = call
@@ -75,7 +72,11 @@ export default function call_room() {
     })
 
     socket.on('user-connected-to-call', (peerId, user, roomId) => {
-      displayUserBlockInAudioCall(user)
+      const isAlreadyDisplayed = document.querySelector(`#participants-wrapper .call-user-wrapper[data-uid='${user._id}']`)
+
+      if (!isAlreadyDisplayed) {
+        displayUserBlockInAudioCall(user)
+      }
       connectToNewUser("audio_call", peerId, stream, user._id)
       const jwtUser = jwt_decode(document.querySelector("#test").value)
       socket.emit("already-in-room", jwtUser, roomId)
@@ -88,6 +89,15 @@ export default function call_room() {
         displayUserBlockInAudioCall(user)
       }
     })
+  }
+
+  function removeVideo(callType, video, userId) {
+    video.remove();
+
+    if (callType === 'audio_call') {
+      const wrapper = document.querySelector(`.call-user-wrapper[data-uid='${userId}']`)
+      wrapper.remove();
+    }
   }
 
   function displayUserBlockInAudioCall(user) {
