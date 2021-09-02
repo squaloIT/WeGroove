@@ -1,5 +1,6 @@
 import jwt_decode from 'jwt-decode';
 import { io } from "socket.io-client";
+import { createAudioBlock } from './utils/html-creators';
 
 export default function call_room() {
   var socket = io("http://localhost:3000")
@@ -95,16 +96,6 @@ export default function call_room() {
     participantsWrapper.innerHTML += userBlock;
   }
 
-  function createAudioBlock(user) {
-    return `
-      <div data-uid="${user._id}" class='call-user-wrapper flex flex-col items-center py-8 justify-evenly border-2 border-gray-200 rounded-md'>
-        <h4 class='text-2xl text-gray-200 uppercase tracking-wider'>${user.username}</h4>
-        <div class="image-container mt-10 w-32 h-32">
-          <img class='w-32 h-32 rounded-full bg-white' src="${user.profilePic}" alt="${user.username}" title=${user.username} />
-        </div> 
-      </div> `
-  }
-
   function connectForVideo(stream) {
     addMyVideoStreaming(myVideo, stream)
 
@@ -130,7 +121,6 @@ export default function call_room() {
    */
   let timeout = null;
   function addVideoStream(video, stream) {
-    console.log("POZVAN addVideoStream")
     const videoGrid = document.getElementById('video-grid')
 
     video.srcObject = stream
