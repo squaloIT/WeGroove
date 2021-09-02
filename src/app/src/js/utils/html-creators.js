@@ -451,6 +451,35 @@ function createAudioBlock(user) {
       </div> 
     </div> `
 }
+/**
+ * 
+ * @param {HTMLElement} video 
+ * @param {user} user 
+ * @returns HTMLElement
+ */
+function createVideoCallBlock(video, user) {
+  const divVideoWrapper = document.createElement('div')
+
+  video.classList.add("object-fill")
+  video.classList.add("cursor-pointer")
+  video.classList.add("w-full")
+  video.classList.add("h-full")
+
+  divVideoWrapper.classList.add("video-wrapper")
+  divVideoWrapper.classList.add("hover:border")
+  divVideoWrapper.classList.add("hover:border-white")
+  divVideoWrapper.classList.add("lg:max-h-80")
+  divVideoWrapper.classList.add("lg:max-w-none")
+  divVideoWrapper.classList.add("max-w-[200px]")
+  divVideoWrapper.classList.add("lg:mb-4")
+  divVideoWrapper.classList.add("relative")
+
+  divVideoWrapper.append(video);
+  // divVideoWrapper.append(h2);
+
+  return divVideoWrapper
+}
+
 export {
   createPostHTML,
   getCommentButtonContent,
@@ -472,6 +501,7 @@ export {
   createNewNameLabelHTML,
   createRightColumnSearchRowForHashtag,
   createSmallRowForUser,
-  createAudioBlock
+  createAudioBlock,
+  createVideoCallBlock
 };
 

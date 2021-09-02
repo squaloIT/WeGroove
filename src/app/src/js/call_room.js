@@ -1,6 +1,6 @@
 import jwt_decode from 'jwt-decode';
 import { io } from "socket.io-client";
-import { createAudioBlock } from './utils/html-creators';
+import { createAudioBlock, createVideoCallBlock } from './utils/html-creators';
 
 export default function call_room() {
   var socket = io("http://localhost:3000")
@@ -15,6 +15,7 @@ export default function call_room() {
   const myVideo = document.createElement('video')
   myVideo.muted = true;
   const peers = {};
+  const jwtUser = jwt_decode(document.querySelector("#test").value)
 
   const options = { audio: true }
   if (CALL_TYPE === 'video') {
@@ -41,21 +42,34 @@ export default function call_room() {
   })
 
   myPeer.on('open', id => {
-    const jwtUser = jwt_decode(document.querySelector("#test").value)
     socket.emit('join-call', ROOM_ID, id, jwtUser)
   })
 
-
-  function connectToNewUser(callType, peerId, stream, userId = null) {
+  function addNewUserToAudioCall(peerId, stream, user) {
     const call = myPeer.call(peerId, stream)
     const video = document.createElement('video')
 
     call.on('stream', userVideoStream => {
-      addVideoStream(video, userVideoStream)
+      addAudioCallStreamWhenUserConnected(video, userVideoStream, user)
     })
 
     call.on('close', () => {
-      removeVideo(callType, video, userId)
+      removeVideo("audio_call", video, user._id)
+    })
+
+    peers[peerId] = call
+  }
+
+  function addNewUserToVideoCall(peerId, stream, user) {
+    const call = myPeer.call(peerId, stream)
+    const video = document.createElement('video')
+
+    call.on('stream', userVideoStream => {
+      addVideoCallStreamWhenUserConnected(video, userVideoStream, user)
+    })
+
+    call.on('close', () => {
+      removeVideo("video_call", video, user._id)
     })
 
     peers[peerId] = call
@@ -67,7 +81,7 @@ export default function call_room() {
       const video = document.createElement('video')
 
       call.on('stream', userVideoStream => {
-        addVideoStream(video, userVideoStream)
+        addAudioCallStreamWhenUserConnected(video, userVideoStream)
       })
     })
 
@@ -77,8 +91,8 @@ export default function call_room() {
       if (!isAlreadyDisplayed) {
         displayUserBlockInAudioCall(user)
       }
-      connectToNewUser("audio_call", peerId, stream, user._id)
-      const jwtUser = jwt_decode(document.querySelector("#test").value)
+
+      addNewUserToAudioCall(peerId, stream, user)
       socket.emit("already-in-room", jwtUser, roomId)
     })
 
@@ -88,6 +102,25 @@ export default function call_room() {
       if (!isAlreadyDisplayed) {
         displayUserBlockInAudioCall(user)
       }
+    })
+  }
+
+  function connectForVideo(stream) {
+    addMyVideoStreaming(myVideo, stream)
+
+    myPeer.on('call', call => {
+      call.answer(stream)
+      const video = document.createElement('video')
+
+      call.on('stream', userVideoStream => {
+        addVideoCallStreamWhenUserConnected(video, userVideoStream)
+      })
+    })
+
+    socket.on('user-connected-to-call', (peerId, user, roomId) => {
+      setTimeout(() => {
+        addNewUserToVideoCall(peerId, stream, user)
+      }, 2000)
     })
   }
 
@@ -106,48 +139,27 @@ export default function call_room() {
     participantsWrapper.innerHTML += userBlock;
   }
 
-  function connectForVideo(stream) {
-    addMyVideoStreaming(myVideo, stream)
-
-    myPeer.on('call', call => {
-      call.answer(stream)
-      const video = document.createElement('video')
-
-      call.on('stream', userVideoStream => {
-        addVideoStream(video, userVideoStream)
-      })
-    })
-
-    socket.on('user-connected-to-call', (peerId, user, roomId) => {
-      setTimeout(() => {
-        connectToNewUser("video_call", peerId, stream)
-      }, 2000)
-    })
-  }
   /**
    * 
-   * @param {HTMLElement} video 
+   * @param { HTMLElement } video 
    * @param {*} stream 
+   * @param { user } user
    */
-  let timeout = null;
-  function addVideoStream(video, stream) {
+  let videoTimeout = null;
+  function addVideoCallStreamWhenUserConnected(video, stream, user = null) {
     const videoGrid = document.getElementById('video-grid')
 
     video.srcObject = stream
-    video.classList.add("object-fill")
-    video.classList.add("cursor-pointer")
-    video.classList.add("hover:border")
-    video.classList.add("hover:border-white")
-    video.classList.add("lg:max-h-80")
-    video.classList.add("lg:max-w-none")
-    video.classList.add("max-w-[200px]")
-    video.classList.add("lg:mb-4")
 
     video.addEventListener('loadedmetadata', () => {
       video.play()
     })
-    clearTimeout(timeout)
-    timeout = setTimeout(() => {
+
+    const divVideoBlock = createVideoCallBlock(video, user)
+
+    clearTimeout(videoTimeout)
+
+    videoTimeout = setTimeout(() => {
       video.addEventListener('click', () => {
         const bigVideo = document.querySelector('#big-video-wrapper video')
         const smallVideoSrcObject = video.srcObject;
@@ -155,6 +167,27 @@ export default function call_room() {
         bigVideo.srcObject = smallVideoSrcObject;
       })
     }, 1000)
+
+    videoGrid.append(divVideoBlock)
+
+  }
+
+  /**
+   * 
+   * @param { HTMLElement } video 
+   * @param {*} stream
+   */
+
+  function addAudioCallStreamWhenUserConnected(video, stream) {
+    const videoGrid = document.getElementById('video-grid')
+
+    video.srcObject = stream
+
+    video.addEventListener('loadedmetadata', () => {
+      video.play()
+    })
+
+    video.className = "object-fill cursor-pointer hover:border hover:border-white lg:max-h-80 lg:max-w-none max-w-[200px] lg:mb-4"
     videoGrid.append(video)
   }
   /**
