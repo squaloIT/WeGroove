@@ -73,7 +73,7 @@
     </div>
 
     <div class="post-content__text w-11/12 mt-1 cursor-pointer">
-      <p class='text-sm md:text-base'>{{post.content}}</p>
+      <p class='text-sm md:text-base whitespace-pre-line'>{{post.content}}</p>
       <div class='w-full md:w-10/12'>
         {% if post.images.size > 0 %}
           {% render 'post_content_images', images: post.images %}

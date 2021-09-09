@@ -46,23 +46,23 @@
       <div class='post-content__info flex flex-row items-center w-full'>
         <div class="post-content-info__username-container">
           <a class="username font-medium" href="/profile/{{post.retweetData.postedBy.username}}">
-            <p class="name font-bold">{{post.retweetData.postedBy.fullName}} -</p>
+            <p class="name font-bold  text-xs xs:text-sm sm:text-base">{{post.retweetData.postedBy.fullName}} -</p>
           </a>
         </div>
         
         <div class="post-content-info__email-container ml-1">
-          <a class="username text-brand-blue font-medium" href="/profile/{{post.retweetData.postedBy.username}}">
+          <a class="username text-brand-blue font-medium text-xs xs:text-sm sm:text-base" href="/profile/{{post.retweetData.postedBy.username}}">
             @{{post.retweetData.postedBy.username}}
           </a>
         </div>
         
         <div class="post-content-info__time-container ml-1 cursor-default">
-          <p class="time font-normal">- {{post.retweetData.fromNow}}</p>
+          <p class="time font-normal text-xs xs:text-sm sm:text-base">- {{post.retweetData.fromNow}}</p>
         </div>
       </div>
 
       <div class="post-content__text w-11/12 mt-1 cursor-pointer">
-        <p>{{post.retweetData.content}}</p>
+        <p class="text-sm md:text-base whitespace-pre-line">{{post.retweetData.content}}</p>
 
          <div class='w-9/12'>
           {% if post.retweetData.images.size > 0 %}

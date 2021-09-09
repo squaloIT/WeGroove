@@ -82,7 +82,7 @@ function createPostHTML(content, user, createdAt) {
     </div>
 
     <div class="post-content__text w-full mt-1 cursor-pointer">
-      <p class='text-sm md:text-base'>${content}</p>
+      <p class='text-sm md:text-base whitespace-pre-line'>${content}</p>
     </div>
 
     <div class='w-full flex flex-row justify-end mt-2'>
