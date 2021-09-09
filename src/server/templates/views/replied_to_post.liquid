@@ -46,17 +46,17 @@
           {% endif %} 
           flex flex-row items-center '>
 
-            <div class="post-content-info__username-container cursor-pointer">
-              <p class="name font-bold text-xs xs:text-sm sm:text-base">
+            <div class="post-content-info__username-container">
+              <p class="name">
                 <a href="/profile/{{originalPostPostedByUser.username}}">{{originalPostPostedByUser.fullName}} - </a>
               </p>
             </div>
             
-            <div class="post-content-info__email-container ml-1 cursor-pointer text-xs xs:text-sm sm:text-base">
+            <div class="post-content-info__email-container">
               <a class="username text-brand-blue font-medium" href="/profile/{{originalPostPostedByUser.username}}">@{{originalPostPostedByUser.username}}</a>
             </div>
             
-            <div class="post-content-info__time-container ml-1 cursor-default text-xs xs:text-sm sm:text-base">
+            <div class="post-content-info__time-container">
               <p class="time font-normal">- {{originalPost.fromNow}}</p>
             </div>
           </div>
@@ -102,17 +102,17 @@
               {% endif %} 
            flex flex-row items-center '>
 
-              <div class="post-content-info__username-container cursor-pointer">
-                <p class="name font-bold text-xs xs:text-sm sm:text-base">
+              <div class="post-content-info__username-container">
+                <p class="name">
                   <a href="/profile/{{post.postedBy.username}}">{{commentPostedByUser.fullName}} - </a>
                 </p>
               </div>
               
-              <div class="post-content-info__email-container ml-1 cursor-pointer text-xs xs:text-sm sm:text-base">
+              <div class="post-content-info__email-container">
                 <a class="username text-brand-blue font-medium" href="/profile/{{commentPostedByUser.username}}">@{{commentPostedByUser.username}}</a>
               </div>
               
-              <div class="post-content-info__time-container ml-1 cursor-default text-xs xs:text-sm sm:text-base">
+              <div class="post-content-info__time-container">
                 <p class="time font-normal">- {{post.fromNow}}</p>
               </div>
             </div>

@@ -2,10 +2,10 @@
 {% assign postID = post._id %}
 {% assign retweetID = post.retweetData._id %}
 
-<div class='post-wrapper animate__animated w-full border-b border-super-light-gray-border pb-3 pt-2 px-8' data-pid="{{postID}}" data-retweet-id="{{retweetID}}">
-  <div class='w-full pb-1 px-2 flex items-center'>
-    <div class='w-8/12 pl-2 cursor-default'>
-      <p class='text-gray-500 text-base font-semibold'>
+<div class='post-wrapper animate__animated w-full border-b border-super-light-gray-border py-2 lg:py-3 px-2 sm:px-4 lg:px-8 ' data-pid="{{postID}}" data-retweet-id="{{retweetID}}">
+  <div class='w-full pb-1 flex items-center'>
+    <div class='w-10/12 md:w-8/12 cursor-default'>
+      <p class='text-gray-500 text-sm font-semibold md:text-base '>
         <svg viewBox="0 0 24 24" aria-hidden="true" class="mr-1 pointer-events-none inline-block fill-current h-5 w-5 align-text-bottom font-bold">
           <g>
             <path d="M23.77 15.67c-.292-.293-.767-.293-1.06 0l-2.22 2.22V7.65c0-2.068-1.683-3.75-3.75-3.75h-5.85c-.414 0-.75.336-.75.75s.336.75.75.75h5.85c1.24 0 2.25 1.01 2.25 2.25v10.24l-2.22-2.22c-.293-.293-.768-.293-1.06 0s-.294.768 0 1.06l3.5 3.5c.145.147.337.22.53.22s.383-.072.53-.22l3.5-3.5c.294-.292.294-.767 0-1.06zm-10.66 3.28H7.26c-1.24 0-2.25-1.01-2.25-2.25V6.46l2.22 2.22c.148.147.34.22.532.22s.384-.073.53-.22c.293-.293.293-.768 0-1.06l-3.5-3.5c-.293-.294-.768-.294-1.06 0l-3.5 3.5c-.294.292-.294.767 0 1.06s.767.293 1.06 0l2.22-2.22V16.7c0 2.068 1.683 3.75 3.75 3.75h5.85c.414 0 .75-.336.75-.75s-.337-.75-.75-.75z"></path>
@@ -17,7 +17,7 @@
   
 {% comment %} {% if user._id == post.postedBy._id %} {% endcomment %}
 {% if user._id == post.retweetData.postedBy._id %}
-    <div class='w-4/12'>
+    <div class='w-2/12 md:w-4/12'>
       <div class="delete-post-button-wrapper flex items-start justify-end">
         <button type="button" class="cursor-pointer delete-post-button focus:outline-none p-2 rounded-full">
             <svg viewBox="0 0 24 24" aria-hidden="true" class="fill-current pointer-events-none text-mid-gray-for-text w-5 h-5">
@@ -45,19 +45,19 @@
     <div class='post-content-container flex flex-col w-full'>
       <div class='post-content__info flex flex-row items-center w-full'>
         <div class="post-content-info__username-container">
-          <a class="username font-medium" href="/profile/{{post.retweetData.postedBy.username}}">
-            <p class="name font-bold  text-xs xs:text-sm sm:text-base">{{post.retweetData.postedBy.fullName}} -</p>
+          <a class="username" href="/profile/{{post.retweetData.postedBy.username}}">
+            <p class="name">{{post.retweetData.postedBy.fullName}} -</p>
           </a>
         </div>
         
-        <div class="post-content-info__email-container ml-1">
-          <a class="username text-brand-blue font-medium text-xs xs:text-sm sm:text-base" href="/profile/{{post.retweetData.postedBy.username}}">
+        <div class="post-content-info__email-container">
+          <a class="username text-brand-blue font-medium" href="/profile/{{post.retweetData.postedBy.username}}">
             @{{post.retweetData.postedBy.username}}
           </a>
         </div>
         
-        <div class="post-content-info__time-container ml-1 cursor-default">
-          <p class="time font-normal text-xs xs:text-sm sm:text-base">- {{post.retweetData.fromNow}}</p>
+        <div class="post-content-info__time-container">
+          <p class="time font-normal">- {{post.retweetData.fromNow}}</p>
         </div>
       </div>
 

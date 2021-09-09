@@ -31,6 +31,17 @@
 	@apply w-full flex px-1 py-2 xs:px-2 sm:px-4 sm:py-3 md:px-6 md:py-3 border-b border-super-light-gray-border;
 }
 
+.post-content-info__time-container {
+	@apply  ml-1 cursor-default text-[10px] xs:text-xs sm:text-sm md:text-base;
+}
+
+.post-content-info__email-container {
+	@apply ml-1 cursor-pointer text-xs xs:text-sm sm:text-base
+}
+
+.post-content-info__username-container {
+	@apply text-xs xs:text-sm sm:text-base cursor-pointer font-bold;
+}
 @tailwind utilities;
 
 @layer utilities {

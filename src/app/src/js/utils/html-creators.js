@@ -58,19 +58,19 @@ function createPostHTML(content, user, createdAt) {
   <div class='post-content-container flex flex-col w-full'>
     <div class='post-content__info flex flex-row items-center w-full'>
       <div class='w-10/12 sm:w-8/12 flex flex-row items-center'>
-        <div class="post-content-info__username-container cursor-pointer">
-          <p class="name text-xs xs:text-sm sm:text-base font-bold">
+        <div class="post-content-info__username-container">
+          <p class="name">
             <a href="/profile/${user.username}">${fullName} -
             </a>
           </p>
         </div>
 
-        <div class="post-content-info__email-container  text-xs xs:text-sm sm:text-base ml-1 cursor-pointer">
+        <div class="post-content-info__email-container">
           <a class="username text-brand-blue font-medium" href="/profile/${user.username}">@${username} </a>
         </div>
 
         <div class="post-content-info__time-container ml-1">
-          <p class="time  text-xs xs:text-sm sm:text-base font-normal">- ${createdAt}</p>
+          <p class="time font-normal">- ${createdAt}</p>
         </div>
       </div>
 

@@ -10,7 +10,7 @@
       <div class='
       
       {% if user._id == post.postedBy._id %}
-        w-10/12 sm:w-8/12 
+        w-10/12 
       {% else %}
         w-full
       {% endif %}
@@ -29,23 +29,23 @@
             </p>
           </div>
         
-        <div class="post-content-info__username-container cursor-pointer ">
-          <p class="name font-bold text-xs xs:text-sm sm:text-base">
+        <div class="post-content-info__username-container">
+          <p class="name">
             <a href="/profile/{{post.postedBy.username}}">{{post.postedBy.fullName}} - </a>
           </p>
         </div>
         
-        <div class="post-content-info__email-container ml-1 cursor-pointer text-xs xs:text-sm sm:text-base">
+        <div class="post-content-info__email-container">
           <a class="username text-brand-blue font-medium" href="/profile/{{post.postedBy.username}}">@{{post.postedBy.username}}</a>
         </div>
         
-        <div class="post-content-info__time-container ml-1 cursor-default pointer-events-none text-xs xs:text-sm sm:text-base">
+        <div class="post-content-info__time-container pointer-events-none">
           <p class="time font-normal">- {{post.fromNow}}</p>
         </div>
       </div>
 
 {% if user._id == post.postedBy._id %}
-      <div class='w-2/12 sm:w-4/12'>
+      <div class='w-2/12'>
         <div class='flex items-start justify-end pr-2'>
 
           <div class='pinned-button-wrapper inline-block'>
