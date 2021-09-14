@@ -26,6 +26,7 @@
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "express-session": "^1.17.1",
+    "helmet": "^4.6.0",
     "jsonwebtoken": "^8.5.1",
     "liquidjs": "^9.25.0",
     "moment": "^2.29.1",
