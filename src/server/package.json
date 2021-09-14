@@ -1,0 +1,43 @@
+{
+  "name": "wegroove",
+  "version": "1.0.0",
+  "description": "WeGroove is fictional social network created for my master thesis",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start-prod": "node index.js",
+    "start-dev": "nodemon src/index.js -e js,liquid"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/squaloIT/WeGroove.git"
+  },
+  "author": "Nikola Mihajlovic",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/squaloIT/WeGroove/issues"
+  },
+  "homepage": "https://github.com/squaloIT/WeGroove#readme",
+  "dependencies": {
+    "autoprefixer": "^10.2.5",
+    "bcrypt": "^5.0.1",
+    "body-parser": "^1.19.0",
+    "cookie-parser": "^1.4.5",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "express-session": "^1.17.1",
+    "helmet": "^4.6.0",
+    "jsonwebtoken": "^8.5.1",
+    "liquidjs": "^9.25.0",
+    "moment": "^2.29.1",
+    "mongodb": "^3.6.6",
+    "mongoose": "^5.12.5",
+    "multer": "^1.4.2",
+    "peer": "^0.6.1",
+    "socket.io": "^4.1.2",
+    "uuid": "^8.3.2"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.7"
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "events": {
+    "start": "cd ./../app && npm run build:dev"
+  },
+  "env": {
+    "NODE_ENV": "development"
+  }
+}
