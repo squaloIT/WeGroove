@@ -64,7 +64,7 @@ app.use('/api/message', messageAPI);
 app.use('/api/notification', checkIsLoggedIn, notificationAPI);
 app.use('/api/topics', checkIsLoggedIn, hashtagAPI);
 
-app.use(express.static(path.join(__dirname, './../app/dist/')))
+app.use(express.static(path.join(__dirname, './dist/')))
 app.use('*/uploads/images', express.static(path.join(__dirname, 'uploads/images')))
 
 app.use('/login', isRememberedCookiePresent, loginRouter);

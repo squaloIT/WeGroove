@@ -12,7 +12,7 @@ module.exports = {
     script: path.resolve(__dirname, './../src/js/script.js'),
   },
   output: {
-    path: path.resolve(__dirname, './../dist'),
+    path: path.resolve(__dirname, './../../server/dist'),
     filename: '[name].bundle.js'
   },
   module: {
@@ -51,15 +51,15 @@ module.exports = {
       patterns: [
         {
           from: path.resolve(__dirname, './../src/assets'),
-          to: path.resolve(__dirname, './../dist/assets'),
+          to: path.resolve(__dirname, './../../server/dist/assets'),
         },
         {
           from: path.resolve(__dirname, './../manifest.webmanifest'),
-          to: path.resolve(__dirname, './../dist/manifest.webmanifest'),
+          to: path.resolve(__dirname, './../../server/dist/manifest.webmanifest'),
         },
         // {
         //   from: path.resolve(__dirname, './../sw.js'),
-        //   to: path.resolve(__dirname, './../dist/sw.js'),
+        //   to: path.resolve(__dirname, './../../server/dist/sw.js'),
         // },
       ]
     }),

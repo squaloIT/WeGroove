@@ -5,8 +5,9 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start-prod": "node index.js",
-    "start-dev": "nodemon src/index.js -e js,liquid"
+    "start-prod": "npm run clean && node index.js",
+    "start-dev": "npm run clean && nodemon src/index.js -e js,liquid",
+    "clean": "rimraf dist"
   },
   "repository": {
     "type": "git",
